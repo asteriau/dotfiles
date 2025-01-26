@@ -1,0 +1,85 @@
+configuration {
+  modi:                   "drun";
+  display-drun:           "";
+  drun-display-format:    "{name}";
+  font:                   "JetBrains Mono 10";
+  show-icons:             true;
+  icon-theme:             "Reversal-dark";
+}
+
+@theme "/dev/null"
+
+* {
+  bg:                     #101010;
+  fg:                     #e8e3e3;
+  alt:                    #1b1b1b;
+  rad:                    8px;
+  background-color:       @bg;
+  text-color:             @fg;
+}
+
+window {
+  width: 20%;
+  // border: 5px;
+  // border-color: #121212;
+  border-radius: @rad;
+}
+
+mainbox {
+    children:               [ inputbar, listview ];
+    padding:                20px;
+    spacing:                20px;
+}
+
+inputbar {
+    children:               [ prompt, entry ];
+    border-radius:          @rad;
+    background-color:       @alt;
+}
+
+prompt, entry, element selected {
+    vertical-align:         0.5;
+    background-color:       @alt;
+}
+
+prompt {
+   font:                    "Material 14";
+   padding:                 1.5% 1%;
+}
+
+entry {
+    blink:                  false;
+    placeholder:            "Search...";
+    placeholder-color:      grey;
+}
+
+listview {
+    layout:                 vertical;
+    lines:                  6;
+    columns:                1;
+    cycle:                  false;
+}
+
+element {
+    orientation:            horizontal;
+    padding:                15px;
+    spacing: 1em;
+    border-radius:          @rad;
+}
+
+element-text, element-icon {
+    vertical-align:       0.5;
+    background-color:       inherit;
+}
+
+element-text { expand: true; }
+element-icon { size: 24px; }
+
+listview, element, element selected, element-text, element-icon {
+    cursor:                 pointer;
+}
+
+entry {
+    cursor:                 text;
+}
+
