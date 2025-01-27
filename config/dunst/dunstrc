@@ -2,7 +2,7 @@
     monitor = 0
     follow = none
     width = (0, 550)
-    height = 90
+    height = 120
     origin = top-right
     offset = 20x20
     scale = 0
@@ -23,7 +23,7 @@
     separator_color = auto
     sort = yes
     idle_threshold = 0
-    font = Iosevka Custom 10
+    font = Iosevka Custom 11
     line_height = 4
     markup = full
     format = "<span rise='-4000' font_desc='icomoon 21'></span> <span foreground='#f4f3ee'><b>%s</b>\n%b"
