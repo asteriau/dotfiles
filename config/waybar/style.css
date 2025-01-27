@@ -1,0 +1,33 @@
+@import "color.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Jetbrains Mono";
+    font-size: 13px;
+    min-height: 0;
+    margin-left: 4px;
+    margin-right: 4px; 
+}
+
+window#waybar {
+    border-radius: 0px;
+    background: @bg;
+    color: @fg;
+}
+
+tooltip {
+    background: @bg;
+    border-radius: 0px;
+}
+
+#window,
+#clock,
+#pulseaudio,
+#tray
+{
+    padding: 5px 5px;
+    border-bottom: 1px solid @blue;
+    color: @blue;
+}
+
