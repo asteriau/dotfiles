@@ -13,6 +13,20 @@
         "pulseaudio",
         "tray"
     ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "hyprland/workspaces": {
+            "format": "{icon}",
+            "format-icons": {
+                "active": "",
+                "default": "",
+                "empty": ""
+            },
+            "persistent-workspaces": {
+                "*": [ 1,2,3,4,5 ]
+            }
+        },
     "tray": {
         "icon-size": 16,
         "spacing": 10
