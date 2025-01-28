@@ -7,7 +7,8 @@
     "spacing": 3, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
-        "clock"
+        "clock",
+        "custom/spotify"
     ],
     "modules-right": [
         "pulseaudio",
@@ -16,6 +17,18 @@
     "modules-center": [
         "hyprland/workspaces"
     ],
+    "custom/spotify": {
+        "exec": "mediaplayer.py --player spotify",
+        "format": "Playing : {}",
+        "rotate": 0,
+        "return-type": "json",
+        "on-click": "playerctl play-pause --player spotify",
+        "on-click-right": "playerctl next --player spotify",
+        "on-click-middle": "playerctl previous --player spotify",
+        "max-length": 36,
+        "escape": true,
+        "tooltip": true
+    },
     "hyprland/workspaces": {
             "format": "{icon}",
             "format-icons": {
@@ -31,6 +44,7 @@
         "icon-size": 16,
         "spacing": 10
     },
+    
     "clock": {
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
