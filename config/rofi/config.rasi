@@ -2,7 +2,7 @@ configuration {
   modi:                   "drun";
   display-drun:           "";
   drun-display-format:    "{name}";
-  font:                   "JetBrains Mono 10";
+  font: "Google Sans 11";
   show-icons:             true;
   icon-theme:             "Reversal-dark";
 }
@@ -55,7 +55,7 @@ entry {
 
 listview {
     layout:                 vertical;
-    lines:                  3;
+    lines:                  6;
     columns:                1;
     cycle:                  false;
 }
