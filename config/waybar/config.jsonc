@@ -1,11 +1,7 @@
-// -*- mode: jsonc -*-
 {
-    // "layer": "top", // Waybar at top layer
-    "position": "bottom", // Waybar position (top|bottom|left|right)
-    "height": 42, // Waybar height (to be removed for auto height)
-    // "width": 1280, // Waybar width
-    "spacing": 3, // Gaps between modules (4px)
-    // Choose the order of the modules
+    "position": "bottom",
+    "height": 42,
+    "spacing": 3,
     "modules-left": [
         "clock",
         "custom/spotify"
@@ -46,14 +42,11 @@
     },
     
     "clock": {
-        // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%H:%M}", // 24-hour
-        // "format": "{:%I:%M%p}", // 12-hour
+        "format": "{:%H:%M}",
         "format-alt": "{:%a, %b %d %Y}"
     },
     "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
         "format": "{icon} {volume}",
         "format-muted": "󰖁 Muted",
         "format-source": "{volume}% ",
