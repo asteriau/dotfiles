@@ -1,7 +1,7 @@
 {
     "position": "bottom",
     "height": 42,
-    "spacing": 3,
+    "spacing": 0,
     "modules-left": [
         "clock",
         "custom/spotify"
@@ -15,7 +15,7 @@
     ],
     "custom/spotify": {
         "exec": "mediaplayer.py --player spotify",
-        "format": "Playing : {}",
+        "format": "{}",
         "rotate": 0,
         "return-type": "json",
         "on-click": "playerctl play-pause --player spotify",
@@ -37,10 +37,8 @@
             }
         },
     "tray": {
-        "icon-size": 16,
-        "spacing": 10
+        "icon-size": 16
     },
-    
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format": "{:%H:%M}",
