@@ -20,12 +20,12 @@ These are my personal dotfiles which form the desktop you see above.
 
 Let's get the boring stuff out of the way :
 
-  ✦ **OS** · Arch Linux <br>
-  ✦ **Window Manager / Compositor** · [Hyprland](https://github.com/hyprwm/Hyprland) <br>
-  ✦ **Status Bar** · [Waybar](https://github.com/Alexays/Waybar) <br>
-  ✦ **Notifications** · [dunst](https://github.com/dunst-project/dunst) <br>
-  ✦ **Terminal** · [kitty](https://github.com/kovidgoyal/kitty) <br>
-  ✦ **Launcher** · [rofi](https://github.com/davatorium/rofi/) <br>
+  **OS** : Arch Linux <br>
+  **Window Manager / Compositor** : [Hyprland](https://github.com/hyprwm/Hyprland) <br>
+  **Status Bar** : [Waybar](https://github.com/Alexays/Waybar) <br>
+  **Notifications** : [dunst](https://github.com/dunst-project/dunst) <br>
+  **Terminal** : [kitty](https://github.com/kovidgoyal/kitty) <br>
+  **Launcher** : [rofi](https://github.com/davatorium/rofi/) <br>
  
 
 
@@ -67,6 +67,10 @@ Let's get the boring stuff out of the way :
 
 You're now all set. You might want to reboot after you completed the steps for everything to work properly.
 
+## Special Thanks 🫂
+· [manas140](https://github.com/manas140) For making [this beautiful color scheme](https://github.com/paradise-theme/paradise)
+
+· [elenapan](https://github.com/elenapan) For being my inspiration to get back into ricing as well as some miscellaneous files i used
 
 ## Tip Jar 💗
 
