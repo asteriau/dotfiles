@@ -34,5 +34,5 @@ Let's get the boring stuff out of the way :
 > The packages listed are for arch. Depending on your distribution, the names of the packages below may slightly differ. Also, some of the packages might not be available in your distribution's repositories so you might have to build them from source.
 
 
-    sudo pacman -S hyprland waybar dunst kitty rofi-wayland
+    sudo pacman -S hyprland waybar dunst kitty rofi-wayland grim slurp wl-clipboard pavucontrol pamixer playerctl
 </details>
