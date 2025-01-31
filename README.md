@@ -77,4 +77,4 @@ Thank you from the bottom of my heart! 💙
 - [**Ko-Fi**](https://ko-fi.com/asteriau)  
 - **Litecoin**: LhV2kkvj6uHiLABAhkXCrcYHx6ALknDZr3  
 - **Bitcoin**: bc1q73qudet3a9f8p2yht8mums983zqgl9924spqn0
-- **Monero** 4B73quPWrpR9ke7cstyHYWameQuoJjLVUHaEruGk9E2cUrZsGHkVRnbehFgUB6wKQWh69a7fuexmr6fraytJgB5bNSLSzWv
+- **Monero**: 4B73quPWrpR9ke7cstyHYWameQuoJjLVUHaEruGk9E2cUrZsGHkVRnbehFgUB6wKQWh69a7fuexmr6fraytJgB5bNSLSzWv
