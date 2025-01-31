@@ -25,8 +25,7 @@
         "format-charging": "󰚥 {capacity}",
         "format-plugged": "󰚥 {capacity}",
         "format-icons": ["", "", "", "", ""],
-        "interval": 1,
-        "on-click": "~/.local/bin/powermenu"
+        "interval": 1
     },
     "custom/spotify": {
         "exec": "mediaplayer.py --player spotify",
