@@ -70,7 +70,7 @@ You're now all set. You might want to reboot after you completed the steps for e
 ## Special Thanks 🫂
 · [manas140](https://github.com/manas140) For making [this beautiful color scheme](https://github.com/paradise-theme/paradise)
 
-· [elenapan](https://github.com/elenapan) For being my inspiration to get back into ricing as well as some miscellaneous files i used
+· [elenapan](https://github.com/elenapan) For some miscellaneous files i used
 
 ## Tip Jar 💗
 
