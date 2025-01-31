@@ -24,6 +24,7 @@ tooltip {
 #window,
 #clock,
 #pulseaudio,
+#battery,
 #tray
 {
     padding: 5px 0px;
@@ -77,3 +78,8 @@ tooltip {
 #custom-spotify {
     color: @green;
 }
+
+#battery {
+    color: @green;
+}
+  
