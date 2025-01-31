@@ -35,4 +35,9 @@ Let's get the boring stuff out of the way :
 
     sudo pacman -S hyprland waybar dunst kitty rofi-wayland grim slurp wl-clipboard pavucontrol pamixer playerctl
 Clone the repo & Apply configs :
+```sh
+git clone https://github.com/asteriau/dotfiles
+cd dotfiles
+cp -r config/{hypr,waybar,dunst,kitty,rofi} ~/.config
+```
 </details>
