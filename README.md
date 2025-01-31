@@ -13,7 +13,7 @@
 
 ## Gallery 📸
   <p align="center">
-  <img src="https://files.catbox.moe/tzz3cn.png">
+  <img src="https://i.imgur.com/4VABX6W.png">
 
 ## Info 📖
 These are my personal dotfiles which form the desktop you see above.
