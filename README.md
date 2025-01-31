@@ -10,3 +10,10 @@
 <a href="https://github.com/Manas140/dotfiles/network/members"><img src="https://img.shields.io/github/forks/Manas140/dotfiles?colorA=151515&colorB=8DA3B9&style=for-the-badge&logo=github"></a>
 </a>
 </div>
+
+## Gallery 📸
+ <details> 
+  <summary>Preview</summary>
+  <p align="center">
+  <img src="https://files.catbox.moe/tzz3cn.png">
+</details>
