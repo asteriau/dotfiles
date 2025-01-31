@@ -23,10 +23,10 @@
     separator_color = auto
     sort = yes
     idle_threshold = 0
-    font = Iosevka Custom 11
+    font = Google Sans 12
     line_height = 4
     markup = full
-    format = "<span rise='-4000' font_desc='icomoon 21'></span> <span foreground='#f4f3ee'><b>%s</b>\n%b"
+    format = "<b>%s</b>\n%b"
     alignment = left
     vertical_alignment = center
     show_age_threshold = 60
