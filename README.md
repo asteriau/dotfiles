@@ -12,8 +12,28 @@
 </div>
 
 ## Gallery 📸
- <details> 
-  <summary>Preview</summary>
   <p align="center">
   <img src="https://files.catbox.moe/tzz3cn.png">
+
+## Info 📖
+These are my personal dotfiles which form the desktop you see above.
+
+Let's get the boring stuff out of the way :
+
+  ✦ **OS** · Arch Linux <br>
+  ✦ **Window Manager / Compositor** · [Hyprland](https://github.com/hyprwm/Hyprland) <br>
+  ✦ **Status Bar** · [Waybar](https://github.com/Alexays/Waybar) <br>
+  ✦ **Notifications** · [dunst](https://github.com/dunst-project/dunst) <br>
+  ✦ **Shell** · [zsh](https://wiki.archlinux.org/index.php/Zsh) <br>
+  ✦ **Terminal** · [kitty](https://github.com/kovidgoyal/kitty) <br>
+  ✦ **Launcher** · [rofi](https://github.com/davatorium/rofi/) <br>
+ 
+
+
+## Installation 🔧
+> [!NOTE]
+> The packages listed are for arch. Depending on your distribution, the names of the packages below may slightly differ. Also, some of the packages might not be available in your distribution's repositories so you might have to build them from source.
+
+
+    sudo pacman -S hyprland waybar dunst kitty rofi-wayland
 </details>
