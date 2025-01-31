@@ -24,7 +24,6 @@ Let's get the boring stuff out of the way :
   ✦ **Window Manager / Compositor** · [Hyprland](https://github.com/hyprwm/Hyprland) <br>
   ✦ **Status Bar** · [Waybar](https://github.com/Alexays/Waybar) <br>
   ✦ **Notifications** · [dunst](https://github.com/dunst-project/dunst) <br>
-  ✦ **Shell** · [zsh](https://wiki.archlinux.org/index.php/Zsh) <br>
   ✦ **Terminal** · [kitty](https://github.com/kovidgoyal/kitty) <br>
   ✦ **Launcher** · [rofi](https://github.com/davatorium/rofi/) <br>
  
