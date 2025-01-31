@@ -70,7 +70,7 @@ You're now all set. You might want to reboot after you completed the steps for e
 
 ## Tip Jar 💗
 
-If you enjoy using these dotfiles or parts of them and would like to show your appreciation, you may leave a tip here or star the repository.  
+If you enjoy using these dotfiles or parts of them and would like to show your appreciation, you may leave a tip here.  
 It is never required but always appreciated.  
 Thank you from the bottom of my heart! 💙  
 
