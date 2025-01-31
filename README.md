@@ -33,11 +33,16 @@ Let's get the boring stuff out of the way :
 > [!NOTE]
 > The packages listed are for arch. Depending on your distribution, the names of the packages below may slightly differ. Also, some of the packages might not be available in your distribution's repositories so you might have to build them from source.
 
-    sudo pacman -S hyprland waybar dunst kitty rofi-wayland grim slurp wl-clipboard pavucontrol pamixer playerctl
+    sudo pacman -S hyprland waybar dunst kitty rofi-wayland swww nautilus grim slurp wl-clipboard pavucontrol pamixer playerctl 
 Clone the repo & Apply configs :
 ```sh
 git clone https://github.com/asteriau/dotfiles
 cd dotfiles
+cp -r config/{hypr,waybar,dunst,kitty,rofi} ~/.config
+```
+Install fonts :
+```sh
+yay -S ttf-google-sans
 cp -r config/{hypr,waybar,dunst,kitty,rofi} ~/.config
 ```
 </details>
