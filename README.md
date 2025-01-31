@@ -1,6 +1,5 @@
 <div align="center">
     <img src="https://files.catbox.moe/n4ydnt.png">
-    <img src="https://i.imgur.com/4QPAqXW.png">
 </div>
 
 <hr style="width:40%;">
@@ -15,6 +14,7 @@
 ## Gallery 📸
   <p align="center">
   <img src="https://i.imgur.com/4VABX6W.png">
+  <img src="https://i.imgur.com/4QPAqXW.png">
 
 ## Info 📖
 These are my personal dotfiles which form the desktop you see above.
