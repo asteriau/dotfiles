@@ -34,15 +34,22 @@ Let's get the boring stuff out of the way :
 > The packages listed are for arch. Depending on your distribution, the names of the packages below may slightly differ. Also, some of the packages might not be available in your distribution's repositories so you might have to build them from source.
 
     sudo pacman -S hyprland waybar dunst kitty rofi-wayland swww nautilus grim slurp wl-clipboard pavucontrol pamixer playerctl --needed
-Clone the repo & Apply configs :
+**Clone the repo & Apply configs :**
 ```sh
 git clone https://github.com/asteriau/dotfiles
 cd dotfiles
 cp -r config/{hypr,waybar,dunst,kitty,rofi} ~/.config
 ```
-Install fonts :
-```sh
-yay -S ttf-google-sans
-cp -r config/{hypr,waybar,dunst,kitty,rofi} ~/.config
-```
+**Install fonts**
+
+I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/j8zna9d6bls3kl8xm1mq9/asteriadots-fonts.zip?rlkey=7g76krtpvi86ecbafnvy1jmuy&st=a8jdisrz&dl=0) to save you some time. Download the .zip and then:
+
+    # Assuming the .zip was saved in ~/Downloads
+    unzip -d ~/.local/share/fonts ~/Downloads/asteriadots-fonts.zip
+    fc-cache -v
+**Final tweaks**
+Set your wallpaper
+
+    swww img /path/to/some/wallpaper.someformat
+
 </details>
