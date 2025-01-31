@@ -34,27 +34,48 @@ Let's get the boring stuff out of the way :
 > The packages listed are for arch. Depending on your distribution, the names of the packages below may slightly differ. Also, some of the packages might not be available in your distribution's repositories so you might have to build them from source.
 
     sudo pacman -S hyprland waybar dunst kitty rofi-wayland swww nautilus grim slurp wl-clipboard pavucontrol pamixer playerctl --needed
-**Clone the repo & Apply configs :**
-```sh
-git clone https://github.com/asteriau/dotfiles
-cd dotfiles
-cp -r config/{hypr,waybar,dunst,kitty,rofi} ~/.config
-```
-**Install fonts**
+1. **Clone the repo & Apply configs:**
+    ```sh
+    git clone https://github.com/asteriau/dotfiles
+    cd dotfiles
+    cp -r config/{hypr,waybar,dunst,kitty,rofi} ~/.config
+    ```
 
-I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/j8zna9d6bls3kl8xm1mq9/asteriadots-fonts.zip?rlkey=7g76krtpvi86ecbafnvy1jmuy&st=a8jdisrz&dl=0) to save you some time. Download the .zip and then:
+2. **Install fonts**  
 
+    I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/j8zna9d6bls3kl8xm1mq9/asteriadots-fonts.zip?rlkey=7g76krtpvi86ecbafnvy1jmuy&st=a8jdisrz&dl=0) to save you some time. Download the .zip and then:
+
+    ```sh
     # Assuming the .zip was saved in ~/Downloads
     unzip -d ~/.local/share/fonts ~/Downloads/asteriadots-fonts.zip
     fc-cache -v
-**Move scripts folder**
-    
+    ```
+
+3. **Move scripts folder**  
+
+    ```sh
     mkdir -p ~/.local/share/bin # Assuming it doesn't exist yet
     mv ~/dotfiles/bin/ ~/.local/share/bin
-    chmod -R u+rwx ~/.local/share/bin 
+    chmod -R u+rwx ~/.local/share/bin
+    ```
 
-**Set your wallpaper**
+4. **Set your wallpaper**  
 
+    ```sh
     swww img /path/to/some/wallpaper.someformat
+    ```
 
-</details>
+You're now all set. You might want to reboot after you completed the steps for everything to work properly.
+
+
+## Tip Jar 💗
+
+If you enjoy using these dotfiles or parts of them and would like to show your appreciation, you may leave a tip here. Starring the repo is also appreciated.  
+
+It is never required but always appreciated.  
+
+Thank you from the bottom of my heart! 💙  
+
+- [**Patreon**](https://www.patreon.com/elenapan)  
+- **Ethereum**: 0x831539d94155C797f786e99f1D061BEc7F11bD38  
+- **Bitcoin**: 12j3D4KR94LY7Svvmp3KzGbfGC4YCZkCLe  
