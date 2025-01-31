@@ -70,12 +70,11 @@ You're now all set. You might want to reboot after you completed the steps for e
 
 ## Tip Jar 💗
 
-If you enjoy using these dotfiles or parts of them and would like to show your appreciation, you may leave a tip here. Starring the repo is also appreciated.  
-
+If you enjoy using these dotfiles or parts of them and would like to show your appreciation, you may leave a tip here or star the repository.  
 It is never required but always appreciated.  
-
 Thank you from the bottom of my heart! 💙  
 
-- [**Patreon**](https://www.patreon.com/elenapan)  
-- **Ethereum**: 0x831539d94155C797f786e99f1D061BEc7F11bD38  
-- **Bitcoin**: 12j3D4KR94LY7Svvmp3KzGbfGC4YCZkCLe  
+- [**Ko-Fi**](https://ko-fi.com/asteriau)  
+- **Litecoin**: LhV2kkvj6uHiLABAhkXCrcYHx6ALknDZr3  
+- **Bitcoin**: bc1q73qudet3a9f8p2yht8mums983zqgl9924spqn0
+- **Monero** 4B73quPWrpR9ke7cstyHYWameQuoJjLVUHaEruGk9E2cUrZsGHkVRnbehFgUB6wKQWh69a7fuexmr6fraytJgB5bNSLSzWv
