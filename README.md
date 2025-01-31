@@ -17,7 +17,7 @@
   <img src="https://i.imgur.com/4QPAqXW.png">
 
 ## Info 📖
-These are my personal dotfiles which form the desktop you see above.
+These are my personal dotfiles which form the desktop you see above. It uses the [Paradise](https://github.com/paradise-theme/paradise) color scheme.
 
 Let's get the boring stuff out of the way :
 
