@@ -68,6 +68,11 @@ Let's get the boring stuff out of the way :
 
 You're now all set. You might want to reboot after you completed the steps for everything to work properly.
 
+## Contributions 📝
+
+- **Bugs**: If you have the time to report a bug, please do so in the repository's [issues](https://github.com/asteriau/dotfiles/issues).
+- **Pull requests**: Pull requests for bug fixes or README improvements are welcome. However, before starting work on a pull request for a new feature, please open an issue so we can discuss about it first.
+
 ## Special Thanks 🫂
 • [manas140](https://github.com/manas140) For making [this beautiful color scheme](https://github.com/paradise-theme/paradise)
 
