@@ -48,6 +48,7 @@ I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/j8zna9d6
     unzip -d ~/.local/share/fonts ~/Downloads/asteriadots-fonts.zip
     fc-cache -v
 **Final tweaks**
+
 Set your wallpaper
 
     swww img /path/to/some/wallpaper.someformat
