@@ -59,7 +59,7 @@ Let's get the boring stuff out of the way :
     chmod -R u+rwx ~/.local/share/bin
     ```
 
-4. **Set your wallpaper**  
+4. **Set wallpaper**  
 
     ```sh
     swww img /path/to/some/wallpaper.someformat
