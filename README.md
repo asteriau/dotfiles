@@ -47,15 +47,13 @@ I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/j8zna9d6
     # Assuming the .zip was saved in ~/Downloads
     unzip -d ~/.local/share/fonts ~/Downloads/asteriadots-fonts.zip
     fc-cache -v
-**Final tweaks**
-
-Move scripts folder
+**Move scripts folder**
     
     mkdir -p ~/.local/share/bin # Assuming it doesn't exist yet
     mv ~/dotfiles/bin/ ~/.local/share/bin
     chmod -R u+rwx ~/.local/share/bin 
 
-Set your wallpaper
+**Set your wallpaper**
 
     swww img /path/to/some/wallpaper.someformat
 
