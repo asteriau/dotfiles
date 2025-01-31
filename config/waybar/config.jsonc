@@ -8,11 +8,26 @@
     ],
     "modules-right": [
         "pulseaudio",
+        "battery",
         "tray"
     ],
     "modules-center": [
         "hyprland/workspaces"
     ],
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}",
+        "format-full": "{icon} {capacity}",
+        "format-charging": "󰚥 {capacity}",
+        "format-plugged": "󰚥 {capacity}",
+        "format-icons": ["", "", "", "", ""],
+        "interval": 1,
+        "on-click": "~/.local/bin/powermenu"
+    },
     "custom/spotify": {
         "exec": "mediaplayer.py --player spotify",
         "format": "{}",
