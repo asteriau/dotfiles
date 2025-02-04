@@ -56,8 +56,8 @@ Let's get the boring stuff out of the way :
 
     ```sh
     mkdir -p ~/.local/share/bin # Assuming scripts folder doesn't exist
-    mv ~/dotfiles/bin/ ~/.local/share/
-    chmod -R u+rwx ~/.local/share/bin
+    mv ~/dotfiles/bin/* ~/.local/share/bin/
+    chmod -R +x ~/.local/share/bin/
     ```
 
 4. **Set wallpaper**  
