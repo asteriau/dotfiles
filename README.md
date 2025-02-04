@@ -55,8 +55,7 @@ Let's get the boring stuff out of the way :
 3. **Move scripts folder**  
 
     ```sh
-    mkdir -p ~/.local/share/bin # Assuming it doesn't exist yet
-    mv ~/dotfiles/bin/ ~/.local/share/bin
+    mv ~/dotfiles/bin/ ~/.local/share/
     chmod -R u+rwx ~/.local/share/bin
     ```
 
