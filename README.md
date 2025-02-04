@@ -66,8 +66,8 @@ Let's get the boring stuff out of the way :
     swww img /path/to/some/wallpaper.someformat
     ```
 
-You're now all set. You might want to reboot after you completed the steps for everything to work properly.
-There's also a [extra](https://github.com/asteriau/dotfiles/tree/main/extra) folder you might wanna check out which holds themes for various apps.
+You're now all set. You might want to reboot after you completed the steps for everything to work properly. <br>
+There's also a [extra](https://github.com/asteriau/dotfiles/tree/main/extra) folder you might wanna check out which holds themes for various apps. <br>
 
 ## Contributions 📝
 
