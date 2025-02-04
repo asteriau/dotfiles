@@ -44,7 +44,7 @@ Let's get the boring stuff out of the way :
 
 2. **Install fonts**  
 
-    I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/j8zna9d6bls3kl8xm1mq9/asteriadots-fonts.zip?rlkey=7g76krtpvi86ecbafnvy1jmuy&st=a8jdisrz&dl=0) to save you some time. Download the .zip and then:
+    I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/5jlq2wcfd62utippn4bo4/asteria-dotfiles-fonts.zip?rlkey=qo79l4j985zn89rmcfh6zlsi8&st=vkgkm7qt&dl=0) to save you some time. Download the .zip and then:
 
     ```sh
     # Assuming the .zip was saved in ~/Downloads
