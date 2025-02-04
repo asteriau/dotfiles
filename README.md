@@ -48,7 +48,7 @@ Let's get the boring stuff out of the way :
 
     ```sh
     # Assuming the .zip was saved in ~/Downloads
-    unzip -d ~/.local/share/fonts ~/Downloads/asteriadots-fonts.zip
+    unzip -d ~/.local/share/fonts ~/Downloads/asteria-dotfiles-fonts.zip
     fc-cache -v
     ```
 
