@@ -40,7 +40,7 @@ Let's get the boring stuff out of the way :
     ```sh
     git clone https://github.com/asteriau/dotfiles
     cd dotfiles
-    cp -r config/{hypr,waybar,dunst,kitty,rofi,gtk-3.0} ~/.config
+    cp -r config/{hypr,waybar,dunst,kitty,rofi,gtk-3.0,xsettingsd} ~/.config
     ```
 
 2. **Install fonts**  
