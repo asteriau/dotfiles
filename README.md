@@ -44,7 +44,9 @@ Let's get the boring stuff out of the way :
 
 2. **Install fonts**  
 
-    I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/5jlq2wcfd62utippn4bo4/asteria-dotfiles-fonts.zip?rlkey=qo79l4j985zn89rmcfh6zlsi8&st=vkgkm7qt&dl=0) to save you some time. Download the .zip and then:
+    I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/5jlq2wcfd62utippn4bo4/asteria-dotfiles-fonts.zip?rlkey=qo79l4j985zn89rmcfh6zlsi8&st=vkgkm7qt&dl=0) to save you some time. <br> 
+    To make your life easier you should be in hyprland by this point. <br>
+    Download the .zip and then:
 
     ```sh
     # Assuming the .zip was saved in ~/Downloads
@@ -56,7 +58,6 @@ Let's get the boring stuff out of the way :
 
     ```sh
     # Scripts folder
-    mkdir -p ~/.local/share/bin # Assuming it doesn't exist yet.
     mv ~/dotfiles/bin/* ~/.local/share/bin/
     chmod -R +x ~/.local/share/bin/
     # Home folder
