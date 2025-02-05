@@ -52,12 +52,15 @@ Let's get the boring stuff out of the way :
     fc-cache -v
     ```
 
-3. **Move scripts folder**  
+3. **Move folders**  
 
     ```sh
-    mkdir -p ~/.local/share/bin # Assuming scripts folder doesn't exist
+    # Scripts folder
+    mkdir -p ~/.local/share/bin # Assuming it doesn't exist yet.
     mv ~/dotfiles/bin/* ~/.local/share/bin/
     chmod -R +x ~/.local/share/bin/
+    # Home folder
+    cp -r ~/dotfiles/home/* ~/
     ```
 
 4. **Set wallpaper**  
