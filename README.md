@@ -68,7 +68,7 @@ Let's get the boring stuff out of the way :
 4. **Change shell to Zsh**
 
    ```sh
-   chsh -s /usr/bin/zsh # Reboot required.
+   chsh -s /usr/bin/zsh
    ```
 
 5. **Set wallpaper**  
@@ -77,7 +77,7 @@ Let's get the boring stuff out of the way :
     swww img ~/dotfiles/home/wallpapers/somewallpaper.png
     ```
 
-If you followed all the steps correctly you should now be good to go. <br>
+If you followed all the steps correctly you should now be good to go. You might wanna reboot for everything to apply. <br>
 There's also a [extra](https://github.com/asteriau/dotfiles/tree/main/extra) folder you might wanna check out which holds themes for various apps. <br>
 
 ## Contributions 📝
