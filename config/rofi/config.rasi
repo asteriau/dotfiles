@@ -2,7 +2,7 @@ configuration {
   modi:                   "drun";
   display-drun:           "";
   drun-display-format:    "{name}";
-  font: "Google Sans 11";
+  font: "Google Sans 12";
   show-icons:             true;
   icon-theme:             "Reversal-dark";
 }
