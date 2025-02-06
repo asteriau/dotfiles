@@ -43,7 +43,17 @@ Let's get the boring stuff out of the way :
     cp -r config/{hypr,waybar,dunst,kitty,rofi,gtk-3.0,xsettingsd} ~/.config
     ```
 
-2. **Install fonts**  
+2. **Move folders**  
+
+    ```sh
+    # Scripts folder
+    mv ~/dotfiles/bin/* ~/.local/share/bin/
+    chmod -R +x ~/.local/share/bin/
+    # Home folder
+    cp -r ~/dotfiles/home/* ~/
+    ```
+
+3. **Install fonts**  
 
     I have uploaded a [.zip file to Dropbox](https://www.dropbox.com/scl/fi/5jlq2wcfd62utippn4bo4/asteria-dotfiles-fonts.zip?rlkey=qo79l4j985zn89rmcfh6zlsi8&st=vkgkm7qt&dl=0) to save you some time. <br> 
     To make your life easier you should be in hyprland by this point. <br>
@@ -55,23 +65,19 @@ Let's get the boring stuff out of the way :
     fc-cache -v
     ```
 
-3. **Move folders**  
+4. **Change shell to Zsh**
 
-    ```sh
-    # Scripts folder
-    mv ~/dotfiles/bin/* ~/.local/share/bin/
-    chmod -R +x ~/.local/share/bin/
-    # Home folder
-    cp -r ~/dotfiles/home/* ~/
-    ```
+   ```sh
+   chsh -s /usr/bin/zsh # Reboot required.
+   ```
 
-4. **Set wallpaper**  
+5. **Set wallpaper**  
 
     ```sh
     swww img ~/dotfiles/home/wallpapers/somewallpaper.png
     ```
 
-You're now all set. You might want to reboot after you completed the steps for everything to work properly. <br>
+If you followed all the steps correctly you should now be good to go. <br>
 There's also a [extra](https://github.com/asteriau/dotfiles/tree/main/extra) folder you might wanna check out which holds themes for various apps. <br>
 
 ## Contributions 📝
