@@ -50,7 +50,7 @@ Let's get the boring stuff out of the way :
     mv ~/dotfiles/bin/* ~/.local/share/bin/
     chmod -R +x ~/.local/share/bin/
     # Home folder
-    cp -r ~/dotfiles/home/* ~/
+    cp -a ~/dotfiles/home/. ~/
     ```
 
 3. **Install fonts**  
