@@ -23,7 +23,7 @@ k=kr
 kernel="$(uname -r | cut -d '-' -f1)"
 
 r=rs
-resolution="$(xwininfo -root | grep geometry | awk '{print $2}' | cut -d + -f1)"
+resolution="$(hyprctl monitors | grep -oP '(\d+x\d+)' | head -n 1)" 
 
 sh=sh
 shell=$(basename $SHELL)
