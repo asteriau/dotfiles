@@ -1,6 +1,5 @@
 #!/bin/bash
 # Tiny colored fetch script
-# Requires Typicons Font to display the icons
 # elenapan @ github
 
 f=3 b=4
@@ -17,19 +16,16 @@ v=$'\e[7m'
 sep=
 s=$d$f0$sep$t
 
-w=
-wifiname="$(iwgetid | cut -d \" -f2)"
-
-h=
+h=wm
 wmname="$(xprop -id $(xprop -root -notype | awk '$1=="_NET_SUPPORTING_WM_CHECK:"{print $5}') -notype -f _NET_WM_NAME 8t | grep "WM_NAME" | cut -f2 -d \")"
 
-k=
+k=kr
 kernel="$(uname -r | cut -d '-' -f1)"
 
-r=
+r=rs
 resolution="$(xwininfo -root | grep geometry | awk '{print $2}' | cut -d + -f1)"
 
-sh=
+sh=sh
 shell=$(basename $SHELL)
 
 # (\ /)
@@ -43,9 +39,10 @@ shell=$(basename $SHELL)
 tput clear
 cat << EOF
 
+             $d$f1$h  $t$wmname
+   (\ /)     $f3$k  $t$kernel
+   ( $d. .$t)    $f2$sh  $t$shell
+   c($f1"$t)($f1"$t)   $f5$r  $t$resolution
 
-   (\ /)     $d$f1$h  $t$wmname
-   ( $d. .$t)    $f3$k  $t$kernel
-   c($f1"$t)($f1"$t)   $f2$sh  $t$shell
 
 EOF
