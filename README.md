@@ -12,6 +12,7 @@
 </div>
 
 ## Gallery 📸
+this is a huge WIP and the screenshots are outdated oops 
   <p align="center">
   <img src="https://i.imgur.com/4VABX6W.png">
   <img src="https://i.imgur.com/4QPAqXW.png">
