@@ -3,7 +3,7 @@
     "autoUpdateNotification": true,
     "useQuickCss": true,
     "themeLinks": [
-        "https://catppuccin.github.io/discord/dist/catppuccin-macchiato-pink.theme.css"
+        "https://raw.githubusercontent.com/asteriau/dotfiles/refs/heads/main/extra/Discord/Discord.css"
     ],
     "eagerPatches": false,
     "enabledThemes": [],
