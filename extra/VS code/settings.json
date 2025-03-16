@@ -1,12 +1,34 @@
 {
+    // Window settings
     "window.menuBarVisibility": "toggle",
+    "window.titleBarStyle": "native",
+    "window.customTitleBarVisibility": "never",
+
+    // Editor settings
     "editor.tabSize": 2,
     "editor.minimap.enabled": false,
     "editor.lineHeight": 22,
     "editor.renderLineHighlight": "none",
     "editor.fontSize": 14,
     "editor.fontFamily": "JetBrains Mono",
-    "workbench.colorTheme": "Paradise",
     "editor.cursorBlinking": "phase",
-    "editor.cursorSmoothCaretAnimation": "on"
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.semanticHighlighting.enabled": true,
+    "editor.renderWhitespace": "none",
+
+    // Theme settings
+    "workbench.colorTheme": "Catppuccin Macchiato",
+    "workbench.iconTheme": "catppuccin-macchiato",
+    "catppuccin.accentColor": "pink",
+
+    // Terminal settings
+    "terminal.integrated.minimumContrastRatio": 1,
+
+    // Workbench settings
+    "workbench.activityBar.location": "top",
+    "workbench.layoutControl.enabled": false,
+
+    // Command center settings
+    "chat.commandCenter.enabled": false,
+    "window.commandCenter": false
 }
