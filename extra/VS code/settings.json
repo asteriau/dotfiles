@@ -1,34 +1,64 @@
 {
-    // Window settings
+    // #region :: Window Settings
     "window.menuBarVisibility": "toggle",
     "window.titleBarStyle": "native",
     "window.customTitleBarVisibility": "never",
+    // #endregion
 
-    // Editor settings
-    "editor.tabSize": 2,
-    "editor.minimap.enabled": false,
-    "editor.lineHeight": 22,
-    "editor.renderLineHighlight": "none",
+    // #region :: Editor Settings
     "editor.fontSize": 14,
-    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontFamily": "JetBrains Mono NL",
+    "editor.tabSize": 2,
+    "editor.lineHeight": 22,
+    "editor.folding": true,
+
+    // #region :: Cursor Settings
+    "editor.cursorStyle": "line-thin",
     "editor.cursorBlinking": "phase",
     "editor.cursorSmoothCaretAnimation": "on",
-    "editor.semanticHighlighting.enabled": true,
+    // #endregion
+
+    // #region :: Scrolling & Visibility
+    "editor.smoothScrolling": true,
     "editor.renderWhitespace": "none",
+    "editor.renderLineHighlight": "none",
+    // #endregion
 
-    // Theme settings
-    "workbench.colorTheme": "Catppuccin Macchiato",
-    "workbench.iconTheme": "catppuccin-macchiato",
-    "catppuccin.accentColor": "pink",
+    // #region :: Scrollbar Settings
+    "editor.scrollbar.verticalScrollbarSize": 10,
+    "editor.scrollbar.horizontalScrollbarSize": 10,
+    // #endregion
 
-    // Terminal settings
+    // #region :: Minimap & Highlighting Settings
+    "editor.minimap.enabled": false,
+    "editor.semanticHighlighting.enabled": true,
+    "editor.occurrencesHighlight": "off",
+    // #endregion
+
+    // #region :: Theme Settings
+    "workbench.colorTheme": "Paradise",
+    // #endregion
+
+    // #region :: Terminal Settings
+    "terminal.integrated.fontFamily": "JetBrains Mono NL",
+    "terminal.integrated.fontSize": 14,
     "terminal.integrated.minimumContrastRatio": 1,
+    "terminal.integrated.cursorStyle": "underline",
+    "terminal.integrated.cursorBlinking": true,
+    // #endregion
 
-    // Workbench settings
+    // #region :: Workbench Settings
     "workbench.activityBar.location": "top",
     "workbench.layoutControl.enabled": false,
+    "workbench.statusBar.visible": false,
+    // #endregion
 
-    // Command center settings
+    // #region :: Command Center Settings
     "chat.commandCenter.enabled": false,
-    "window.commandCenter": false
+    "window.commandCenter": false,
+    // #endregion
+
+    // #region :: Disabling Telemetry
+    "telemetry.telemetryLevel": "off",
+    // #endregion
 }
