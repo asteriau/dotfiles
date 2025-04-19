@@ -11,6 +11,7 @@
     "editor.tabSize": 2,
     "editor.lineHeight": 22,
     "editor.folding": true,
+    // #endregion
 
     // #region :: Cursor Settings
     "editor.cursorStyle": "line-thin",
