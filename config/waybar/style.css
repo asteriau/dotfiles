@@ -1,65 +1,80 @@
 @import "color.css";
 
-/* General */
 * {
-    font-family: Inter, Roboto, sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    margin-left: 4px;
-    margin-right: 4px;
     border: none;
     border-radius: 0;
+    font-family: "Google Sans";
+    font-size: 15px;
+    min-height: 0;
+    margin-left: 4px;
+    margin-right: 4px; 
 }
 
-/* Waybar window */
 window#waybar {
     border-radius: 0px;
-    background-color: shade(@base, 0.9);
-    color: @text;
+    background: @bg;
+    color: @fg;
 }
 
-/* Tooltip */
 tooltip {
-    background-color: shade(@base, 0.9);
+    background: @bg;
     border-radius: 0px;
 }
 
-/* General modules */
 #window,
 #clock,
 #pulseaudio,
 #battery,
-#tray {
+#tray
+{
     padding: 5px 0px;
-    color: @text;
-    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    color: @fg;
 }
 
-/* Workspaces */
 #workspaces {
     padding: 0px 5px;
 }
 
 #workspaces button {
-    all: unset;
+    all:unset;
     padding: 0px 5px;
-    color: rgba(255, 255, 255, 0.15);
-    transition: all 0.25s ease;
+    color: alpha(@bg2,.4);
+    transition: all .2s ease;
 }
 
 #workspaces button:hover {
-    color: alpha(@surface0, 0.25);
+    color: @blue;
     border: none;
+    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .5);
     transition: all 0.25s ease;
 }
 
 #workspaces button.active {
-    color: @pink;
+    color: @blue;
     border: none;
-    transition: all 0.25s ease;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+    transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
-/* Other */
+#workspaces button.empty {
+    color: alpha(@bg2,.4);
+    border: none;
+    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .2);
+}
+
+#workspaces button.empty:hover {
+    color: @red;
+    border: none;
+    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .5);
+    transition: all 0.5s ease;
+}
+
+#workspaces button.empty.active {
+    color: @red;
+    border: none;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+}
+
 #custom-spotify {
     color: @green;
 }
@@ -67,3 +82,4 @@ tooltip {
 #battery {
     color: @green;
 }
+  
