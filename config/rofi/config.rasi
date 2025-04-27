@@ -2,7 +2,7 @@ configuration {
   modi:                   "drun";
   display-drun:           "";
   drun-display-format:    "{name}";
-  font: "Google Sans 12";
+  font:                   "Google Sans 11";
   show-icons:             true;
   icon-theme:             "Reversal-dark";
 }
@@ -10,9 +10,9 @@ configuration {
 @theme "/dev/null"
 
 * {
-  bg:                     #24273a;
-  fg:                     #cad3f5;
-  alt:                    #363a4f;
+  bg:                     #151515;
+  fg:                     #E8E3E3;
+  alt:                    #181818;
   rad:                    8px;
   background-color:       @bg;
   text-color:             @fg;
@@ -49,8 +49,6 @@ prompt {
 
 entry {
     blink:                  false;
-    placeholder:            "Search...";
-    placeholder-color:      grey;
 }
 
 listview {
