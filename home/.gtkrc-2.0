@@ -2,7 +2,7 @@
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 include "/home/laura/.gtkrc-2.0.mine"
-gtk-theme-name="paradise"
+gtk-theme-name="Paradise"
 gtk-icon-theme-name="Adwaita"
 gtk-font-name="Google Sans 12"
 gtk-cursor-theme-name="default"
