@@ -3,11 +3,8 @@
 * {
     border: none;
     border-radius: 0;
-    font-family: "Google Sans";
+    font-family: "Google Sans", "Symbols Nerd Font";
     font-size: 15px;
-    min-height: 0;
-    margin-left: 4px;
-    margin-right: 4px; 
 }
 
 window#waybar {
@@ -17,28 +14,53 @@ window#waybar {
 }
 
 tooltip {
-    background: @bg;
-    border-radius: 0px;
+    background: @bg2;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    background: transparent;
+    padding: 0 8px;
 }
 
 #window,
+#workspaces,
 #clock,
 #pulseaudio,
 #battery,
-#tray
-{
-    padding: 5px 0px;
+#tray,
+#custom-spotify {
+    background: @bg2;
+    border-radius: 2px;
+    border: 0.5px solid @border;
+    padding: 4px 10px;
+    margin: 0px 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
     color: @fg;
+    min-height: 24px;
+    border-bottom: 2px solid @bg3;
+    border-top: 2px solid @bg3;
+}
+
+#custom-spotify,
+#battery {
+    color: @green;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
 }
 
 #workspaces {
-    padding: 0px 5px;
+    padding: 0px 8px;
 }
 
 #workspaces button {
-    all:unset;
-    padding: 0px 5px;
-    color: alpha(@bg2,.4);
+    all: unset;
+    padding: 0px 12px;
+    color: @bg3;
     transition: all .2s ease;
 }
 
@@ -56,12 +78,6 @@ tooltip {
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
-#workspaces button.empty {
-    color: alpha(@bg2,.4);
-    border: none;
-    text-shadow: 0px 0px 1.5px rgba(0, 0, 0, .2);
-}
-
 #workspaces button.empty:hover {
     color: @red;
     border: none;
@@ -74,12 +90,3 @@ tooltip {
     border: none;
     text-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
 }
-
-#custom-spotify {
-    color: @green;
-}
-
-#battery {
-    color: @green;
-}
-  
