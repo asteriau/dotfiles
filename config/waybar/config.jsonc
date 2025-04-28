@@ -1,6 +1,6 @@
 {
     "position": "bottom",
-    "height": 42,
+    "height": 47,
     "spacing": 0,
     "modules-left": [
         "clock",
@@ -55,7 +55,7 @@
     },
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%H:%M}",
+        "format": "{:%I:%M %p}",
         "format-alt": "{:%a, %b %d %Y}"
     },
     "pulseaudio": {
