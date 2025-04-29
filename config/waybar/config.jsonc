@@ -3,29 +3,39 @@
     "height": 47,
     "spacing": 0,
     "modules-left": [
+        "custom/menu",
         "clock",
-        "custom/spotify"
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "hyprland/window"
     ],
     "modules-right": [
+        "custom/spotify",
         "pulseaudio",
         "battery",
         "tray"
     ],
-    "modules-center": [
-        "hyprland/workspaces"
-    ],
-    "battery": {
-        "states": {
-            // "good": 95,
-            "warning": 30,
-            "critical": 15
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "format-alt": "{:%a, %b %d %Y}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "",
+            "default": "",
+            "empty": ""
         },
-        "format": "{icon} {capacity}",
-        "format-full": "{icon} {capacity}",
-        "format-charging": "󰚥 {capacity}",
-        "format-plugged": "󰚥 {capacity}",
-        "format-icons": ["", "", "", "", ""],
-        "interval": 1
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5]
+        }
+    },
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 40,
+        "all-outputs": true
     },
     "custom/spotify": {
         "exec": "mediaplayer.py --player spotify",
@@ -39,25 +49,6 @@
         "escape": true,
         "tooltip": true
     },
-    "hyprland/workspaces": {
-            "format": "{icon}",
-            "format-icons": {
-                "active": "",
-                "default": "",
-                "empty": ""
-            },
-            "persistent-workspaces": {
-                "*": [ 1,2,3,4,5 ]
-            }
-        },
-    "tray": {
-        "icon-size": 16
-    },
-    "clock": {
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%I:%M %p}",
-        "format-alt": "{:%a, %b %d %Y}"
-    },
     "pulseaudio": {
         "format": "{icon} {volume}",
         "format-muted": "󰖁 Muted",
@@ -68,5 +59,20 @@
         },
         "on-click": "pamixer --toggle-mute",
         "on-click-right": "pavucontrol"
+    },
+    "battery": {
+        "format": "{icon} {capacity}",
+        "format-full": "{icon} {capacity}",
+        "format-charging": "󰚥 {capacity}",
+        "format-plugged": "󰚥 {capacity}",
+        "format-icons": ["", "", "", "", ""],
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "interval": 1
+    },
+    "tray": {
+        "icon-size": 16
     }
 }
