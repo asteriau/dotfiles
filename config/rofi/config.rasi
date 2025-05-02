@@ -12,7 +12,9 @@ configuration {
 * {
   bg:                     #151515;
   fg:                     #E8E3E3;
-  alt:                    #181818;
+  alt:                    #212121;
+  blue:                   #8DA3B9;
+  border:                 #252525;
   rad:                    8px;
   background-color:       @bg;
   text-color:             @fg;
@@ -20,8 +22,8 @@ configuration {
 
 window {
   width: 20%;
-  // border: 5px;
-  // border-color: #121212;
+  border: 1px;
+  border-color: @border;
   border-radius: @rad;
 }
 
@@ -45,10 +47,12 @@ prompt, entry, element selected {
 prompt {
    font:                    "Material 14";
    padding:                 1.5% 1%;
+   text-color:             @blue;
 }
 
 entry {
     blink:                  false;
+    text-color:             @blue;
 }
 
 listview {
