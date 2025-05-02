@@ -19,7 +19,8 @@ tooltip {
     border: 0.5px solid @border;
     border-bottom: 1px solid @border;
     border-top: 1px solid @border;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.69);
+    box-shadow: 1px 10px 5px 0px rgba(0,0,0,0.5);
+    text-shadow: 0px 5px 5px #000000;
 }
 
 .modules-left,
@@ -30,8 +31,6 @@ tooltip {
     margin-bottom: 6px;
 }
 
-#window,
-#workspaces,
 #clock,
 #pulseaudio,
 #battery,
@@ -42,22 +41,23 @@ tooltip {
     border-bottom: 1px solid @border;
     border-top: 1px solid @border;
     border-radius: 2px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.69);
+    box-shadow: 1px 10px 5px 0px rgba(0,0,0,0.5);
+    text-shadow: 0px 5px 5px #000000;
     color: @fg;
     margin: 0px 6px;
-    min-height: 24px;
     padding: 4px 10px;
 }
 
-window#waybar.empty #window {
-    opacity: 0;
-    min-width: 0px;
-    margin: 0px;
-    padding: 0px;
-}
-
-#window {
-    color: @blue;
+#workspaces {
+    background: @bg2;
+    border: 0.5px solid @border;
+    border-bottom: 1px solid @border;
+    border-top: 1px solid @border;
+    border-radius: 2px;
+    box-shadow: 1px 10px 5px 0px rgba(0,0,0,0.5);
+    color: @fg;
+    margin: 0px 6px;
+    padding: 4px 10px;
 }
 
 #custom-spotify,
