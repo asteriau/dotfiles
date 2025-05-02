@@ -3,15 +3,13 @@
     "height": 47,
     "spacing": 0,
     "modules-left": [
-        "custom/menu",
         "clock",
         "hyprland/workspaces"
     ],
     "modules-center": [
-        "hyprland/window"
+        "custom/spotify"
     ],
     "modules-right": [
-        "custom/spotify",
         "pulseaudio",
         "battery",
         "tray"
@@ -32,11 +30,6 @@
             "*": [1, 2, 3, 4, 5]
         }
     },
-    "hyprland/window": {
-        "format": "{title}",
-        "max-length": 40,
-        "all-outputs": true
-    },
     "custom/spotify": {
         "exec": "mediaplayer.py --player spotify",
         "format": "{}",
@@ -50,8 +43,8 @@
         "tooltip": true
     },
     "pulseaudio": {
-        "format": "{icon} {volume}",
-        "format-muted": "󰖁 Muted",
+        "format": "{icon}  {volume}",
+        "format-muted": "󰖁  Muted",
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
