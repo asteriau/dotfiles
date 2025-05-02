@@ -12,10 +12,9 @@
 </div>
 
 ## Gallery 📸
-this is a huge WIP and the screenshots are outdated oops 
   <p align="center">
-  <img src="https://i.imgur.com/4VABX6W.png">
-  <img src="https://i.imgur.com/4QPAqXW.png">
+  <img src=https://i.imgur.com/Fn79aGd.png">
+  <img src="https://i.imgur.com/7bb9mON.png">
 
 ## Info 📖
 These are my personal dotfiles which form the desktop you see above. It uses the [Paradise](https://github.com/paradise-theme/paradise) color scheme.
