@@ -11,6 +11,10 @@
 </a>
 </div>
 
+## Deprecation warning
+hi this is all very shitty and old gonna rewrite it all in quickshell at some point
+if stuff broke uhhhhh gl
+
 ## Gallery 📸
   <p align="center">
   <img src=https://i.imgur.com/Fn79aGd.png">
