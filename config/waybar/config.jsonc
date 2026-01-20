@@ -1,24 +1,26 @@
 {
     "position": "bottom",
-    "height": 47,
+    "height": 42,
     "spacing": 0,
+
     "modules-left": [
-        "clock",
-        "hyprland/workspaces"
+        "clock"
     ],
     "modules-center": [
-        "custom/spotify"
+        "hyprland/workspaces"
     ],
     "modules-right": [
-        "pulseaudio",
-        "battery",
-        "tray"
+        "tray",
+        "custom/spotify",
+        "pulseaudio"
     ],
+
     "clock": {
         "format": "{:%I:%M %p}",
         "format-alt": "{:%a, %b %d %Y}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
+
     "hyprland/workspaces": {
         "format": "{icon}",
         "format-icons": {
@@ -30,21 +32,10 @@
             "*": [1, 2, 3, 4, 5]
         }
     },
-    "custom/spotify": {
-        "exec": "mediaplayer.py --player spotify",
-        "format": "{}",
-        "rotate": 0,
-        "return-type": "json",
-        "on-click": "playerctl play-pause --player spotify",
-        "on-click-right": "playerctl next --player spotify",
-        "on-click-middle": "playerctl previous --player spotify",
-        "max-length": 36,
-        "escape": true,
-        "tooltip": true
-    },
+
     "pulseaudio": {
-        "format": "{icon}  {volume}",
-        "format-muted": "󰖁  Muted",
+        "format": "{volume} {icon}",
+        "format-muted": "Muted 󰖁",
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
@@ -53,18 +44,18 @@
         "on-click": "pamixer --toggle-mute",
         "on-click-right": "pavucontrol"
     },
-    "battery": {
-        "format": "{icon} {capacity}",
-        "format-full": "{icon} {capacity}",
-        "format-charging": "󰚥 {capacity}",
-        "format-plugged": "󰚥 {capacity}",
-        "format-icons": ["", "", "", "", ""],
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "interval": 1
+
+    "custom/spotify": {
+        "exec": "$HOME/.local/share/bin/mediaplayer.py --player spotify",
+        "return-type": "json",
+        "on-click": "playerctl play-pause --player spotify",
+        "on-click-right": "playerctl next --player spotify",
+        "on-click-middle": "playerctl previous --player spotify",
+        "max-length": 36,
+        "escape": true,
+        "tooltip": true
     },
+
     "tray": {
         "icon-size": 16
     }
