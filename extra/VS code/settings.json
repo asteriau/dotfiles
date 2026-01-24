@@ -1,65 +1,46 @@
 {
-    // #region :: Window Settings
-    "window.menuBarVisibility": "toggle",
-    "window.titleBarStyle": "native",
-    "window.customTitleBarVisibility": "never",
-    // #endregion
+  "chat.disableAIFeatures": true,
+  "chat.commandCenter.enabled": false,
 
-    // #region :: Editor Settings
-    "editor.fontSize": 14,
-    "editor.fontFamily": "JetBrains Mono NL",
-    "editor.tabSize": 2,
-    "editor.lineHeight": 22,
-    "editor.folding": true,
-    // #endregion
+  "window.commandCenter": false,
+  "window.menuBarVisibility": "toggle",
+  "window.titleBarStyle": "native",
 
-    // #region :: Cursor Settings
-    "editor.cursorStyle": "line-thin",
-    "editor.cursorBlinking": "phase",
-    "editor.cursorSmoothCaretAnimation": "on",
-    // #endregion
+  "workbench.navigationControl.enabled": false,
+  "workbench.layoutControl.enabled": false,
+  "workbench.editor.enablePreview": false,
+  "workbench.activityBar.location": "default",
 
-    // #region :: Scrolling & Visibility
-    "editor.smoothScrolling": true,
-    "editor.renderWhitespace": "none",
-    "editor.renderLineHighlight": "none",
-    // #endregion
+  "workbench.colorTheme": "Paradise",
+  "workbench.iconTheme": "charmed-soft",
+  "workbench.productIconTheme": "icons-carbon",
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#1f1f1f",
+    "editor.lineHighlightBorder": "#1f1f1f"
+  },
 
-    // #region :: Scrollbar Settings
-    "editor.scrollbar.verticalScrollbarSize": 10,
-    "editor.scrollbar.horizontalScrollbarSize": 10,
-    // #endregion
+  "editor.fontSize": 14,
+  "editor.fontFamily": "JetBrains Mono",
+  "editor.tabSize": 2,
+  "editor.lineHeight": 22,
+  "editor.folding": true,
+  "editor.cursorStyle": "line-thin",
+  "editor.cursorBlinking": "phase",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+  "editor.renderWhitespace": "none",
+  "editor.renderLineHighlight": "all",
+  "editor.semanticHighlighting.enabled": true,
+  "editor.occurrencesHighlight": "singleFile",
+  "editor.minimap.enabled": false,
+  "editor.scrollbar.verticalScrollbarSize": 15,
+  "editor.scrollbar.horizontalScrollbarSize": 15,
 
-    // #region :: Minimap & Highlighting Settings
-    "editor.minimap.enabled": false,
-    "editor.semanticHighlighting.enabled": true,
-    "editor.occurrencesHighlight": "off",
-    // #endregion
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.minimumContrastRatio": 1,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.initialHint": false,
 
-    // #region :: Theme Settings
-    "workbench.colorTheme": "Paradise",
-    // #endregion
-
-    // #region :: Terminal Settings
-    "terminal.integrated.fontFamily": "JetBrains Mono NL",
-    "terminal.integrated.fontSize": 14,
-    "terminal.integrated.minimumContrastRatio": 1,
-    "terminal.integrated.cursorStyle": "underline",
-    "terminal.integrated.cursorBlinking": true,
-    // #endregion
-
-    // #region :: Workbench Settings
-    "workbench.activityBar.location": "top",
-    "workbench.layoutControl.enabled": false,
-    "workbench.statusBar.visible": false,
-    // #endregion
-
-    // #region :: Command Center Settings
-    "chat.commandCenter.enabled": false,
-    "window.commandCenter": false,
-    // #endregion
-
-    // #region :: Disabling Telemetry
-    "telemetry.telemetryLevel": "off",
-    // #endregion
 }
