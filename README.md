@@ -1,8 +1,5 @@
-<div align="center">
-    <img src="https://files.catbox.moe/n4ydnt.png">
-</div>
-
-<hr style="width:40%;">
+<h1 align="center">dotfiles</h1>
+<h4 align="center">.files for everything i use</h4>
 
 <div align="center"> 
 <a href="https://github.com/asteriau/dotfiles/stargazers"><img src="https://img.shields.io/github/stars/asteriau/dotfiles?colorA=151515&colorB=8DA3B9&style=for-the-badge&logo=starship"></a>
