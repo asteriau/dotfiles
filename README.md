@@ -79,23 +79,16 @@ These are my personal dotfiles which form the desktop you see above. It uses the
 If you followed all the steps correctly you should now be good to go. You might wanna reboot for everything to apply. <br>
 There's also a [extra](https://github.com/asteriau/dotfiles/tree/main/extra) folder you might wanna check out which holds themes for various apps. <br>
 
-## Contributions 📝
-
-- **Bugs**: If you have the time to report a bug, please do so in the repository's [issues](https://github.com/asteriau/dotfiles/issues).
-- **Pull requests**: Pull requests for bug fixes or README improvements are welcome. However, before starting work on a pull request for a new feature, please open an issue so we can discuss about it first.
-
 ## Special Thanks 🫂
 • [manas140](https://github.com/manas140) For making [this beautiful color scheme](https://github.com/paradise-theme/paradise)
 
 • [elenapan](https://github.com/elenapan) For some miscellaneous files i used
 
-## Tip Jar 💙
+## TO-DO:
+- [ ] Make a actually good install script & re-write the readme with it in mind
+- [ ] add more stuff to extras and make it be a option in the install script
+- [ ] re-write every config cuz they're lowk all dogshit
+- [ ] finish quickshell config 10 years from now
 
-If you enjoy using these dotfiles or parts of them and would like to show your appreciation, you may leave a tip here.  
-It is never required but always appreciated.  
-Thank you from the bottom of my heart! 💙  
 
-- [**Ko-Fi**](https://ko-fi.com/asteriau)  
-- **Litecoin**: LhV2kkvj6uHiLABAhkXCrcYHx6ALknDZr3  
-- **Bitcoin**: bc1q73qudet3a9f8p2yht8mums983zqgl9924spqn0
-- **Monero**: 4B73quPWrpR9ke7cstyHYWameQuoJjLVUHaEruGk9E2cUrZsGHkVRnbehFgUB6wKQWh69a7fuexmr6fraytJgB5bNSLSzWv
+
