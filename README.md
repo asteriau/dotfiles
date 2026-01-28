@@ -20,8 +20,6 @@ if stuff broke uhhhhh gl
 ## Info 📖
 These are my personal dotfiles which form the desktop you see above. It uses the [Paradise](https://github.com/paradise-theme/paradise) color scheme.
 
-Let's get the boring stuff out of the way :
-
   • **OS**: Arch Linux <br>
   • **Window Manager / Compositor**: [Hyprland](https://github.com/hyprwm/Hyprland) <br>
   • **Status Bar**: [Waybar](https://github.com/Alexays/Waybar) <br>
@@ -35,7 +33,7 @@ Let's get the boring stuff out of the way :
 > [!NOTE]
 > The packages listed are for arch. Depending on your distribution, the names of the packages below may slightly differ. Also, some of the packages might not be available in your distribution's repositories so you might have to build them from source.
 
-    sudo pacman -S hyprland waybar dunst kitty rofi-wayland swww nautilus grim slurp firefox wl-clipboard pavucontrol pamixer playerctl python-gobject xsettingsd zsh gammastep unzip ttf-jetbrains-mono-nerd --needed
+    sudo pacman -S hyprland waybar dunst kitty rofi-wayland swww nautilus grim slurp firefox wl-clipboard pavucontrol pamixer playerctl python-gobject zsh gammastep unzip --needed
     yay -S notify-send.sh
 1. **Clone the repo & Apply configs:**
     ```sh
