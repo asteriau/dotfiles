@@ -109,7 +109,7 @@ in
       };
 
       colors = {
-        alpha = 1.0;
+        alpha = 0.8;
       }
       // colors.dark;
     };
