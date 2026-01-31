@@ -1,2 +1,9 @@
-all the static assets used in the repo or in my flake will go here
-if i do it otherwise hash mismatches become a problem because links tend to change
+# Assets
+
+A dump for all my static assets used throughought the flake & repository. <br>
+I have to dump them all here so i don't deal with hash mismatches randomly.
+
+| Name         | Description                |
+| ------------ | -------------------------- |
+| `wallpapers` | Do i need to explain this? |
+| `repo`       | Stuff used in the README   |
