@@ -1,17 +1,27 @@
-{ config, pkgs, ... }:
-
-# Drivers for my gpu are defined here, respectively a GTX 1660.
-# If you're on AMD or a older card you'll need to change this.
-
+{ pkgs, config, ... }:
 {
-  hardware.graphics.enable = true;
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  services.xserver.videoDrivers = [
+    # "modesetting"
+    "nvidia"
+  ];
 
   hardware.nvidia = {
     modesetting.enable = true;
-    open = false; # The open driver is unstable
-    powerManagement.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    open = true;
+    nvidiaSettings = true;
   };
 
-  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+  programs.xwayland.enable = true;
+  environment.variables = {
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    LIBVA_DRIVER_NAME = "nvidia";
+    NIXOS_OZONE_WL = "1";
+  };
+
 }

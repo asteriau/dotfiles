@@ -17,15 +17,9 @@ in
       "HYPRCURSOR_SIZE,${toString 16}"
       # See https://github.com/hyprwm/contrib/issues/142
       "GRIMBLAST_NO_CURSOR,0"
-      # Stuff to make nvidia not awful
-      "LIBVA_DRIVER_NAME,nvidia"
-      "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-      "ELECTRON_OZONE_PLATFORM_HINT,auto" # wayland support for electron stuff
     ];
 
     exec-once = [
-      # finalize startup
-      "uwsm finalize"
       # set cursor for HL itself
       "hyprctl setcursor ${cursorName} ${toString 16}"
       "hyprlock"
@@ -38,7 +32,7 @@ in
       "col.active_border" = "rgba(88888888)";
       "col.inactive_border" = "rgba(00000088)";
 
-      allow_tearing = true;
+      allow_tearing = false;
       resize_on_border = true;
     };
 
@@ -117,7 +111,7 @@ in
       vrr = 1;
     };
 
-    render.direct_scanout = true;
+    render.direct_scanout = false;
 
     # touchpad gestures
     gestures = {
