@@ -9,7 +9,6 @@ Singleton {
 
     property var popupNotifs: []
     property var allNotifs: []
-    property var defaultNotifTimeout: 5000
     property bool notifOverlayOpen: false
 
     function onNewNotif(notif) {
@@ -83,7 +82,7 @@ Singleton {
             notif.tracked = true;
             notif.time = Date.now();
             root.onNewNotif(notif);
-            console.log("notif: appName", notif.appName || "null", ", appIcon", notif.appIcon || "null", ", image", notif.image || "null", ", expireTimeout", notif.expireTimeout)
+            // console.log("notif: appName", notif.appName || "null", ", appIcon", notif.appIcon || "null", ", image", notif.image || "null", ", expireTimeout", notif.expireTimeout)
 
             notif.closed.connect(() => {
                 notifDismissByNotif(notif);

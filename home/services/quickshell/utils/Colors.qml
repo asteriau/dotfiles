@@ -31,14 +31,14 @@ Singleton {
     readonly property color foreground: darkMode ? Qt.hsla(0, 0, 0.95, 1) : Qt.hsla(0, 0, 0.05, 1)
     readonly property color foregroundOSD: Qt.hsla(0, 0, 0.95, 0.7)
     readonly property color windowShadow: Qt.rgba(0, 0, 0, 0.2)
-    readonly property list<color> monitorColors: ["#8caaee", "#e5c07b", "#98c379", "#61afef"]
+    readonly property list<color> monitorColors: ["#e06c75", "#e5c07b", "#98c379", "#61afef"]
     // readonly property list<color> monitorColors: darkMode ? ["#e06c75", "#e5c07b", "#98c379", "#61afef"] : ["#D50000", "#FF6F00", "#24A443", "#0061FF"]
 
     readonly property color surface: darkMode ? Qt.hsla(0, 0, 0.95, 0.15) : Qt.hsla(0, 0, 0.05, 0.15)
     readonly property color overlay: darkMode ? Qt.hsla(0, 0, 0.95, 0.7) : Qt.hsla(0, 0, 0.05, 0.7)
     readonly property color border: darkMode ? Qt.hsla(0, 0, 0.95, 0.1) : Qt.hsla(0, 0, 0.05, 0.1)
 
-    readonly property color accent: "#8caaee"
+    readonly property color accent: "#e06c75"
 
     readonly property color buttonEnabled: accent
     readonly property color buttonEnabledHover: Qt.lighter(accent, 0.9)
