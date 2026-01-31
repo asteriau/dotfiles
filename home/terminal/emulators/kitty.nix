@@ -2,7 +2,7 @@
   programs.kitty = {
     enable = true;
     font = {
-      size = 10;
+      size = 14;
       name = "JetBrains Mono";
     };
 
@@ -23,6 +23,6 @@
       background_opacity = "0.9";
     };
 
-    theme = "Catppuccin-Mocha";
+    theme = "Catppuccin-Frappe";
   };
 }
