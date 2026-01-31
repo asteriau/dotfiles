@@ -11,7 +11,6 @@
 
     # services
     ../../services/quickshell
-    # ../../services/cinny.nix
 
     # media services
     ../../services/media/playerctl.nix
