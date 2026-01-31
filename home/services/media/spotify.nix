@@ -1,6 +1,9 @@
 { pkgs, ... }:
-{
-  home.packages = [ pkgs.spotify ];
 
-  services.spotify.enable = true;
+{
+  home.packages = [
+    pkgs.spotify
+  ];
 }
+
+# TO-DO: Add spicetify integration
