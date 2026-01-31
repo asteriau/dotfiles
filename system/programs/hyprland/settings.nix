@@ -19,6 +19,10 @@ in
       "GRIMBLAST_NO_CURSOR,0"
     ];
 
+    monitor = [
+      "DP-1, 1920x1080@165, 0x0, 1"
+    ];
+
     exec-once = [
       # set cursor for HL itself
       "hyprctl setcursor ${cursorName} ${toString 16}"
@@ -113,18 +117,6 @@ in
 
     render.direct_scanout = false;
 
-    # touchpad gestures
-    gestures = {
-      workspace_swipe_forever = true;
-    };
-
-    gesture = [
-      "3, horizontal, workspace"
-      "4, left, dispatcher, movewindow, mon:-1"
-      "4, right, dispatcher, movewindow, mon:+1"
-      "4, pinch, fullscreen"
-    ];
-
     permission = [
       # Allow xdph and grim
       "${config.programs.hyprland.portalPackage}/libexec/.xdg-desktop-portal-hyprland-wrapped, screencopy, allow"
@@ -134,8 +126,6 @@ in
     ];
 
     xwayland.force_zero_scaling = true;
-
-    debug.disable_logs = false;
 
     plugin.hyprbars = {
       bar_height = 20;
@@ -150,21 +140,5 @@ in
       # maximize
       "rgb(b6c4ff), 15, , hyprctl dispatch fullscreen 1"
     ];
-
-    #   csgo-vulkan-fix = {
-    #     res_w = 1280;
-    #     res_h = 800;
-    #     class = "cs2";
-    #   };
-
-    #   hyprexpo = {
-    #     columns = 3;
-    #     gap_size = 4;
-    #     bg_col = "rgb(000000)";
-
-    #     enable_gesture = true;
-    #     gesture_distance = 300;
-    #     gesture_positive = false;
-    #   };
   };
 }

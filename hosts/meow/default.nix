@@ -7,7 +7,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./hyprland.nix
     ./powersave.nix
   ];
 
