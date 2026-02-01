@@ -13,8 +13,8 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    open = true;
-    nvidiaSettings = true;
+    open = false; # open one is still unstable
+    nvidiaSettings = false; # useless on wayland still
   };
 
   programs.xwayland.enable = true;
