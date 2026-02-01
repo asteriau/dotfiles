@@ -10,6 +10,7 @@
     # Install extensions
     extensions = with pkgs.vscode-extensions; [
       catppuccin.catppuccin-vsc
+      catppuccin.catppuccin-vsc-icons
     ];
 
     profiles.default = {
@@ -31,9 +32,8 @@
 
         # Theme / Icons
         "workbench.colorTheme" = "Catppuccin Frappé";
-        "catppuccin.accentColor" = "blue";
-        "workbench.iconTheme" = "charmed-soft";
-        "workbench.productIconTheme" = "icons-carbon";
+        "workbench.iconTheme" = "catppuccin-frappe"; # why the FUCK do they not match this pissed me off so bad
+        "catppuccin.accentColor" = "pink";
 
         # Editor
         "editor.fontSize" = 14;
