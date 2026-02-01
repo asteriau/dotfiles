@@ -11,9 +11,21 @@
   ];
 
   boot = {
-    kernelModules = [ "i2c-dev" ];
+    kernelModules = [
+      "i2c-dev"
+    ];
+
+    initrd.kernelModules = [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nvidia_drm"
+    ];
+
     kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+
     kernelParams = [
+      "nvidia_drm.modeset=1"
       "amd_pstate=active"
       "ideapad_laptop.allow_v4_dytc=Y"
       ''acpi_osi="Windows 2020"''
