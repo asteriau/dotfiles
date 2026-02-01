@@ -2,9 +2,9 @@
   theme = {
     wallpaper =
       let
-        url = "https://github.com/asteriau/dotfiles/blob/main/assets/wallpapers/evening-sky.png?raw=true";
-        sha256 = "7d8333a18dee9f8a863924780cca955001661868a5fb05337b7d6b2cbae37007";
-        ext = "png";
+        url = "https://github.com/asteriau/dotfiles/blob/main/assets/wallpapers/sky.jpg?raw=true";
+        sha256 = "7937a4d49b1621d467ae1897fef2767164a69394b12cd31cac747a4dc96f809f";
+        ext = "jpg";
       in
       builtins.fetchurl {
         name = "wallpaper-${sha256}.${ext}";
