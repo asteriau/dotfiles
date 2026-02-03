@@ -137,7 +137,7 @@ in
       vrr = 1;
     };
 
-    render.direct_scanout = false;
+    render.direct_scanout = false; # this breaks nvidia stuff
 
     permission = [
       # Allow xdph and grim

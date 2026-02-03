@@ -10,11 +10,11 @@
       close_on_focus_loss = false;
       theme = {
         light = {
-          name = "vicinae-light";
+          name = "catppuccin-latte";
           icon_theme = "default";
         };
         dark = {
-          name = "vicinae-dark";
+          name = "catppuccin-frappe";
           icon_theme = "default";
         };
       };

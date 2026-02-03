@@ -38,7 +38,6 @@ in
     # binds
     bind = [
       # compositor commands
-      "$mod SHIFT, E, exec, pkill Hyprland"
       "$mod, Q, killactive,"
       "$mod, F, fullscreen,"
       "$mod, G, togglegroup,"

@@ -23,6 +23,10 @@
     jaq
     ripgrep
     ripdrag
+
+    # fetches
+    nitch
+    hyfetch
   ];
 
   programs = {

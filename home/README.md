@@ -5,7 +5,7 @@ Home-Manager configurations for different hosts.
 | Name                  | Description                                          |
 | --------------------- | ---------------------------------------------------- |
 | `default.nix`         | Home-Manager specific configuration                  |
-| `editors`             | Helix & Neovim                                       |
+| `editors`             | Helix & VSCode                                       |
 | `profiles`            | Per-device/user profiles, entry point of the configs |
 | `programs`            | Programs, games, media, etc                          |
 | `services`            | Services like `quickshell`, etc                      |

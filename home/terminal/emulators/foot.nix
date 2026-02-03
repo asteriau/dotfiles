@@ -109,7 +109,7 @@ in
       };
 
       colors = {
-        alpha = 0.65; # scream at me all you want it matches the bar
+        alpha = 0.8;
       }
       // colors.dark;
     };
