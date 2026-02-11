@@ -24,7 +24,8 @@ Singleton {
 
     property bool darkMode: currentColorScheme !== Qt.ColorScheme.Light
 
-    readonly property color bgBar: darkMode ? Qt.rgba(0, 0, 0, 0.21) : Qt.hsla(0, 0, 0.95, 0.11)
+    readonly property color bgBar: darkMode ? Qt.rgba(0.35, 0.38, 0.52, 0.21) : Qt.hsla(0, 0, 0.95, 0.11)
+    readonly property color bgWorkspaces: darkMode ? Qt.rgba(0, 0, 0, 0.21) : Qt.hsla(0, 0, 0.95, 0.11)
     readonly property color bgBlur: darkMode ? Qt.rgba(0, 0, 0, 0.5) : Qt.hsla(0, 0, 0.95, 0.5)
     readonly property color bgBlurShadow: darkMode ? Qt.rgba(0, 0, 0, 0.4) : Qt.hsla(0, 0, 0.95, 0.4)
     readonly property color bg: darkMode ? Qt.rgba(0, 0, 0, 0.9) : Qt.hsla(0, 0, 0.95, 0.9)
