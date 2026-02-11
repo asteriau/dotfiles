@@ -14,13 +14,13 @@
           icon_theme = "default";
         };
         dark = {
-          name = "catppuccin-frappe";
+          name = "catppuccin-mocha";
           icon_theme = "default";
         };
       };
 
       launcher_window = {
-        opacity = 0.5;
+        opacity = 0.8;
       };
 
       providers = {

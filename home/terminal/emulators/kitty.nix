@@ -23,6 +23,6 @@
       background_opacity = "0.8";
     };
 
-    theme = "Catppuccin-Frappe";
+    theme = "Catppuccin-Mocha";
   };
 }

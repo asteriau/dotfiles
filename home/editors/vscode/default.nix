@@ -7,7 +7,7 @@
     # Let HM install vscode
     package = pkgs.vscode;
 
-    # Install extensions
+    # Install extensions | TODO: make every extension declarative
     extensions = with pkgs.vscode-extensions; [
       catppuccin.catppuccin-vsc
       catppuccin.catppuccin-vsc-icons
@@ -31,8 +31,8 @@
         "workbench.activityBar.location" = "default";
 
         # Theme / Icons
-        "workbench.colorTheme" = "Catppuccin Frappé";
-        "workbench.iconTheme" = "catppuccin-frappe"; # why the FUCK do they not match this pissed me off so bad
+        "workbench.colorTheme" = "Catppuccin Mocha";
+        "workbench.iconTheme" = "catppuccin-mocha";
         "catppuccin.accentColor" = "pink";
 
         # Editor
