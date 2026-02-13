@@ -61,7 +61,7 @@
       };
     };
 
-    linux-enable-ir-emitter.enable = true;
+    flatpak.enable = true;
 
   };
 
