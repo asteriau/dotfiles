@@ -54,6 +54,12 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # rest of inputs, alphabetical order
+
+    aagl = {
+      url = "github:ezKEa/aagl-gtk-on-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     helix.url = "github:helix-editor/helix";
 
     hm = {
