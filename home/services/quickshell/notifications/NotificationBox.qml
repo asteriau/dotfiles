@@ -154,7 +154,7 @@ WrapperMouseArea {
                             Layout.fillWidth: false
                             Layout.maximumWidth: contentLayout.width
                             maximumLineCount: 1
-                            font.weight: Font.Bold
+                            font.weight: Font.DemiBold
                         }
 
                         Text {

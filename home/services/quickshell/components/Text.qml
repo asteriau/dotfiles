@@ -33,7 +33,8 @@ Item {
         id: textItem
 
         anchors.fill: parent
-        renderType: Text.NativeRendering
+        renderType: Text.QtRendering
         color: Colors.foreground
+        font.family: "SF Pro Display"
     }
 }

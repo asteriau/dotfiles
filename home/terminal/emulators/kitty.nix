@@ -20,7 +20,7 @@
       selection_background = "none";
 
       # colors
-      background_opacity = "0.8";
+      background_opacity = "0.7";
     };
 
     theme = "Catppuccin-Mocha";

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   fonts = {
     packages = with pkgs; [
@@ -19,6 +19,10 @@
       # nerdfonts
       nerd-fonts.jetbrains-mono
       nerd-fonts.symbols-only
+
+      # Apple SF Pro
+      inputs.apple-fonts.packages.${pkgs.system}.sf-pro
+      inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
     ];
 
     # causes more issues than it solves
@@ -27,7 +31,7 @@
     # user defined fonts
     fontconfig.defaultFonts = {
       serif = [ "Libertinus Serif" ];
-      sansSerif = [ "Inter" ];
+      sansSerif = [ "SF Pro" ];
       monospace = [ "JetBrains Mono Nerd Font" ];
       emoji = [ "Noto Color Emoji" ];
     };

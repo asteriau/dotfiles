@@ -33,7 +33,7 @@
         # Theme / Icons
         "workbench.colorTheme" = "Catppuccin Mocha";
         "workbench.iconTheme" = "catppuccin-mocha";
-        "catppuccin.accentColor" = "pink";
+        "catppuccin.accentColor" = "maroon";
 
         # Editor
         "editor.fontSize" = 14;

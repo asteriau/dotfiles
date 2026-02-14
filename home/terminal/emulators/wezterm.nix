@@ -30,7 +30,7 @@
         font_size = 14,
         hide_tab_bar_if_only_one_tab = true,
         scrollback_lines = 10000,
-        window_background_opacity = 0.8,
+        window_background_opacity = 0.7,
       }
     '';
   };
