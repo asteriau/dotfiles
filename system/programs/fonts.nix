@@ -31,7 +31,7 @@
     # user defined fonts
     fontconfig.defaultFonts = {
       serif = [ "Libertinus Serif" ];
-      sansSerif = [ "SF Pro" ];
+      sansSerif = [ "Inter" ];
       monospace = [ "JetBrains Mono Nerd Font" ];
       emoji = [ "Noto Color Emoji" ];
     };
