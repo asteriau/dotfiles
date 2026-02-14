@@ -64,11 +64,10 @@ Or install from the `packages` output. For example:
 Currently, my widgets are created using [QuickShell](https://github.com/quickshell-mirror/quickshell/).
 
 <details>
-<summary>
-🌙
-</summary>
-no preview yet lol
-</a>
+<summary>🌙</summary>
+
+![Dark Mode Preview](https://github.com/asteriau/dotfiles/blob/main/assets/repo/preview-dark.png?raw=true)
+
 </details>
 <details>
 <summary>
