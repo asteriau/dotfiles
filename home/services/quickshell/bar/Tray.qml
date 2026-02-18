@@ -12,9 +12,12 @@ WrapperRectangle {
     resizeChild: false
     color: "transparent"
 
+    property bool iconsVisible: false
+
     RowLayout {
         spacing: Config.spacing
 
+        // System tray icons
         Repeater {
             model: SystemTray.items
 
@@ -23,10 +26,22 @@ WrapperRectangle {
                 required property SystemTrayItem modelData
 
                 text: modelData.tooltipTitle
+                // Always visible for animation; opacity handles actual visibility
+                visible: true  
 
                 Item {
                     implicitWidth: trayIcon.implicitWidth
                     implicitHeight: trayIcon.implicitHeight
+                    opacity: root.iconsVisible ? 1 : 0
+                    // Block mouse events when invisible
+                    enabled: root.iconsVisible
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 250
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
 
                     IconImage {
                         id: trayIcon
@@ -50,14 +65,14 @@ WrapperRectangle {
                 onClicked: event => {
                     switch (event.button) {
                     case Qt.LeftButton:
-                        modelData.activate();
-                        break;
+                        modelData.activate()
+                        break
                     case Qt.RightButton:
                         if (modelData.hasMenu)
-                            menu.open();
-                        break;
+                            menu.open()
+                        break
                     }
-                    event.accepted = true;
+                    event.accepted = true
                 }
 
                 QsMenuAnchor {
@@ -70,6 +85,28 @@ WrapperRectangle {
                         edges: Edges.Right | Edges.Top
                         gravity: Edges.Left | Edges.Bottom
                         adjustment: PopupAdjustment.All
+                    }
+                }
+            }
+        }
+
+        // Overflow icon
+        WrapperMouseArea {
+            onClicked: {
+                root.iconsVisible = !root.iconsVisible
+            }
+
+            MaterialIcon {
+                id: chevronIcon
+                text: "chevron_left"
+                font.pixelSize: 16
+
+                rotation: root.iconsVisible ? 180 : 0
+
+                Behavior on rotation {
+                    NumberAnimation {
+                        duration: 250
+                        easing.type: Easing.InOutQuad
                     }
                 }
             }

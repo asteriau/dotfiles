@@ -38,9 +38,8 @@ WrapperMouseArea {
         }
     }
 
-    RowLayout {
+    Row {
         spacing: height / 7
-        anchors.centerIn: parent
 
         Repeater {
             id: repeater
@@ -59,49 +58,73 @@ WrapperMouseArea {
                 }
             }
 
-            WrapperMouseArea {
-                id: ws
+            Rectangle {
+                color: "transparent"
                 required property var modelData
-                implicitHeight: parent.height * 0.4
 
-                onPressed: Hyprland.dispatch(`workspace ${modelData.index}`)
-
-                Item {
-                    implicitHeight: parent.height
-                    implicitWidth: {
-                        if (ws.modelData.workspace?.focused ?? false) {
-                            return parent.height * 2.5;
-                        }
+                implicitHeight: 42
+                implicitWidth: {
+                    if (modelData.workspace?.focused ?? false) {
                         return parent.height;
                     }
+                    return parent.height * 0.3;
+                }
 
-                    Behavior on implicitWidth {
-                        NumberAnimation {
-                            duration: 500
-                            easing.type: Easing.OutBack
+                Behavior on implicitWidth {
+                    NumberAnimation {
+                        duration: 325
+                        easing.type: Easing.OutQuint
+                    }
+                }
+
+                WrapperMouseArea {
+                    id: ws
+                    property var modelData: parent.modelData
+                    anchors {
+                        fill: parent
+                        margins: {
+                            if (ws.modelData.workspace?.focused ?? false) {
+                                return parent.height * 0.35;
+                            }
+                            return parent.height * 0.35;
+                        }
+                        leftMargin: 0
+                        rightMargin: 0
+
+                        Behavior on margins {
+                            NumberAnimation {
+                                duration: 325
+                                easing.type: Easing.OutQuint
+                            }
                         }
                     }
 
+                    onPressed: Hyprland.dispatch(`workspace ${modelData.index}`)
 
-                    Rectangle {
-                        id: wsRect
-                        radius: height / 2
+                    Item {
+                        anchors.fill: parent
 
-                        color: {
-                            ws.modelData.workspace ?? false ? Colors.monitorColors[ws.modelData.workspace?.monitor?.id ?? 0] : Colors.bgBar;
+                        Rectangle {
+                            id: wsRect
+                            radius: height / 2
+
+                            anchors.fill: parent
+
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 325
+                                    easing.type: Easing.OutQuint
+                                }
+                            }
+                            color: {
+                                ws.modelData.workspace ?? false ? Colors.monitorColors[ws.modelData.workspace?.monitor?.id ?? 0] : Colors.elevated;
+                            }
                         }
-
-                        implicitHeight: parent.height
-                        implicitWidth: parent.width
-                    }
-
-                    MultiEffect {
-                        source: wsRect
-                        anchors.fill: wsRect
-                        shadowEnabled: Config.shadowEnabled
-                        shadowVerticalOffset: Config.shadowVerticalOffset
-                        blurMax: Config.blurMax
-                        opacity: Config.shadowOpacity
+                        MultiEffect {
+                            source: wsRect
+                            anchors.fill: wsRect
+                            shadowEnabled: false
+                        }
                     }
                 }
             }

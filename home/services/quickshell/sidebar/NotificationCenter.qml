@@ -28,11 +28,7 @@ ColumnLayout {
             implicitWidth: parent.width
             margin: Config.padding
             radius: Config.radius
-            color: Colors.bgBlurShadow
-            border {
-                color: Colors.border
-                width: 1
-            }
+            color: Colors.background
 
             RowLayout {
                 WrapperRectangle {

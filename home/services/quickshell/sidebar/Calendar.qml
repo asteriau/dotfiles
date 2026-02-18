@@ -45,13 +45,9 @@ WrapperMouseArea {
             id: wrapper
 
             implicitWidth: parent.width
-            color: Colors.bgBlurShadow
+            color: Colors.background
             margin: Config.spacing
             radius: Config.radius
-            border {
-                color: Colors.border
-                width: 1
-            }
 
             ColumnLayout {
                 id: calendarColumn
@@ -112,7 +108,6 @@ WrapperMouseArea {
                         horizontalAlignment: Qt.AlignHCenter
                         verticalAlignment: Qt.AlignVCenter
                         text: shortName
-                        font.weight: Font.Bold
 
                         required property string shortName
                     }
@@ -144,7 +139,7 @@ WrapperMouseArea {
                             anchors.centerIn: parent
                             margin: 5
 
-                            color: cellContainer.today ? Colors.foreground : "transparent"
+                            color: cellContainer.today ? Colors.accent : "transparent"
 
                             Text {
                                 text: cellContainer.model.day

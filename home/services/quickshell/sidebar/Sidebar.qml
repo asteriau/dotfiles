@@ -32,13 +32,13 @@ LazyLoader {
         ColumnLayout {
             id: col
             anchors {
-                top: parent.top
+                bottom: parent.bottom
                 right: parent.right
                 left: parent.left
                 leftMargin: Config.padding * 5
                 topMargin: Config.padding
                 rightMargin: Config.padding
-                bottomMargin: Config.padding * 5
+                bottomMargin: Config.padding * 10
             }
 
             Calendar {}

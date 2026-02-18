@@ -24,7 +24,7 @@ PopupWindow {
     WrapperRectangle {
         id: textRect
 
-        color: Colors.bgBlur
+        color: Colors.background
         margin: 6
         radius: Config.radius / 2
 

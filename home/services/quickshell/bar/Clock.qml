@@ -19,7 +19,7 @@ WrapperMouseArea {
 
         MaterialIcon {
             text: "notifications" + (NotificationState.allNotifs.length > 0 ? "_unread" : "")
-            font.pointSize: Config.iconSize
+            font.pixelSize: 14
         }
     }
 }

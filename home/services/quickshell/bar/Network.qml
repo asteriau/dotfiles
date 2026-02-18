@@ -9,11 +9,21 @@ import qs.utils
 HoverTooltip {
     id: root
 
+    // Pick the first adapter, or null
     property NetworkDevice adapter: Networking.devices?.values[0] ?? null
 
+    // Find the active Wi-Fi network for this adapter
     readonly property WifiNetwork activeNetwork: adapter?.networks?.values.find(network => network.connected) ?? null
 
-    visible: !!Networking.devices?.values
+    // Check if any Ethernet is connected
+    readonly property bool ethernetConnected: {
+        return Networking.devices?.values.some(dev =>
+            dev.type === "ethernet" && dev.connected
+        ) ?? false;
+    }
+
+    // Only show Wi-Fi icon if Wi-Fi hardware is enabled AND Ethernet is not connected
+    visible: !!Networking.devices?.values && adapter?.type === DeviceType.Wifi && !ethernetConnected
 
     readonly property string iconState: {
         if (!Networking.wifiHardwareEnabled)
@@ -36,6 +46,7 @@ HoverTooltip {
         }
         return "offline";
     }
+
     readonly property string iconPath: Quickshell.iconPath(`network-wireless-${iconState}-symbolic`)
 
     text: {
@@ -53,13 +64,10 @@ HoverTooltip {
 
     Icon {
         id: wifiIcon
-
         implicitHeight: Config.iconSize
         implicitWidth: Config.iconSize
-
         isMask: true
         color: Colors.foreground
-
         source: root.iconPath
     }
 

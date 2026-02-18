@@ -10,11 +10,11 @@ PanelWindow {
     screen: Config.preferredMonitor
 
     anchors {
-        top: true
+        bottom: true
         left: true
         right: true
     }
-    implicitHeight: 32
+    implicitHeight: 42
 
     color: "transparent"
 
@@ -22,7 +22,7 @@ PanelWindow {
         id: bar
         anchors.fill: parent
 
-        color: Colors.bgBar
+        color: Colors.background
 
         // left
         RowLayout {
@@ -67,7 +67,8 @@ PanelWindow {
             spacing: Config.spacing
 
             Tray {}
-            Resources {}
+            Network {}
+            Bluetooth {}
             Battery {}
             Clock {}
         }

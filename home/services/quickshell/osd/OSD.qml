@@ -5,6 +5,7 @@ import Quickshell.Widgets
 import QtQuick
 import QtQuick.Effects
 import qs.utils
+import qs.components
 
 Scope {
     id: scope
@@ -88,62 +89,49 @@ Scope {
                 bottom: Config.barHeight
             }
 
-            implicitWidth: bg.implicitWidth
-            implicitHeight: bg.implicitHeight + bg.anchors.bottomMargin
+            implicitWidth: bgroot.width + (Config.padding * 10)
+            implicitHeight: bgroot.height + (Config.padding * 12)
 
-            Rectangle {
-                id: bg
-                radius: Config.radius
+            Item {
+                id: bgroot
 
-                color: Colors.bgBar
+                anchors.centerIn: parent
 
-                implicitHeight: Config.barHeight * 1.5
+                implicitHeight: Config.barHeight / 1.25
                 implicitWidth: Config.osdWidth + Config.padding * 8
 
-                anchors {
-                    fill: parent
-                    leftMargin: Config.padding * 4
-                    topMargin: Config.padding * 4
-                    rightMargin: Config.padding * 4
-                    bottomMargin: Config.padding * 6
+                RectangularShadow {
+                    anchors.fill: bgroot
+                    radius: Config.radius
+                    offset.y: Config.padding
+                    blur: Config.blurMax
+                    spread: Config.padding * 2
+                    color: Colors.windowShadow
                 }
 
-                ClippingWrapperRectangle {
-                    id: progress
+                Squircle {
                     anchors.fill: parent
-                    radius: Config.radius
-                    resizeChild: false
-                    color: 'transparent'
+                    color: Colors.background
+                    progressColor: Colors.accent
+                    progress: scope.progress
+                    strokeColor: Colors.border
+                    strokeWidth: 0.5
 
-                    Rectangle {
-                        color: Colors.foregroundOSD
-                        anchors.left: parent.left
-                        implicitHeight: Config.barHeight
-                        implicitWidth: parent.width * scope.progress ?? 0
-                    }
+                    Behavior on progress { NumberAnimation { duration: 150 } }
                 }
 
                 IconImage {
                     id: icon
 
                     anchors {
-                        horizontalCenter: bg.left
+                        horizontalCenter: bgroot.left
                         horizontalCenterOffset: icon.implicitSize + Config.padding
-                        verticalCenter: bg.verticalCenter
+                        verticalCenter: bgroot.verticalCenter
                     }
                     mipmap: true
                     implicitSize: Config.iconSize
                     source: Quickshell.iconPath(scope.icon)
                 }
-            }
-
-            RectangularShadow {
-                anchors.fill: bg
-                radius: bg.radius
-                offset.y: Config.padding
-                blur: Config.blurMax
-                spread: Config.padding * 2
-                color: Colors.windowShadow
             }
         }
     }
