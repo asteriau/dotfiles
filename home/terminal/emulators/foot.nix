@@ -1,73 +1,45 @@
-{
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, lib, ... }:
+
 let
   colors = {
-    dark = {
-      # Base
-      foreground = "cdd6f4";
-      background = "1e1e2e";
+    # Base
+    background = "151515";
+    foreground = "E8E3E3";
 
-      # Cursor
-      cursor = "11111b f5e0dc";
+    # Normal colors
+    regular0 = "151515"; # black
+    regular1 = "B66467"; # red
+    regular2 = "8C977D"; # green
+    regular3 = "D9BC8C"; # yellow
+    regular4 = "8DA3B9"; # blue
+    regular5 = "A988B0"; # magenta
+    regular6 = "8AA6A2"; # cyan
+    regular7 = "E8E3E3"; # white
 
-      # Normal colors
-      regular0 = "45475a";
-      regular1 = "f38ba8";
-      regular2 = "a6e3a1";
-      regular3 = "f9e2af";
-      regular4 = "89b4fa";
-      regular5 = "f5c2e7";
-      regular6 = "94e2d5";
-      regular7 = "bac2de";
+    # Bright colors
+    bright0 = "424242"; # bright black
+    bright1 = "B66467"; # bright red
+    bright2 = "8C977D"; # bright green
+    bright3 = "D9BC8C"; # bright yellow
+    bright4 = "8DA3B9"; # bright blue
+    bright5 = "A988B0"; # bright magenta
+    bright6 = "8AA6A2"; # bright cyan
+    bright7 = "E8E3E3"; # bright white
 
-      # Bright colors
-      bright0 = "585b70";
-      bright1 = "f38ba8";
-      bright2 = "a6e3a1";
-      bright3 = "f9e2af";
-      bright4 = "89b4fa";
-      bright5 = "f5c2e7";
-      bright6 = "94e2d5";
-      bright7 = "a6adc8";
+    # Selection
+    selection-foreground = "8DA3B9";
+    selection-background = "151515";
 
-      # Selection
-      selection-foreground = "cdd6f4";
-      selection-background = "414356";
+    # Search
+    search-box-no-match = "151515 B66467";
+    search-box-match = "E8E3E3 151515";
 
-      # Search
-      search-box-no-match = "11111b f38ba8";
-      search-box-match = "cdd6f4 313244";
+    # Misc
+    jump-labels = "151515 8DA3B9";
+    urls = "8DA3B9";
 
-      # Misc
-      jump-labels = "11111b fab387";
-      urls = "89b4fa";
-    };
-
-    light = {
-      foreground = "383a42"; # Text
-      background = "f9f9f9"; # Base
-
-      regular0 = "000000"; # Surface 1
-      regular1 = "e45649"; # red
-      regular2 = "50a14f"; # green
-      regular3 = "986801"; # yellow
-      regular4 = "4078f2"; # blue
-      regular5 = "a626a4"; # maroon
-      regular6 = "0184bc"; # teal
-      regular7 = "a0a1a7"; # Subtext 1
-
-      bright0 = "383a42"; # Surface 2
-      bright1 = "e45649"; # red
-      bright2 = "50a14f"; # green
-      bright3 = "986801"; # yellow
-      bright4 = "4078f2"; # blue
-      bright5 = "a626a4"; # maroon
-      bright6 = "0184bc"; # teal
-      bright7 = "ffffff"; # Subtext 0
-    };
+    # Opacity
+    alpha = 1.0;
   };
 in
 {
@@ -108,10 +80,7 @@ in
         beam-thickness = 1;
       };
 
-      colors = {
-        alpha = 0.7;
-      }
-      // colors.dark;
+      colors = colors;
     };
   };
 }

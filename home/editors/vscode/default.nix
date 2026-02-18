@@ -7,11 +7,7 @@
     # Let HM install vscode
     package = pkgs.vscode;
 
-    # Install extensions | TODO: make every extension declarative
-    extensions = with pkgs.vscode-extensions; [
-      catppuccin.catppuccin-vsc
-      catppuccin.catppuccin-vsc-icons
-    ];
+    # TODO: install extensions declaratively
 
     profiles.default = {
       userSettings = {
@@ -31,9 +27,9 @@
         "workbench.activityBar.location" = "default";
 
         # Theme / Icons
-        "workbench.colorTheme" = "Catppuccin Mocha";
-        "workbench.iconTheme" = "catppuccin-mocha";
-        "catppuccin.accentColor" = "maroon";
+        "workbench.colorTheme" = "Paradise";
+        "workbench.iconTheme" = "flow-dawn";
+        "workbench.productIconTheme" = "carbon-icons";
 
         # Editor
         "editor.fontSize" = 14;
@@ -48,7 +44,7 @@
 
         "editor.smoothScrolling" = true;
         "editor.renderWhitespace" = "none";
-        "editor.renderLineHighlight" = "all";
+        "editor.renderLineHighlight" = "none";
 
         "editor.semanticHighlighting.enabled" = true;
         "editor.occurrencesHighlight" = "singleFile";

@@ -14,6 +14,7 @@
     chafa
     libnotify
     sshfs
+    nitch
 
     # utils
     dust
@@ -23,10 +24,6 @@
     jaq
     ripgrep
     ripdrag
-
-    # fetches
-    nitch
-    hyfetch
   ];
 
   programs = {

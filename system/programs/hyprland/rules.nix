@@ -17,7 +17,6 @@
         ];
 
         highopacity = [
-          "vicinae"
           "logout_dialog"
           "quickshell:sidebar"
         ];

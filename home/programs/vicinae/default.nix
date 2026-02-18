@@ -7,26 +7,31 @@
     systemd.enable = true;
 
     settings = {
-      close_on_focus_loss = false;
+      close_on_focus_loss = true;
       theme = {
         light = {
-          name = "catppuccin-latte";
+          name = "vicinae-light";
           icon_theme = "default";
         };
         dark = {
-          name = "catppuccin-mocha";
+          name = "vicinae-dark";
           icon_theme = "default";
         };
       };
 
       launcher_window = {
-        opacity = 0.8;
+        opacity = 1.0;
       };
 
       providers = {
         "@Gelei/bluetooth-0" = {
           preferences = {
             connectionToggleable = true;
+          };
+        };
+        "applications" = {
+          preferences = {
+            launchPrefix = "uwsm app -- ";
           };
         };
       };
