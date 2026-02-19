@@ -38,7 +38,7 @@ LazyLoader {
                 leftMargin: Config.padding * 5
                 topMargin: Config.padding
                 rightMargin: Config.padding
-                bottomMargin: Config.padding * 10
+                bottomMargin: Config.padding * 15
             }
 
             Calendar {}
