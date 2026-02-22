@@ -21,8 +21,6 @@
     wl-clipboard
     # wl-screenrec
     wlr-randr
-    code-cursor
-    pnpm
   ];
 
   # make stuff work on wayland

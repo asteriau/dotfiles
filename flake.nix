@@ -36,33 +36,29 @@
     };
 
   inputs = {
-    # global, so they can be `.follow`ed
-    systems.url = "github:nix-systems/default-linux";
+    aagl = {
+      url = "github:ezKEa/aagl-gtk-on-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     flake-compat.url = "github:edolstra/flake-compat";
-
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
-    };
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    # rest of inputs, alphabetical order
-
-    aagl = {
-      url = "github:ezKEa/aagl-gtk-on-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
     };
 
-    apple-fonts = {
-      url = "github:Lyndeno/apple-fonts.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
 
     helix.url = "github:helix-editor/helix";
@@ -72,35 +68,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-index-db = {
-      url = "github:Mic92/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
-
-    nix-matlab = {
-      url = "gitlab:fufexan/nix-matlab";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-compat.follows = "flake-compat";
-      };
-    };
-
-    yazi.url = "github:sxyazi/yazi";
-
-    # hyprwm
     hyprland.url = "github:hyprwm/hyprland";
 
     hyprland-contrib = {
@@ -137,10 +104,40 @@
       };
     };
 
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    nix-index-db = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-matlab = {
+      url = "gitlab:fufexan/nix-matlab";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    systems.url = "github:nix-systems/default-linux";
 
     tailray = {
       url = "github:NotAShelf/tailray";
@@ -152,14 +149,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-compat.follows = "flake-compat";
-      };
-    };
-
     uwu-colors = {
       url = "github:q60/uwu_colors";
       inputs = {
@@ -169,7 +158,10 @@
     };
 
     vicinae.url = "github:vicinaehq/vicinae";
+
     vicinae-extensions.url = "github:vicinaehq/extensions";
+
+    yazi.url = "github:sxyazi/yazi";
 
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";

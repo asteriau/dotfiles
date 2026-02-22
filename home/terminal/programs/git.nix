@@ -16,11 +16,6 @@ in
   programs.git = {
     enable = true;
 
-    extraConfig = {
-      diff.colorMoved = "default";
-      merge.conflictstyle = "diff3";
-    };
-
     ignores = [
       "*~"
       "*.swp"
@@ -98,11 +93,10 @@ in
 
           forgor = "commit --amend --no-edit";
           oops = "checkout --";
-          fuck = "git add .";
         };
 
       user = {
-        email = "dorahaladita@gmail.com"; # i should really replace this with a asteria.cat domain but i'm so fucking lazy
+        email = "dorahaladita@gmail.com";
         name = "asteria";
       };
 
@@ -110,6 +104,9 @@ in
         config.home.homeDirectory + "/" + config.xdg.configFile."git/allowed_signers".target;
 
       pull.rebase = true;
+
+      diff.colorMoved = "default";
+      merge.conflictstyle = "diff3";
     };
   };
 
@@ -120,6 +117,6 @@ in
   };
 
   xdg.configFile."git/allowed_signers".text = ''
-    ${cfg.userEmail} namespaces="git" ${key}
+    ${cfg.settings.user.email} namespaces="git" ${key}
   '';
 }

@@ -27,7 +27,7 @@ in
 {
   qt = {
     enable = true;
-    platformTheme = "qtct";
+    platformTheme.name = "qtct";
     style.name = "kvantum";
   };
 
@@ -37,8 +37,6 @@ in
       source = "${KvLibadwaita}/src";
       recursive = true;
     };
-
-    # see home/services/system/theme.nix for kvantum config
 
     # qtct config
     "qt5ct/qt5ct.conf".text =

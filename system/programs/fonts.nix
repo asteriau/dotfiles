@@ -19,10 +19,6 @@
       # nerdfonts
       nerd-fonts.jetbrains-mono
       nerd-fonts.symbols-only
-
-      # Apple SF Pro
-      inputs.apple-fonts.packages.${pkgs.system}.sf-pro
-      inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
     ];
 
     # causes more issues than it solves

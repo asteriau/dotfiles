@@ -77,6 +77,7 @@
       md = "mkdir -p";
       ppc = "powerprofilesctl";
       pf = "powerprofilesctl launch -p performance";
+      switch = "sudo nixos-rebuild switch --flake .#meow";
 
       us = "systemctl --user"; # mnemonic for user systemctl
       rs = "sudo systemctl"; # mnemonic for root systemctl

@@ -21,7 +21,6 @@
     ../../services/system/polkit-agent.nix
     ../../services/system/syncthing.nix
     ../../services/system/tailray.nix
-    ../../services/system/theme.nix
     ../../services/system/udiskie.nix
 
     # wayland-specific
@@ -33,5 +32,4 @@
     ../../terminal/emulators/wezterm.nix
     ../../terminal/emulators/kitty.nix
   ];
-
 }

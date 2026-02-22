@@ -10,7 +10,7 @@
         programs' themes based on this option.
       '';
       type = lib.types.str;
-      example = lib.literalExample "catppuccin-latte";
+      example = lib.literalExample "paradise";
       default = "dark";
     };
 

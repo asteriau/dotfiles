@@ -2,7 +2,7 @@
 {
   programs.btop = {
     enable = true;
-    settings.color_theme = "catppuccin_mocha";
+    settings.color_theme = "catppuccin_mocha"; # TODO: switch to paradise
   };
 
   xdg.configFile = {

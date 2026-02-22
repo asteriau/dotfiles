@@ -58,8 +58,5 @@ in
       # Apply the colors
     }
     // colors;
-
-    # Disable any theme override
-    theme = null;
   };
 }
