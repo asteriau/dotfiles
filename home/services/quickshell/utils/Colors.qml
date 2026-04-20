@@ -26,7 +26,7 @@ Singleton {
 
     readonly property color background: "#151515"
     readonly property color foreground: "#E8E3E3"
-    readonly property color elevated: "#222222"
+    readonly property color elevated: "#1E1E1E"
     readonly property color border: "#252525"
     readonly property color mpris: "#8C977D"
     readonly property color foregroundOSD: Qt.hsla(0, 0, 0.95, 0.7)
@@ -38,7 +38,7 @@ Singleton {
 
     readonly property color accent: "#8DA3B9"
     readonly property color comment: Qt.rgba(0.91, 0.89, 0.89, 0.5)
-    readonly property color red: "#C48B9F"
+    readonly property color red: "#B66467"
 
     readonly property color buttonEnabled: accent
     readonly property color buttonEnabledHover: Qt.lighter(accent, 0.9)

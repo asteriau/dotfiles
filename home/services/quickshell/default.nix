@@ -9,11 +9,14 @@ let
 
   dependencies = with pkgs; [
     bash
+    brightnessctl
     coreutils
     gawk
+    networkmanager
     ripgrep
     procps
     util-linux
+    wireplumber
   ];
 
   QML2_IMPORT_PATH = lib.concatStringsSep ":" [

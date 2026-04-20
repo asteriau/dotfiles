@@ -18,31 +18,25 @@ LazyLoader {
             top: true
             bottom: true
         }
-        margins {
-            top: Config.barHeight
-        }
 
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "quickshell:sidebar"
-        color: 'transparent'
+        color: Colors.background
 
-        implicitWidth: Config.notificationWidth + Config.padding * 6
-        mask: Region { item: col }
+        implicitWidth: Config.sidebarWidth
 
         ColumnLayout {
-            id: col
-            anchors {
-                bottom: parent.bottom
-                right: parent.right
-                left: parent.left
-                leftMargin: Config.padding * 5
-                topMargin: Config.padding
-                rightMargin: Config.padding
-                bottomMargin: Config.padding * 15
-            }
+            anchors.fill: parent
+            anchors.margins: 32
+            spacing: 20
 
-            Calendar {}
-            NotificationCenter {}
+            Profile {}
+            QuickToggles {}
+            NotificationCenter {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
+            Sliders {}
         }
     }
 }

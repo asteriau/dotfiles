@@ -11,6 +11,8 @@ PersistentProperties {
     property bool showSidebar: false
     property bool doNotDisturb: false
 
+    readonly property string userName: "Laura"
+
     readonly property int notificationExpireTimeout: 5000
     readonly property int notificationIconSize: 48
     readonly property int notificationWidth: 360

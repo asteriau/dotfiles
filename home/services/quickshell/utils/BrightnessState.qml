@@ -9,6 +9,16 @@ Singleton {
     property real brightness: persist.brightness
     property bool interfaceReady: false
 
+    function setBrightness(value) {
+        const pct = Math.max(1, Math.min(100, Math.round(value * 100)));
+        setProcess.command = ["brightnessctl", "set", `${pct}%`];
+        setProcess.running = true;
+    }
+
+    Process {
+        id: setProcess
+    }
+
     PersistentProperties {
         id: persist
         reloadableId: "persistedBrightness"
