@@ -32,7 +32,7 @@ PanelWindow {
             width: parent.width - 12
             spacing: 8
 
-            NixIcon {
+            MoonIcon {
                 Layout.alignment: Qt.AlignHCenter
             }
         }

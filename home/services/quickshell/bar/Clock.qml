@@ -1,15 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Widgets
-import qs.components
 import qs.utils
 
-WrapperMouseArea {
-    onClicked: () => {
-        NotificationState.notifOverlayOpen = false;
-        Config.showSidebar = !Config.showSidebar;
-    }
-
+Item {
     implicitWidth: 32
     implicitHeight: col.implicitHeight + 16
 
