@@ -12,20 +12,38 @@ ColumnLayout {
 
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(QsWindow.window?.screen)
     readonly property int activeWorkspace: monitor?.activeWorkspace?.id ?? 1
-    property int shownWorkspaces: 5
-    property int baseWorkspace: Math.floor((activeWorkspace - 1) / shownWorkspaces) * shownWorkspaces + 1
+    readonly property int minShown: 5
+    readonly property int shownWorkspaces: {
+        const values = Hyprland.workspaces.values;
+        let maxId = minShown;
+        for (let i = 0; i < values.length; i++) {
+            if (values[i].id > maxId)
+                maxId = values[i].id;
+        }
+        if (activeWorkspace > maxId)
+            maxId = activeWorkspace;
+        return maxId;
+    }
+    readonly property int baseWorkspace: 1
 
     property int scrollAccumulator: 0
 
     Rectangle {
         id: card
         Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: 38
-        implicitWidth: 38
-        implicitHeight: col.implicitHeight + 32
+        Layout.preferredWidth: 32
+        implicitWidth: 32
+        implicitHeight: col.implicitHeight + 24
 
         radius: 8
         color: Colors.elevated
+
+        Behavior on implicitHeight {
+            NumberAnimation {
+                duration: 260
+                easing.type: Easing.OutCubic
+            }
+        }
 
         MouseArea {
             anchors.fill: parent
@@ -42,7 +60,7 @@ ColumnLayout {
                 if (offset) {
                     const currentWorkspace = root.activeWorkspace;
                     const targetWorkspace = currentWorkspace + offset;
-                    const id = Math.max(root.baseWorkspace, Math.min(root.baseWorkspace + root.shownWorkspaces - 1, targetWorkspace));
+                    const id = Math.max(root.baseWorkspace, targetWorkspace);
                     if (id != currentWorkspace)
                         Hyprland.dispatch(`workspace ${id}`);
                 }
@@ -52,11 +70,11 @@ ColumnLayout {
         ColumnLayout {
             id: col
             anchors.fill: parent
-            anchors.topMargin: 16
-            anchors.bottomMargin: 16
+            anchors.topMargin: 12
+            anchors.bottomMargin: 12
             anchors.leftMargin: 13
             anchors.rightMargin: 13
-            spacing: 10
+            spacing: 8
 
             Repeater {
                 model: ScriptModel {
@@ -80,23 +98,23 @@ ColumnLayout {
                     readonly property bool focused: modelData.workspace?.focused ?? false
                     readonly property bool occupied: !!modelData.workspace && !focused
 
-                    Layout.preferredWidth: 12
-                    Layout.preferredHeight: focused ? 100 : (occupied ? 70 : 30)
+                    Layout.preferredWidth: 6
+                    Layout.preferredHeight: focused ? 72 : (occupied ? 46 : 18)
                     Layout.alignment: Qt.AlignHCenter
 
-                    radius: 6
+                    radius: 3
                     color: focused ? Colors.accent : Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.1)
 
                     Behavior on Layout.preferredHeight {
                         NumberAnimation {
-                            duration: 100
-                            easing.type: Easing.OutQuad
+                            duration: 260
+                            easing.type: Easing.OutCubic
                         }
                     }
                     Behavior on color {
                         ColorAnimation {
-                            duration: 100
-                            easing.type: Easing.OutQuad
+                            duration: 180
+                            easing.type: Easing.OutCubic
                         }
                     }
 

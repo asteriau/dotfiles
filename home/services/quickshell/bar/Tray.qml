@@ -7,103 +7,146 @@ import Quickshell.Widgets
 import qs.components
 import qs.utils
 
-WrapperRectangle {
+Rectangle {
     id: root
-    resizeChild: false
-    color: "transparent"
+    Layout.alignment: Qt.AlignHCenter
 
     property bool iconsVisible: false
 
+    implicitWidth: 32
+    implicitHeight: col.implicitHeight + 12
+    radius: 8
+    color: Colors.elevated
+
+    Behavior on implicitHeight {
+        NumberAnimation {
+            duration: 260
+            easing.type: Easing.OutCubic
+        }
+    }
+
     ColumnLayout {
-        spacing: 10
+        id: col
+        anchors.centerIn: parent
+        spacing: 8
 
-        Repeater {
-            model: SystemTray.items
+        Item {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: 20
+            implicitHeight: root.iconsVisible ? iconsCol.implicitHeight : 0
+            clip: true
+            opacity: root.iconsVisible ? 1 : 0
 
-            HoverTooltip {
-                id: mouseArea
-                required property SystemTrayItem modelData
+            Behavior on implicitHeight {
+                NumberAnimation {
+                    duration: 260
+                    easing.type: Easing.OutCubic
+                }
+            }
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 200
+                    easing.type: Easing.OutCubic
+                }
+            }
 
-                text: modelData.tooltipTitle
-                visible: true
+            ColumnLayout {
+                id: iconsCol
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 10
 
-                Item {
-                    implicitWidth: trayIcon.implicitWidth
-                    implicitHeight: trayIcon.implicitHeight
-                    opacity: root.iconsVisible ? 1 : 0
-                    enabled: root.iconsVisible
+                Repeater {
+                    model: SystemTray.items
 
-                    Behavior on opacity {
-                        NumberAnimation {
-                            duration: 250
-                            easing.type: Easing.InOutQuad
+                    HoverTooltip {
+                        id: mouseArea
+                        required property SystemTrayItem modelData
+
+                        text: modelData.tooltipTitle
+                        visible: true
+
+                        Item {
+                            implicitWidth: trayIcon.implicitWidth
+                            implicitHeight: trayIcon.implicitHeight
+
+                            IconImage {
+                                id: trayIcon
+                                mipmap: true
+                                source: mouseArea.modelData.icon
+                                implicitSize: Config.iconSize
+                            }
+
+                            MultiEffect {
+                                source: trayIcon
+                                anchors.fill: trayIcon
+                                shadowEnabled: Config.shadowEnabled
+                                shadowVerticalOffset: Config.shadowVerticalOffset
+                                blurMax: Config.blurMax
+                                opacity: Config.shadowOpacity
+                            }
                         }
-                    }
 
-                    IconImage {
-                        id: trayIcon
-                        mipmap: true
-                        source: mouseArea.modelData.icon
-                        implicitSize: Config.iconSize
-                    }
+                        acceptedButtons: Qt.RightButton | Qt.LeftButton
 
-                    MultiEffect {
-                        source: trayIcon
-                        anchors.fill: trayIcon
-                        shadowEnabled: Config.shadowEnabled
-                        shadowVerticalOffset: Config.shadowVerticalOffset
-                        blurMax: Config.blurMax
-                        opacity: Config.shadowOpacity
-                    }
-                }
+                        onClicked: event => {
+                            switch (event.button) {
+                            case Qt.LeftButton:
+                                modelData.activate();
+                                break;
+                            case Qt.RightButton:
+                                if (modelData.hasMenu)
+                                    menu.open();
+                                break;
+                            }
+                            event.accepted = true;
+                        }
 
-                acceptedButtons: Qt.RightButton | Qt.LeftButton
+                        QsMenuAnchor {
+                            id: menu
+                            menu: mouseArea.modelData.menu
+                            onVisibleChanged: QsWindow.window.inhibitGrab = visible
 
-                onClicked: event => {
-                    switch (event.button) {
-                    case Qt.LeftButton:
-                        modelData.activate();
-                        break;
-                    case Qt.RightButton:
-                        if (modelData.hasMenu)
-                            menu.open();
-                        break;
-                    }
-                    event.accepted = true;
-                }
-
-                QsMenuAnchor {
-                    id: menu
-                    menu: mouseArea.modelData.menu
-                    onVisibleChanged: QsWindow.window.inhibitGrab = visible
-
-                    anchor {
-                        item: trayIcon
-                        edges: Edges.Right | Edges.Top
-                        gravity: Edges.Right | Edges.Bottom
-                        adjustment: PopupAdjustment.All
+                            anchor {
+                                item: trayIcon
+                                edges: Edges.Right | Edges.Top
+                                gravity: Edges.Right | Edges.Bottom
+                                adjustment: PopupAdjustment.All
+                            }
+                        }
                     }
                 }
             }
         }
 
+        Rectangle {
+            Layout.alignment: Qt.AlignHCenter
+            visible: root.iconsVisible && SystemTray.items.values.length > 0
+            implicitWidth: 16
+            implicitHeight: 1
+            color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.15)
+        }
+
         WrapperMouseArea {
             Layout.alignment: Qt.AlignHCenter
-            onClicked: {
-                root.iconsVisible = !root.iconsVisible;
-            }
+            onClicked: root.iconsVisible = !root.iconsVisible
 
             MaterialIcon {
                 id: chevronIcon
                 text: "expand_more"
-                font.pixelSize: 16
+                font.pixelSize: 14
+                color: root.iconsVisible ? Colors.accent : Colors.foreground
 
                 rotation: root.iconsVisible ? 180 : 0
 
                 Behavior on rotation {
                     NumberAnimation {
-                        duration: 250
-                        easing.type: Easing.InOutQuad
+                        duration: 260
+                        easing.type: Easing.OutCubic
+                    }
+                }
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 180
                     }
                 }
             }

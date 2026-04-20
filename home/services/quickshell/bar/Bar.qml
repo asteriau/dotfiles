@@ -23,30 +23,48 @@ PanelWindow {
         color: Colors.background
 
         ColumnLayout {
-            id: stack
-            anchors.fill: parent
-            anchors.topMargin: 16
-            anchors.bottomMargin: 10
-            anchors.leftMargin: 6
-            anchors.rightMargin: 6
+            id: topGroup
+            anchors {
+                top: parent.top
+                topMargin: 16
+                horizontalCenter: parent.horizontalCenter
+            }
+            width: parent.width - 12
             spacing: 8
 
             NixIcon {
                 Layout.alignment: Qt.AlignHCenter
             }
+        }
+
+        ColumnLayout {
+            id: centerGroup
+            anchors {
+                verticalCenter: parent.verticalCenter
+                horizontalCenter: parent.horizontalCenter
+            }
+            width: parent.width - 12
+            spacing: 8
 
             Workspaces {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
             }
 
-            Item {
-                Layout.fillHeight: true
-            }
-
-            Tray {
+            Clock {
                 Layout.alignment: Qt.AlignHCenter
             }
+        }
+
+        ColumnLayout {
+            id: bottomGroup
+            anchors {
+                bottom: parent.bottom
+                bottomMargin: 10
+                horizontalCenter: parent.horizontalCenter
+            }
+            width: parent.width - 12
+            spacing: 8
 
             Status {
                 Layout.alignment: Qt.AlignHCenter
@@ -56,7 +74,7 @@ PanelWindow {
                 Layout.alignment: Qt.AlignHCenter
             }
 
-            Clock {
+            Tray {
                 Layout.alignment: Qt.AlignHCenter
             }
         }
