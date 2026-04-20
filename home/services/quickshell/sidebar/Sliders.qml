@@ -7,19 +7,19 @@ import qs.utils
 Rectangle {
     id: root
     Layout.fillWidth: true
-    implicitHeight: col.implicitHeight + 48
+    implicitHeight: col.implicitHeight + 28
     radius: 10
     color: Qt.rgba(0.13, 0.13, 0.13, 0.5)
 
     ColumnLayout {
         id: col
         anchors.fill: parent
-        anchors.margins: 24
-        spacing: 20
+        anchors.margins: 14
+        spacing: 12
 
         SliderRow {
             Layout.fillWidth: true
-            label: "Volume"
+            icon: "volume_up"
             value: PipeWireState.defaultSink?.audio?.volume ?? 0
             onMoved: v => {
                 const a = PipeWireState.defaultSink?.audio;
@@ -30,30 +30,31 @@ Rectangle {
 
         SliderRow {
             Layout.fillWidth: true
-            label: "Brightness"
+            icon: "brightness_6"
             value: BrightnessState.brightness
             onMoved: v => BrightnessState.setBrightness(v)
         }
     }
 
-    component SliderRow: ColumnLayout {
+    component SliderRow: RowLayout {
         id: row
-        property string label
+        property string icon
         property real value
         signal moved(real v)
         spacing: 10
 
         Text {
-            text: row.label
+            text: row.icon
             color: Colors.foreground
-            font.family: "Google Sans Flex"
-            font.pixelSize: 14
-            Layout.alignment: Qt.AlignLeft
+            font.family: "Material Symbols Rounded"
+            font.pixelSize: 18
+            Layout.alignment: Qt.AlignVCenter
         }
 
         Item {
             Layout.fillWidth: true
-            implicitHeight: 18
+            Layout.alignment: Qt.AlignVCenter
+            implicitHeight: 10
 
             Rectangle {
                 anchors.fill: parent

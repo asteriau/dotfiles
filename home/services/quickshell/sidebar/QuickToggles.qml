@@ -10,7 +10,7 @@ import qs.utils
 Item {
     id: root
     Layout.fillWidth: true
-    implicitHeight: 64
+    implicitHeight: 44
 
     readonly property bool wifiOn: Networking.wifiEnabled
     readonly property var btAdapter: Bluetooth.defaultAdapter
@@ -21,14 +21,14 @@ Item {
     Rectangle {
         anchors.centerIn: parent
         implicitWidth: row.implicitWidth
-        implicitHeight: 64
+        implicitHeight: 44
         radius: height / 2
         color: Colors.elevated
 
         RowLayout {
             id: row
             anchors.fill: parent
-            spacing: 10
+            spacing: 4
 
             ToggleButton {
                 icon: root.wifiOn ? "wifi" : "wifi_off"
@@ -72,8 +72,8 @@ Item {
         property bool active
         signal activated
 
-        Layout.preferredWidth: 64
-        Layout.preferredHeight: 64
+        Layout.preferredWidth: 44
+        Layout.preferredHeight: 44
 
         Rectangle {
             id: pill
@@ -100,7 +100,7 @@ Item {
             anchors.centerIn: parent
             text: btn.icon
             font.family: "Material Symbols Rounded"
-            font.pixelSize: 26
+            font.pixelSize: 18
             color: btn.active ? Colors.background : Colors.foreground
 
             Behavior on color {

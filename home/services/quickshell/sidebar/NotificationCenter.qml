@@ -60,8 +60,8 @@ Rectangle {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 24
-        spacing: 16
+        anchors.margins: 16
+        spacing: 10
 
         RowLayout {
             Layout.fillWidth: true
@@ -70,20 +70,21 @@ Rectangle {
                 text: "Notifications"
                 color: Colors.foreground
                 font.family: "Google Sans Flex"
-                font.pixelSize: 18
+                font.pixelSize: 14
+                font.weight: Font.Medium
                 Layout.fillWidth: true
             }
 
             Item {
-                implicitWidth: 28
-                implicitHeight: 28
+                implicitWidth: 22
+                implicitHeight: 22
 
                 Text {
                     anchors.centerIn: parent
                     text: "clear_all"
                     color: Colors.accent
                     font.family: "Material Symbols Rounded"
-                    font.pixelSize: 22
+                    font.pixelSize: 18
                 }
 
                 MouseArea {
@@ -98,12 +99,11 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            Item {
+            Column {
                 anchors.centerIn: parent
                 visible: localModel.count === 0
-                implicitWidth: 180
-                implicitHeight: 180
-                opacity: visible ? 0.85 : 0
+                spacing: 10
+                opacity: visible ? 0.9 : 0
 
                 Behavior on opacity {
                     NumberAnimation {
@@ -112,11 +112,22 @@ Rectangle {
                 }
 
                 Image {
-                    anchors.fill: parent
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 96
+                    height: 96
                     source: Qt.resolvedUrl("../assets/wedding-bells.png")
                     fillMode: Image.PreserveAspectFit
                     smooth: true
                     mipmap: true
+                }
+
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: "Nothing here D:"
+                    color: Colors.comment
+                    font.family: "Google Sans Flex"
+                    font.pixelSize: 13
+                    horizontalAlignment: Text.AlignHCenter
                 }
             }
 
@@ -218,36 +229,37 @@ Rectangle {
 
                             Rectangle {
                                 Layout.fillWidth: true
-                                implicitHeight: titleRow.implicitHeight + 16
+                                implicitHeight: titleRow.implicitHeight + 10
                                 color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.04)
 
                                 RowLayout {
                                     id: titleRow
                                     anchors.fill: parent
-                                    anchors.leftMargin: 12
-                                    anchors.rightMargin: 8
-                                    anchors.topMargin: 8
-                                    anchors.bottomMargin: 8
+                                    anchors.leftMargin: 10
+                                    anchors.rightMargin: 6
+                                    anchors.topMargin: 5
+                                    anchors.bottomMargin: 5
 
                                     Text {
                                         text: delegate.notifRef?.summary ?? ""
                                         color: Colors.foreground
                                         font.family: "Google Sans Flex"
-                                        font.pixelSize: 18
+                                        font.pixelSize: 13
+                                        font.weight: Font.Medium
                                         wrapMode: Text.WordWrap
                                         Layout.fillWidth: true
                                     }
 
                                     Item {
-                                        implicitWidth: 24
-                                        implicitHeight: 24
+                                        implicitWidth: 18
+                                        implicitHeight: 18
 
                                         Text {
                                             anchors.centerIn: parent
                                             text: "close"
                                             color: Colors.red
                                             font.family: "Material Symbols Rounded"
-                                            font.pixelSize: 20
+                                            font.pixelSize: 16
                                         }
 
                                         MouseArea {
@@ -264,16 +276,16 @@ Rectangle {
 
                             RowLayout {
                                 Layout.fillWidth: true
-                                Layout.margins: 14
-                                spacing: 16
+                                Layout.margins: 10
+                                spacing: 10
 
                                 Image {
                                     readonly property string src: delegate.notifRef ? (delegate.notifRef.image || delegate.notifRef.appIcon) : ""
                                     source: src ? Utils.getImage(src) : Qt.resolvedUrl("../assets/wedding-bells.png")
-                                    sourceSize.width: 44
-                                    sourceSize.height: 44
-                                    Layout.preferredWidth: 44
-                                    Layout.preferredHeight: 44
+                                    sourceSize.width: 32
+                                    sourceSize.height: 32
+                                    Layout.preferredWidth: 32
+                                    Layout.preferredHeight: 32
                                     fillMode: Image.PreserveAspectFit
                                 }
 
@@ -281,7 +293,7 @@ Rectangle {
                                     text: delegate.notifRef?.body ?? ""
                                     color: Colors.foreground
                                     font.family: "Google Sans Flex"
-                                    font.pixelSize: 14
+                                    font.pixelSize: 12
                                     wrapMode: Text.WordWrap
                                     Layout.fillWidth: true
                                 }

@@ -9,8 +9,8 @@ RowLayout {
     spacing: 12
 
     Item {
-        implicitWidth: 40
-        implicitHeight: 40
+        implicitWidth: 32
+        implicitHeight: 32
 
         Image {
             id: img
@@ -48,7 +48,7 @@ RowLayout {
         text: `Hi ${Config.userName}!`
         color: Colors.foreground
         font.family: "Google Sans Flex"
-        font.pixelSize: 25
+        font.pixelSize: 18
         font.weight: Font.Light
         verticalAlignment: Text.AlignVCenter
     }
@@ -61,7 +61,7 @@ RowLayout {
         text: UptimeState.uptimeText
         color: Colors.comment
         font.family: "Google Sans Flex"
-        font.pixelSize: 20
+        font.pixelSize: 12
         verticalAlignment: Text.AlignVCenter
     }
 }
