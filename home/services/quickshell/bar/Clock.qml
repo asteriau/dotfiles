@@ -10,8 +10,8 @@ WrapperMouseArea {
         Config.showSidebar = !Config.showSidebar;
     }
 
-    implicitWidth: 46
-    implicitHeight: hours.implicitHeight + minutes.implicitHeight + 10 + 12
+    implicitWidth: 38
+    implicitHeight: hours.implicitHeight + minutes.implicitHeight + 2 + 20
 
     Rectangle {
         anchors.fill: parent
@@ -27,7 +27,7 @@ WrapperMouseArea {
                 Layout.alignment: Qt.AlignHCenter
                 text: Qt.formatDateTime(Utils.clock.date, "hh")
                 font.pixelSize: 14
-                font.family: "JetBrains Mono"
+                font.family: "Google Sans Flex"
                 color: Colors.foreground
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -37,7 +37,7 @@ WrapperMouseArea {
                 Layout.alignment: Qt.AlignHCenter
                 text: Qt.formatDateTime(Utils.clock.date, "mm")
                 font.pixelSize: 14
-                font.family: "JetBrains Mono"
+                font.family: "Google Sans Flex"
                 color: Colors.foreground
                 horizontalAlignment: Text.AlignHCenter
             }

@@ -4,8 +4,8 @@ import QtQuick.Effects
 Item {
     id: root
 
-    implicitWidth: 32
-    implicitHeight: 32
+    implicitWidth: 29
+    implicitHeight: 29
 
     Image {
         id: img

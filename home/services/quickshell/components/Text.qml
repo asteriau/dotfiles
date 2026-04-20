@@ -35,7 +35,7 @@ Item {
         anchors.fill: parent
         renderType: Text.NativeRendering
         color: Colors.foreground
-        font.family: "JetBrains Mono"
+        font.family: "Google Sans Flex"
         font.pixelSize: 14
     }
 }

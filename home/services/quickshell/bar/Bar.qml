@@ -29,7 +29,7 @@ PanelWindow {
             anchors.bottomMargin: 10
             anchors.leftMargin: 6
             anchors.rightMargin: 6
-            spacing: 12
+            spacing: 8
 
             NixIcon {
                 Layout.alignment: Qt.AlignHCenter
@@ -57,10 +57,6 @@ PanelWindow {
             }
 
             Clock {
-                Layout.alignment: Qt.AlignHCenter
-            }
-
-            Pfp {
                 Layout.alignment: Qt.AlignHCenter
             }
         }
