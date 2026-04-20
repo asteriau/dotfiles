@@ -10,16 +10,37 @@ WrapperMouseArea {
         Config.showSidebar = !Config.showSidebar;
     }
 
-    RowLayout {
-        spacing: Config.padding * 2
+    implicitWidth: 46
+    implicitHeight: hours.implicitHeight + minutes.implicitHeight + 10 + 12
 
-        Text {
-            text: Qt.formatDateTime(Utils.clock.date, "ddd MMM d  hh:mm")
-        }
+    Rectangle {
+        anchors.fill: parent
+        radius: 8
+        color: Colors.elevated
 
-        MaterialIcon {
-            text: "notifications" + (NotificationState.allNotifs.length > 0 ? "_unread" : "")
-            font.pixelSize: 14
+        ColumnLayout {
+            anchors.centerIn: parent
+            spacing: 2
+
+            Text {
+                id: hours
+                Layout.alignment: Qt.AlignHCenter
+                text: Qt.formatDateTime(Utils.clock.date, "hh")
+                font.pixelSize: 14
+                font.family: "JetBrains Mono"
+                color: Colors.foreground
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Text {
+                id: minutes
+                Layout.alignment: Qt.AlignHCenter
+                text: Qt.formatDateTime(Utils.clock.date, "mm")
+                font.pixelSize: 14
+                font.family: "JetBrains Mono"
+                color: Colors.foreground
+                horizontalAlignment: Text.AlignHCenter
+            }
         }
     }
 }

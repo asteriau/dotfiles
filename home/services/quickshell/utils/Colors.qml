@@ -37,6 +37,8 @@ Singleton {
     readonly property color overlay: darkMode ? Qt.hsla(0, 0, 0.95, 0.7) : Qt.hsla(0, 0, 0.05, 0.7)
 
     readonly property color accent: "#8DA3B9"
+    readonly property color comment: Qt.rgba(0.91, 0.89, 0.89, 0.5)
+    readonly property color red: "#C48B9F"
 
     readonly property color buttonEnabled: accent
     readonly property color buttonEnabledHover: Qt.lighter(accent, 0.9)

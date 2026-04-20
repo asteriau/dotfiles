@@ -1,7 +1,4 @@
-import org.kde.kirigami
 import QtQuick
-import QtQuick.Effects
-import Quickshell
 import Quickshell.Services.UPower
 import qs.components
 import qs.utils
@@ -11,49 +8,62 @@ HoverTooltip {
 
     readonly property var battery: UPower.displayDevice
     readonly property int percentage: Math.round(battery.percentage * 100)
+    readonly property bool charging: battery.state == UPowerDeviceState.Charging || battery.state == UPowerDeviceState.FullyCharged
+
     visible: battery.isLaptopBattery
 
-    text: `Battery on ${percentage}%`
+    text: `Battery ${percentage}%${charging ? " (charging)" : ""}`
 
-    Icon {
-        id: batIcon
+    implicitWidth: 20
+    implicitHeight: 62
 
-        implicitHeight: Config.iconSize
-        implicitWidth: Config.iconSize
+    Column {
+        anchors.centerIn: parent
+        spacing: 4
 
-        // This recolors the entire svg, instead of only classless components.
-        // Hopefully in the future classes can be selected for recoloring.
-        isMask: true
-        color: Colors.foreground
-
-        source: {
-            const nearestTen = Math.round(root.percentage / 10) * 10;
-            const number = nearestTen.toString();
-            let charging;
-
-            if (root.battery.state == UPowerDeviceState.Charging) {
-                // My battery is old and keeps staying at 94-96% while plugged in
-                if (nearestTen == 100) {
-                    charging = "-charged";
-                } else {
-                    charging = "-charging";
-                }
-            } else if (root.battery.state == UPowerDeviceState.FullyCharged) {
-                charging = "-charged";
-            } else {
-                charging = "";
-            }
-
-            return Quickshell.iconPath(`battery-level-${number}${charging}-symbolic`);
+        Rectangle {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: 10
+            height: 4
+            radius: 2
+            color: Colors.comment
         }
-    }
 
-    MultiEffect {
-        source: batIcon
-        anchors.fill: batIcon
-        shadowEnabled: Config.shadowEnabled
-        shadowVerticalOffset: Config.shadowVerticalOffset
-        blurMax: Config.blurMax
-        opacity: Config.shadowOpacity
+        Rectangle {
+            width: 14
+            height: 48
+            radius: 8
+            color: "transparent"
+            border.color: Colors.comment
+            border.width: 1
+
+            Item {
+                anchors.fill: parent
+                anchors.margins: 3
+                clip: true
+
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    width: parent.width
+                    height: parent.height * Math.max(0, Math.min(1, root.battery.percentage))
+                    radius: 4
+                    color: Qt.rgba(Colors.mpris.r, Colors.mpris.g, Colors.mpris.b, 0.25)
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: 4
+                        color: Colors.mpris
+                        opacity: 0.85
+                    }
+
+                    Behavior on height {
+                        NumberAnimation {
+                            duration: 300
+                            easing.type: Easing.OutQuad
+                        }
+                    }
+                }
+            }
+        }
     }
 }

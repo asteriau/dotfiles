@@ -10,67 +10,59 @@ PanelWindow {
     screen: Config.preferredMonitor
 
     anchors {
-        bottom: true
+        top: true
         left: true
-        right: true
+        bottom: true
     }
-    implicitHeight: 42
+    implicitWidth: Config.barWidth
 
     color: "transparent"
 
     Rectangle {
-        id: bar
         anchors.fill: parent
-
         color: Colors.background
 
-        // left
-        RowLayout {
-            id: barLeft
+        ColumnLayout {
+            id: stack
+            anchors.fill: parent
+            anchors.topMargin: 16
+            anchors.bottomMargin: 10
+            anchors.leftMargin: 6
+            anchors.rightMargin: 6
+            spacing: 12
 
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.top: parent.top
+            NixIcon {
+                Layout.alignment: Qt.AlignHCenter
+            }
 
-            anchors.leftMargin: Config.spacing
-            anchors.rightMargin: Config.spacing
-            spacing: Config.spacing
+            Workspaces {
+                Layout.alignment: Qt.AlignHCenter
+                Layout.fillWidth: true
+            }
 
-            Workspaces {}
-        }
+            Item {
+                Layout.fillHeight: true
+            }
 
-        // middle
-        RowLayout {
-            id: barMiddle
+            Tray {
+                Layout.alignment: Qt.AlignHCenter
+            }
 
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: parent.top
+            Status {
+                Layout.alignment: Qt.AlignHCenter
+            }
 
-            anchors.leftMargin: Config.spacing
-            anchors.rightMargin: Config.spacing
-            spacing: Config.spacing
+            Battery {
+                Layout.alignment: Qt.AlignHCenter
+            }
 
-            Mpris {}
-        }
+            Clock {
+                Layout.alignment: Qt.AlignHCenter
+            }
 
-        // right
-        RowLayout {
-            id: barRight
-
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            anchors.top: parent.top
-
-            anchors.leftMargin: Config.spacing
-            anchors.rightMargin: Config.spacing
-            spacing: Config.spacing
-
-            Tray {}
-            Network {}
-            Bluetooth {}
-            Battery {}
-            Clock {}
+            Pfp {
+                Layout.alignment: Qt.AlignHCenter
+            }
         }
     }
 }

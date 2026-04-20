@@ -1,49 +1,58 @@
 import QtQuick
-import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Widgets
 import qs.utils
 
-WrapperMouseArea {
+Rectangle {
     id: root
-
-    Layout.fillHeight: true
 
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(QsWindow.window?.screen)
     readonly property int activeWorkspace: monitor?.activeWorkspace?.id ?? 1
-    property int shownWorkspaces: 10
+    property int shownWorkspaces: 4
     property int baseWorkspace: Math.floor((activeWorkspace - 1) / shownWorkspaces) * shownWorkspaces + 1
 
     property int scrollAccumulator: 0
 
-    acceptedButtons: Qt.NoButton
+    Layout.preferredWidth: 28
+    implicitWidth: 28
+    implicitHeight: col.implicitHeight + 24
 
-    onWheel: event => {
-        event.accepted = true;
-        let acc = Math.abs(scrollAccumulator - event.angleDelta.x - event.angleDelta.y);
-        const sign = Math.sign(acc);
-        acc = Math.abs(acc);
+    radius: 8
+    color: Colors.elevated
 
-        const offset = sign * Math.floor(acc / 120);
-        scrollAccumulator = sign * (acc % 120);
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        onWheel: event => {
+            event.accepted = true;
+            let acc = Math.abs(root.scrollAccumulator - event.angleDelta.x - event.angleDelta.y);
+            const sign = Math.sign(acc);
+            acc = Math.abs(acc);
 
-        if (offset) {
-            const currentWorkspace = root.activeWorkspace;
-            const targetWorkspace = currentWorkspace + offset;
-            const id = Math.max(baseWorkspace, Math.min(baseWorkspace + shownWorkspaces - 1, targetWorkspace));
-            if (id != currentWorkspace)
-                Hyprland.dispatch(`workspace ${id}`);
+            const offset = sign * Math.floor(acc / 120);
+            root.scrollAccumulator = sign * (acc % 120);
+
+            if (offset) {
+                const currentWorkspace = root.activeWorkspace;
+                const targetWorkspace = currentWorkspace + offset;
+                const id = Math.max(root.baseWorkspace, Math.min(root.baseWorkspace + root.shownWorkspaces - 1, targetWorkspace));
+                if (id != currentWorkspace)
+                    Hyprland.dispatch(`workspace ${id}`);
+            }
         }
     }
 
-    Row {
-        spacing: height / 7
+    ColumnLayout {
+        id: col
+        anchors.fill: parent
+        anchors.topMargin: 12
+        anchors.bottomMargin: 12
+        anchors.leftMargin: 9
+        anchors.rightMargin: 9
+        spacing: 10
 
         Repeater {
-            id: repeater
-
             model: ScriptModel {
                 objectProp: "index"
                 values: {
@@ -59,73 +68,35 @@ WrapperMouseArea {
             }
 
             Rectangle {
-                color: "transparent"
+                id: pill
                 required property var modelData
 
-                implicitHeight: 42
-                implicitWidth: {
-                    if (modelData.workspace?.focused ?? false) {
-                        return parent.height;
-                    }
-                    return parent.height * 0.3;
-                }
+                readonly property bool focused: modelData.workspace?.focused ?? false
+                readonly property bool occupied: !!modelData.workspace && !focused
 
-                Behavior on implicitWidth {
+                Layout.preferredWidth: 10
+                Layout.preferredHeight: focused ? 100 : (occupied ? 70 : 30)
+                Layout.alignment: Qt.AlignHCenter
+
+                radius: 5
+                color: focused ? Colors.accent : Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.1)
+
+                Behavior on Layout.preferredHeight {
                     NumberAnimation {
-                        duration: 325
-                        easing.type: Easing.OutQuint
+                        duration: 100
+                        easing.type: Easing.OutQuad
+                    }
+                }
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 100
+                        easing.type: Easing.OutQuad
                     }
                 }
 
-                WrapperMouseArea {
-                    id: ws
-                    property var modelData: parent.modelData
-                    anchors {
-                        fill: parent
-                        margins: {
-                            if (ws.modelData.workspace?.focused ?? false) {
-                                return parent.height * 0.35;
-                            }
-                            return parent.height * 0.35;
-                        }
-                        leftMargin: 0
-                        rightMargin: 0
-
-                        Behavior on margins {
-                            NumberAnimation {
-                                duration: 325
-                                easing.type: Easing.OutQuint
-                            }
-                        }
-                    }
-
-                    onPressed: Hyprland.dispatch(`workspace ${modelData.index}`)
-
-                    Item {
-                        anchors.fill: parent
-
-                        Rectangle {
-                            id: wsRect
-                            radius: height / 2
-
-                            anchors.fill: parent
-
-                            Behavior on color {
-                                ColorAnimation {
-                                    duration: 325
-                                    easing.type: Easing.OutQuint
-                                }
-                            }
-                            color: {
-                                ws.modelData.workspace ?? false ? Colors.monitorColors[ws.modelData.workspace?.monitor?.id ?? 0] : Colors.elevated;
-                            }
-                        }
-                        MultiEffect {
-                            source: wsRect
-                            anchors.fill: wsRect
-                            shadowEnabled: false
-                        }
-                    }
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: Hyprland.dispatch(`workspace ${pill.modelData.index}`)
                 }
             }
         }

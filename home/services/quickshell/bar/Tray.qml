@@ -14,10 +14,9 @@ WrapperRectangle {
 
     property bool iconsVisible: false
 
-    RowLayout {
-        spacing: Config.spacing
+    ColumnLayout {
+        spacing: 10
 
-        // System tray icons
         Repeater {
             model: SystemTray.items
 
@@ -26,14 +25,12 @@ WrapperRectangle {
                 required property SystemTrayItem modelData
 
                 text: modelData.tooltipTitle
-                // Always visible for animation; opacity handles actual visibility
-                visible: true  
+                visible: true
 
                 Item {
                     implicitWidth: trayIcon.implicitWidth
                     implicitHeight: trayIcon.implicitHeight
                     opacity: root.iconsVisible ? 1 : 0
-                    // Block mouse events when invisible
                     enabled: root.iconsVisible
 
                     Behavior on opacity {
@@ -65,14 +62,14 @@ WrapperRectangle {
                 onClicked: event => {
                     switch (event.button) {
                     case Qt.LeftButton:
-                        modelData.activate()
-                        break
+                        modelData.activate();
+                        break;
                     case Qt.RightButton:
                         if (modelData.hasMenu)
-                            menu.open()
-                        break
+                            menu.open();
+                        break;
                     }
-                    event.accepted = true
+                    event.accepted = true;
                 }
 
                 QsMenuAnchor {
@@ -83,22 +80,22 @@ WrapperRectangle {
                     anchor {
                         item: trayIcon
                         edges: Edges.Right | Edges.Top
-                        gravity: Edges.Left | Edges.Bottom
+                        gravity: Edges.Right | Edges.Bottom
                         adjustment: PopupAdjustment.All
                     }
                 }
             }
         }
 
-        // Overflow icon
         WrapperMouseArea {
+            Layout.alignment: Qt.AlignHCenter
             onClicked: {
-                root.iconsVisible = !root.iconsVisible
+                root.iconsVisible = !root.iconsVisible;
             }
 
             MaterialIcon {
                 id: chevronIcon
-                text: "chevron_left"
+                text: "expand_more"
                 font.pixelSize: 16
 
                 rotation: root.iconsVisible ? 180 : 0

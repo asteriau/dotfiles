@@ -17,6 +17,8 @@ PersistentProperties {
     readonly property int hoverTimeoutMs: 500
 
     readonly property int barHeight: 34
+    readonly property int barWidth: 56
+    readonly property int sidebarWidth: 420
     readonly property int osdWidth: 200
 
     readonly property int iconSize: 14
