@@ -10,15 +10,18 @@ PanelWindow {
     screen: Config.preferredMonitor
 
     anchors {
-        top: true
-        left: true
-        bottom: true
+        top:    Config.barVertical || !Config.barOnEnd
+        bottom: Config.barVertical || Config.barOnEnd
+        left:   !Config.barVertical || !Config.barOnEnd
+        right:  !Config.barVertical || Config.barOnEnd
     }
-    implicitWidth: Config.barWidth
+    implicitWidth:  Config.barVertical ? Config.barWidth : 0
+    implicitHeight: Config.barVertical ? 0 : Config.barHeight
 
     color: "transparent"
 
     Rectangle {
+        visible: Config.barVertical
         anchors.fill: parent
         color: Colors.background
 
@@ -78,5 +81,10 @@ PanelWindow {
                 Layout.alignment: Qt.AlignHCenter
             }
         }
+    }
+
+    BarHorizontal {
+        visible: !Config.barVertical
+        anchors.fill: parent
     }
 }

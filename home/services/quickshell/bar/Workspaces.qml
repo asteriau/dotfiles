@@ -6,9 +6,13 @@ import Quickshell.Hyprland
 import qs.components
 import qs.utils
 
-ColumnLayout {
+Item {
     id: root
-    spacing: 6
+
+    property bool horizontal: !Config.barVertical
+
+    implicitWidth:  horizontal ? card.implicitWidth  : card.implicitWidth
+    implicitHeight: horizontal ? card.implicitHeight : card.implicitHeight
 
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(QsWindow.window?.screen)
     readonly property int activeWorkspace: monitor?.activeWorkspace?.id ?? 1
@@ -30,19 +34,19 @@ ColumnLayout {
 
     Rectangle {
         id: card
-        Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: 32
-        implicitWidth: 32
-        implicitHeight: col.implicitHeight + 24
+        anchors.centerIn: parent
+
+        implicitWidth:  horizontal ? (inner.implicitWidth  + 24) : 32
+        implicitHeight: horizontal ? 32                          : (inner.implicitHeight + 24)
 
         radius: 8
         color: Colors.elevated
 
+        Behavior on implicitWidth {
+            NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
+        }
         Behavior on implicitHeight {
-            NumberAnimation {
-                duration: 260
-                easing.type: Easing.OutCubic
-            }
+            NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
         }
 
         MouseArea {
@@ -50,31 +54,27 @@ ColumnLayout {
             acceptedButtons: Qt.NoButton
             onWheel: event => {
                 event.accepted = true;
-                let acc = Math.abs(root.scrollAccumulator - event.angleDelta.x - event.angleDelta.y);
+                let acc = Math.abs(root.scrollAccumulator - event.angleDelta.y);
                 const sign = Math.sign(acc);
                 acc = Math.abs(acc);
-
                 const offset = sign * Math.floor(acc / 120);
                 root.scrollAccumulator = sign * (acc % 120);
-
                 if (offset) {
                     const currentWorkspace = root.activeWorkspace;
-                    const targetWorkspace = currentWorkspace + offset;
-                    const id = Math.max(root.baseWorkspace, targetWorkspace);
-                    if (id != currentWorkspace)
+                    const id = Math.max(root.baseWorkspace, currentWorkspace + offset);
+                    if (id !== currentWorkspace)
                         Hyprland.dispatch(`workspace ${id}`);
                 }
             }
         }
 
-        ColumnLayout {
-            id: col
-            anchors.fill: parent
-            anchors.topMargin: 12
-            anchors.bottomMargin: 12
-            anchors.leftMargin: 13
-            anchors.rightMargin: 13
-            spacing: 8
+        GridLayout {
+            id: inner
+            anchors.centerIn: parent
+            columns: horizontal ? -1 : 1
+            rows:    horizontal ? 1  : -1
+            columnSpacing: horizontal ? 8 : 0
+            rowSpacing:    horizontal ? 0 : 8
 
             Repeater {
                 model: ScriptModel {
@@ -82,12 +82,10 @@ ColumnLayout {
                     values: {
                         const workspaces = Hyprland.workspaces.values;
                         const base = root.baseWorkspace;
-                        return Array.from({
-                            length: root.shownWorkspaces
-                        }, (_, i) => ({
-                                    index: base + i,
-                                    workspace: workspaces.find(w => w.id == base + i)
-                                }));
+                        return Array.from({ length: root.shownWorkspaces }, (_, i) => ({
+                            index: base + i,
+                            workspace: workspaces.find(w => w.id === base + i)
+                        }));
                     }
                 }
 
@@ -95,27 +93,24 @@ ColumnLayout {
                     id: pill
                     required property var modelData
 
-                    readonly property bool focused: modelData.workspace?.focused ?? false
+                    readonly property bool focused:  modelData.workspace?.focused ?? false
                     readonly property bool occupied: !!modelData.workspace && !focused
 
-                    Layout.preferredWidth: 6
-                    Layout.preferredHeight: focused ? 72 : (occupied ? 46 : 18)
-                    Layout.alignment: Qt.AlignHCenter
+                    Layout.preferredWidth:  horizontal ? (focused ? 72 : (occupied ? 46 : 18)) : 6
+                    Layout.preferredHeight: horizontal ? 6 : (focused ? 72 : (occupied ? 46 : 18))
+                    Layout.alignment: horizontal ? Qt.AlignVCenter : Qt.AlignHCenter
 
                     radius: 3
                     color: focused ? Colors.accent : Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.1)
 
+                    Behavior on Layout.preferredWidth {
+                        NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
+                    }
                     Behavior on Layout.preferredHeight {
-                        NumberAnimation {
-                            duration: 260
-                            easing.type: Easing.OutCubic
-                        }
+                        NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
                     }
                     Behavior on color {
-                        ColorAnimation {
-                            duration: 180
-                            easing.type: Easing.OutCubic
-                        }
+                        ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
                     }
 
                     MouseArea {
@@ -126,5 +121,4 @@ ColumnLayout {
             }
         }
     }
-
 }

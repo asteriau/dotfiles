@@ -18,7 +18,11 @@ PersistentProperties {
     readonly property int notificationWidth: 360
     readonly property int hoverTimeoutMs: 500
 
-    readonly property int barHeight: 34
+    property string barPosition: "left"   // "left" | "right" | "top" | "bottom"
+    readonly property bool barVertical: barPosition === "left" || barPosition === "right"
+    readonly property bool barOnEnd: barPosition === "right" || barPosition === "bottom"
+
+    readonly property int barHeight: 40
     readonly property int barWidth: 52
     readonly property int sidebarWidth: 420
     readonly property int osdWidth: 200

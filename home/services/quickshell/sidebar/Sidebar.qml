@@ -92,6 +92,8 @@ Scope {
             anchors {
                 fill: parent
                 margins: 8
+                topMargin:    Config.barPosition === "top"    ? Config.barHeight + 8 : 8
+                bottomMargin: Config.barPosition === "bottom" ? Config.barHeight + 8 : 8
             }
             radius: Config.radius
             color: Colors.background

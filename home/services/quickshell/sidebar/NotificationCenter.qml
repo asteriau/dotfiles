@@ -101,20 +101,19 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            Column {
-                anchors.centerIn: parent
+            ColumnLayout {
+                anchors.fill: parent
                 visible: localModel.count === 0
-                spacing: 10
                 opacity: visible ? 0.9 : 0
 
                 Behavior on opacity {
-                    NumberAnimation {
-                        duration: 250
-                    }
+                    NumberAnimation { duration: 250 }
                 }
 
+                Item { Layout.fillHeight: true }
+
                 Image {
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignHCenter
                     width: 96
                     height: 96
                     source: Qt.resolvedUrl("../assets/wedding-bells.png")
@@ -124,13 +123,16 @@ Rectangle {
                 }
 
                 Text {
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 10
                     text: "Nothing here D:"
                     color: Colors.comment
                     font.family: "Google Sans Flex"
                     font.pixelSize: 13
                     horizontalAlignment: Text.AlignHCenter
                 }
+
+                Item { Layout.fillHeight: true }
             }
 
             ListView {
