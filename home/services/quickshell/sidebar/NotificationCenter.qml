@@ -220,7 +220,7 @@ Rectangle {
                         id: card
                         anchors.fill: parent
                         n: delegate.notifRef
-                        expanded: true
+                        isPopup: false
                         onlyNotification: false
                     }
                 }

@@ -1,7 +1,5 @@
-// Adapted from illogical-impulse
-// (~/.config/quickshell/ii/modules/common/widgets/NotificationItem.qml).
+// Mirrors ii NotificationGroup + NotificationItem (modules/common/widgets).
 // License: upstream dots-hyprland.
-// Stripped: drag-to-dismiss, urgency-based color mixing, Appearance/Translation.
 
 pragma ComponentBehavior: Bound
 
@@ -9,66 +7,73 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
-import Quickshell.Widgets
 import qs.utils
-import qs.components
 
-WrapperMouseArea {
+Item {
     id: root
 
-    acceptedButtons: Qt.AllButtons
-    hoverEnabled: true
-
-    property Notification n
+    property var n
     property var notificationObject: n
-    property bool expanded: true
-    property bool onlyNotification: false
-    property real fontSize: 14
-    property real padding: onlyNotification ? 0 : 10
-    property real summaryElideRatio: 0.85
+    property bool isPopup: false
+    property bool expanded: false
+    property bool onlyNotification: true
+    property real padding: 10
+    property real collapsedMaxHeight: 80
 
-    // Colors (M3-ish dark, derived from my palette).
-    readonly property color colLayer3: Qt.rgba(0.156, 0.156, 0.156, 0.94)
-    readonly property color colLayer4: Qt.rgba(1, 1, 1, 0.08)
-    readonly property color colLayer4Hover: Qt.rgba(1, 1, 1, 0.14)
-    readonly property color colLayer4Active: Qt.rgba(1, 1, 1, 0.2)
-    readonly property color colOnLayer3: Colors.foreground
-    readonly property color colSubtext: Qt.rgba(1, 1, 1, 0.68)
-    readonly property color colOnSurface: Colors.foreground
+    readonly property color colLayer2: Qt.rgba(0x1E / 255, 0x1E / 255, 0x1E / 255, 0.94)
+    readonly property color colLayer3: Qt.rgba(0x24 / 255, 0x24 / 255, 0x24 / 255, 0.94)
+    readonly property color colLayer3Transparent: Qt.rgba(0x24 / 255, 0x24 / 255, 0x24 / 255, 0.0)
+    readonly property color colBorder: Colors.border
+    readonly property color colBtnRest: Qt.rgba(1, 1, 1, 0.06)
+    readonly property color colBtnHover: Qt.rgba(1, 1, 1, 0.12)
+    readonly property color colBtnActive: Qt.rgba(1, 1, 1, 0.18)
+    readonly property color colOnLayer: Colors.foreground
+    readonly property color colSubtext: Colors.comment
+    readonly property color colUrgentTint: Qt.rgba(Colors.red.r, Colors.red.g, Colors.red.b, 0.10)
 
-    readonly property real roundingSmall: 16
-    readonly property real roundingMedium: 20
+    readonly property real radiusFull: 999
+    readonly property real radiusNormal: 20
+    readonly property real radiusSmall: 16
 
-    onClicked: mouse => {
-        if (mouse.button == Qt.LeftButton) {
-            const acts = (n?.actions ?? []).filter(a => a.identifier === "default");
-            if (acts.length > 0)
-                acts[0].invoke();
-        } else if (mouse.button == Qt.RightButton) {
-            NotificationState.notifDismissByNotif(n);
-        } else if (mouse.button == Qt.MiddleButton) {
-            NotificationState.dismissAll();
-        }
+    readonly property real fontSmallest: 10
+    readonly property real fontSmaller: 12
+    readonly property real fontSmall: 15
+    readonly property real fontNormal: 16
+    readonly property real fontLarger: 17
+    readonly property string fontMain: "Google Sans Flex"
+
+    property string timeString: NotificationUtils.getFriendlyNotifTimeString(n?.time)
+
+    implicitWidth: Config.notificationWidth
+    implicitHeight: background.implicitHeight
+
+    Timer {
+        interval: 30000
+        running: true
+        repeat: true
+        onTriggered: root.timeString = NotificationUtils.getFriendlyNotifTimeString(root.n?.time)
     }
 
     function filteredActions() {
         return (n?.actions ?? []).filter(a => a.identifier !== "default");
     }
 
-    implicitHeight: background.implicitHeight
-    implicitWidth: Config.notificationWidth
+    function invokeDefault() {
+        const acts = (n?.actions ?? []).filter(a => a.identifier === "default");
+        if (acts.length > 0)
+            acts[0].invoke();
+    }
 
-    // Inline M3 outlined action button.
-    component ActionButton: Rectangle {
-        id: btn
-        property string buttonText: ""
-        property string iconGlyph: ""
+    // Chevron-only pill (ii NotificationGroupExpandButton; no count for single notif)
+    component ExpandPill: Rectangle {
+        id: pill
         signal clicked
+        readonly property bool hovered: pillMouse.containsMouse
 
-        implicitHeight: 34
-        implicitWidth: iconGlyph !== "" ? 48 : Math.max(64, label.implicitWidth + 28)
-        radius: 17
-        color: btnMouse.pressed ? root.colLayer4Active : btnMouse.containsMouse ? root.colLayer4Hover : root.colLayer4
+        implicitHeight: root.fontSmaller + 8
+        implicitWidth: Math.max(30, chevron.implicitWidth + 10)
+        radius: height / 2
+        color: pillMouse.pressed ? root.colBtnActive : pill.hovered ? root.colBtnHover : root.colBtnRest
         antialiasing: true
 
         Behavior on color {
@@ -78,208 +83,291 @@ WrapperMouseArea {
         }
 
         Text {
-            id: label
+            id: chevron
             anchors.centerIn: parent
-            visible: btn.iconGlyph === ""
-            text: btn.buttonText
-            font.family: "Google Sans Flex"
-            font.pixelSize: 13
-            font.weight: Font.Medium
-            color: root.colOnSurface
+            text: "keyboard_arrow_down"
+            color: root.colOnLayer
+            font.family: "Material Symbols Rounded"
+            font.pixelSize: root.fontNormal
+            rotation: root.expanded ? 180 : 0
+
+            Behavior on rotation {
+                NumberAnimation {
+                    duration: 170
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
+
+        MouseArea {
+            id: pillMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: pill.clicked()
+        }
+    }
+
+    // Pill action button (close / custom / copy) — shown when expanded
+    component ActionButton: Rectangle {
+        id: abtn
+        property string buttonText: ""
+        property string iconGlyph: ""
+        signal clicked
+
+        implicitHeight: 32
+        radius: height / 2
+        color: abtnMouse.pressed ? root.colBtnActive : abtnMouse.containsMouse ? root.colBtnHover : root.colBtnRest
+        antialiasing: true
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 120
+            }
         }
 
         Text {
             anchors.centerIn: parent
-            visible: btn.iconGlyph !== ""
-            text: btn.iconGlyph
+            visible: abtn.iconGlyph === ""
+            text: abtn.buttonText
+            color: root.colOnLayer
+            font.family: root.fontMain
+            font.pixelSize: root.fontSmall
+            font.weight: Font.Medium
+            elide: Text.ElideRight
+            width: parent.width - 18
+            horizontalAlignment: Text.AlignHCenter
+        }
+
+        Text {
+            anchors.centerIn: parent
+            visible: abtn.iconGlyph !== ""
+            text: abtn.iconGlyph
+            color: root.colOnLayer
             font.family: "Material Symbols Rounded"
-            font.pixelSize: 18
-            color: root.colOnSurface
+            font.pixelSize: root.fontLarger
         }
 
         MouseArea {
-            id: btnMouse
+            id: abtnMouse
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: btn.clicked()
+            onClicked: abtn.clicked()
         }
     }
 
     Rectangle {
         id: background
 
-        anchors.left: parent.left
+        x: 0
         width: parent.width
-        radius: root.roundingSmall
-        color: root.colLayer3
-        border.color: Qt.rgba(1, 1, 1, 0.06)
+        color: root.isPopup ? root.colLayer2 : root.colLayer3
+        radius: root.isPopup ? root.radiusNormal : root.radiusSmall
         border.width: 1
+        border.color: root.colBorder
         antialiasing: true
+        clip: true
+        opacity: Math.max(0, 1 - Math.abs(x) / (width * 0.9))
 
-        implicitHeight: root.expanded ? (contentColumn.implicitHeight + root.padding * 2) : summaryRow.implicitHeight + root.padding * 2
+        implicitHeight: root.expanded ? (row.implicitHeight + root.padding * 2) : Math.min(root.collapsedMaxHeight, row.implicitHeight + root.padding * 2)
 
         Behavior on implicitHeight {
+            NumberAnimation {
+                duration: 250
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        Behavior on x {
+            enabled: !dragHandler.active
             NumberAnimation {
                 duration: 220
                 easing.type: Easing.OutCubic
             }
         }
 
-        ColumnLayout {
-            id: contentColumn
-
+        MouseArea {
+            id: rootMouse
             anchors.fill: parent
+            acceptedButtons: Qt.AllButtons
+            hoverEnabled: true
+            onClicked: mouse => {
+                if (mouse.button === Qt.LeftButton) {
+                    root.invokeDefault();
+                } else if (mouse.button === Qt.RightButton) {
+                    root.expanded = !root.expanded;
+                } else if (mouse.button === Qt.MiddleButton) {
+                    if (root.n)
+                        NotificationState.notifCloseByNotif(root.n);
+                }
+            }
+        }
+
+        DragHandler {
+            id: dragHandler
+            target: background
+            yAxis.enabled: false
+            xAxis.enabled: true
+            enabled: !root.expanded
+
+            onActiveChanged: {
+                if (!active) {
+                    const threshold = 70;
+                    if (Math.abs(background.x) > threshold) {
+                        dismissAnim.to = background.x > 0 ? background.width + 40 : -(background.width + 40);
+                        dismissAnim.start();
+                    } else {
+                        background.x = 0;
+                    }
+                }
+            }
+        }
+
+        NumberAnimation {
+            id: dismissAnim
+            target: background
+            property: "x"
+            duration: 220
+            easing.type: Easing.InCubic
+            onFinished: {
+                if (root.n)
+                    NotificationState.notifCloseByNotif(root.n);
+            }
+        }
+
+        RowLayout {
+            id: row
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
             anchors.margins: root.padding
-            spacing: 6
+            spacing: 10
 
-            RowLayout {
-                id: summaryRow
+            NotificationAppIcon {
+                id: notifIcon
+                Layout.alignment: Qt.AlignTop
+                implicitSize: 38
+                image: root.n?.image ?? ""
+                appIcon: root.n?.appIcon ?? ""
+                summary: root.n?.summary ?? ""
+                urgency: root.n?.urgency ?? NotificationUrgency.Normal
+            }
+
+            ColumnLayout {
                 Layout.fillWidth: true
-                spacing: 12
+                Layout.alignment: Qt.AlignTop
+                spacing: 3
 
-                // App / image icon (circular), 38px like ii.
-                Rectangle {
-                    id: notificationIcon
-                    Layout.alignment: Qt.AlignTop
-                    Layout.topMargin: 1
-                    implicitWidth: 38
-                    implicitHeight: 38
-                    radius: 19
-                    color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.22)
-                    antialiasing: true
+                // Top row: summary/appName + timestamp pill
+                Item {
+                    id: topRow
+                    Layout.fillWidth: true
+                    implicitHeight: Math.max(topTextRow.implicitHeight, expandBtn.implicitHeight)
 
-                    readonly property string image: root.n?.image ?? ""
-                    readonly property string appIcon: root.n?.appIcon ?? ""
+                    RowLayout {
+                        id: topTextRow
+                        anchors.left: parent.left
+                        anchors.right: expandBtn.left
+                        anchors.rightMargin: 4
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 5
 
-                    Image {
-                        anchors.fill: parent
-                        anchors.margins: 1
-                        source: notificationIcon.image ? Utils.getImage(notificationIcon.image) : ""
-                        visible: notificationIcon.image !== ""
-                        fillMode: Image.PreserveAspectCrop
-                        smooth: true
-                        mipmap: true
-                        asynchronous: true
-                    }
+                        Text {
+                            id: summaryText
+                            Layout.fillWidth: true
+                            text: root.n?.summary ?? ""
+                            color: root.colOnLayer
+                            font.family: root.fontMain
+                            font.pixelSize: root.fontSmall
+                            font.weight: Font.Medium
+                            elide: Text.ElideRight
+                            maximumLineCount: 1
+                        }
 
-                    IconImage {
-                        anchors.centerIn: parent
-                        implicitSize: 24
-                        source: notificationIcon.appIcon ? Utils.getImage(notificationIcon.appIcon) : ""
-                        visible: notificationIcon.image === "" && notificationIcon.appIcon !== ""
-                        asynchronous: true
-                    }
-
-                    Text {
-                        anchors.centerIn: parent
-                        text: "notifications"
-                        font.family: "Material Symbols Rounded"
-                        font.pixelSize: 20
-                        color: Colors.accent
-                        visible: notificationIcon.image === "" && notificationIcon.appIcon === ""
-                    }
-
-                    Rectangle {
-                        visible: notificationIcon.image !== "" && notificationIcon.appIcon !== ""
-                        width: 16
-                        height: 16
-                        radius: 8
-                        anchors.right: parent.right
-                        anchors.bottom: parent.bottom
-                        anchors.rightMargin: -2
-                        anchors.bottomMargin: -2
-                        color: root.colLayer3
-
-                        IconImage {
-                            anchors.fill: parent
-                            anchors.margins: 2
-                            source: notificationIcon.appIcon ? Utils.getImage(notificationIcon.appIcon) : ""
+                        Text {
+                            Layout.rightMargin: 6
+                            text: root.timeString
+                            color: root.colSubtext
+                            font.family: root.fontMain
+                            font.pixelSize: root.fontSmaller
                         }
                     }
+
+                    ExpandPill {
+                        id: expandBtn
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        onClicked: root.expanded = !root.expanded
+                    }
                 }
 
-                ColumnLayout {
+                // Body / content — single-line preview when collapsed, full when expanded
+                Text {
+                    id: bodyText
                     Layout.fillWidth: true
-                    spacing: 2
-
-                    Text {
-                        Layout.fillWidth: true
-                        text: root.n?.appName ?? ""
-                        color: root.colSubtext
-                        font.family: "Google Sans Flex"
-                        font.pixelSize: 11
-                        font.weight: Font.Medium
-                        font.letterSpacing: 0.3
-                        elide: Text.ElideRight
-                        maximumLineCount: 1
-                        visible: text.length > 0
-                    }
-
-                    Text {
-                        Layout.fillWidth: true
-                        text: root.n?.summary ?? ""
-                        color: root.colOnLayer3
-                        font.family: "Google Sans Flex"
-                        font.pixelSize: 14
-                        font.weight: Font.DemiBold
-                        elide: Text.ElideRight
-                        maximumLineCount: 2
-                        wrapMode: Text.Wrap
-                    }
-                }
-            }
-
-            Text {
-                id: notificationBodyText
-                Layout.fillWidth: true
-                Layout.leftMargin: 38 + 12
-                Layout.topMargin: -4
-                text: root.n?.body ?? ""
-                color: root.colSubtext
-                font.family: "Google Sans Flex"
-                font.pixelSize: 13
-                wrapMode: Text.Wrap
-                elide: Text.ElideRight
-                maximumLineCount: root.expanded ? 6 : 2
-                visible: text.length > 0
-            }
-
-            RowLayout {
-                id: actionRowLayout
-                Layout.fillWidth: true
-                Layout.topMargin: 4
-                spacing: 6
-
-                ActionButton {
-                    iconGlyph: "close"
-                    onClicked: NotificationState.notifCloseByNotif(root.n)
+                    text: root.expanded ? NotificationUtils.processNotificationBody(root.n?.body ?? "", root.n?.appName ?? "") : (root.n?.body ?? "")
+                    color: root.colSubtext
+                    font.family: root.fontMain
+                    font.pixelSize: root.fontSmall
+                    wrapMode: Text.Wrap
+                    elide: Text.ElideRight
+                    maximumLineCount: root.expanded ? 100 : 1
+                    textFormat: root.expanded ? Text.RichText : Text.PlainText
+                    verticalAlignment: Text.AlignTop
+                    visible: text.length > 0
                 }
 
-                Repeater {
-                    model: root.filteredActions()
+                // Actions row (expanded only)
+                RowLayout {
+                    id: actionsRow
+                    Layout.fillWidth: true
+                    Layout.topMargin: 6
+                    spacing: 6
+                    visible: root.expanded
+                    opacity: root.expanded ? 1 : 0
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 150
+                        }
+                    }
 
                     ActionButton {
-                        required property NotificationAction modelData
                         Layout.fillWidth: true
-                        buttonText: modelData?.text ?? ""
-                        onClicked: modelData?.invoke()
+                        iconGlyph: "close"
+                        onClicked: {
+                            if (root.n)
+                                NotificationState.notifCloseByNotif(root.n);
+                        }
                     }
-                }
 
-                ActionButton {
-                    id: copyBtn
-                    property string copyState: "content_copy"
-                    iconGlyph: copyState
-                    onClicked: {
-                        Quickshell.clipboardText = root.n?.body ?? "";
-                        copyState = "inventory";
-                        copyResetTimer.restart();
+                    Repeater {
+                        model: root.filteredActions()
+
+                        ActionButton {
+                            required property var modelData
+                            Layout.fillWidth: true
+                            buttonText: modelData?.text ?? ""
+                            onClicked: modelData?.invoke()
+                        }
                     }
-                    Timer {
-                        id: copyResetTimer
-                        interval: 1500
-                        onTriggered: copyBtn.copyState = "content_copy"
+
+                    ActionButton {
+                        id: copyBtn
+                        Layout.fillWidth: true
+                        property string copyState: "content_copy"
+                        iconGlyph: copyState
+                        onClicked: {
+                            Quickshell.clipboardText = root.n?.body ?? "";
+                            copyState = "inventory";
+                            copyResetTimer.restart();
+                        }
+                        Timer {
+                            id: copyResetTimer
+                            interval: 1500
+                            onTriggered: copyBtn.copyState = "content_copy"
+                        }
                     }
                 }
             }

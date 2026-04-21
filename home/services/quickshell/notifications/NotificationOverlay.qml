@@ -50,8 +50,9 @@ PanelWindow {
 
             NotificationBox {
                 id: notifBox
-                required property Notification modelData
+                required property var modelData
                 n: modelData
+                isPopup: true
 
                 Timer {
                     running: root.visible

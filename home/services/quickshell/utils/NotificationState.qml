@@ -1,6 +1,7 @@
 pragma Singleton
 pragma ComponentBehavior: Bound
 
+import QtQuick
 import Quickshell
 import Quickshell.Services.Notifications
 
@@ -11,50 +12,89 @@ Singleton {
     property var allNotifs: []
     property bool notifOverlayOpen: false
 
-    function onNewNotif(notif) {
-        allNotifs = [notif, ...allNotifs];
+    component NotifEntry: QtObject {
+        id: wrapper
+        property Notification source
+        property string summary: ""
+        property string body: ""
+        property string appName: ""
+        property string appIcon: ""
+        property string image: ""
+        property int urgency: 0
+        property int expireTimeout: -1
+        property double time: 0
+        property var actions: []
+        property bool lastGeneration: false
 
-        if (notif.lastGeneration)
+        function capture() {
+            if (!source)
+                return;
+            summary = source.summary ?? "";
+            body = source.body ?? "";
+            appName = source.appName ?? "";
+            appIcon = source.appIcon ?? "";
+            image = source.image ?? "";
+            urgency = source.urgency;
+            expireTimeout = source.expireTimeout;
+            actions = (source.actions ?? []).map(a => ({
+                        identifier: a.identifier ?? "",
+                        text: a.text ?? "",
+                        _src: a,
+                        invoke: function () {
+                            try {
+                                this._src?.invoke();
+                            } catch (e) {}
+                        }
+                    }));
+        }
+
+        function dismiss() {
+            try {
+                source?.dismiss();
+            } catch (e) {}
+        }
+    }
+
+    Component {
+        id: notifEntryComponent
+        NotifEntry {}
+    }
+
+    function onNewNotif(notif) {
+        const entry = notifEntryComponent.createObject(root, {
+            source: notif,
+            time: Date.now(),
+            lastGeneration: notif.lastGeneration ?? false
+        });
+        entry.capture();
+
+        allNotifs = [entry, ...allNotifs];
+
+        if (entry.lastGeneration)
             return;
 
-        popupNotifs = [notif, ...popupNotifs];
+        popupNotifs = [entry, ...popupNotifs];
 
         if (!Config.showSidebar)
             notifOverlayOpen = true;
+
+        notif.closed.connect(() => {
+            root.notifDismissByNotif(entry);
+        });
     }
 
-    function notifDismissByNotif(notif) {
-        popupNotifs = popupNotifs.filter(n => n != notif);
-        if (popupNotifs.length == 0)
+    function notifDismissByNotif(entry) {
+        popupNotifs = popupNotifs.filter(n => n !== entry);
+        if (popupNotifs.length === 0)
             notifOverlayOpen = false;
     }
 
-    function notifCloseByNotif(notif) {
-        popupNotifs = popupNotifs.filter(n => n != notif);
-        allNotifs = allNotifs.filter(n => n != notif);
-        notif.dismiss();
-        if (popupNotifs.length == 0)
+    function notifCloseByNotif(entry) {
+        popupNotifs = popupNotifs.filter(n => n !== entry);
+        allNotifs = allNotifs.filter(n => n !== entry);
+        entry.dismiss();
+        if (popupNotifs.length === 0)
             notifOverlayOpen = false;
-    }
-
-    function notifDismissByPopup(idPopups) {
-        let notif = popupNotifs[idPopups];
-        notifDismissByNotif(notif);
-    }
-
-    function notifDismissByAll(idAll) {
-        let notif = allNotifs[idAll];
-        notifDismissByNotif(notif);
-    }
-
-    function notifCloseByAll(idAll) {
-        let notif = allNotifs[idAll];
-        notifCloseByNotif(notif);
-    }
-
-    function notifCloseByPopup(idPopup) {
-        let notif = popupNotifs[idPopup];
-        notifCloseByNotif(notif);
     }
 
     function dismissAll() {
@@ -63,7 +103,10 @@ Singleton {
     }
 
     function closeAll() {
+        for (const e of allNotifs)
+            e.dismiss();
         allNotifs = [];
+        popupNotifs = [];
         notifOverlayOpen = false;
     }
 
@@ -82,11 +125,6 @@ Singleton {
             notif.tracked = true;
             notif.time = Date.now();
             root.onNewNotif(notif);
-            // console.log("notif: appName", notif.appName || "null", ", appIcon", notif.appIcon || "null", ", image", notif.image || "null", ", expireTimeout", notif.expireTimeout)
-
-            notif.closed.connect(() => {
-                notifDismissByNotif(notif);
-            });
         }
     }
 }

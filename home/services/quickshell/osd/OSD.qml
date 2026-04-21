@@ -184,7 +184,7 @@ Scope {
                     id: pillBg
                     anchors.fill: parent
                     radius: height / 2
-                    color: Colors.elevated
+                    color: Colors.background
                     border.color: Colors.border
                     border.width: 1
                     antialiasing: true
