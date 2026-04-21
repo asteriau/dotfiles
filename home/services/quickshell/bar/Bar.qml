@@ -56,6 +56,7 @@ PanelWindow {
 
             Clock {
                 Layout.alignment: Qt.AlignHCenter
+                Layout.fillWidth: true
             }
         }
 

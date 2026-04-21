@@ -1,121 +1,271 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
-import QtQuick.Layouts
-import QtQuick.Shapes
+import Qt5Compat.GraphicalEffects
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Hyprland
+import Quickshell.Widgets
 import qs.components
 import qs.utils
 
 Item {
     id: root
 
-    property bool horizontal: !Config.barVertical
-
-    implicitWidth:  horizontal ? card.implicitWidth  : card.implicitWidth
-    implicitHeight: horizontal ? card.implicitHeight : card.implicitHeight
+    property bool vertical: Config.barVertical
 
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(QsWindow.window?.screen)
-    readonly property int activeWorkspace: monitor?.activeWorkspace?.id ?? 1
-    readonly property int minShown: 5
-    readonly property int shownWorkspaces: {
-        const values = Hyprland.workspaces.values;
-        let maxId = minShown;
-        for (let i = 0; i < values.length; i++) {
-            if (values[i].id > maxId)
-                maxId = values[i].id;
-        }
-        if (activeWorkspace > maxId)
-            maxId = activeWorkspace;
-        return maxId;
-    }
-    readonly property int baseWorkspace: 1
+    readonly property Toplevel activeWindow: ToplevelManager.activeToplevel
+    readonly property int effectiveActiveWorkspaceId: monitor?.activeWorkspace?.id ?? 1
+    readonly property int workspacesShown: Config.workspacesShown
+    readonly property int workspaceGroup: Math.floor((effectiveActiveWorkspaceId - 1) / workspacesShown)
+    readonly property int workspaceIndexInGroup: (effectiveActiveWorkspaceId - 1) % workspacesShown
+
+    property list<bool> workspaceOccupied: []
+
+    readonly property int workspaceButtonWidth: 26
+    readonly property real activeWorkspaceMargin: 2
+    readonly property real workspaceIconSize: workspaceButtonWidth * 0.69
+    readonly property int verticalPadding: 4
 
     property int scrollAccumulator: 0
 
+    implicitWidth:  vertical ? Config.barWidth : (workspaceButtonWidth * workspacesShown)
+    implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Config.barHeight
+
+    // Elevated background
     Rectangle {
-        id: card
-        anchors.centerIn: parent
-
-        implicitWidth:  horizontal ? (inner.implicitWidth  + 24) : 32
-        implicitHeight: horizontal ? 32                          : (inner.implicitHeight + 24)
-
-        radius: 8
+        z: 0
+        anchors.fill: parent
+        radius: 12
         color: Colors.elevated
+    }
 
-        Behavior on implicitWidth {
-            NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
-        }
-        Behavior on implicitHeight {
-            NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
-        }
+    function updateWorkspaceOccupied() {
+        workspaceOccupied = Array.from({ length: workspacesShown }, (_, i) =>
+            Hyprland.workspaces.values.some(ws =>
+                ws.id === workspaceGroup * workspacesShown + i + 1));
+    }
 
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.NoButton
-            onWheel: event => {
-                event.accepted = true;
-                let acc = Math.abs(root.scrollAccumulator - event.angleDelta.y);
-                const sign = Math.sign(acc);
-                acc = Math.abs(acc);
-                const offset = sign * Math.floor(acc / 120);
-                root.scrollAccumulator = sign * (acc % 120);
-                if (offset) {
-                    const currentWorkspace = root.activeWorkspace;
-                    const id = Math.max(root.baseWorkspace, currentWorkspace + offset);
-                    if (id !== currentWorkspace)
-                        Hyprland.dispatch(`workspace ${id}`);
-                }
+    Component.onCompleted: updateWorkspaceOccupied()
+
+    Connections {
+        target: Hyprland.workspaces
+        function onValuesChanged() { root.updateWorkspaceOccupied(); }
+    }
+    Connections {
+        target: Hyprland
+        function onFocusedWorkspaceChanged() { root.updateWorkspaceOccupied(); }
+    }
+    onWorkspaceGroupChanged: updateWorkspaceOccupied()
+
+    // Scroll to switch workspaces
+    WheelHandler {
+        onWheel: event => {
+            if (event.angleDelta.y < 0)
+                Hyprland.dispatch("workspace r+1");
+            else if (event.angleDelta.y > 0)
+                Hyprland.dispatch("workspace r-1");
+        }
+        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+    }
+
+    // ── z:1 — Occupied workspace background tiles ──────────────────────────
+    Grid {
+        z: 1
+        anchors.centerIn: parent
+        rowSpacing: 0
+        columnSpacing: 0
+        columns: vertical ? 1 : root.workspacesShown
+        rows:    vertical ? root.workspacesShown : 1
+
+        Repeater {
+            model: root.workspacesShown
+
+            Rectangle {
+                id: occupiedTile
+                required property int index
+
+                readonly property bool prevOccupied:
+                    (root.workspaceOccupied[index - 1] ?? false) &&
+                    !(!root.activeWindow?.activated && root.effectiveActiveWorkspaceId === index)
+                readonly property bool nextOccupied:
+                    (root.workspaceOccupied[index + 1] ?? false) &&
+                    !(!root.activeWindow?.activated && root.effectiveActiveWorkspaceId === index + 2)
+
+                readonly property real rFull: root.workspaceButtonWidth / 2
+
+                implicitWidth:  root.workspaceButtonWidth
+                implicitHeight: root.workspaceButtonWidth
+
+                topLeftRadius:     root.vertical ? (prevOccupied ? 0 : rFull) : (prevOccupied ? 0 : rFull)
+                bottomLeftRadius:  root.vertical ? (nextOccupied ? 0 : rFull) : (prevOccupied ? 0 : rFull)
+                topRightRadius:    root.vertical ? (prevOccupied ? 0 : rFull) : (nextOccupied ? 0 : rFull)
+                bottomRightRadius: root.vertical ? (nextOccupied ? 0 : rFull) : (nextOccupied ? 0 : rFull)
+
+                color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.15)
+
+                opacity: (root.workspaceOccupied[index] ?? false) &&
+                         !(!root.activeWindow?.activated &&
+                           root.effectiveActiveWorkspaceId === index + 1) ? 1 : 0
+
+                Behavior on opacity       { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
+                Behavior on topLeftRadius { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
+                Behavior on bottomRightRadius { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
             }
         }
+    }
 
-        GridLayout {
-            id: inner
-            anchors.centerIn: parent
-            columns: horizontal ? -1 : 1
-            rows:    horizontal ? 1  : -1
-            columnSpacing: horizontal ? 8 : 0
-            rowSpacing:    horizontal ? 0 : 8
+    // ── z:2 — Animated active workspace pill ──────────────────────────────
+    Rectangle {
+        z: 2
+        radius: root.workspaceButtonWidth / 2
+        color: Colors.accent
 
-            Repeater {
-                model: ScriptModel {
-                    objectProp: "index"
-                    values: {
-                        const workspaces = Hyprland.workspaces.values;
-                        const base = root.baseWorkspace;
-                        return Array.from({ length: root.shownWorkspaces }, (_, i) => ({
-                            index: base + i,
-                            workspace: workspaces.find(w => w.id === base + i)
-                        }));
-                    }
+        anchors {
+            verticalCenter:   root.vertical ? undefined : parent.verticalCenter
+            horizontalCenter: root.vertical ? parent.horizontalCenter : undefined
+        }
+
+        AnimatedTabPair {
+            id: tabPair
+            index: root.workspaceIndexInGroup
+        }
+
+        readonly property real indicatorPos:
+            Math.min(tabPair.idx1, tabPair.idx2) * root.workspaceButtonWidth + root.activeWorkspaceMargin +
+            (root.vertical ? root.verticalPadding : 0)
+        readonly property real indicatorLen:
+            Math.abs(tabPair.idx1 - tabPair.idx2) * root.workspaceButtonWidth +
+            root.workspaceButtonWidth - root.activeWorkspaceMargin * 2
+        readonly property real indicatorThick:
+            root.workspaceButtonWidth - root.activeWorkspaceMargin * 2
+
+        x:             root.vertical ? 0 : indicatorPos
+        y:             root.vertical ? indicatorPos : 0
+        implicitWidth:  root.vertical ? indicatorThick : indicatorLen
+        implicitHeight: root.vertical ? indicatorLen  : indicatorThick
+    }
+
+    // ── z:3 — Workspace buttons (icon / dot / number) ─────────────────────
+    Grid {
+        z: 3
+        anchors.centerIn: parent
+        rowSpacing: 0
+        columnSpacing: 0
+        columns: root.vertical ? 1 : root.workspacesShown
+        rows:    root.vertical ? root.workspacesShown : 1
+
+        Repeater {
+            model: root.workspacesShown
+
+            Item {
+                id: wsButton
+                required property int index
+
+                readonly property int workspaceValue:
+                    root.workspaceGroup * root.workspacesShown + index + 1
+                readonly property bool isActive:
+                    root.effectiveActiveWorkspaceId === workspaceValue
+                readonly property bool isOccupied:
+                    root.workspaceOccupied[index] ?? false
+
+                implicitWidth:  root.workspaceButtonWidth
+                implicitHeight: root.workspaceButtonWidth
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onPressed: Hyprland.dispatch(`workspace ${wsButton.workspaceValue}`)
                 }
 
-                Rectangle {
-                    id: pill
-                    required property var modelData
+                Item {
+                    id: wsBackground
+                    anchors.fill: parent
 
-                    readonly property bool focused:  modelData.workspace?.focused ?? false
-                    readonly property bool occupied: !!modelData.workspace && !focused
+                    property var biggestWindow:
+                        WorkspaceAppData.biggestWindowForWorkspace(wsButton.workspaceValue)
+                    property string iconSource:
+                        Quickshell.iconPath(
+                            WorkspaceIconSearch.guessIcon(biggestWindow?.class ?? ""),
+                            "image-missing")
 
-                    Layout.preferredWidth:  horizontal ? (focused ? 72 : (occupied ? 46 : 18)) : 6
-                    Layout.preferredHeight: horizontal ? 6 : (focused ? 72 : (occupied ? 46 : 18))
-                    Layout.alignment: horizontal ? Qt.AlignVCenter : Qt.AlignHCenter
+                    // Number text
+                    Text {
+                        anchors.centerIn: parent
+                        visible: opacity > 0
+                        opacity: Config.workspaceAlwaysShowNumbers ? 1 : 0
+                        z: 3
 
-                    radius: 3
-                    color: focused ? Colors.accent : Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.1)
+                        text: wsButton.workspaceValue
+                        font.pixelSize: text.toString().length > 1 ? 13 : 15
+                        font.family: "Google Sans Flex"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        color: wsButton.isActive ? Colors.background :
+                               wsButton.isOccupied ? Colors.foreground : Colors.comment
 
-                    Behavior on Layout.preferredWidth {
-                        NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
+                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                        Behavior on color   { ColorAnimation   { duration: 180 } }
                     }
-                    Behavior on Layout.preferredHeight {
-                        NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
-                    }
-                    Behavior on color {
-                        ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
+
+                    // Dot (shown when no icon and no number)
+                    Rectangle {
+                        id: wsDot
+                        anchors.centerIn: parent
+                        visible: opacity > 0
+                        opacity: (Config.workspaceAlwaysShowNumbers ||
+                                  (Config.workspaceShowAppIcons && wsBackground.biggestWindow)) ? 0 : 1
+                        width:  root.workspaceButtonWidth * 0.18
+                        height: width
+                        radius: width / 2
+                        color: wsButton.isActive ? Colors.background :
+                               wsButton.isOccupied ? Colors.foreground : Colors.comment
+
+                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                        Behavior on color   { ColorAnimation   { duration: 180 } }
                     }
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onPressed: Hyprland.dispatch(`workspace ${pill.modelData.index}`)
+                    // App icon
+                    Item {
+                        anchors.centerIn: parent
+                        width:  root.workspaceButtonWidth
+                        height: root.workspaceButtonWidth
+                        visible: opacity > 0
+                        opacity: !Config.workspaceShowAppIcons ? 0 :
+                                 (wsBackground.biggestWindow ? 1 : 0)
+
+                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+
+                        IconImage {
+                            id: appIcon
+                            anchors.centerIn: parent
+                            source: wsBackground.iconSource
+                            implicitSize: root.workspaceIconSize
+
+                            Behavior on implicitSize { NumberAnimation { duration: 180 } }
+                        }
+
+                        // Monochrome overlay (optional)
+                        Loader {
+                            active: Config.workspaceMonochromeIcons
+                            anchors.fill: appIcon
+
+                            sourceComponent: Item {
+                                Desaturate {
+                                    id: desatIcon
+                                    visible: false
+                                    anchors.fill: parent
+                                    source: appIcon
+                                    desaturation: 0.8
+                                }
+                                ColorOverlay {
+                                    anchors.fill: desatIcon
+                                    source: desatIcon
+                                    color: Qt.rgba(wsDot.color.r, wsDot.color.g, wsDot.color.b, 0.9)
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -5,12 +5,18 @@ import qs.utils
 Item {
     property bool horizontal: !Config.barVertical
 
-    implicitWidth:  horizontal ? (hRow.implicitWidth + 20) : 32
-    implicitHeight: horizontal ? (Config.barHeight - 8)    : (col.implicitHeight + 16)
+    implicitWidth:  horizontal ? (hRow.implicitWidth + 20) : Config.barWidth
+    implicitHeight: horizontal ? Config.barHeight : (col.implicitHeight + 16)
 
     Rectangle {
-        anchors.fill: parent
-        radius: 8
+        anchors {
+            fill: parent
+            topMargin:    horizontal ? 4 : 0
+            bottomMargin: horizontal ? 4 : 0
+            leftMargin:   0
+            rightMargin:  0
+        }
+        radius: 12
         color: Colors.elevated
 
         // Vertical mode: stacked hh / mm / date
@@ -18,29 +24,33 @@ Item {
             id: col
             visible: !horizontal
             anchors.centerIn: parent
-            spacing: 2
+            spacing: 6
 
-            Text {
+            ColumnLayout {
                 Layout.alignment: Qt.AlignHCenter
-                text: Qt.formatDateTime(Utils.clock.date, "hh")
-                font.pixelSize: 13
-                font.family: "Google Sans Flex"
-                color: Colors.foreground
-                horizontalAlignment: Text.AlignHCenter
-            }
+                spacing: -4
 
-            Text {
-                Layout.alignment: Qt.AlignHCenter
-                text: Qt.formatDateTime(Utils.clock.date, "mm")
-                font.pixelSize: 13
-                font.family: "Google Sans Flex"
-                color: Colors.foreground
-                horizontalAlignment: Text.AlignHCenter
+                Text {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: Qt.formatDateTime(Utils.clock.date, "hh")
+                    font.pixelSize: 17
+                    font.family: "Google Sans Flex"
+                    color: Colors.foreground
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                Text {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: Qt.formatDateTime(Utils.clock.date, "mm")
+                    font.pixelSize: 17
+                    font.family: "Google Sans Flex"
+                    color: Colors.foreground
+                    horizontalAlignment: Text.AlignHCenter
+                }
             }
 
             Rectangle {
                 Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: 3
                 implicitWidth: 20
                 implicitHeight: 1
                 color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.15)
@@ -48,7 +58,6 @@ Item {
 
             Text {
                 Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: 3
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 10
                 font.family: "Google Sans Flex"
@@ -66,20 +75,20 @@ Item {
 
             Text {
                 text: Qt.formatDateTime(Utils.clock.date, "hh:mm")
-                font.pixelSize: 13
+                font.pixelSize: 17
                 font.family: "Google Sans Flex"
                 color: Colors.foreground
             }
 
             Rectangle {
                 implicitWidth: 1
-                implicitHeight: 12
+                implicitHeight: 14
                 color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.2)
             }
 
             Text {
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
-                font.pixelSize: 11
+                font.pixelSize: 13
                 font.family: "Google Sans Flex"
                 color: Colors.comment
             }

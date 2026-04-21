@@ -25,6 +25,11 @@ PersistentProperties {
     readonly property int barHeight: 40
     readonly property int barWidth: 52
     readonly property int sidebarWidth: 420
+
+    readonly property int workspacesShown: 10
+    readonly property bool workspaceShowAppIcons: true
+    readonly property bool workspaceAlwaysShowNumbers: false
+    readonly property bool workspaceMonochromeIcons: false
     readonly property int osdWidth: 200
 
     readonly property int iconSize: 14
