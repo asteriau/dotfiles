@@ -32,7 +32,7 @@ PanelWindow {
             width: parent.width - 12
             spacing: 8
 
-            MoonIcon {
+            HeartIcon {
                 Layout.alignment: Qt.AlignHCenter
             }
         }

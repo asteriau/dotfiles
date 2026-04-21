@@ -33,7 +33,7 @@ Item {
 
     MaterialIcon {
         anchors.centerIn: parent
-        text: "dark_mode"
+        text: "favorite"
         fill: 1
         font.pixelSize: 22
         font.weight: Font.Medium
