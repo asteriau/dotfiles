@@ -25,6 +25,7 @@ Scope {
         anchors {
             right: true
             top: true
+            bottom: true
         }
 
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
@@ -32,7 +33,6 @@ Scope {
         color: "transparent"
 
         implicitWidth: 6
-        implicitHeight: 140
 
         MouseArea {
             id: triggerArea
@@ -60,7 +60,8 @@ Scope {
 
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "quickshell:sidebar"
-        color: Colors.background
+        WlrLayershell.keyboardFocus: Config.showSidebar ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+        color: "transparent"
 
         implicitWidth: Config.sidebarWidth
 
@@ -73,6 +74,11 @@ Scope {
             }
         }
 
+        Keys.onPressed: (event) => {
+            if (event.key === Qt.Key_Escape)
+                Config.showSidebar = false;
+        }
+
         MouseArea {
             id: panelArea
             anchors.fill: parent
@@ -82,18 +88,28 @@ Scope {
             onExited: closeTimer.restart()
         }
 
-        ColumnLayout {
-            anchors.fill: parent
-            anchors.margins: 24
-            spacing: 16
-
-            Profile {}
-            QuickToggles {}
-            NotificationCenter {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+        Rectangle {
+            anchors {
+                fill: parent
+                margins: 8
             }
-            Sliders {}
+            radius: Config.radius
+            color: Colors.background
+            layer.enabled: true
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 24
+                spacing: 16
+
+                Profile {}
+                QuickToggles {}
+                NotificationCenter {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                }
+                Sliders {}
+            }
         }
     }
 }
