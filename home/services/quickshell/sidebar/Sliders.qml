@@ -15,7 +15,7 @@ Rectangle {
         id: col
         anchors.fill: parent
         anchors.margins: 14
-        spacing: 12
+        spacing: 14
 
         SliderRow {
             Layout.fillWidth: true
@@ -40,42 +40,150 @@ Rectangle {
         id: row
         property string icon
         property real value
+        property real visualValue: value
         signal moved(real v)
-        spacing: 10
+        spacing: 12
+
+        // M3 expressive dimensions.
+        readonly property real trackWidth: 18
+        readonly property real trackRadius: 6
+        readonly property real unsharpenRadius: 2
+        readonly property real handleMargins: 4
+        readonly property real handleDefaultWidth: 3
+        readonly property real handlePressedWidth: 1.5
+        readonly property real handleHeight: Math.max(33, trackWidth + 9)
+        readonly property real stopDotSize: 3
+
+        onValueChanged: {
+            if (!dragMA.pressed)
+                visualValue = value;
+        }
 
         Text {
             text: row.icon
             color: Colors.foreground
             font.family: "Material Symbols Rounded"
-            font.pixelSize: 18
+            font.pixelSize: 20
             Layout.alignment: Qt.AlignVCenter
         }
 
         Item {
+            id: sliderArea
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
-            implicitHeight: 10
+            implicitHeight: row.handleHeight
 
-            Rectangle {
-                anchors.fill: parent
-                radius: height / 2
-                color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.07)
+            readonly property real pos: Math.max(0, Math.min(1, row.visualValue))
+            property real handleWidth: dragMA.pressed ? row.handlePressedWidth : row.handleDefaultWidth
+            readonly property real effectiveWidth: width - row.handleMargins * 2
+            readonly property real handleX: row.handleMargins + pos * effectiveWidth - handleWidth / 2
+
+            Behavior on handleWidth {
+                NumberAnimation {
+                    duration: 160
+                    easing.type: Easing.OutCubic
+                }
             }
 
+            // Filled (left) segment.
             Rectangle {
-                height: parent.height
-                width: Math.max(height, parent.width * Math.max(0, Math.min(1, row.value)))
-                radius: height / 2
+                id: fill
+                anchors.verticalCenter: parent.verticalCenter
+                height: row.trackWidth
+                x: 0
+                width: Math.max(0, sliderArea.handleX - row.handleMargins)
                 color: Colors.accent
+                topLeftRadius: row.trackRadius
+                bottomLeftRadius: row.trackRadius
+                topRightRadius: row.unsharpenRadius
+                bottomRightRadius: row.unsharpenRadius
+
+                Behavior on width {
+                    NumberAnimation {
+                        duration: 90
+                        easing.type: Easing.OutCubic
+                    }
+                }
+            }
+
+            // Track (right) segment.
+            Rectangle {
+                id: track
+                anchors.verticalCenter: parent.verticalCenter
+                height: row.trackWidth
+                x: sliderArea.handleX + sliderArea.handleWidth + row.handleMargins
+                width: Math.max(0, parent.width - x)
+                color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.22)
+                topLeftRadius: row.unsharpenRadius
+                bottomLeftRadius: row.unsharpenRadius
+                topRightRadius: row.trackRadius
+                bottomRightRadius: row.trackRadius
+
+                Behavior on x {
+                    NumberAnimation {
+                        duration: 90
+                        easing.type: Easing.OutCubic
+                    }
+                }
+            }
+
+            // Stop dot at value=1, hidden when fill reaches it.
+            Rectangle {
+                id: stopDot
+                anchors.verticalCenter: parent.verticalCenter
+                width: row.stopDotSize
+                height: row.stopDotSize
+                radius: height / 2
+                x: parent.width - row.handleMargins - width - 2
+                color: sliderArea.pos < 0.98 ? Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.8) : Colors.background
+                visible: sliderArea.pos < 0.995
+            }
+
+            // Handle pill.
+            Rectangle {
+                id: handle
+                anchors.verticalCenter: parent.verticalCenter
+                width: sliderArea.handleWidth
+                height: row.handleHeight
+                radius: width / 2
+                color: Colors.accent
+                x: sliderArea.handleX
+
+                Behavior on x {
+                    NumberAnimation {
+                        duration: 90
+                        easing.type: Easing.OutCubic
+                    }
+                }
             }
 
             MouseArea {
+                id: dragMA
                 anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                onPressed: ev => row.moved(Math.max(0, Math.min(1, ev.x / width)))
+                cursorShape: pressed ? Qt.ClosedHandCursor : Qt.PointingHandCursor
+                preventStealing: true
+
+                function valueAt(x) {
+                    const w = sliderArea.effectiveWidth;
+                    if (w <= 0)
+                        return 0;
+                    return Math.max(0, Math.min(1, (x - row.handleMargins) / w));
+                }
+
+                onPressed: ev => {
+                    const v = valueAt(ev.x);
+                    row.visualValue = v;
+                    row.moved(v);
+                }
                 onPositionChanged: ev => {
-                    if (pressed)
-                        row.moved(Math.max(0, Math.min(1, ev.x / width)));
+                    if (pressed) {
+                        const v = valueAt(ev.x);
+                        row.visualValue = v;
+                        row.moved(v);
+                    }
+                }
+                onReleased: {
+                    row.visualValue = row.value;
                 }
             }
         }

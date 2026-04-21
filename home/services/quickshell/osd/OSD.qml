@@ -4,6 +4,7 @@ import Quickshell.Wayland
 import Quickshell.Widgets
 import QtQuick
 import QtQuick.Effects
+import QtQuick.Layouts
 import qs.utils
 import qs.components
 
@@ -11,15 +12,37 @@ Scope {
     id: scope
     property bool osdVisible: false
     property real progress: 0
-    property string icon: ""
+    property string icon: "volume_up"
+    property string label: ""
+
+    // Icon crossfade state.
+    property string iconA: "volume_up"
+    property string iconB: ""
+    property bool aActive: true
+
+    onIconChanged: {
+        const current = aActive ? iconA : iconB;
+        if (icon === current)
+            return;
+        if (aActive) {
+            iconB = icon;
+            aActive = false;
+        } else {
+            iconA = icon;
+            aActive = true;
+        }
+    }
 
     Connections {
         target: PipeWireState.defaultSink ? PipeWireState.defaultSink.audio : null
 
         function update() {
+            const muted = PipeWireState.defaultSink?.audio.muted ?? false;
+            const vol = PipeWireState.defaultSink?.audio.volume ?? 0;
             scope.osdVisible = true;
-            scope.icon = PipeWireState.sinkIcon();
-            scope.progress = PipeWireState.defaultSink?.audio.volume ?? 0;
+            scope.icon = muted ? "volume_off" : (vol < 0.01 ? "volume_mute" : (vol < 0.5 ? "volume_down" : "volume_up"));
+            scope.label = "Volume";
+            scope.progress = vol;
             hideTimer.restart();
         }
 
@@ -36,8 +59,10 @@ Scope {
         target: PipeWireState.defaultSource ? PipeWireState.defaultSource.audio : null
 
         function update() {
+            const muted = PipeWireState.defaultSource?.audio.muted ?? false;
             scope.osdVisible = true;
-            scope.icon = PipeWireState.sourceIcon();
+            scope.icon = muted ? "mic_off" : "mic";
+            scope.label = "Microphone";
             scope.progress = PipeWireState.defaultSource?.audio.volume ?? 0;
             hideTimer.restart();
         }
@@ -56,7 +81,8 @@ Scope {
 
         function onBrightnessChanged() {
             scope.osdVisible = true;
-            scope.icon = "display-brightness-symbolic";
+            scope.icon = "brightness_medium";
+            scope.label = "Brightness";
             scope.progress = BrightnessState.brightness ?? 0;
             hideTimer.restart();
         }
@@ -68,8 +94,23 @@ Scope {
         onTriggered: scope.osdVisible = false
     }
 
+    // Hold the window mapped long enough for the exit animation to finish.
+    Timer {
+        id: exitHold
+        interval: 420
+        repeat: false
+    }
+
+    onOsdVisibleChanged: {
+        if (!osdVisible) {
+            exitHold.restart();
+        } else {
+            exitHold.stop();
+        }
+    }
+
     LazyLoader {
-        active: scope.osdVisible
+        active: scope.osdVisible || exitHold.running
 
         PanelWindow {
             id: root
@@ -77,60 +118,208 @@ Scope {
             screen: Config.preferredMonitor
 
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
+            WlrLayershell.layer: WlrLayer.Overlay
             WlrLayershell.namespace: "quickshell:osd"
-            color: 'transparent'
-            mask: Region {}
+            color: "transparent"
+            mask: Region {
+                item: osdPill
+            }
 
             anchors {
-                bottom: true
+                top: true
             }
 
             margins {
-                bottom: Config.barHeight
+                top: Config.barHeight + Config.padding * 4
             }
 
-            implicitWidth: bgroot.width + (Config.padding * 10)
-            implicitHeight: bgroot.height + (Config.padding * 12)
+            implicitWidth: osdPill.implicitWidth + Config.padding * 10
+            implicitHeight: osdPill.implicitHeight + Config.padding * 10
 
             Item {
-                id: bgroot
+                id: osdPill
 
-                anchors.centerIn: parent
+                anchors.horizontalCenter: parent.horizontalCenter
+                y: (parent.height - height) / 2 + yOffset
+                implicitWidth: 340
+                implicitHeight: 70
 
-                implicitHeight: Config.barHeight / 1.25
-                implicitWidth: Config.osdWidth + Config.padding * 8
+                property real yOffset: scope.osdVisible ? 0 : -18
+                opacity: scope.osdVisible ? 1 : 0
+
+                // M3 emphasized easing.
+                // Enter: emphasized decelerate (0.05, 0.7, 0.1, 1.0), 500ms.
+                // Exit: emphasized accelerate (0.3, 0.0, 0.8, 0.15), 200ms.
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: scope.osdVisible ? 500 : 200
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: scope.osdVisible ? [0.05, 0.7, 0.1, 1.0, 1, 1] : [0.3, 0.0, 0.8, 0.15, 1, 1]
+                    }
+                }
+                Behavior on yOffset {
+                    NumberAnimation {
+                        duration: scope.osdVisible ? 500 : 200
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: scope.osdVisible ? [0.05, 0.7, 0.1, 1.0, 1, 1] : [0.3, 0.0, 0.8, 0.15, 1, 1]
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: scope.osdVisible = false
+                }
 
                 RectangularShadow {
-                    anchors.fill: bgroot
-                    radius: Config.radius
+                    anchors.fill: pillBg
+                    radius: pillBg.radius
                     offset.y: Config.padding
                     blur: Config.blurMax
-                    spread: Config.padding * 2
+                    spread: Config.padding
                     color: Colors.windowShadow
                 }
 
-                Squircle {
+                Rectangle {
+                    id: pillBg
                     anchors.fill: parent
-                    color: Colors.background
-                    progressColor: Colors.accent
-                    progress: scope.progress
-                    strokeColor: Colors.border
-                    strokeWidth: 0.5
-
-                    Behavior on progress { NumberAnimation { duration: 150 } }
+                    radius: height / 2
+                    color: Colors.elevated
+                    border.color: Colors.border
+                    border.width: 1
+                    antialiasing: true
                 }
 
-                IconImage {
-                    id: icon
+                RowLayout {
+                    id: row
+                    anchors.fill: parent
+                    anchors.leftMargin: 22
+                    anchors.rightMargin: 26
+                    anchors.topMargin: 12
+                    anchors.bottomMargin: 12
+                    spacing: 16
 
-                    anchors {
-                        horizontalCenter: bgroot.left
-                        horizontalCenterOffset: icon.implicitSize + Config.padding
-                        verticalCenter: bgroot.verticalCenter
+                    Item {
+                        id: iconStack
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.preferredWidth: 40
+                        Layout.preferredHeight: 40
+
+                        MaterialIcon {
+                            anchors.fill: parent
+                            text: scope.iconA
+                            font.pixelSize: 36
+                            color: Colors.foreground
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            opacity: scope.aActive ? 1 : 0
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 200
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [0.2, 0, 0, 1, 1, 1]
+                                }
+                            }
+                        }
+
+                        MaterialIcon {
+                            anchors.fill: parent
+                            text: scope.iconB
+                            font.pixelSize: 36
+                            color: Colors.foreground
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            opacity: scope.aActive ? 0 : 1
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 200
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [0.2, 0, 0, 1, 1, 1]
+                                }
+                            }
+                        }
                     }
-                    mipmap: true
-                    implicitSize: Config.iconSize
-                    source: Quickshell.iconPath(scope.icon)
+
+                    ColumnLayout {
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.fillWidth: true
+                        spacing: 6
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 4
+                            Layout.rightMargin: 4
+
+                            Text {
+                                text: scope.label
+                                font.pixelSize: 15
+                                font.weight: Font.Medium
+                                color: Colors.foreground
+                                Layout.fillWidth: true
+                            }
+
+                            Text {
+                                text: Math.round(Math.max(0, Math.min(1, scope.progress)) * 100)
+                                font.pixelSize: 15
+                                font.weight: Font.Medium
+                                color: Colors.foreground
+                                horizontalAlignment: Text.AlignRight
+                            }
+                        }
+
+                        Item {
+                            id: progress
+                            Layout.fillWidth: true
+                            implicitHeight: 6
+
+                            property real valueBarGap: 4
+                            property real pos: Math.max(0, Math.min(1, scope.progress))
+
+                            Rectangle {
+                                id: bar
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: parent.width * progress.pos
+                                height: parent.height
+                                radius: height / 2
+                                color: Colors.accent
+
+                                Behavior on width {
+                                    NumberAnimation {
+                                        duration: 90
+                                        easing.type: Easing.OutCubic
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                id: track
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: Math.max(0, (1 - progress.pos) * parent.width - progress.valueBarGap)
+                                height: parent.height
+                                radius: height / 2
+                                color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.45)
+
+                                Behavior on width {
+                                    NumberAnimation {
+                                        duration: 90
+                                        easing.type: Easing.OutCubic
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                id: stopDot
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: progress.valueBarGap
+                                height: progress.valueBarGap
+                                radius: height / 2
+                                color: Colors.accent
+                            }
+                        }
+                    }
                 }
             }
         }

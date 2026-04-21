@@ -4,7 +4,9 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
+import Quickshell.Widgets
 import qs.utils
+import qs.notifications
 
 Rectangle {
     id: root
@@ -214,91 +216,12 @@ Rectangle {
                         }
                     }
 
-                    Rectangle {
+                    NotificationBox {
                         id: card
                         anchors.fill: parent
-                        implicitHeight: innerCol.implicitHeight
-                        radius: 10
-                        color: Colors.elevated
-                        clip: true
-
-                        ColumnLayout {
-                            id: innerCol
-                            width: parent.width
-                            spacing: 0
-
-                            Rectangle {
-                                Layout.fillWidth: true
-                                implicitHeight: titleRow.implicitHeight + 10
-                                color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.04)
-
-                                RowLayout {
-                                    id: titleRow
-                                    anchors.fill: parent
-                                    anchors.leftMargin: 10
-                                    anchors.rightMargin: 6
-                                    anchors.topMargin: 5
-                                    anchors.bottomMargin: 5
-
-                                    Text {
-                                        text: delegate.notifRef?.summary ?? ""
-                                        color: Colors.foreground
-                                        font.family: "Google Sans Flex"
-                                        font.pixelSize: 13
-                                        font.weight: Font.Medium
-                                        wrapMode: Text.WordWrap
-                                        Layout.fillWidth: true
-                                    }
-
-                                    Item {
-                                        implicitWidth: 18
-                                        implicitHeight: 18
-
-                                        Text {
-                                            anchors.centerIn: parent
-                                            text: "close"
-                                            color: Colors.red
-                                            font.family: "Material Symbols Rounded"
-                                            font.pixelSize: 16
-                                        }
-
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            cursorShape: Qt.PointingHandCursor
-                                            onClicked: {
-                                                if (delegate.notifRef)
-                                                    NotificationState.notifCloseByNotif(delegate.notifRef);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            RowLayout {
-                                Layout.fillWidth: true
-                                Layout.margins: 10
-                                spacing: 10
-
-                                Image {
-                                    readonly property string src: delegate.notifRef ? (delegate.notifRef.image || delegate.notifRef.appIcon) : ""
-                                    source: src ? Utils.getImage(src) : Qt.resolvedUrl("../assets/wedding-bells.png")
-                                    sourceSize.width: 32
-                                    sourceSize.height: 32
-                                    Layout.preferredWidth: 32
-                                    Layout.preferredHeight: 32
-                                    fillMode: Image.PreserveAspectFit
-                                }
-
-                                Text {
-                                    text: delegate.notifRef?.body ?? ""
-                                    color: Colors.foreground
-                                    font.family: "Google Sans Flex"
-                                    font.pixelSize: 12
-                                    wrapMode: Text.WordWrap
-                                    Layout.fillWidth: true
-                                }
-                            }
-                        }
+                        n: delegate.notifRef
+                        expanded: true
+                        onlyNotification: false
                     }
                 }
             }

@@ -1,8 +1,13 @@
+// Adapted from illogical-impulse
+// (~/.config/quickshell/ii/modules/common/widgets/NotificationItem.qml).
+// License: upstream dots-hyprland.
+// Stripped: drag-to-dismiss, urgency-based color mixing, Appearance/Translation.
+
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Effects
 import QtQuick.Layouts
+import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
 import qs.utils
@@ -15,213 +20,268 @@ WrapperMouseArea {
     hoverEnabled: true
 
     property Notification n
-    property int elapsed: getElapsed()
-    property string image: !n.image && !!n.appIcon ? n.appIcon : n.image
-    property bool hasAppIcon: !!n.image && !!n.appIcon
-    property real iconSize: Config.notificationIconSize
-
-    property bool showTime: false
+    property var notificationObject: n
     property bool expanded: true
+    property bool onlyNotification: false
+    property real fontSize: 14
+    property real padding: onlyNotification ? 0 : 10
+    property real summaryElideRatio: 0.85
 
-    property bool dismissOnClose: true
+    // Colors (M3-ish dark, derived from my palette).
+    readonly property color colLayer3: Qt.rgba(0.156, 0.156, 0.156, 0.94)
+    readonly property color colLayer4: Qt.rgba(1, 1, 1, 0.08)
+    readonly property color colLayer4Hover: Qt.rgba(1, 1, 1, 0.14)
+    readonly property color colLayer4Active: Qt.rgba(1, 1, 1, 0.2)
+    readonly property color colOnLayer3: Colors.foreground
+    readonly property color colSubtext: Qt.rgba(1, 1, 1, 0.68)
+    readonly property color colOnSurface: Colors.foreground
 
-    function getElapsed(): int {
-        return Math.floor(Date.now() / 1000) - Math.floor(n.time / 1000);
-    }
+    readonly property real roundingSmall: 16
+    readonly property real roundingMedium: 20
 
     onClicked: mouse => {
-        if (mouse.button == Qt.LeftButton && root.n?.actions != []) {
-            root.n?.actions[0].invoke();
+        if (mouse.button == Qt.LeftButton) {
+            const acts = (n?.actions ?? []).filter(a => a.identifier === "default");
+            if (acts.length > 0)
+                acts[0].invoke();
         } else if (mouse.button == Qt.RightButton) {
-            if (dismissOnClose) {
-                NotificationState.notifDismissByNotif(n);
-            } else {
-                NotificationState.notifCloseByNotif(n);
-            }
-        } else if (mouse.button == Qt.MiddleButton && dismissOnClose) {
-            NotificationState.dismissAll();
+            NotificationState.notifDismissByNotif(n);
         } else if (mouse.button == Qt.MiddleButton) {
-            NotificationState.closeAll();
+            NotificationState.dismissAll();
         }
     }
 
-    Timer {
-        running: root.showTime
-        interval: 1000
-        repeat: true
-        onTriggered: root.elapsed = root.getElapsed()
+    function filteredActions() {
+        return (n?.actions ?? []).filter(a => a.identifier !== "default");
     }
 
-    Item {
-        implicitWidth: mainRect.width
-        implicitHeight: mainRect.height
+    implicitHeight: background.implicitHeight
+    implicitWidth: Config.notificationWidth
 
-        RectangularShadow {
-            anchors.fill: mainRect
-            radius: mainRect.radius
-            blur: Config.blurMax
-            spread: Config.padding * 2
-            color: Colors.windowShadow
+    // Inline M3 outlined action button.
+    component ActionButton: Rectangle {
+        id: btn
+        property string buttonText: ""
+        property string iconGlyph: ""
+        signal clicked
+
+        implicitHeight: 34
+        implicitWidth: iconGlyph !== "" ? 48 : Math.max(64, label.implicitWidth + 28)
+        radius: 17
+        color: btnMouse.pressed ? root.colLayer4Active : btnMouse.containsMouse ? root.colLayer4Hover : root.colLayer4
+        antialiasing: true
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 120
+            }
         }
 
-        Squircle {
-            id: mainRect
-            color: Colors.background
-            strokeWidth: 1.0
-            strokeColor: Colors.border
-            implicitWidth: Config.notificationWidth
-            implicitHeight: mainLayout.height
+        Text {
+            id: label
+            anchors.centerIn: parent
+            visible: btn.iconGlyph === ""
+            text: btn.buttonText
+            font.family: "Google Sans Flex"
+            font.pixelSize: 13
+            font.weight: Font.Medium
+            color: root.colOnSurface
+        }
+
+        Text {
+            anchors.centerIn: parent
+            visible: btn.iconGlyph !== ""
+            text: btn.iconGlyph
+            font.family: "Material Symbols Rounded"
+            font.pixelSize: 18
+            color: root.colOnSurface
+        }
+
+        MouseArea {
+            id: btnMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: btn.clicked()
+        }
+    }
+
+    Rectangle {
+        id: background
+
+        anchors.left: parent.left
+        width: parent.width
+        radius: root.roundingSmall
+        color: root.colLayer3
+        border.color: Qt.rgba(1, 1, 1, 0.06)
+        border.width: 1
+        antialiasing: true
+
+        implicitHeight: root.expanded ? (contentColumn.implicitHeight + root.padding * 2) : summaryRow.implicitHeight + root.padding * 2
+
+        Behavior on implicitHeight {
+            NumberAnimation {
+                duration: 220
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        ColumnLayout {
+            id: contentColumn
+
+            anchors.fill: parent
+            anchors.margins: root.padding
+            spacing: 6
 
             RowLayout {
-                id: mainLayout
+                id: summaryRow
+                Layout.fillWidth: true
+                spacing: 12
 
-                spacing: Config.padding * 2
-
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-
-                Item {
-                    id: coverItem
-
-                    visible: root.image != ""
-
+                // App / image icon (circular), 38px like ii.
+                Rectangle {
+                    id: notificationIcon
                     Layout.alignment: Qt.AlignTop
-                    implicitWidth: root.iconSize
-                    implicitHeight: root.iconSize
-                    Layout.margins: Config.spacing
-                    Layout.rightMargin: 0
+                    Layout.topMargin: 1
+                    implicitWidth: 38
+                    implicitHeight: 38
+                    radius: 19
+                    color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.22)
+                    antialiasing: true
 
-                    Squircle {
-                        anchors.centerIn: parent
-                        width: parent.width
-                        height: parent.height
-                        radius: 8
-                        color: "transparent"
+                    readonly property string image: root.n?.image ?? ""
+                    readonly property string appIcon: root.n?.appIcon ?? ""
 
-                        content: Loader {
-                            active: !!root.image
-                            sourceComponent: IconImage {
-                                implicitSize: coverItem.height
-                                source: Utils.getImage(root.image)
-                            }
-                        }
+                    Image {
+                        anchors.fill: parent
+                        anchors.margins: 1
+                        source: notificationIcon.image ? Utils.getImage(notificationIcon.image) : ""
+                        visible: notificationIcon.image !== ""
+                        fillMode: Image.PreserveAspectCrop
+                        smooth: true
+                        mipmap: true
+                        asynchronous: true
                     }
 
-                    Squircle {
-                        visible: root.hasAppIcon
+                    IconImage {
+                        anchors.centerIn: parent
+                        implicitSize: 24
+                        source: notificationIcon.appIcon ? Utils.getImage(notificationIcon.appIcon) : ""
+                        visible: notificationIcon.image === "" && notificationIcon.appIcon !== ""
+                        asynchronous: true
+                    }
 
-                        anchors {
-                            horizontalCenter: coverItem.right
-                            verticalCenter: coverItem.bottom
-                            horizontalCenterOffset: -Config.padding
-                            verticalCenterOffset: -Config.padding
-                        }
+                    Text {
+                        anchors.centerIn: parent
+                        text: "notifications"
+                        font.family: "Material Symbols Rounded"
+                        font.pixelSize: 20
+                        color: Colors.accent
+                        visible: notificationIcon.image === "" && notificationIcon.appIcon === ""
+                    }
 
-                        radius: 2
-                        color: "transparent"
+                    Rectangle {
+                        visible: notificationIcon.image !== "" && notificationIcon.appIcon !== ""
+                        width: 16
+                        height: 16
+                        radius: 8
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.rightMargin: -2
+                        anchors.bottomMargin: -2
+                        color: root.colLayer3
 
-                        width: Config.radius
-                        height: Config.radius
-
-                        content: Loader {
-                            active: root.hasAppIcon
-                            sourceComponent: IconImage {
-                                implicitSize: Config.radius
-                                source: Utils.getImage(root.n?.appIcon)
-                            }
+                        IconImage {
+                            anchors.fill: parent
+                            anchors.margins: 2
+                            source: notificationIcon.appIcon ? Utils.getImage(notificationIcon.appIcon) : ""
                         }
                     }
                 }
 
                 ColumnLayout {
-                    id: contentLayout
-
                     Layout.fillWidth: true
-                    Layout.maximumWidth: !!root.image ? mainLayout.width - coverItem.width - Config.spacing * 2 : mainLayout.width
-                    Layout.margins: Config.spacing
-                    Layout.leftMargin: coverItem.visible ? Config.padding : Config.spacing
-                    spacing: Config.padding
+                    spacing: 2
 
-                    RowLayout {
-                        Layout.maximumWidth: contentLayout.width
-                        Layout.fillWidth: false
-
-                        Text {
-                            text: root.n?.summary
-                            elide: Text.ElideRight
-                            Layout.fillWidth: false
-                            Layout.maximumWidth: contentLayout.width
-                            maximumLineCount: 1
-                        }
-
-                        Text {
-                            visible: root?.showTime
-                            text: "·"
-                        }
-
-                        Text {
-                            visible: root?.showTime
-                            text: Utils.humanTime(root.elapsed)
-                        }
+                    Text {
+                        Layout.fillWidth: true
+                        text: root.n?.appName ?? ""
+                        color: root.colSubtext
+                        font.family: "Google Sans Flex"
+                        font.pixelSize: 11
+                        font.weight: Font.Medium
+                        font.letterSpacing: 0.3
+                        elide: Text.ElideRight
+                        maximumLineCount: 1
+                        visible: text.length > 0
                     }
 
                     Text {
-                        id: bodyText
                         Layout.fillWidth: true
+                        text: root.n?.summary ?? ""
+                        color: root.colOnLayer3
+                        font.family: "Google Sans Flex"
+                        font.pixelSize: 14
+                        font.weight: Font.DemiBold
                         elide: Text.ElideRight
+                        maximumLineCount: 2
                         wrapMode: Text.Wrap
-                        font.weight: Font.Medium
-                        maximumLineCount: root.expanded ? 5 : (root.n?.actions.length > 1 ? 1 : 2)
-                        text: root.n?.body
-                    }
-
-                    RowLayout {
-                        visible: root.n?.actions.length > 1
-
-                        Layout.fillWidth: true
-                        implicitHeight: actionRepeater.implicitHeight
-
-                        Repeater {
-                            id: actionRepeater
-                            model: root.n?.actions.slice(1)
-
-                            Button {
-                                id: actionButtonMA
-                                required property NotificationAction modelData
-
-                                Layout.fillWidth: true
-
-                                buttonText: actionButtonMA.modelData.text
-                                text: ""
-                                onPressed: modelData.invoke()
-                            }
-                        }
                     }
                 }
             }
 
-            IconButton {
-                id: closeButton
-                visible: root.containsMouse
-                enabled: root.containsMouse
+            Text {
+                id: notificationBodyText
+                Layout.fillWidth: true
+                Layout.leftMargin: 38 + 12
+                Layout.topMargin: -4
+                text: root.n?.body ?? ""
+                color: root.colSubtext
+                font.family: "Google Sans Flex"
+                font.pixelSize: 13
+                wrapMode: Text.Wrap
+                elide: Text.ElideRight
+                maximumLineCount: root.expanded ? 6 : 2
+                visible: text.length > 0
+            }
 
-                color: Colors.background
-                hoverColor: Colors.background
+            RowLayout {
+                id: actionRowLayout
+                Layout.fillWidth: true
+                Layout.topMargin: 4
+                spacing: 6
 
-                anchors {
-                    horizontalCenter: mainRect.left
-                    verticalCenter: mainRect.top
-                    horizontalCenterOffset: 1.5 * Config.padding
-                    verticalCenterOffset: 1.5 * Config.padding
+                ActionButton {
+                    iconGlyph: "close"
+                    onClicked: NotificationState.notifCloseByNotif(root.n)
                 }
 
-                icon: "process-stop-symbolic"
-                text: ""
+                Repeater {
+                    model: root.filteredActions()
 
-                onPressed: NotificationState.notifCloseByNotif(root.n)
+                    ActionButton {
+                        required property NotificationAction modelData
+                        Layout.fillWidth: true
+                        buttonText: modelData?.text ?? ""
+                        onClicked: modelData?.invoke()
+                    }
+                }
+
+                ActionButton {
+                    id: copyBtn
+                    property string copyState: "content_copy"
+                    iconGlyph: copyState
+                    onClicked: {
+                        Quickshell.clipboardText = root.n?.body ?? "";
+                        copyState = "inventory";
+                        copyResetTimer.restart();
+                    }
+                    Timer {
+                        id: copyResetTimer
+                        interval: 1500
+                        onTriggered: copyBtn.copyState = "content_copy"
+                    }
+                }
             }
         }
     }
