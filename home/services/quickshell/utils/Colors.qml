@@ -44,4 +44,26 @@ Singleton {
     readonly property color buttonEnabledHover: Qt.lighter(accent, 0.9)
     readonly property color buttonDisabled: elevated
     readonly property color buttonDisabledHover: Qt.rgba(surface.r, surface.g, surface.b, surface.a + 0.1)
+
+    // ── M3 Surface containers (tonal elevation, cool-tinted from accent) ──
+    readonly property color surfaceContainerLowest: "#0F1012"
+    readonly property color surfaceContainerLow:    "#1A1D21"
+    readonly property color surfaceContainer:       "#1E2226"
+    readonly property color surfaceContainerHigh:   "#282D32"
+    readonly property color surfaceContainerHighest:"#333940"
+
+    // ── M3 Primary (from #8DA3B9 seed) ────────────────────────────────────
+    readonly property color m3onPrimary: "#1A2530"
+    readonly property color primaryContainer:    "#253240"
+    readonly property color m3onPrimaryContainer: "#B5C8D8"
+
+    // ── M3 Secondary (desaturated variant) ────────────────────────────────
+    readonly property color secondaryContainer:  "#3A4249"
+    readonly property color m3onSecondaryContainer: "#DAE2EA"
+
+    // ── M3 Surface content ────────────────────────────────────────────────
+    readonly property color m3onSurface:           foreground
+    readonly property color m3onSurfaceVariant:    "#B0B8C0"
+    readonly property color m3onSurfaceInactive:   Qt.rgba(m3onSurfaceVariant.r, m3onSurfaceVariant.g, m3onSurfaceVariant.b, 0.55)
+    readonly property color m3outline:           "#7A8590"
 }

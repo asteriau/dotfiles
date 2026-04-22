@@ -1,4 +1,5 @@
 import QtQuick
+import qs.utils
 
 QtObject {
     id: root
@@ -7,9 +8,9 @@ QtObject {
     property real idx2: index
 
     Behavior on idx1 {
-        NumberAnimation { duration: 100; easing.type: Easing.OutSine }
+        NumberAnimation { duration: 150; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasizedAccel }
     }
     Behavior on idx2 {
-        NumberAnimation { duration: 300; easing.type: Easing.OutSine }
+        NumberAnimation { duration: 350; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
     }
 }

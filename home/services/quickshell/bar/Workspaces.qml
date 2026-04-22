@@ -107,15 +107,15 @@ Item {
                 topRightRadius:    root.vertical ? (prevOccupied ? 0 : rFull) : (nextOccupied ? 0 : rFull)
                 bottomRightRadius: root.vertical ? (nextOccupied ? 0 : rFull) : (nextOccupied ? 0 : rFull)
 
-                color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.15)
+                color: Colors.secondaryContainer
 
                 opacity: (root.workspaceOccupied[index] ?? false) &&
                          !(!root.activeWindow?.activated &&
                            root.effectiveActiveWorkspaceId === index + 1) ? 1 : 0
 
-                Behavior on opacity       { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
-                Behavior on topLeftRadius { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
-                Behavior on bottomRightRadius { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
+                Behavior on opacity       { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
+                Behavior on topLeftRadius { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
+                Behavior on bottomRightRadius { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
             }
         }
     }
@@ -178,9 +178,23 @@ Item {
                 implicitHeight: root.workspaceButtonWidth
 
                 MouseArea {
+                    id: wsMouseArea
                     anchors.fill: parent
+                    hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onPressed: Hyprland.dispatch(`workspace ${wsButton.workspaceValue}`)
+                }
+
+                // M3 state layer (hover/press feedback)
+                Rectangle {
+                    anchors.fill: parent
+                    radius: root.workspaceButtonWidth / 2
+                    color: Colors.m3onSurface
+                    opacity: wsMouseArea.pressed ? 0.12 :
+                             wsMouseArea.containsMouse ? 0.08 : 0
+                    Behavior on opacity {
+                        NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+                    }
                 }
 
                 Item {
@@ -209,11 +223,11 @@ Item {
                         font.family: "Google Sans Flex"
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        color: wsButton.isActive ? Colors.background :
-                               wsButton.isOccupied ? Colors.foreground : Colors.comment
+                        color: wsButton.isActive ? Colors.m3onPrimary :
+                               wsButton.isOccupied ? Colors.m3onSecondaryContainer : Colors.m3onSurfaceInactive
 
-                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-                        Behavior on color   { ColorAnimation   { duration: 180 } }
+                        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                        Behavior on color   { ColorAnimation   { duration: M3Easing.effectsDuration } }
                     }
 
                     // Dot (shown when no icon and no number)
@@ -228,11 +242,11 @@ Item {
                         width:  root.workspaceButtonWidth * 0.18
                         height: width
                         radius: width / 2
-                        color: wsButton.isActive ? Colors.background :
-                               wsButton.isOccupied ? Colors.foreground : Colors.comment
+                        color: wsButton.isActive ? Colors.m3onPrimary :
+                               wsButton.isOccupied ? Colors.m3onSecondaryContainer : Colors.m3onSurfaceInactive
 
-                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-                        Behavior on color   { ColorAnimation   { duration: 180 } }
+                        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                        Behavior on color   { ColorAnimation   { duration: M3Easing.effectsDuration } }
                     }
 
                     // App icon
@@ -245,7 +259,7 @@ Item {
                                  (wsBackground.biggestWindow && !root.showNumbers && Config.workspaceShowAppIcons) ?
                                  1 : wsBackground.biggestWindow ? 1 : 0
 
-                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
 
                         IconImage {
                             id: appIcon
@@ -259,9 +273,9 @@ Item {
                             implicitSize: (!root.showNumbers && Config.workspaceShowAppIcons) ?
                                 root.workspaceIconSize : root.workspaceIconSizeShrinked
 
-                            Behavior on implicitSize { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-                            Behavior on anchors.bottomMargin { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-                            Behavior on anchors.rightMargin { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                            Behavior on implicitSize { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
+                            Behavior on anchors.bottomMargin { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
+                            Behavior on anchors.rightMargin { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
                         }
 
                         // Monochrome overlay (optional)
@@ -280,7 +294,8 @@ Item {
                                 ColorOverlay {
                                     anchors.fill: desatIcon
                                     source: desatIcon
-                                    color: Qt.rgba(wsDot.color.r, wsDot.color.g, wsDot.color.b, 0.9)
+                                    property color tintColor: wsButton.isActive ? Colors.m3onPrimary : Colors.m3onSecondaryContainer
+                                    color: Qt.rgba(tintColor.r, tintColor.g, tintColor.b, 0.9)
                                 }
                             }
                         }
