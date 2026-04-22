@@ -184,13 +184,16 @@ Item {
             implicitSize: Math.max(parent.width, parent.height)
 
             property list<var> morphShapes: [
-                MaterialShape.Shape.Pill,
-                MaterialShape.Shape.Clover4Leaf,
-                MaterialShape.Shape.SoftBurst,
-                MaterialShape.Shape.Cookie6Sided,
+                MaterialShape.Shape.Circle,
                 MaterialShape.Shape.Cookie12Sided,
-                MaterialShape.Shape.Ghostish,
-                MaterialShape.Shape.Pentagon
+                MaterialShape.Shape.Cookie9Sided,
+                MaterialShape.Shape.Cookie7Sided,
+                MaterialShape.Shape.Cookie6Sided,
+                MaterialShape.Shape.Pentagon,
+                MaterialShape.Shape.Cookie4Sided,
+                MaterialShape.Shape.Square,
+                MaterialShape.Shape.Triangle,
+                MaterialShape.Shape.Diamond
             ]
 
             // Dynamically pick a distinct shape based on current workspace
