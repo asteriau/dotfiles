@@ -65,7 +65,7 @@ Rectangle {
                     clip: true
 
                     Behavior on implicitWidth {
-                        NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
+                        NumberAnimation { duration: M3Easing.durationMedium1; easing.type: Easing.OutCubic }
                     }
 
                     Row {
@@ -122,7 +122,7 @@ Rectangle {
                     visible: trayContainer.iconsVisible && SystemTray.items.values.length > 0
                     implicitWidth: 1
                     implicitHeight: 12
-                    color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.15)
+                    color: Colors.divider
                 }
 
                 WrapperMouseArea {
@@ -135,7 +135,7 @@ Rectangle {
                         color: trayContainer.iconsVisible ? Colors.accent : Colors.foreground
 
                         Behavior on color {
-                            ColorAnimation { duration: 180 }
+                            ColorAnimation { duration: M3Easing.effectsDuration }
                         }
                     }
                 }
@@ -187,7 +187,7 @@ Rectangle {
                             radius: 2
                             color: Qt.rgba(Colors.mpris.r, Colors.mpris.g, Colors.mpris.b, 0.85)
                             Behavior on width {
-                                NumberAnimation { duration: 300; easing.type: Easing.OutQuad }
+                                NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutQuad }
                             }
                         }
                     }
@@ -197,7 +197,7 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     text: `${battRow.pct}%`
                     font.pixelSize: 11
-                    font.family: "Google Sans Flex"
+                    font.family: Config.fontFamily
                     color: Colors.comment
                 }
             }

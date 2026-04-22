@@ -34,7 +34,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: Qt.formatDateTime(Utils.clock.date, "hh")
                     font.pixelSize: 17
-                    font.family: "Google Sans Flex"
+                    font.family: Config.fontFamily
                     color: Colors.foreground
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -43,7 +43,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: Qt.formatDateTime(Utils.clock.date, "mm")
                     font.pixelSize: 17
-                    font.family: "Google Sans Flex"
+                    font.family: Config.fontFamily
                     color: Colors.foreground
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -53,14 +53,14 @@ Item {
                 Layout.alignment: Qt.AlignHCenter
                 implicitWidth: 20
                 implicitHeight: 1
-                color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.15)
+                color: Colors.divider
             }
 
             Text {
                 Layout.alignment: Qt.AlignHCenter
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 10
-                font.family: "Google Sans Flex"
+                font.family: Config.fontFamily
                 color: Colors.comment
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -76,20 +76,20 @@ Item {
             Text {
                 text: Qt.formatDateTime(Utils.clock.date, "hh:mm")
                 font.pixelSize: 17
-                font.family: "Google Sans Flex"
+                font.family: Config.fontFamily
                 color: Colors.foreground
             }
 
             Rectangle {
                 implicitWidth: 1
                 implicitHeight: 14
-                color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.2)
+                color: Colors.divider
             }
 
             Text {
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 13
-                font.family: "Google Sans Flex"
+                font.family: Config.fontFamily
                 color: Colors.comment
             }
         }

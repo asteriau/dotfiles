@@ -31,6 +31,7 @@ PersistentProperties {
     readonly property bool workspaceShowAppIcons: true
     readonly property bool workspaceAlwaysShowNumbers: false
     readonly property bool workspaceMonochromeIcons: false
+    readonly property string fontFamily: "Google Sans Flex"
     readonly property int osdWidth: 200
 
     readonly property int iconSize: 14

@@ -1,6 +1,4 @@
-import org.kde.kirigami
 import QtQuick
-import QtQuick.Effects
 import Quickshell
 import Quickshell.Networking
 import qs.components
@@ -62,21 +60,8 @@ HoverTooltip {
         return "Disconnected";
     }
 
-    Icon {
-        id: wifiIcon
-        implicitHeight: Config.iconSize
-        implicitWidth: Config.iconSize
-        isMask: true
-        color: Colors.foreground
+    ShadowIcon {
         source: root.iconPath
-    }
-
-    MultiEffect {
-        source: wifiIcon
-        anchors.fill: wifiIcon
-        shadowEnabled: Config.shadowEnabled
-        shadowVerticalOffset: Config.shadowVerticalOffset
-        blurMax: Config.blurMax
-        opacity: Config.shadowOpacity
+        color: Colors.foreground
     }
 }

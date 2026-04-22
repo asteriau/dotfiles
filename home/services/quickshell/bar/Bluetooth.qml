@@ -1,6 +1,4 @@
-import org.kde.kirigami
 import QtQuick
-import QtQuick.Effects
 import Quickshell
 import Quickshell.Bluetooth
 import qs.components
@@ -53,24 +51,8 @@ HoverTooltip {
         return "Bluetooth disconnected";
     }
 
-    Icon {
-        id: btIcon
-
-        implicitHeight: Config.iconSize
-        implicitWidth: Config.iconSize
-
-        isMask: true
-        color: Colors.foreground
-
+    ShadowIcon {
         source: root.iconPath
-    }
-
-    MultiEffect {
-        source: btIcon
-        anchors.fill: btIcon
-        shadowEnabled: Config.shadowEnabled
-        shadowVerticalOffset: Config.shadowVerticalOffset
-        blurMax: Config.blurMax
-        opacity: Config.shadowOpacity
+        color: Colors.foreground
     }
 }

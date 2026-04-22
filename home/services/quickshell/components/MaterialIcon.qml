@@ -1,3 +1,4 @@
+import QtQuick
 import qs.utils
 
 Text {
@@ -17,4 +18,5 @@ Text {
             opsz: root.targetSize,
             wght: root.targetWeight
         })
+    renderType: Text.NativeRendering
 }

@@ -1,0 +1,32 @@
+import org.kde.kirigami
+import QtQuick
+import QtQuick.Effects
+import Quickshell
+import qs.utils
+
+Item {
+    id: root
+
+    property alias source: iconItem.source
+    property alias color: iconItem.color
+    property bool isMask: true
+
+    implicitWidth: Config.iconSize
+    implicitHeight: Config.iconSize
+
+    Icon {
+        id: iconItem
+        anchors.fill: parent
+        isMask: root.isMask
+        color: Colors.foreground
+    }
+
+    MultiEffect {
+        source: iconItem
+        anchors.fill: iconItem
+        shadowEnabled: Config.shadowEnabled
+        shadowVerticalOffset: Config.shadowVerticalOffset
+        blurMax: Config.blurMax
+        opacity: Config.shadowOpacity
+    }
+}

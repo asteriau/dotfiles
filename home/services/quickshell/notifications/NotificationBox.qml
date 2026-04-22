@@ -40,7 +40,7 @@ Item {
     readonly property real fontSmall: 15
     readonly property real fontNormal: 16
     readonly property real fontLarger: 17
-    readonly property string fontMain: "Google Sans Flex"
+    readonly property string fontMain: Config.fontFamily
 
     property string timeString: NotificationUtils.getFriendlyNotifTimeString(n?.time)
 

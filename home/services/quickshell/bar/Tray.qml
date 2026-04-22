@@ -20,7 +20,7 @@ Rectangle {
 
     Behavior on implicitHeight {
         NumberAnimation {
-            duration: 260
+            duration: M3Easing.durationMedium1
             easing.type: Easing.OutCubic
         }
     }
@@ -39,13 +39,13 @@ Rectangle {
 
             Behavior on implicitHeight {
                 NumberAnimation {
-                    duration: 260
+                    duration: M3Easing.durationMedium1
                     easing.type: Easing.OutCubic
                 }
             }
             Behavior on opacity {
                 NumberAnimation {
-                    duration: 200
+                    duration: M3Easing.effectsDuration
                     easing.type: Easing.OutCubic
                 }
             }
@@ -123,7 +123,7 @@ Rectangle {
             visible: root.iconsVisible && SystemTray.items.values.length > 0
             implicitWidth: 16
             implicitHeight: 1
-            color: Qt.rgba(Colors.foreground.r, Colors.foreground.g, Colors.foreground.b, 0.15)
+            color: Colors.divider
         }
 
         WrapperMouseArea {
@@ -140,13 +140,13 @@ Rectangle {
 
                 Behavior on rotation {
                     NumberAnimation {
-                        duration: 260
+                        duration: M3Easing.durationMedium1
                         easing.type: Easing.OutCubic
                     }
                 }
                 Behavior on color {
                     ColorAnimation {
-                        duration: 180
+                        duration: M3Easing.effectsDuration
                     }
                 }
             }

@@ -58,7 +58,7 @@ HoverTooltip {
 
                     Behavior on height {
                         NumberAnimation {
-                            duration: 300
+                            duration: M3Easing.durationMedium2
                             easing.type: Easing.OutQuad
                         }
                     }

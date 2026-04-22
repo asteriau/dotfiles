@@ -47,7 +47,7 @@ RowLayout {
     Text {
         text: `Hi ${Config.userName}!`
         color: Colors.foreground
-        font.family: "Google Sans Flex"
+        font.family: Config.fontFamily
         font.pixelSize: 18
         font.weight: Font.Light
         verticalAlignment: Text.AlignVCenter
@@ -60,7 +60,7 @@ RowLayout {
     Text {
         text: UptimeState.uptimeText
         color: Colors.comment
-        font.family: "Google Sans Flex"
+        font.family: Config.fontFamily
         font.pixelSize: 12
         verticalAlignment: Text.AlignVCenter
     }

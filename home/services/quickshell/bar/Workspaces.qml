@@ -220,7 +220,7 @@ Item {
 
                         text: wsButton.workspaceValue
                         font.pixelSize: text.toString().length > 1 ? 13 : 15
-                        font.family: "Google Sans Flex"
+                        font.family: Config.fontFamily
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         color: wsButton.isActive ? Colors.m3onPrimary :

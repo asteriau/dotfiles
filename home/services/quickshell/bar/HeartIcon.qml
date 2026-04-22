@@ -8,7 +8,7 @@ Item {
     implicitWidth: 32
     implicitHeight: 32
 
-    readonly property color iconColor: "#8DA3B9"
+    readonly property color iconColor: Colors.accent
 
     Rectangle {
         id: pill
@@ -19,13 +19,13 @@ Item {
 
         Behavior on color {
             ColorAnimation {
-                duration: 180
+                duration: M3Easing.effectsDuration
                 easing.type: Easing.OutCubic
             }
         }
         Behavior on scale {
             NumberAnimation {
-                duration: 120
+                duration: M3Easing.durationShort3
                 easing.type: Easing.OutQuad
             }
         }
@@ -42,7 +42,7 @@ Item {
 
         Behavior on scale {
             NumberAnimation {
-                duration: 120
+                duration: M3Easing.durationShort3
                 easing.type: Easing.OutQuad
             }
         }
