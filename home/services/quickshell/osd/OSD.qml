@@ -206,11 +206,18 @@ Scope {
                         Layout.topMargin: 9
                         Layout.bottomMargin: 9
 
+                        MaterialShape {
+                            anchors.fill: parent
+                            color: Colors.accent
+                            shape: MaterialShape.Shape.Clover8Leaf
+                            implicitSize: 30
+                        }
+
                         MaterialIcon {
                             anchors.fill: parent
                             text: scope.iconA
                             font.pixelSize: 30
-                            color: Colors.foreground
+                            color: Colors.background
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             opacity: scope.aActive ? 1 : 0
@@ -227,7 +234,7 @@ Scope {
                             anchors.fill: parent
                             text: scope.iconB
                             font.pixelSize: 30
-                            color: Colors.foreground
+                            color: Colors.background
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             opacity: scope.aActive ? 0 : 1
