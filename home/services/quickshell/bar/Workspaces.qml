@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Effects
 import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Wayland
@@ -37,14 +38,7 @@ Item {
     implicitWidth:  vertical ? Config.barWidth : (workspaceButtonWidth * workspacesShown)
     implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Config.barHeight
 
-    // Elevated background
-    Rectangle {
-        z: 0
-        anchors.fill: parent
-        radius: 12
-        color: Colors.elevated
-    }
-
+    // ── Workspace occupancy tracking ──────────────────────────────────────
     function updateWorkspaceOccupied() {
         workspaceOccupied = Array.from({ length: workspacesShown }, (_, i) =>
             Hyprland.workspaces.values.some(ws =>
@@ -74,27 +68,41 @@ Item {
         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
     }
 
-    // ── z:1 — Occupied workspace background tiles ──────────────────────────
+    // ══════════════════════════════════════════════════════════════════════
+    // z:0 — Capsule container
+    // ══════════════════════════════════════════════════════════════════════
+    Rectangle {
+        z: 0
+        anchors.fill: parent
+        radius: 12
+        color: Colors.elevated
+    }
+
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    // z:2 — Occupied workspace orb tiles (organic merging shapes)
+    // ══════════════════════════════════════════════════════════════════════
     Grid {
-        z: 1
+        z: 2
         anchors.centerIn: parent
         rowSpacing: 0
         columnSpacing: 0
-        columns: vertical ? 1 : root.workspacesShown
-        rows:    vertical ? root.workspacesShown : 1
+        columns: root.vertical ? 1 : root.workspacesShown
+        rows:    root.vertical ? root.workspacesShown : 1
 
         Repeater {
             model: root.workspacesShown
 
             Rectangle {
-                id: occupiedTile
+                id: occupiedOrb
                 required property int index
 
                 readonly property bool prevOccupied:
-                    (root.workspaceOccupied[index - 1] ?? false) &&
+                    (index > 0 ? (root.workspaceOccupied[index - 1] ?? false) : false) &&
                     !(!root.activeWindow?.activated && root.effectiveActiveWorkspaceId === index)
                 readonly property bool nextOccupied:
-                    (root.workspaceOccupied[index + 1] ?? false) &&
+                    (index < root.workspacesShown - 1 ? (root.workspaceOccupied[index + 1] ?? false) : false) &&
                     !(!root.activeWindow?.activated && root.effectiveActiveWorkspaceId === index + 2)
 
                 readonly property real rFull: root.workspaceButtonWidth / 2
@@ -107,24 +115,41 @@ Item {
                 topRightRadius:    root.vertical ? (prevOccupied ? 0 : rFull) : (nextOccupied ? 0 : rFull)
                 bottomRightRadius: root.vertical ? (nextOccupied ? 0 : rFull) : (nextOccupied ? 0 : rFull)
 
-                color: Colors.secondaryContainer
+                color: Colors.wsOrbFill
 
-                opacity: (root.workspaceOccupied[index] ?? false) &&
-                         !(!root.activeWindow?.activated &&
-                           root.effectiveActiveWorkspaceId === index + 1) ? 1 : 0
+                readonly property bool isOccupiedVisible:
+                    (root.workspaceOccupied[index] ?? false) &&
+                    !(!root.activeWindow?.activated &&
+                      root.effectiveActiveWorkspaceId === index + 1)
 
-                Behavior on opacity       { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
-                Behavior on topLeftRadius { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
-                Behavior on bottomRightRadius { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
+                opacity: isOccupiedVisible ? 1 : 0
+                
+                Behavior on opacity {
+                    NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+                }
+                Behavior on topLeftRadius {
+                    NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
+                }
+                Behavior on bottomRightRadius {
+                    NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
+                }
+                Behavior on topRightRadius {
+                    NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
+                }
+                Behavior on bottomLeftRadius {
+                    NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
+                }
+
+                // Removed inner volume rectangle to preserve smooth continuous pill appearance instead of disconnected squares
             }
         }
     }
 
-    // ── z:2 — Animated active workspace pill ──────────────────────────────
-    Rectangle {
-        z: 2
-        radius: root.workspaceButtonWidth / 2
-        color: Colors.accent
+    // ══════════════════════════════════════════════════════════════════════
+    // z:3 — Active workspace pill (morphing material shape)
+    // ══════════════════════════════════════════════════════════════════════
+    Item {
+        z: 3
 
         anchors {
             verticalCenter:   root.vertical ? undefined : parent.verticalCenter
@@ -149,11 +174,45 @@ Item {
         y:             root.vertical ? indicatorPos : 0
         implicitWidth:  root.vertical ? indicatorThick : indicatorLen
         implicitHeight: root.vertical ? indicatorLen  : indicatorThick
+
+        MaterialShape {
+            anchors.fill: parent
+            color: Colors.accent
+
+            // Stretchy aspect ratio morphing helps it transition nicely across workspaces 
+            // when bounding width/height expands dynamically
+            implicitSize: Math.max(parent.width, parent.height)
+
+            property list<var> morphShapes: [
+                MaterialShape.Shape.Pill,
+                MaterialShape.Shape.Clover4Leaf,
+                MaterialShape.Shape.SoftBurst,
+                MaterialShape.Shape.Cookie6Sided,
+                MaterialShape.Shape.Cookie12Sided,
+                MaterialShape.Shape.Ghostish,
+                MaterialShape.Shape.Pentagon
+            ]
+
+            // Dynamically pick a distinct shape based on current workspace
+            shape: morphShapes[((root.effectiveActiveWorkspaceId ?? 1) - 1) % morphShapes.length]
+
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                shadowEnabled: true
+                shadowBlur: 0.8
+                shadowColor: Colors.wsActiveGlow
+                shadowHorizontalOffset: 0
+                shadowVerticalOffset: 2
+                blurMax: 32
+            }
+        }
     }
 
-    // ── z:3 — Workspace buttons (icon / dot / number) ─────────────────────
+    // ══════════════════════════════════════════════════════════════════════
+    // z:4 — Workspace buttons (ring outlines / icons / numbers + hover)
+    // ══════════════════════════════════════════════════════════════════════
     Grid {
-        z: 3
+        z: 4
         anchors.centerIn: parent
         rowSpacing: 0
         columnSpacing: 0
@@ -185,13 +244,17 @@ Item {
                     onPressed: Hyprland.dispatch(`workspace ${wsButton.workspaceValue}`)
                 }
 
-                // M3 state layer (hover/press feedback)
+                // Flat luminous hover state (replaces unclipped radial layer)
                 Rectangle {
-                    anchors.fill: parent
-                    radius: root.workspaceButtonWidth / 2
+                    anchors.centerIn: parent
+                    width: root.workspaceButtonWidth
+                    height: width
+                    radius: width / 2
+                    
                     color: Colors.m3onSurface
-                    opacity: wsMouseArea.pressed ? 0.12 :
-                             wsMouseArea.containsMouse ? 0.08 : 0
+                    opacity: wsMouseArea.pressed ? 0.18 :
+                             wsMouseArea.containsMouse ? 0.12 : 0
+
                     Behavior on opacity {
                         NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
                     }
@@ -230,7 +293,7 @@ Item {
                         Behavior on color   { ColorAnimation   { duration: M3Easing.effectsDuration } }
                     }
 
-                    // Dot (shown when no icon and no number)
+                    // Flat dot for empty workspaces
                     Rectangle {
                         id: wsDot
                         anchors.centerIn: parent
@@ -239,14 +302,14 @@ Item {
                             || root.showNumbers
                             || (Config.workspaceShowAppIcons && wsBackground.biggestWindow)
                             ) ? 0 : 1
-                        width:  root.workspaceButtonWidth * 0.18
+                        width:  root.workspaceButtonWidth * 0.15
                         height: width
                         radius: width / 2
                         color: wsButton.isActive ? Colors.m3onPrimary :
                                wsButton.isOccupied ? Colors.m3onSecondaryContainer : Colors.m3onSurfaceInactive
 
                         Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-                        Behavior on color   { ColorAnimation   { duration: M3Easing.effectsDuration } }
+                        Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
                     }
 
                     // App icon
@@ -260,6 +323,16 @@ Item {
                                  1 : wsBackground.biggestWindow ? 1 : 0
 
                         Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+
+                        // Subtle scale bounce on active transition
+                        scale: wsButton.isActive ? 1.05 : 1.0
+                        Behavior on scale {
+                            NumberAnimation {
+                                duration: M3Easing.spatialDuration
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: M3Easing.emphasized
+                            }
+                        }
 
                         IconImage {
                             id: appIcon

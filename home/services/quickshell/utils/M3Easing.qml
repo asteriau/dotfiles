@@ -22,4 +22,11 @@ Singleton {
     // ── Semantic aliases ─────────────────────────────────────────────────
     readonly property int spatialDuration: durationMedium3   // element movement
     readonly property int effectsDuration: durationShort4    // opacity, color
+
+    // ── Glow stuff ───────────────────────────────────────────
+    readonly property int breathDuration: 3500               // full in+out breathing cycle
+    readonly property int glowTrailDuration: 450             // glow follows pill, slightly lagging
+
+    // ── M3 Expressive tokens ───────────────────────────────────────────
+    readonly property int expressiveOvershoot: Easing.OutBack
 }

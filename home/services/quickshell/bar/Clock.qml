@@ -62,7 +62,7 @@ Item {
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 10
                 font.family: Config.fontFamily
-                color: Colors.comment
+                color: Colors.m3onSurfaceInactive
                 horizontalAlignment: Text.AlignHCenter
             }
         }
@@ -91,7 +91,7 @@ Item {
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 13
                 font.family: Config.fontFamily
-                color: Colors.comment
+                color: Colors.m3onSurfaceInactive
             }
         }
     }
