@@ -209,7 +209,7 @@ Item {
                             "image-missing")
 
                     // Number text
-                    Text {
+                    ShadowText {
                         anchors.centerIn: parent
                         visible: opacity > 0
                         opacity: root.showNumbers

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import qs.utils
+import qs.components
 
 Item {
     property bool horizontal: !Config.barVertical
@@ -30,7 +31,7 @@ Item {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: -4
 
-                Text {
+                ShadowText {
                     Layout.alignment: Qt.AlignHCenter
                     text: Qt.formatDateTime(Utils.clock.date, "hh")
                     font.pixelSize: 17
@@ -39,7 +40,7 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                 }
 
-                Text {
+                ShadowText {
                     Layout.alignment: Qt.AlignHCenter
                     text: Qt.formatDateTime(Utils.clock.date, "mm")
                     font.pixelSize: 17
@@ -56,7 +57,7 @@ Item {
                 color: Colors.divider
             }
 
-            Text {
+            ShadowText {
                 Layout.alignment: Qt.AlignHCenter
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 10
@@ -73,7 +74,7 @@ Item {
             anchors.centerIn: parent
             spacing: 4
 
-            Text {
+            ShadowText {
                 text: Qt.formatDateTime(Utils.clock.date, "hh:mm")
                 font.pixelSize: 17
                 font.family: Config.fontFamily
@@ -86,7 +87,7 @@ Item {
                 color: Colors.divider
             }
 
-            Text {
+            ShadowText {
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 13
                 font.family: Config.fontFamily
