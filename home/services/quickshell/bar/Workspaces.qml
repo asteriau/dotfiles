@@ -26,7 +26,11 @@ Item {
     readonly property int workspaceButtonWidth: 26
     readonly property real activeWorkspaceMargin: 2
     readonly property real workspaceIconSize: workspaceButtonWidth * 0.69
+    readonly property real workspaceIconSizeShrinked: workspaceButtonWidth * 0.55
+    readonly property real workspaceIconMarginShrinked: -4
     readonly property int verticalPadding: 4
+
+    readonly property bool showNumbers: Config.showWorkspaceNumbers
 
     property int scrollAccumulator: 0
 
@@ -194,7 +198,10 @@ Item {
                     Text {
                         anchors.centerIn: parent
                         visible: opacity > 0
-                        opacity: Config.workspaceAlwaysShowNumbers ? 1 : 0
+                        opacity: root.showNumbers
+                            || (Config.workspaceAlwaysShowNumbers
+                                && (!Config.workspaceShowAppIcons || !wsBackground.biggestWindow || root.showNumbers))
+                            ? 1 : 0
                         z: 3
 
                         text: wsButton.workspaceValue
@@ -214,8 +221,10 @@ Item {
                         id: wsDot
                         anchors.centerIn: parent
                         visible: opacity > 0
-                        opacity: (Config.workspaceAlwaysShowNumbers ||
-                                  (Config.workspaceShowAppIcons && wsBackground.biggestWindow)) ? 0 : 1
+                        opacity: (Config.workspaceAlwaysShowNumbers
+                            || root.showNumbers
+                            || (Config.workspaceShowAppIcons && wsBackground.biggestWindow)
+                            ) ? 0 : 1
                         width:  root.workspaceButtonWidth * 0.18
                         height: width
                         radius: width / 2
@@ -233,17 +242,26 @@ Item {
                         height: root.workspaceButtonWidth
                         visible: opacity > 0
                         opacity: !Config.workspaceShowAppIcons ? 0 :
-                                 (wsBackground.biggestWindow ? 1 : 0)
+                                 (wsBackground.biggestWindow && !root.showNumbers && Config.workspaceShowAppIcons) ?
+                                 1 : wsBackground.biggestWindow ? 1 : 0
 
                         Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
 
                         IconImage {
                             id: appIcon
-                            anchors.centerIn: parent
+                            anchors.bottom: parent.bottom
+                            anchors.right: parent.right
+                            anchors.bottomMargin: (!root.showNumbers && Config.workspaceShowAppIcons) ?
+                                (root.workspaceButtonWidth - root.workspaceIconSize) / 2 : root.workspaceIconMarginShrinked
+                            anchors.rightMargin: (!root.showNumbers && Config.workspaceShowAppIcons) ?
+                                (root.workspaceButtonWidth - root.workspaceIconSize) / 2 : root.workspaceIconMarginShrinked
                             source: wsBackground.iconSource
-                            implicitSize: root.workspaceIconSize
+                            implicitSize: (!root.showNumbers && Config.workspaceShowAppIcons) ?
+                                root.workspaceIconSize : root.workspaceIconSizeShrinked
 
-                            Behavior on implicitSize { NumberAnimation { duration: 180 } }
+                            Behavior on implicitSize { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                            Behavior on anchors.bottomMargin { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                            Behavior on anchors.rightMargin { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
                         }
 
                         // Monochrome overlay (optional)

@@ -10,6 +10,7 @@ PersistentProperties {
     }
     property bool showSidebar: false
     property bool doNotDisturb: false
+    property bool showWorkspaceNumbers: false
 
     readonly property string userName: "Laura"
 
