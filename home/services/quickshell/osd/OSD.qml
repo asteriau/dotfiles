@@ -141,8 +141,8 @@ Scope {
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 y: (parent.height - height) / 2 + yOffset
-                implicitWidth: 340
-                implicitHeight: 70
+                implicitWidth: 200
+                implicitHeight: 48
 
                 property real yOffset: scope.osdVisible ? 0 : -18
                 opacity: scope.osdVisible ? 1 : 0
@@ -185,30 +185,31 @@ Scope {
                     anchors.fill: parent
                     radius: height / 2
                     color: Colors.background
-                    border.color: Colors.border
-                    border.width: 1
                     antialiasing: true
                 }
 
                 RowLayout {
                     id: row
                     anchors.fill: parent
-                    anchors.leftMargin: 22
-                    anchors.rightMargin: 26
-                    anchors.topMargin: 12
-                    anchors.bottomMargin: 12
-                    spacing: 16
+                    anchors.leftMargin: 0
+                    anchors.rightMargin: 0
+                    anchors.topMargin: 0
+                    anchors.bottomMargin: 0
+                    spacing: 10
 
                     Item {
                         id: iconStack
                         Layout.alignment: Qt.AlignVCenter
-                        Layout.preferredWidth: 40
-                        Layout.preferredHeight: 40
+                        Layout.preferredWidth: 30
+                        Layout.preferredHeight: 30
+                        Layout.leftMargin: 10
+                        Layout.topMargin: 9
+                        Layout.bottomMargin: 9
 
                         MaterialIcon {
                             anchors.fill: parent
                             text: scope.iconA
-                            font.pixelSize: 36
+                            font.pixelSize: 30
                             color: Colors.foreground
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -225,7 +226,7 @@ Scope {
                         MaterialIcon {
                             anchors.fill: parent
                             text: scope.iconB
-                            font.pixelSize: 36
+                            font.pixelSize: 30
                             color: Colors.foreground
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -243,12 +244,13 @@ Scope {
                     ColumnLayout {
                         Layout.alignment: Qt.AlignVCenter
                         Layout.fillWidth: true
-                        spacing: 6
+                        Layout.rightMargin: 20
+                        spacing: 5
 
                         RowLayout {
                             Layout.fillWidth: true
-                            Layout.leftMargin: 4
-                            Layout.rightMargin: 4
+                            Layout.leftMargin: 3
+                            Layout.rightMargin: 3
 
                             Text {
                                 text: scope.label
@@ -270,7 +272,7 @@ Scope {
                         Item {
                             id: progress
                             Layout.fillWidth: true
-                            implicitHeight: 6
+                            implicitHeight: 4
 
                             property real valueBarGap: 4
                             property real pos: Math.max(0, Math.min(1, scope.progress))
