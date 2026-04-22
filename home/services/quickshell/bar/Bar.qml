@@ -35,7 +35,7 @@ PanelWindow {
             width: parent.width - 12
             spacing: 8
 
-            HeartIcon {
+            SidebarToggle {
                 Layout.alignment: Qt.AlignHCenter
             }
         }

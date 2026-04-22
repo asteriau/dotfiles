@@ -19,7 +19,7 @@ Rectangle {
             verticalCenter: parent.verticalCenter
         }
 
-        HeartIcon {}
+        SidebarToggle {}
     }
 
     // ── Center: workspaces ─────────────────────────────────────────────────

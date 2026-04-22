@@ -1,4 +1,5 @@
 import QtQuick
+import Qt5Compat.GraphicalEffects
 import qs.components
 import qs.utils
 
@@ -31,13 +32,13 @@ Item {
         }
     }
 
-    MaterialIcon {
+    Image {
+        id: sparkIcon
         anchors.centerIn: parent
-        text: "favorite"
-        fill: 1
-        font.pixelSize: 22
-        font.weight: Font.Medium
-        color: root.iconColor
+        source: Qt.resolvedUrl("../assets/spark-symbolic.svg")
+        width: 19
+        height: 19
+        sourceSize: Qt.size(width, height)
         scale: ma.pressed ? 0.9 : 1.0
 
         Behavior on scale {
@@ -46,6 +47,13 @@ Item {
                 easing.type: Easing.OutQuad
             }
         }
+    }
+
+    ColorOverlay {
+        anchors.fill: sparkIcon
+        source: sparkIcon
+        color: root.iconColor
+        scale: sparkIcon.scale
     }
 
     MouseArea {
