@@ -77,6 +77,18 @@ Scope {
     }
 
     Connections {
+        target: OsdState
+
+        function onShow(icon, label, progress) {
+            scope.osdVisible = true;
+            scope.icon = icon;
+            scope.label = label;
+            scope.progress = progress;
+            hideTimer.restart();
+        }
+    }
+
+    Connections {
         target: BrightnessState
 
         function onBrightnessChanged() {

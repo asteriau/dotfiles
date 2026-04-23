@@ -47,6 +47,22 @@ Item {
     implicitWidth: Config.notificationWidth
     implicitHeight: background.implicitHeight
 
+    NumberAnimation on opacity {
+        from: 0
+        to: 1
+        duration: 300
+        easing.type: Easing.OutCubic
+        running: root.isPopup
+    }
+
+    NumberAnimation on scale {
+        from: 0.92
+        to: 1
+        duration: 300
+        easing.type: Easing.OutCubic
+        running: root.isPopup
+    }
+
     Timer {
         interval: 30000
         running: true
@@ -162,7 +178,7 @@ Item {
 
         x: 0
         width: parent.width
-        color: root.isPopup ? root.colLayer2 : root.colLayer3
+        color: root.isPopup ? root.colLayer2 : Colors.elevated
         radius: root.isPopup ? root.radiusNormal : root.radiusSmall
         border.width: 1
         border.color: root.colBorder

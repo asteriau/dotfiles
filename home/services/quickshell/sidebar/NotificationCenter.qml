@@ -5,15 +5,15 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
+import qs.components
 import qs.utils
 import qs.notifications
 
-Rectangle {
+Item {
     id: root
     Layout.fillWidth: true
-    Layout.fillHeight: true
-    radius: 10
-    color: Qt.rgba(0.13, 0.13, 0.13, 0.5)
+    implicitHeight: 180
+    clip: true
 
     ListModel {
         id: localModel
@@ -61,41 +61,9 @@ Rectangle {
     }
 
     ColumnLayout {
+        id: mainCol
         anchors.fill: parent
-        anchors.margins: 16
-        spacing: 10
-
-        RowLayout {
-            Layout.fillWidth: true
-
-            Text {
-                text: "Notifications"
-                color: Colors.foreground
-                font.family: Config.fontFamily
-                font.pixelSize: 14
-                font.weight: Font.Medium
-                Layout.fillWidth: true
-            }
-
-            Item {
-                implicitWidth: 22
-                implicitHeight: 22
-
-                Text {
-                    anchors.centerIn: parent
-                    text: "clear_all"
-                    color: Colors.accent
-                    font.family: "Material Symbols Rounded"
-                    font.pixelSize: 18
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: NotificationState.closeAll()
-                }
-            }
-        }
+        spacing: 6
 
         Item {
             Layout.fillWidth: true
@@ -112,23 +80,37 @@ Rectangle {
 
                 Item { Layout.fillHeight: true }
 
-                Image {
+                Item {
                     Layout.alignment: Qt.AlignHCenter
-                    width: 96
-                    height: 96
-                    source: Qt.resolvedUrl("../assets/wedding-bells.png")
-                    fillMode: Image.PreserveAspectFit
-                    smooth: true
-                    mipmap: true
+                    Layout.preferredWidth: 80
+                    Layout.preferredHeight: 80
+
+                    MaterialShape {
+                        anchors.fill: parent
+                        shape: MaterialShape.Shape.Ghostish
+                        color: Colors.secondaryContainer
+                        implicitSize: 80
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "notifications_active"
+                        font.family: "Material Symbols Rounded"
+                        font.pixelSize: 40
+                        font.variableAxes: ({ FILL: 0, wght: 400, opsz: 48, GRAD: 0 })
+                        color: Colors.m3onSecondaryContainer
+                        renderType: Text.NativeRendering
+                    }
                 }
 
                 Text {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.topMargin: 10
-                    text: "Nothing here D:"
-                    color: Colors.comment
+                    text: "Nothing"
+                    color: Colors.m3outline
                     font.family: Config.fontFamily
-                    font.pixelSize: 13
+                    font.pixelSize: 15
+                    font.weight: Font.Medium
                     horizontalAlignment: Text.AlignHCenter
                 }
 
@@ -141,7 +123,34 @@ Rectangle {
                 visible: localModel.count > 0
                 spacing: 12
                 clip: true
+                interactive: true
                 model: localModel
+                verticalLayoutDirection: ListView.BottomToTop
+
+                add: Transition {
+                    NumberAnimation {
+                        properties: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 300
+                        easing.type: Easing.OutCubic
+                    }
+                    NumberAnimation {
+                        properties: "scale"
+                        from: 0.95
+                        to: 1
+                        duration: 300
+                        easing.type: Easing.OutCubic
+                    }
+                }
+
+                addDisplaced: Transition {
+                    NumberAnimation {
+                        properties: "x,y"
+                        duration: 260
+                        easing.type: Easing.OutCubic
+                    }
+                }
 
                 displaced: Transition {
                     NumberAnimation {
@@ -192,32 +201,6 @@ Rectangle {
                         }
                     }
 
-                    NumberAnimation on opacity {
-                        id: fadeIn
-                        to: 1
-                        duration: 300
-                        easing.type: Easing.OutCubic
-                        running: false
-                    }
-
-                    NumberAnimation on scale {
-                        id: scaleIn
-                        from: 0.95
-                        to: 1
-                        duration: 300
-                        easing.type: Easing.OutCubic
-                        running: false
-                    }
-
-                    Component.onCompleted: {
-                        if (!dying) {
-                            opacity = 0;
-                            scale = 0.95;
-                            fadeIn.start();
-                            scaleIn.start();
-                        }
-                    }
-
                     NotificationBox {
                         id: card
                         anchors.fill: parent
@@ -227,6 +210,33 @@ Rectangle {
                     }
                 }
             }
+
+            // Top fade mask
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                height: 24
+                visible: localModel.count > 0
+                gradient: Gradient {
+                    GradientStop { position: 0; color: Colors.background }
+                    GradientStop { position: 1; color: "transparent" }
+                }
+            }
+
+            // Bottom fade mask
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: 24
+                visible: localModel.count > 0
+                gradient: Gradient {
+                    GradientStop { position: 0; color: "transparent" }
+                    GradientStop { position: 1; color: Colors.background }
+                }
+            }
         }
+
     }
 }

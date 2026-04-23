@@ -1,48 +1,43 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Hyprland
+import Quickshell.Io
 import Quickshell.Wayland
+import qs.components
 import qs.utils
 
 Scope {
     id: scope
 
-    Timer {
-        id: closeTimer
-        interval: 400
-        onTriggered: {
-            if (!triggerArea.containsMouse && !panelArea.containsMouse)
-                Config.showSidebar = false;
-        }
+    IpcHandler {
+        target: "sidebar"
+        function toggle(): void { Config.showSidebar = !Config.showSidebar; }
+        function open(): void { Config.showSidebar = true; }
+        function close(): void { Config.showSidebar = false; }
     }
 
     PanelWindow {
         id: triggerWin
-
         screen: Config.preferredMonitor
         visible: !Config.showSidebar
 
         anchors {
             right: true
             top: true
-            bottom: true
         }
 
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "quickshell:sidebar:trigger"
         color: "transparent"
 
-        implicitWidth: 6
+        implicitWidth: 12
+        implicitHeight: 120
 
         MouseArea {
-            id: triggerArea
             anchors.fill: parent
             hoverEnabled: true
-            onEntered: {
-                closeTimer.stop();
-                Config.showSidebar = true;
-            }
-            onExited: closeTimer.restart()
+            onEntered: Config.showSidebar = true
         }
     }
 
@@ -74,18 +69,16 @@ Scope {
             }
         }
 
+        HyprlandFocusGrab {
+            id: grab
+            windows: [sideWin]
+            active: Config.showSidebar
+            onCleared: Config.showSidebar = false
+        }
+
         Keys.onPressed: (event) => {
             if (event.key === Qt.Key_Escape)
                 Config.showSidebar = false;
-        }
-
-        MouseArea {
-            id: panelArea
-            anchors.fill: parent
-            hoverEnabled: true
-            acceptedButtons: Qt.NoButton
-            onEntered: closeTimer.stop()
-            onExited: closeTimer.restart()
         }
 
         Rectangle {
@@ -101,16 +94,45 @@ Scope {
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 24
+                anchors.topMargin: 22
+                anchors.bottomMargin: 22
+                anchors.leftMargin: 0
+                anchors.rightMargin: 0
                 spacing: 16
 
-                Profile {}
-                QuickToggles {}
+                Header {
+                    Layout.leftMargin: 22
+                    Layout.rightMargin: 22
+                }
+
+                Divider {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 22
+                    Layout.rightMargin: 22
+                    opacity: 0.5
+                }
+
+                ToggleGrid {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 22
+                    Layout.rightMargin: 22
+                    Layout.topMargin: 8
+                }
+
+                Item { Layout.fillHeight: true }
+
                 NotificationCenter {
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    Layout.fillHeight: false
+                    Layout.preferredHeight: 380
+                    Layout.leftMargin: 8
+                    Layout.rightMargin: 8
                 }
-                Sliders {}
+
+                NotificationToolbar {
+                    Layout.leftMargin: 22
+                    Layout.rightMargin: 22
+                }
             }
         }
     }
