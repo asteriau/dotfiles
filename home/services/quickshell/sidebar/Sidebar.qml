@@ -119,6 +119,13 @@ Scope {
                     Layout.topMargin: 8
                 }
 
+                WeatherWidget {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 8
+                    Layout.rightMargin: 8
+                    Layout.topMargin: 4
+                }
+
                 Item { Layout.fillHeight: true }
 
                 NotificationCenter {
