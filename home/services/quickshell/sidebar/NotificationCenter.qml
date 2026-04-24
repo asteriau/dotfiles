@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
@@ -117,15 +118,31 @@ Item {
                 Item { Layout.fillHeight: true }
             }
 
+            Rectangle {
+                id: listFadeMask
+                anchors.fill: parent
+                visible: false
+                layer.enabled: true
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "transparent" }
+                    GradientStop { position: 0.12; color: "white" }
+                    GradientStop { position: 0.88; color: "white" }
+                    GradientStop { position: 1.0; color: "transparent" }
+                }
+            }
+
             ListView {
                 id: list
                 anchors.fill: parent
                 visible: localModel.count > 0
                 spacing: 12
-                clip: true
                 interactive: true
                 model: localModel
                 verticalLayoutDirection: ListView.BottomToTop
+                layer.enabled: localModel.count > 0
+                layer.effect: OpacityMask {
+                    maskSource: listFadeMask
+                }
 
                 add: Transition {
                     NumberAnimation {
@@ -219,31 +236,6 @@ Item {
                 }
             }
 
-            // Top fade mask
-            Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                height: 24
-                visible: localModel.count > 0
-                gradient: Gradient {
-                    GradientStop { position: 0; color: Colors.background }
-                    GradientStop { position: 1; color: "transparent" }
-                }
-            }
-
-            // Bottom fade mask
-            Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                height: 24
-                visible: localModel.count > 0
-                gradient: Gradient {
-                    GradientStop { position: 0; color: "transparent" }
-                    GradientStop { position: 1; color: Colors.background }
-                }
-            }
         }
 
     }
