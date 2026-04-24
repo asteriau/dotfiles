@@ -6,15 +6,17 @@
 import QtQuick
 import QtQuick.Effects
 import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import qs.components
 import qs.utils
 import qs.sidebar.weather
 
 Item {
     id: root
     Layout.fillWidth: true
-    implicitHeight: 144
     clip: true
 
+    readonly property int cornerRadius: 22
     readonly property string cond: WeatherState.condition
     readonly property bool night: WeatherState.isNight
     readonly property bool ready: WeatherState.ready
@@ -58,6 +60,15 @@ Item {
         return "#5A6470";
     }
 
+    layer.enabled: true
+    layer.effect: OpacityMask {
+        maskSource: Rectangle {
+            width: root.width
+            height: root.height
+            radius: root.cornerRadius
+        }
+    }
+
     // Sky backdrop
     Rectangle {
         id: sky
@@ -71,54 +82,82 @@ Item {
         Behavior on opacity { NumberAnimation { duration: 420 } }
     }
 
-    // Animated condition scene
-    Loader {
-        id: sceneLoader
+    // Animated condition scene wrapped in parallax host
+    ParallaxHost {
+        id: parallaxHost
         anchors.fill: parent
-        source: root.ready ? root.sceneSource(root.cond, root.night) : ""
-        opacity: status === Loader.Ready ? 1 : 0
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 420
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: [0.05, 0.7, 0.1, 1.0, 1, 1]
+
+        Loader {
+            id: sceneLoader
+            anchors.fill: parent
+            source: root.ready ? root.sceneSource(root.cond, root.night) : ""
+            opacity: status === Loader.Ready ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 420
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: [0.05, 0.7, 0.1, 1.0, 1, 1]
+                }
+            }
+            onLoaded: {
+                if (item) {
+                    if (item.hasOwnProperty("parallaxX"))
+                        item.parallaxX = Qt.binding(() => parallaxHost.parallaxX);
+                    if (item.hasOwnProperty("parallaxY"))
+                        item.parallaxY = Qt.binding(() => parallaxHost.parallaxY);
+                    if (item.hasOwnProperty("isNight"))
+                        item.isNight = Qt.binding(() => root.night);
+                }
             }
         }
     }
 
-    // Top fade mask
-    Rectangle {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        height: 28
-        gradient: Gradient {
-            GradientStop { position: 0; color: Colors.background }
-            GradientStop { position: 1; color: "transparent" }
-        }
-    }
-
-    // Bottom fade mask
+    // Subtle bottom shade for text legibility against bright scenes
     Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: 28
+        height: parent.height * 0.55
         gradient: Gradient {
+            orientation: Gradient.Vertical
             GradientStop { position: 0; color: "transparent" }
-            GradientStop { position: 1; color: Colors.background }
+            GradientStop { position: 1; color: Qt.rgba(0, 0, 0, 0.22) }
         }
     }
 
     // Foreground content
-    RowLayout {
+    ColumnLayout {
         anchors.fill: parent
-        anchors.leftMargin: 18
-        anchors.rightMargin: 18
-        spacing: 12
+        anchors.margins: 18
+        spacing: 0
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 0
+
+            Text {
+                text: "Bucharest"
+                color: Colors.foreground
+                opacity: 0.9
+                font.family: Config.fontFamily
+                font.pixelSize: 14
+                font.weight: Font.Normal
+
+                layer.enabled: true
+                layer.effect: MultiEffect {
+                    shadowEnabled: true
+                    shadowBlur: 0.6
+                    shadowOpacity: 0.35
+                    shadowVerticalOffset: 2
+                    shadowColor: "black"
+                }
+            }
+        }
+
+        Item { Layout.fillHeight: true }
 
         ColumnLayout {
-            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: true
             spacing: 0
 
             Text {
@@ -182,37 +221,67 @@ Item {
             }
         }
 
-        Item { Layout.fillWidth: true }
-
-        Item {
+        Rectangle {
             visible: root.ready
-            Layout.preferredWidth: 72
-            Layout.preferredHeight: 72
-            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: true
+            Layout.topMargin: 10
+            height: 1
+            color: Qt.rgba(1, 1, 1, 0.12)
+        }
+
+        RowLayout {
+            visible: root.ready
+            Layout.fillWidth: true
+            Layout.topMargin: 8
+            spacing: 14
 
             Text {
-                anchors.centerIn: parent
-                text: root.glyph(root.cond, root.night)
-                font.family: "Material Symbols Rounded"
-                font.pixelSize: 56
-                font.variableAxes: ({
-                    FILL: 1,
-                    wght: 400,
-                    opsz: 48,
-                    GRAD: 0
-                })
-                color: Colors.foreground
-                renderType: Text.NativeRendering
+                text: "Feels " + Math.round(WeatherState.feelsLike) + "°"
+                color: Colors.m3onSurfaceVariant
+                font.family: Config.fontFamily
+                font.pixelSize: 11
+                font.weight: Font.Medium
             }
 
-            layer.enabled: true
-            layer.effect: MultiEffect {
-                shadowEnabled: true
-                shadowBlur: 0.7
-                shadowOpacity: 0.4
-                shadowVerticalOffset: 3
-                shadowColor: "black"
+            RowLayout {
+                spacing: 4
+                Text {
+                    text: "humidity_percentage"
+                    font.family: "Material Symbols Rounded"
+                    font.pixelSize: 14
+                    font.variableAxes: ({ FILL: 1, wght: 400, opsz: 20, GRAD: 0 })
+                    color: Colors.m3onSurfaceVariant
+                    renderType: Text.NativeRendering
+                }
+                Text {
+                    text: WeatherState.humidity + "%"
+                    color: Colors.m3onSurfaceVariant
+                    font.family: Config.fontFamily
+                    font.pixelSize: 11
+                    font.weight: Font.Medium
+                }
             }
+
+            RowLayout {
+                spacing: 4
+                Text {
+                    text: "air"
+                    font.family: "Material Symbols Rounded"
+                    font.pixelSize: 14
+                    font.variableAxes: ({ FILL: 1, wght: 400, opsz: 20, GRAD: 0 })
+                    color: Colors.m3onSurfaceVariant
+                    renderType: Text.NativeRendering
+                }
+                Text {
+                    text: Math.round(WeatherState.windSpeed) + " m/s"
+                    color: Colors.m3onSurfaceVariant
+                    font.family: Config.fontFamily
+                    font.pixelSize: 11
+                    font.weight: Font.Medium
+                }
+            }
+
+            Item { Layout.fillWidth: true }
         }
     }
 }
