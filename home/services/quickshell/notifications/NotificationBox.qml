@@ -32,12 +32,13 @@ Item {
     readonly property color colUrgentTint: Qt.rgba(Colors.red.r, Colors.red.g, Colors.red.b, 0.10)
 
     readonly property real radiusFull: 999
-    readonly property real radiusNormal: 20
-    readonly property real radiusSmall: 16
+    readonly property real radiusNormal: 24
+    readonly property real radiusSmall: 20
 
     readonly property real fontSmallest: 10
     readonly property real fontSmaller: 12
     readonly property real fontSmall: 15
+    readonly property real fontBody: 13
     readonly property real fontNormal: 16
     readonly property real fontLarger: 17
     readonly property string fontMain: Config.fontFamily
@@ -50,16 +51,18 @@ Item {
     NumberAnimation on opacity {
         from: 0
         to: 1
-        duration: 300
-        easing.type: Easing.OutCubic
+        duration: M3Easing.spatialDuration
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: M3Easing.emphasizedDecel
         running: root.isPopup
     }
 
     NumberAnimation on scale {
-        from: 0.92
+        from: 0.90
         to: 1
-        duration: 300
-        easing.type: Easing.OutCubic
+        duration: M3Easing.spatialDuration
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: M3Easing.emphasizedDecel
         running: root.isPopup
     }
 
@@ -109,8 +112,9 @@ Item {
 
             Behavior on rotation {
                 NumberAnimation {
-                    duration: 170
-                    easing.type: Easing.InOutQuad
+                    duration: M3Easing.durationMedium1
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: M3Easing.emphasized
                 }
             }
         }
@@ -190,7 +194,7 @@ Item {
 
         Behavior on implicitHeight {
             NumberAnimation {
-                duration: 250
+                duration: M3Easing.durationMedium2
                 easing.type: Easing.OutCubic
             }
         }
@@ -198,8 +202,9 @@ Item {
         Behavior on x {
             enabled: !dragHandler.active
             NumberAnimation {
-                duration: 220
-                easing.type: Easing.OutCubic
+                duration: M3Easing.durationMedium1
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: M3Easing.emphasizedDecel
             }
         }
 
@@ -244,8 +249,9 @@ Item {
             id: dismissAnim
             target: background
             property: "x"
-            duration: 220
-            easing.type: Easing.InCubic
+            duration: M3Easing.durationMedium1
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: M3Easing.emphasizedAccel
             onFinished: {
                 if (root.n)
                     NotificationState.notifCloseByNotif(root.n);
@@ -273,7 +279,7 @@ Item {
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
-                spacing: 3
+                spacing: 4
 
                 // Top row: summary/appName + timestamp pill
                 Item {
@@ -296,7 +302,7 @@ Item {
                             color: root.colOnLayer
                             font.family: root.fontMain
                             font.pixelSize: root.fontSmall
-                            font.weight: Font.Medium
+                            font.weight: Font.DemiBold
                             elide: Text.ElideRight
                             maximumLineCount: 1
                         }
@@ -318,17 +324,17 @@ Item {
                     }
                 }
 
-                // Body / content — single-line preview when collapsed, full when expanded
+                // Body / content — two-line preview when collapsed, full when expanded
                 Text {
                     id: bodyText
                     Layout.fillWidth: true
                     text: root.expanded ? NotificationUtils.processNotificationBody(root.n?.body ?? "", root.n?.appName ?? "") : (root.n?.body ?? "")
                     color: root.colSubtext
                     font.family: root.fontMain
-                    font.pixelSize: root.fontSmall
+                    font.pixelSize: root.fontBody
                     wrapMode: Text.Wrap
                     elide: Text.ElideRight
-                    maximumLineCount: root.expanded ? 100 : 1
+                    maximumLineCount: root.expanded ? 100 : 2
                     textFormat: root.expanded ? Text.RichText : Text.PlainText
                     verticalAlignment: Text.AlignTop
                     visible: text.length > 0
@@ -345,7 +351,9 @@ Item {
 
                     Behavior on opacity {
                         NumberAnimation {
-                            duration: 150
+                            duration: M3Easing.effectsDuration
+                            easing.type: Easing.BezierSpline
+                            easing.bezierCurve: M3Easing.emphasizedDecel
                         }
                     }
 

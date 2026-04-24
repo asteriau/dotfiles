@@ -105,7 +105,7 @@ Item {
 
                 Text {
                     Layout.alignment: Qt.AlignHCenter
-                    Layout.topMargin: 10
+                    Layout.topMargin: 14
                     text: "Nothing"
                     color: Colors.m3outline
                     font.family: Config.fontFamily
@@ -132,31 +132,35 @@ Item {
                         properties: "opacity"
                         from: 0
                         to: 1
-                        duration: 300
-                        easing.type: Easing.OutCubic
+                        duration: M3Easing.spatialDuration
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasizedDecel
                     }
                     NumberAnimation {
                         properties: "scale"
-                        from: 0.95
+                        from: 0.90
                         to: 1
-                        duration: 300
-                        easing.type: Easing.OutCubic
+                        duration: M3Easing.spatialDuration
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasizedDecel
                     }
                 }
 
                 addDisplaced: Transition {
                     NumberAnimation {
                         properties: "x,y"
-                        duration: 260
-                        easing.type: Easing.OutCubic
+                        duration: M3Easing.durationMedium2
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasizedDecel
                     }
                 }
 
                 displaced: Transition {
                     NumberAnimation {
                         properties: "x,y"
-                        duration: 260
-                        easing.type: Easing.OutCubic
+                        duration: M3Easing.durationMedium2
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasizedDecel
                     }
                 }
 
@@ -171,16 +175,19 @@ Item {
                     clip: true
 
                     Behavior on height {
+                        enabled: delegate.dying
                         NumberAnimation {
-                            duration: 260
-                            easing.type: Easing.InCubic
+                            duration: M3Easing.durationMedium1
+                            easing.type: Easing.BezierSpline
+                            easing.bezierCurve: M3Easing.emphasizedAccel
                         }
                     }
 
                     Behavior on opacity {
                         NumberAnimation {
-                            duration: 220
-                            easing.type: Easing.InCubic
+                            duration: M3Easing.effectsDuration
+                            easing.type: Easing.BezierSpline
+                            easing.bezierCurve: M3Easing.emphasizedAccel
                         }
                     }
 
@@ -190,8 +197,9 @@ Item {
 
                         Behavior on x {
                             NumberAnimation {
-                                duration: 260
-                                easing.type: Easing.InCubic
+                                duration: M3Easing.durationMedium1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: M3Easing.emphasizedAccel
                                 onRunningChanged: {
                                     if (!running && delegate.dying) {
                                         root.removeDying(delegate.notifRef);
