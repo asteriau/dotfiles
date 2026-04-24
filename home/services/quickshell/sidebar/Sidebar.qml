@@ -5,6 +5,7 @@ import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 import qs.components
+import qs.sidebar.quickToggles
 import qs.utils
 
 Scope {
@@ -119,10 +120,10 @@ Scope {
                     Layout.topMargin: 8
                 }
 
-                WeatherWidget {
+                MediaCard {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.minimumHeight: 188
+                    Layout.minimumHeight: 260
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                     Layout.topMargin: 4
