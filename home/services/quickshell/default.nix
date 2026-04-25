@@ -12,7 +12,9 @@ let
     brightnessctl
     curl
     coreutils
+    ddcutil
     gawk
+    hyprsunset
     networkmanager
     ripgrep
     procps

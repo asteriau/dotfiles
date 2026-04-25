@@ -17,7 +17,6 @@ ColumnLayout {
     readonly property bool btOn: btAdapter?.state === BluetoothAdapterState.Enabled
     readonly property bool micMuted: PipeWireState.defaultSource?.audio?.muted ?? false
 
-    property real nightLight: 0
     property real mediaVol: 0.5
 
     Process { id: wifiProc }
@@ -106,9 +105,9 @@ ColumnLayout {
             Layout.preferredWidth: 56
             Layout.preferredHeight: 132
             icon: "dark_mode"
-            value: root.nightLight
+            value: NightLightState.tempToSlider(NightLightState.temperature)
             onMoved: v => {
-                root.nightLight = v;
+                NightLightState.setTemperature(NightLightState.sliderToTemp(v));
                 OsdState.show("dark_mode", "Night Light", v);
             }
         }
