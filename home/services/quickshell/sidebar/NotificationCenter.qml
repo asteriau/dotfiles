@@ -119,16 +119,12 @@ Item {
             }
 
             Rectangle {
-                id: listFadeMask
+                id: listClipMask
                 anchors.fill: parent
                 visible: false
                 layer.enabled: true
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: "transparent" }
-                    GradientStop { position: 0.12; color: "white" }
-                    GradientStop { position: 0.88; color: "white" }
-                    GradientStop { position: 1.0; color: "transparent" }
-                }
+                color: "white"
+                radius: Config.radius
             }
 
             ListView {
@@ -138,10 +134,13 @@ Item {
                 spacing: 12
                 interactive: true
                 model: localModel
-                verticalLayoutDirection: ListView.BottomToTop
+                boundsBehavior: Flickable.DragAndOvershootBounds
+                boundsMovement: Flickable.FollowBoundsBehavior
+                flickDeceleration: 2200
+                maximumFlickVelocity: 4000
                 layer.enabled: localModel.count > 0
                 layer.effect: OpacityMask {
-                    maskSource: listFadeMask
+                    maskSource: listClipMask
                 }
 
                 add: Transition {
