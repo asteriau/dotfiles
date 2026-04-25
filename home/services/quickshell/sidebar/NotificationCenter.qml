@@ -88,8 +88,8 @@ Item {
 
                     MaterialShape {
                         anchors.fill: parent
-                        shape: MaterialShape.Shape.Ghostish
-                        color: Colors.secondaryContainer
+                        shape: MaterialShape.Shape.Cookie12Sided
+                        color: Colors.elevated
                         implicitSize: 80
                     }
 
@@ -99,7 +99,7 @@ Item {
                         font.family: "Material Symbols Rounded"
                         font.pixelSize: 40
                         font.variableAxes: ({ FILL: 0, wght: 400, opsz: 48, GRAD: 0 })
-                        color: Colors.m3onSecondaryContainer
+                        color: Colors.accent
                         renderType: Text.NativeRendering
                     }
                 }
@@ -107,8 +107,8 @@ Item {
                 Text {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.topMargin: 14
-                    text: "Nothing"
-                    color: Colors.m3outline
+                    text: "Nothing here D:"
+                    color: Colors.comment
                     font.family: Config.fontFamily
                     font.pixelSize: 15
                     font.weight: Font.Medium

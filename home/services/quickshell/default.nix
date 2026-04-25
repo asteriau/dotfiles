@@ -10,6 +10,7 @@ let
   dependencies = with pkgs; [
     bash
     brightnessctl
+    curl
     coreutils
     gawk
     networkmanager

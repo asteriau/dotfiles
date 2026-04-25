@@ -9,40 +9,28 @@ import Quickshell.Services.Mpris
 Singleton {
     id: root
 
-    property MprisPlayer player: null
-    property MprisPlayer lastPlayer: null
-    property var players: new Set()
+    readonly property bool hasActivePlasmaIntegration: Mpris.players.values.some(
+        p => (p?.dbusName ?? "").startsWith("org.mpris.MediaPlayer2.plasma-browser-integration")
+    )
+    readonly property var players: Mpris.players.values.filter(player => isUsable(player))
+    property MprisPlayer trackedPlayer: null
+    readonly property MprisPlayer player: trackedPlayer ?? players[0] ?? null
 
-    function updatePlayer() {
-        let leader = null;
-        let backup = lastPlayer;
-        for (let player of Mpris.players.values) {
-            if (player.isPlaying) {
-                backup = player;
-                if (player.trackArtist !== "")
-                    leader = player;
-            }
-        }
-
-        player = leader != null ? leader : backup;
+    function isNativeBrowser(name: string): bool {
+        return name.startsWith("org.mpris.MediaPlayer2.firefox")
+            || name.startsWith("org.mpris.MediaPlayer2.chromium")
+            || name.startsWith("org.mpris.MediaPlayer2.chrome")
+            || name.startsWith("org.mpris.MediaPlayer2.brave")
+            || name.startsWith("org.mpris.MediaPlayer2.zen");
     }
 
-    function handlePlayerChanged(player: MprisPlayer) {
-        if (!player.isPlaying)
-            return;
-
-        players.delete(player);
-        players.add(player);
-        lastPlayer = player ?? null;
-
-        updatePlayer();
-    }
-
-    function playerDestroyed(player: MprisPlayer) {
-        players.delete(player);
-        lastPlayer = players[players.size] ?? null;
-
-        updatePlayer();
+    function isUsable(player: MprisPlayer): bool {
+        const name = player?.dbusName ?? "";
+        return !(
+            (root.hasActivePlasmaIntegration && root.isNativeBrowser(name))
+            || name.startsWith("org.mpris.MediaPlayer2.playerctld")
+            || (name.endsWith(".mpd") && !name.endsWith("MediaPlayer2.mpd"))
+        );
     }
 
     Instantiator {
@@ -52,11 +40,34 @@ Singleton {
             required property MprisPlayer modelData
             target: modelData
 
-            Component.onCompleted: root.handlePlayerChanged(modelData)
-            Component.onDestruction: root.playerDestroyed(modelData)
+            Component.onCompleted: {
+                if (!root.isUsable(modelData))
+                    return;
+                if (root.trackedPlayer == null || modelData.isPlaying)
+                    root.trackedPlayer = modelData;
+            }
+
+            Component.onDestruction: {
+                if (root.trackedPlayer !== modelData)
+                    return;
+
+                root.trackedPlayer = null;
+                for (const player of root.players) {
+                    if (player.playbackState === MprisPlaybackState.Playing || player.isPlaying) {
+                        root.trackedPlayer = player;
+                        break;
+                    }
+                }
+
+                if (root.trackedPlayer == null)
+                    root.trackedPlayer = root.players[0] ?? null;
+            }
 
             function onPlaybackStateChanged() {
-                root.handlePlayerChanged(modelData);
+                if (!root.isUsable(modelData))
+                    return;
+                if (root.trackedPlayer !== modelData)
+                    root.trackedPlayer = modelData;
             }
         }
     }
@@ -65,28 +76,27 @@ Singleton {
         target: "mpris"
 
         function pauseAll() {
-            for (const player of Mpris.players.values) {
-                if (player.canPause)
-                    player.pause();
-            }
+            for (const p of Mpris.players.values)
+                if (p.canPause)
+                    p.pause();
         }
 
         function togglePlaying() {
-            const player = root.player;
-            if (player && player.canTogglePlaying)
-                player.togglePlaying();
+            const p = root.player;
+            if (p && p.canTogglePlaying)
+                p.togglePlaying();
         }
 
         function previous() {
-            const player = root.player;
-            if (player && player.canGoPrevious)
-                player.previous();
+            const p = root.player;
+            if (p && p.canGoPrevious)
+                p.previous();
         }
 
         function next() {
-            const player = root.player;
-            if (player && player.canGoNext)
-                player.next();
+            const p = root.player;
+            if (p && p.canGoNext)
+                p.next();
         }
     }
 }

@@ -20,7 +20,7 @@ RowLayout {
         text: root.notifCount > 0
             ? (root.notifCount + " notification" + (root.notifCount === 1 ? "" : "s"))
             : "No notifications"
-        color: root.notifCount > 0 ? Colors.m3onSurfaceVariant : Colors.m3outline
+        color: root.notifCount > 0 ? Colors.foreground : Colors.comment
         font.family: Config.fontFamily
         font.pixelSize: 13
         font.weight: Font.Medium
