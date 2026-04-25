@@ -132,7 +132,7 @@ Scope {
                 NotificationCenter {
                     Layout.fillWidth: true
                     Layout.fillHeight: false
-                    Layout.preferredHeight: 380
+                    Layout.preferredHeight: 356
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                 }
@@ -140,6 +140,7 @@ Scope {
                 NotificationToolbar {
                     Layout.leftMargin: 22
                     Layout.rightMargin: 22
+                    Layout.bottomMargin: 12
                 }
             }
         }

@@ -2,83 +2,37 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
+import qs.sidebar.quickToggles
 import qs.utils
 
 RowLayout {
     id: root
     Layout.fillWidth: true
-    spacing: 6
+    spacing: 8
 
-    Rectangle {
-        Layout.preferredWidth: 44
-        Layout.preferredHeight: 44
-        radius: 14
-        color: Config.doNotDisturb ? Colors.accent : Colors.elevated
-        antialiasing: true
+    readonly property int notifCount: NotificationState.allNotifs.length
 
-        Behavior on color {
-            ColorAnimation { duration: M3Easing.effectsDuration }
-        }
-
-        Text {
-            anchors.centerIn: parent
-            text: Config.doNotDisturb ? "notifications_off" : "notifications_paused"
-            font.family: "Material Symbols Rounded"
-            font.pixelSize: 18
-            color: Config.doNotDisturb ? Colors.elevated : Colors.accent
-            renderType: Text.NativeRendering
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            onClicked: Config.doNotDisturb = !Config.doNotDisturb
-        }
-    }
-
-    Rectangle {
+    Text {
         Layout.fillWidth: true
-        Layout.preferredHeight: 44
-        radius: 14
-        color: Colors.elevated
-        antialiasing: true
-
-        Text {
-            anchors.centerIn: parent
-            text: NotificationState.allNotifs.length > 0 ? (NotificationState.allNotifs.length + " notification" + (NotificationState.allNotifs.length === 1 ? "" : "s")) : "No notifications"
-            color: Colors.comment
-            font.family: Config.fontFamily
-            font.pixelSize: 12
-            font.weight: Font.Medium
-        }
-    }
-
-    Rectangle {
-        Layout.preferredWidth: 44
-        Layout.preferredHeight: 44
-        radius: 14
-        color: Colors.elevated
-        antialiasing: true
+        Layout.leftMargin: 8
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignVCenter
+        text: root.notifCount > 0
+            ? (root.notifCount + " notification" + (root.notifCount === 1 ? "" : "s"))
+            : "No notifications"
+        color: root.notifCount > 0 ? Colors.m3onSurfaceVariant : Colors.m3outline
+        font.family: Config.fontFamily
+        font.pixelSize: 13
+        font.weight: Font.Medium
 
         Behavior on color {
             ColorAnimation { duration: M3Easing.effectsDuration }
         }
+    }
 
-        Text {
-            anchors.centerIn: parent
-            text: "delete_sweep"
-            font.family: "Material Symbols Rounded"
-            font.pixelSize: 18
-            color: Colors.accent
-            renderType: Text.NativeRendering
-        }
-
-        MouseArea {
-            id: clearMa
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onClicked: NotificationState.closeAll()
-        }
+    PillToggle {
+        icon: "delete_sweep"
+        active: root.notifCount > 0
+        onClicked: NotificationState.closeAll()
     }
 }
