@@ -16,6 +16,7 @@ Item {
     property var notificationObject: n
     property bool isPopup: false
     property bool expanded: false
+    property real actionsProgress: 0
     property bool onlyNotification: true
     property real padding: 10
     property real collapsedMaxHeight: 80
@@ -65,6 +66,17 @@ Item {
         easing.bezierCurve: M3Easing.emphasizedDecel
         running: root.isPopup
     }
+
+    Behavior on actionsProgress {
+        NumberAnimation {
+            duration: M3Easing.durationMedium2
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: root.expanded ? M3Easing.emphasizedDecel : M3Easing.emphasizedAccel
+        }
+    }
+
+    Component.onCompleted: actionsProgress = expanded ? 1 : 0
+    onExpandedChanged: actionsProgress = expanded ? 1 : 0
 
     Timer {
         interval: 30000
@@ -123,8 +135,12 @@ Item {
             id: pillMouse
             anchors.fill: parent
             hoverEnabled: true
+            preventStealing: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: pill.clicked()
+            onPressed: mouse => {
+                mouse.accepted = true;
+                pill.clicked();
+            }
         }
     }
 
@@ -341,56 +357,59 @@ Item {
                 }
 
                 // Actions row (expanded only)
-                RowLayout {
-                    id: actionsRow
+                Item {
+                    id: actionsWrapper
                     Layout.fillWidth: true
-                    Layout.topMargin: 6
-                    spacing: 6
-                    visible: root.expanded
-                    opacity: root.expanded ? 1 : 0
+                    Layout.preferredHeight: (actionsRow.implicitHeight + 6) * root.actionsProgress
+                    implicitHeight: actionsRow.implicitHeight + 6
+                    clip: true
 
-                    Behavior on opacity {
-                        NumberAnimation {
-                            duration: M3Easing.effectsDuration
-                            easing.type: Easing.BezierSpline
-                            easing.bezierCurve: M3Easing.emphasizedDecel
-                        }
-                    }
-
-                    ActionButton {
-                        Layout.fillWidth: true
-                        iconGlyph: "close"
-                        onClicked: {
-                            if (root.n)
-                                NotificationState.notifCloseByNotif(root.n);
-                        }
-                    }
-
-                    Repeater {
-                        model: root.filteredActions()
+                    RowLayout {
+                        id: actionsRow
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        y: 6 * root.actionsProgress
+                        spacing: 6
+                        opacity: root.actionsProgress
+                        scale: 0.92 + (0.08 * root.actionsProgress)
+                        transformOrigin: Item.Top
+                        enabled: root.actionsProgress > 0
 
                         ActionButton {
-                            required property var modelData
                             Layout.fillWidth: true
-                            buttonText: modelData?.text ?? ""
-                            onClicked: modelData?.invoke()
+                            iconGlyph: "close"
+                            onClicked: {
+                                if (root.n)
+                                    NotificationState.notifCloseByNotif(root.n);
+                            }
                         }
-                    }
 
-                    ActionButton {
-                        id: copyBtn
-                        Layout.fillWidth: true
-                        property string copyState: "content_copy"
-                        iconGlyph: copyState
-                        onClicked: {
-                            Quickshell.clipboardText = root.n?.body ?? "";
-                            copyState = "inventory";
-                            copyResetTimer.restart();
+                        Repeater {
+                            model: root.filteredActions()
+
+                            ActionButton {
+                                required property var modelData
+                                Layout.fillWidth: true
+                                buttonText: modelData?.text ?? ""
+                                onClicked: modelData?.invoke()
+                            }
                         }
-                        Timer {
-                            id: copyResetTimer
-                            interval: 1500
-                            onTriggered: copyBtn.copyState = "content_copy"
+
+                        ActionButton {
+                            id: copyBtn
+                            Layout.fillWidth: true
+                            property string copyState: "content_copy"
+                            iconGlyph: copyState
+                            onClicked: {
+                                Quickshell.clipboardText = root.n?.body ?? "";
+                                copyState = "inventory";
+                                copyResetTimer.restart();
+                            }
+                            Timer {
+                                id: copyResetTimer
+                                interval: 1500
+                                onTriggered: copyBtn.copyState = "content_copy"
+                            }
                         }
                     }
                 }
