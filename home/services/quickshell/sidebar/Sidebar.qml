@@ -122,17 +122,17 @@ Scope {
 
                 MediaCard {
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.minimumHeight: 260
+                    Layout.fillHeight: false
+                    Layout.preferredHeight: 160
+                    Layout.minimumHeight: 160
+                    Layout.maximumHeight: 160
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
-                    Layout.topMargin: 4
                 }
 
                 NotificationCenter {
                     Layout.fillWidth: true
-                    Layout.fillHeight: false
-                    Layout.preferredHeight: 356
+                    Layout.fillHeight: true
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                 }

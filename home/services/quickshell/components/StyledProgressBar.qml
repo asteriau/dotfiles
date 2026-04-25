@@ -44,10 +44,10 @@ ProgressBar {
                 id: wavyFill
                 frequency: Math.max(2, width / 14)
                 color: root.highlightColor
-                amplitudeMultiplier: root.wavy ? 1.0 : 0
-                height: 20
+                amplitudeMultiplier: root.wavy ? 1.2 : 0
+                height: 24
                 width: contentItem.width * root.visualPosition
-                lineWidth: 4
+                lineWidth: 5
                 fullLength: width
                 Connections {
                     target: root

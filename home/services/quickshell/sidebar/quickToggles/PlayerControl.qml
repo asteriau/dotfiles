@@ -353,7 +353,7 @@ Item {
                         Item {
                             id: progressBarContainer
                             Layout.fillWidth: true
-                            implicitHeight: Math.max(28, sliderLoader.implicitHeight, progressBarLoader.implicitHeight)
+                            implicitHeight: Math.max(32, sliderLoader.implicitHeight, progressBarLoader.implicitHeight)
                             clip: false
 
                             Loader {
