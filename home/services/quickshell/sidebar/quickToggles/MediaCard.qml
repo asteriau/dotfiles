@@ -1,5 +1,7 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 import Quickshell
 import qs.components
 import qs.utils
@@ -29,65 +31,134 @@ Item {
         }
 
         Item {
+            id: emptyState
             visible: root.activePlayer === null
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.preferredHeight: 140
+            Layout.maximumHeight: 140
             Layout.minimumHeight: 140
 
-            Rectangle {
-                anchors.fill: parent
-                anchors.margins: 4
-                radius: 22
-                color: Colors.elevated
+            readonly property real radius: 22
+
+            RectangularShadow {
+                anchors.fill: emptyBackground
+                radius: emptyBackground.radius
+                blur: 18
+                offset: Qt.vector2d(0, Config.shadowVerticalOffset)
+                spread: 1
+                color: Colors.windowShadow
+                cached: true
             }
 
-            ColumnLayout {
-                anchors.centerIn: parent
-                spacing: 14
+            Rectangle {
+                id: emptyBackground
+                anchors.fill: parent
+                anchors.margins: 4
+                radius: emptyState.radius
+                color: Colors.elevated
 
-                Item {
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.preferredWidth: 72
-                    Layout.preferredHeight: 72
-
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: width / 2
-                        color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.12)
-                        border.color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.25)
-                        border.width: 1
-                        antialiasing: true
-                    }
-
-                    MaterialIcon {
-                        anchors.centerIn: parent
-                        text: "music_off"
-                        fill: 1
-                        font.pointSize: 30
-                        color: Colors.accent
-                    }
+                Rectangle {
+                    anchors.fill: parent
+                    radius: parent.radius
+                    color: "transparent"
+                    border.width: 1
+                    border.color: Qt.rgba(1, 1, 1, 0.04)
                 }
 
-                ColumnLayout {
-                    Layout.alignment: Qt.AlignHCenter
-                    spacing: 2
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: 13
+                    spacing: 15
 
-                    Text {
-                        Layout.alignment: Qt.AlignHCenter
-                        text: "No active player"
-                        color: Colors.foreground
-                        font.family: Config.fontFamily
-                        font.pixelSize: 15
-                        font.weight: Font.DemiBold
-                        renderType: Text.NativeRendering
+                    Rectangle {
+                        id: artSlot
+                        Layout.fillHeight: true
+                        implicitWidth: height
+                        radius: 8
+                        color: Colors.background
+
+                        MaterialIcon {
+                            anchors.centerIn: parent
+                            text: "music_off"
+                            fill: 1
+                            font.pointSize: 28
+                            color: Colors.accent
+                        }
                     }
-                    Text {
-                        Layout.alignment: Qt.AlignHCenter
-                        text: "Start something to see it here"
-                        color: Colors.m3onSurfaceVariant
-                        font.family: Config.fontFamily
-                        font.pixelSize: 12
-                        renderType: Text.NativeRendering
+
+                    ColumnLayout {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        spacing: 2
+
+                        Text {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignTop
+                            lineHeightMode: Text.FixedHeight
+                            lineHeight: 20
+                            font.family: Config.fontFamily
+                            font.pixelSize: 17
+                            font.weight: Font.DemiBold
+                            color: Colors.m3onSurfaceVariant
+                            elide: Text.ElideRight
+                            renderType: Text.NativeRendering
+                            text: "No active player"
+                        }
+                        Text {
+                            Layout.fillWidth: true
+                            font.family: Config.fontFamily
+                            font.pixelSize: 12
+                            color: Colors.m3onSurfaceInactive
+                            elide: Text.ElideRight
+                            renderType: Text.NativeRendering
+                            text: "Start something to see it here"
+                        }
+
+                        Item { Layout.fillHeight: true }
+
+                        Item {
+                            Layout.fillWidth: true
+                            implicitHeight: 32
+
+                            StyledSlider {
+                                anchors.left: parent.left
+                                anchors.right: playGhost.left
+                                anchors.rightMargin: 8
+                                anchors.verticalCenter: parent.verticalCenter
+                                configuration: StyledSlider.Configuration.Wavy
+                                animateWave: false
+                                value: 0
+                                enabled: false
+                                opacity: 0.55
+                                highlightColor: Colors.m3outline
+                                trackColor: Colors.surfaceContainerHighest
+                                handleColor: Colors.m3outline
+                            }
+
+                            RippleButton {
+                                id: playGhost
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                property real size: 44
+                                implicitWidth: size
+                                implicitHeight: size
+                                rippleEnabled: false
+                                pointingHandCursor: false
+                                buttonRadius: size / 2
+                                opacity: 0.6
+                                colBackground: Colors.surfaceContainerHighest
+                                colBackgroundHover: Colors.surfaceContainerHighest
+                                contentItem: MaterialIcon {
+                                    text: "play_arrow"
+                                    fill: 1
+                                    font.pointSize: 16
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    color: Colors.m3onSurfaceVariant
+                                }
+                            }
+                        }
                     }
                 }
             }
