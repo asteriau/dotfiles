@@ -23,6 +23,14 @@ Singleton {
     readonly property color buttonDisabled:      elevated
     readonly property color buttonDisabledHover:  Qt.rgba(0.95, 0.95, 0.95, 0.25)
 
+    // ── State overlays ────────────────────────────────────────────────────
+    readonly property color transparent:   Qt.rgba(0, 0, 0, 0)
+    readonly property color hover:         Qt.rgba(1, 1, 1, 0.06)
+    readonly property color hoverFaint:    Qt.rgba(1, 1, 1, 0.04)
+    readonly property color pressed:       Qt.rgba(1, 1, 1, 0.10)
+    readonly property color accentHover:   Qt.lighter(accent, 1.10)
+    readonly property color accentPressed: Qt.lighter(accent, 1.18)
+
     // ── M3 Surface containers (tonal elevation, cool-tinted from accent) ──
     readonly property color surfaceContainerLowest: "#0F1012"
     readonly property color surfaceContainerLow:    "#1A1D21"
@@ -38,6 +46,11 @@ Singleton {
     // ── M3 Secondary (desaturated variant) ────────────────────────────────
     readonly property color secondaryContainer:  "#3A4249"
     readonly property color m3onSecondaryContainer: "#DAE2EA"
+
+    // ── Accent containers (accent-derived alternatives) ──────────────────
+    readonly property color accentContainer:     "#263545"
+    readonly property color accentText:          "#151520"
+    readonly property color accentContainerText: "#C8D6E3"
 
     // ── M3 Surface content ────────────────────────────────────────────────
     readonly property color m3onSurface:           foreground

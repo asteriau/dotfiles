@@ -160,5 +160,8 @@ RowLayout {
 
     IconBtn { icon: "edit" }
     IconBtn { icon: "power_settings_new" }
-    IconBtn { icon: "settings" }
+    IconBtn {
+        icon: "settings"
+        onClicked: Utils.launchSettings()
+    }
 }

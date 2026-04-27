@@ -102,7 +102,7 @@ Scope {
 
     Timer {
         id: hideTimer
-        interval: Config.osdTimeout
+        interval: Config.osdTimeoutMs
         onTriggered: scope.osdVisible = false
     }
 
@@ -153,7 +153,7 @@ Scope {
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 y: (parent.height - height) / 2 + yOffset
-                implicitWidth: 200
+                implicitWidth: Config.osdWidth
                 implicitHeight: 48
 
                 property real yOffset: scope.osdVisible ? 0 : -18

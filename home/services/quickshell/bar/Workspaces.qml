@@ -36,7 +36,7 @@ Item {
     property int scrollAccumulator: 0
 
     implicitWidth:  vertical ? Config.barWidth : (workspaceButtonWidth * workspacesShown)
-    implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Config.barHeight
+    implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : (workspaceButtonWidth + 8)
 
     // ── Workspace occupancy tracking ──────────────────────────────────────
     function updateWorkspaceOccupied() {
@@ -73,7 +73,11 @@ Item {
     // ══════════════════════════════════════════════════════════════════════
     Rectangle {
         z: 0
-        anchors.fill: parent
+        anchors {
+            fill: parent
+            topMargin:    root.vertical ? 0 : 4
+            bottomMargin: root.vertical ? 0 : 4
+        }
         radius: 12
         color: Colors.elevated
     }
@@ -151,11 +155,6 @@ Item {
     Item {
         z: 3
 
-        anchors {
-            verticalCenter:   root.vertical ? undefined : parent.verticalCenter
-            horizontalCenter: root.vertical ? parent.horizontalCenter : undefined
-        }
-
         AnimatedTabPair {
             id: tabPair
             index: root.workspaceIndexInGroup
@@ -170,8 +169,8 @@ Item {
         readonly property real indicatorThick:
             root.workspaceButtonWidth - root.activeWorkspaceMargin * 2
 
-        x:             root.vertical ? 0 : indicatorPos
-        y:             root.vertical ? indicatorPos : 0
+        x:             root.vertical ? (parent.width - indicatorThick) / 2 : indicatorPos
+        y:             root.vertical ? indicatorPos : (parent.height - indicatorThick) / 2
         implicitWidth:  root.vertical ? indicatorThick : indicatorLen
         implicitHeight: root.vertical ? indicatorLen  : indicatorThick
 

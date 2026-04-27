@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Effects
 import QtQuick.Layouts
+import QtCore
 import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Io

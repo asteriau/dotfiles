@@ -34,4 +34,10 @@ Singleton {
         id: clock
         precision: SystemClock.Minutes
     }
+
+    signal settingsRequested
+
+    function launchSettings() {
+        settingsRequested();
+    }
 }
