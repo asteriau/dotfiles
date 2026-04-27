@@ -77,8 +77,8 @@ Item {
             anchors.centerIn: parent
             visible: opacity > 0
             opacity: root.showNumbers
-                || (Config.workspaceAlwaysShowNumbers
-                    && (!Config.workspaceShowAppIcons || !content.biggestWindow || root.showNumbers))
+                || (Config.workspaces.alwaysShowNumbers
+                    && (!Config.workspaces.showAppIcons || !content.biggestWindow || root.showNumbers))
                 ? 1 : 0
             z: 3
 
@@ -98,9 +98,9 @@ Item {
         Rectangle {
             anchors.centerIn: parent
             visible: opacity > 0
-            opacity: (Config.workspaceAlwaysShowNumbers
+            opacity: (Config.workspaces.alwaysShowNumbers
                 || root.showNumbers
-                || (Config.workspaceShowAppIcons && content.biggestWindow)
+                || (Config.workspaces.showAppIcons && content.biggestWindow)
                 ) ? 0 : 1
             width:  root.buttonWidth * 0.15
             height: width
@@ -118,8 +118,8 @@ Item {
             width:  root.buttonWidth
             height: root.buttonWidth
             visible: opacity > 0
-            opacity: !Config.workspaceShowAppIcons ? 0 :
-                     (content.biggestWindow && !root.showNumbers && Config.workspaceShowAppIcons) ?
+            opacity: !Config.workspaces.showAppIcons ? 0 :
+                     (content.biggestWindow && !root.showNumbers && Config.workspaces.showAppIcons) ?
                      1 : content.biggestWindow ? 1 : 0
 
             Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
@@ -138,12 +138,12 @@ Item {
                 id: appIcon
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
-                anchors.bottomMargin: (!root.showNumbers && Config.workspaceShowAppIcons) ?
+                anchors.bottomMargin: (!root.showNumbers && Config.workspaces.showAppIcons) ?
                     (root.buttonWidth - root.iconSize) / 2 : root.iconMarginShrinked
-                anchors.rightMargin: (!root.showNumbers && Config.workspaceShowAppIcons) ?
+                anchors.rightMargin: (!root.showNumbers && Config.workspaces.showAppIcons) ?
                     (root.buttonWidth - root.iconSize) / 2 : root.iconMarginShrinked
                 source: content.iconSource
-                implicitSize: (!root.showNumbers && Config.workspaceShowAppIcons) ?
+                implicitSize: (!root.showNumbers && Config.workspaces.showAppIcons) ?
                     root.iconSize : root.iconSizeShrinked
 
                 Behavior on implicitSize         { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
@@ -153,7 +153,7 @@ Item {
 
             // Monochrome overlay (optional).
             Loader {
-                active: Config.workspaceMonochromeIcons
+                active: Config.workspaces.monochromeIcons
                 anchors.fill: appIcon
 
                 sourceComponent: Item {

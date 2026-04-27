@@ -27,7 +27,7 @@ PopupWindow {
 
         color: Colors.background
         margin: 6
-        radius: Config.radius / 2
+        radius: Config.layout.cardRadius / 2
 
         Text {
             text: root.targetText

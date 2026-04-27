@@ -24,9 +24,9 @@ Item {
         source: textItem
         anchors.fill: textItem
         shadowEnabled: root.shadowEnabled
-        shadowVerticalOffset: Config.shadowVerticalOffset
-        blurMax: Config.blurMax
-        opacity: Config.shadowOpacity
+        shadowVerticalOffset: Config.shadow.verticalOffset
+        blurMax: Config.shadow.blur
+        opacity: Config.shadow.opacity
     }
 
     Text {

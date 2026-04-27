@@ -17,7 +17,7 @@ PanelWindow {
     WlrLayershell.exclusionMode: ExclusionMode.Ignore
     WlrLayershell.namespace: "quickshell:notifications:overlay"
 
-    implicitWidth: Config.notificationWidth + Config.padding * 6
+    implicitWidth: Config.notifications.width + Config.padding * 6
 
     color: "transparent"
     mask: Region {
@@ -31,7 +31,7 @@ PanelWindow {
     }
 
     margins {
-        top: Config.barHeight
+        top: Config.bar.height
     }
 
     ColumnLayout {
@@ -57,7 +57,7 @@ PanelWindow {
 
                 Timer {
                     running: root.visible
-                    interval: notifBox.n.expireTimeout > 0 ? notifBox.n.expireTimeout : Config.notificationExpireTimeout
+                    interval: notifBox.n.expireTimeout > 0 ? notifBox.n.expireTimeout : Config.notifications.expireTimeout
                     onTriggered: {
                         NotificationState.notifDismissByNotif(notifBox.n);
                     }

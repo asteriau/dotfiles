@@ -24,9 +24,9 @@ Item {
     MultiEffect {
         source: iconItem
         anchors.fill: iconItem
-        shadowEnabled: Config.shadowEnabled
-        shadowVerticalOffset: Config.shadowVerticalOffset
-        blurMax: Config.blurMax
-        opacity: Config.shadowOpacity
+        shadowEnabled: Config.shadow.enabled
+        shadowVerticalOffset: Config.shadow.verticalOffset
+        blurMax: Config.shadow.blur
+        opacity: Config.shadow.opacity
     }
 }

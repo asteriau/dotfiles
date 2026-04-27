@@ -3,6 +3,7 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import QtQuick
+import qs.utils
 
 Singleton {
     id: root
@@ -79,8 +80,8 @@ Singleton {
     readonly property string _fetchCmd:
         "KEY=$(cat \"${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/secrets/openweathermap.key\" 2>/dev/null); " +
         "[ -n \"$KEY\" ] || exit 0; " +
-        "CUR=$(curl -4 -sSL \"https://api.openweathermap.org/data/2.5/weather?lat=44.4268&lon=26.1025&units=metric&appid=$KEY\"); " +
-        "FC=$(curl -4 -sSL \"https://api.openweathermap.org/data/2.5/forecast?lat=44.4268&lon=26.1025&units=metric&cnt=8&appid=$KEY\"); " +
+        "CUR=$(curl -4 -sSL \"https://api.openweathermap.org/data/2.5/weather?lat=" + Config.weather.lat + "&lon=" + Config.weather.lon + "&units=metric&appid=$KEY\"); " +
+        "FC=$(curl -4 -sSL \"https://api.openweathermap.org/data/2.5/forecast?lat=" + Config.weather.lat + "&lon=" + Config.weather.lon + "&units=metric&cnt=8&appid=$KEY\"); " +
         "printf '%s\\n---\\n%s' \"$CUR\" \"$FC\""
 
     Process {

@@ -6,11 +6,11 @@ import qs.utils
 Item {
     id: root
 
-    property bool vertical: Config.barVertical
+    property bool vertical: Config.bar.vertical
     readonly property bool horizontal: !vertical
 
-    implicitWidth:  horizontal ? (hRow.implicitWidth + 20) : Config.barWidth
-    implicitHeight: horizontal ? Config.barHeight : (col.implicitHeight + 16)
+    implicitWidth:  horizontal ? (hRow.implicitWidth + 20) : Config.bar.width
+    implicitHeight: horizontal ? Config.bar.height : (col.implicitHeight + 16)
 
     Rectangle {
         anchors {

@@ -19,7 +19,7 @@ Rectangle {
     Layout.alignment: Qt.AlignHCenter
 
     implicitWidth:  vertical ? 32 : (hRow.implicitWidth + 12)
-    implicitHeight: vertical ? (vCol.implicitHeight + 12) : (Config.barHeight - 8)
+    implicitHeight: vertical ? (vCol.implicitHeight + 12) : (Config.bar.height - 8)
     radius: 8
     color: Colors.elevated
 
@@ -52,10 +52,10 @@ Rectangle {
             MultiEffect {
                 source: trayIcon
                 anchors.fill: trayIcon
-                shadowEnabled: Config.shadowEnabled
-                shadowVerticalOffset: Config.shadowVerticalOffset
-                blurMax: Config.blurMax
-                opacity: Config.shadowOpacity
+                shadowEnabled: Config.shadow.enabled
+                shadowVerticalOffset: Config.shadow.verticalOffset
+                blurMax: Config.shadow.blur
+                opacity: Config.shadow.opacity
             }
         }
 

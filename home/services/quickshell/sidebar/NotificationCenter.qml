@@ -125,7 +125,7 @@ Item {
                 visible: false
                 layer.enabled: true
                 color: "white"
-                radius: Config.radius
+                radius: Config.layout.cardRadius
             }
 
             ListView {

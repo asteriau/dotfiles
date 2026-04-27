@@ -6,7 +6,10 @@ import Quickshell
 Singleton {
     id: root
 
-    // User-tunable, persisted across reloads.
+    // ── Persisted state (primitives) ───────────────────────────────────────
+    // All persisted values live here as flat props so `PersistentProperties`
+    // keeps working. The nested `QtObject` groups below expose them via
+    // `property alias` so callers get a grouped, feature-scoped API.
     PersistentProperties {
         id: persisted
         reloadableId: "persistedStates"
@@ -21,7 +24,9 @@ Singleton {
         property string barPosition: "left"   // left | right | top | bottom
         property int    barHeight: 40
         property int    barWidth: 52
-        property int    sidebarWidth: 420
+
+        // Sidebar.
+        property int sidebarWidth: 420
 
         // Workspaces.
         property int  workspacesShown: 10
@@ -36,56 +41,77 @@ Singleton {
         // OSD.
         property int osdWidth: 200
         property int osdTimeoutMs: 1000
+
+        // Weather.
+        property real   weatherLat: 44.4268
+        property real   weatherLon: 26.1025
+        property string weatherCity: "Bucharest"
     }
 
-    // Aliases (read/write).
-    property alias preferredMonitor:          persisted.preferredMonitor
-    property alias showSidebar:               persisted.showSidebar
-    property alias doNotDisturb:              persisted.doNotDisturb
-    property alias showWorkspaceNumbers:      persisted.showWorkspaceNumbers
+    // ── Runtime ephemera (flat, top-level) ─────────────────────────────────
+    property alias preferredMonitor:     persisted.preferredMonitor
+    property alias showSidebar:          persisted.showSidebar
+    property alias doNotDisturb:         persisted.doNotDisturb
+    property alias showWorkspaceNumbers: persisted.showWorkspaceNumbers
 
-    property alias barPosition:               persisted.barPosition
-    property alias barHeight:                 persisted.barHeight
-    property alias barWidth:                  persisted.barWidth
-    property alias sidebarWidth:              persisted.sidebarWidth
+    // ── Cross-cutting tokens (flat, top-level) ─────────────────────────────
+    property alias fontFamily: persisted.fontFamily
+    property alias iconSize:   persisted.iconSize
 
-    property alias workspacesShown:           persisted.workspacesShown
-    property alias workspaceShowAppIcons:     persisted.workspaceShowAppIcons
-    property alias workspaceAlwaysShowNumbers:persisted.workspaceAlwaysShowNumbers
-    property alias workspaceMonochromeIcons:  persisted.workspaceMonochromeIcons
+    readonly property string userName: "Laura"
 
-    property alias fontFamily:                persisted.fontFamily
-    property alias iconSize:                  persisted.iconSize
-
-    property alias osdWidth:                  persisted.osdWidth
-    property alias osdTimeoutMs:              persisted.osdTimeoutMs
-
-    // Derived.
-    readonly property bool barVertical: barPosition === "left" || barPosition === "right"
-    readonly property bool barOnEnd:    barPosition === "right" || barPosition === "bottom"
-    readonly property string userName:  "Laura"
-
-    // Shadow/blur tokens.
-    readonly property int  blurMax: 16
-    readonly property real shadowOpacity: 0.8
-    readonly property int  shadowVerticalOffset: 2
-    readonly property bool shadowEnabled: true
-
-    // Timing tokens (component-local; animation durations live in M3Easing).
-    readonly property int hoverTimeoutMs: 500
-    readonly property int notificationExpireTimeout: 5000
-    readonly property int notificationIconSize: 48
-    readonly property int notificationWidth: 360
-
-    // Base spacing unit.
-    readonly property int padding: 4
+    readonly property int  hoverTimeoutMs: 500
+    readonly property int  padding: 4
     readonly property real spacing: padding * 3
     readonly property real roundingPower: 2.5
 
-    // Legacy aliases kept for back-compat.
-    readonly property int radius: layout.cardRadius
+    // ── Feature groups ─────────────────────────────────────────────────────
 
-    // Typography scale.
+    readonly property QtObject bar: QtObject {
+        property alias position: persisted.barPosition
+        property alias height:   persisted.barHeight
+        property alias width:    persisted.barWidth
+
+        readonly property bool vertical: position === "left" || position === "right"
+        readonly property bool onEnd:    position === "right" || position === "bottom"
+    }
+
+    readonly property QtObject sidebar: QtObject {
+        property alias width: persisted.sidebarWidth
+    }
+
+    readonly property QtObject workspaces: QtObject {
+        property alias shown:             persisted.workspacesShown
+        property alias showAppIcons:      persisted.workspaceShowAppIcons
+        property alias alwaysShowNumbers: persisted.workspaceAlwaysShowNumbers
+        property alias monochromeIcons:   persisted.workspaceMonochromeIcons
+    }
+
+    readonly property QtObject osd: QtObject {
+        property alias width:     persisted.osdWidth
+        property alias timeoutMs: persisted.osdTimeoutMs
+    }
+
+    readonly property QtObject notifications: QtObject {
+        readonly property int expireTimeout: 5000
+        readonly property int iconSize:      48
+        readonly property int width:         360
+    }
+
+    readonly property QtObject weather: QtObject {
+        property alias lat:  persisted.weatherLat
+        property alias lon:  persisted.weatherLon
+        property alias city: persisted.weatherCity
+    }
+
+    readonly property QtObject shadow: QtObject {
+        readonly property bool enabled:        true
+        readonly property real opacity:        0.8
+        readonly property int  verticalOffset: 2
+        readonly property int  blur:           16
+    }
+
+    // ── Typography scale ───────────────────────────────────────────────────
     readonly property QtObject typography: QtObject {
         readonly property string family: root.fontFamily
         readonly property string titleFamily: root.fontFamily
@@ -110,7 +136,7 @@ Singleton {
         readonly property int titleWeight: weightMedium
     }
 
-    // Layout scale.
+    // ── Layout scale ───────────────────────────────────────────────────────
     readonly property QtObject layout: QtObject {
         // Base gap scale.
         readonly property int gapXs:  2

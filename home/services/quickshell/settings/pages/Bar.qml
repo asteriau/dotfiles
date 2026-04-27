@@ -14,8 +14,8 @@ ContentPage {
             title: "Bar position"
 
             SegmentedControl {
-                currentValue: Config.barPosition
-                onSelectedValue: v => Config.barPosition = v
+                currentValue: Config.bar.position
+                onSelectedValue: v => Config.bar.position = v
                 options: [
                     { label: "Left",   icon: "arrow_back",     value: "left"   },
                     { label: "Right",  icon: "arrow_forward",  value: "right"  },
@@ -35,9 +35,9 @@ ContentPage {
 
             SliderRow {
                 icon: "height"
-                from: 24; to: 64; value: Config.barHeight; stepSize: 2
+                from: 24; to: 64; value: Config.bar.height; stepSize: 2
                 suffix: "px"
-                onMoved: v => Config.barHeight = v
+                onMoved: v => Config.bar.height = v
             }
         }
 
@@ -46,9 +46,9 @@ ContentPage {
 
             SliderRow {
                 icon: "width_normal"
-                from: 36; to: 80; value: Config.barWidth; stepSize: 2
+                from: 36; to: 80; value: Config.bar.width; stepSize: 2
                 suffix: "px"
-                onMoved: v => Config.barWidth = v
+                onMoved: v => Config.bar.width = v
             }
         }
 
@@ -57,9 +57,9 @@ ContentPage {
 
             SliderRow {
                 icon: "view_sidebar"
-                from: 300; to: 600; value: Config.sidebarWidth; stepSize: 10
+                from: 300; to: 600; value: Config.sidebar.width; stepSize: 10
                 suffix: "px"
-                onMoved: v => Config.sidebarWidth = v
+                onMoved: v => Config.sidebar.width = v
             }
         }
     }
@@ -73,30 +73,30 @@ ContentPage {
 
             SliderRow {
                 icon: "grid_4x4"
-                from: 4; to: 20; value: Config.workspacesShown; stepSize: 1
-                onMoved: v => Config.workspacesShown = v
+                from: 4; to: 20; value: Config.workspaces.shown; stepSize: 1
+                onMoved: v => Config.workspaces.shown = v
             }
         }
 
         SwitchRow {
             text: "Show app icons"
             icon: "apps"
-            checked: Config.workspaceShowAppIcons
-            onToggled: v => Config.workspaceShowAppIcons = v
+            checked: Config.workspaces.showAppIcons
+            onToggled: v => Config.workspaces.showAppIcons = v
         }
 
         SwitchRow {
             text: "Always show numbers"
             icon: "format_list_numbered"
-            checked: Config.workspaceAlwaysShowNumbers
-            onToggled: v => Config.workspaceAlwaysShowNumbers = v
+            checked: Config.workspaces.alwaysShowNumbers
+            onToggled: v => Config.workspaces.alwaysShowNumbers = v
         }
 
         SwitchRow {
             text: "Monochrome icons"
             icon: "filter_b_and_w"
-            checked: Config.workspaceMonochromeIcons
-            onToggled: v => Config.workspaceMonochromeIcons = v
+            checked: Config.workspaces.monochromeIcons
+            onToggled: v => Config.workspaces.monochromeIcons = v
         }
     }
 }

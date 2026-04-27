@@ -20,7 +20,7 @@ Item {
         anchors.fill: background
         radius: background.radius
         blur: 18
-        offset: Qt.vector2d(0, Config.shadowVerticalOffset)
+        offset: Qt.vector2d(0, Config.shadow.verticalOffset)
         spread: 1
         color: Colors.windowShadow
         cached: true

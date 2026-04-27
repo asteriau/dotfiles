@@ -59,9 +59,9 @@ Scope {
         WlrLayershell.keyboardFocus: Config.showSidebar ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
         color: "transparent"
 
-        implicitWidth: Config.sidebarWidth
+        implicitWidth: Config.sidebar.width
 
-        margins.right: Config.showSidebar ? 0 : -Config.sidebarWidth
+        margins.right: Config.showSidebar ? 0 : -Config.sidebar.width
 
         Behavior on margins.right {
             NumberAnimation {
@@ -86,10 +86,10 @@ Scope {
             anchors {
                 fill: parent
                 margins: 8
-                topMargin:    Config.barPosition === "top"    ? Config.barHeight + 8 : 8
-                bottomMargin: Config.barPosition === "bottom" ? Config.barHeight + 8 : 8
+                topMargin:    Config.bar.position === "top"    ? Config.bar.height + 8 : 8
+                bottomMargin: Config.bar.position === "bottom" ? Config.bar.height + 8 : 8
             }
-            radius: Config.radius
+            radius: Config.layout.cardRadius
             color: Colors.background
             layer.enabled: true
 

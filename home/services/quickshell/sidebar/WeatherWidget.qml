@@ -94,7 +94,7 @@ Item {
             spacing: 0
 
             StyledText {
-                text: "Bucharest"
+                text: Config.weather.city
                 color: Colors.foreground
                 opacity: 0.9
                 font.pixelSize: 14

@@ -10,18 +10,18 @@ PanelWindow {
     screen: Config.preferredMonitor
 
     anchors {
-        top:    Config.barVertical || !Config.barOnEnd
-        bottom: Config.barVertical || Config.barOnEnd
-        left:   !Config.barVertical || !Config.barOnEnd
-        right:  !Config.barVertical || Config.barOnEnd
+        top:    Config.bar.vertical || !Config.bar.onEnd
+        bottom: Config.bar.vertical || Config.bar.onEnd
+        left:   !Config.bar.vertical || !Config.bar.onEnd
+        right:  !Config.bar.vertical || Config.bar.onEnd
     }
-    implicitWidth:  Config.barVertical ? Config.barWidth : 0
-    implicitHeight: Config.barVertical ? 0 : Config.barHeight
+    implicitWidth:  Config.bar.vertical ? Config.bar.width : 0
+    implicitHeight: Config.bar.vertical ? 0 : Config.bar.height
 
     color: "transparent"
 
     Rectangle {
-        visible: Config.barVertical
+        visible: Config.bar.vertical
         anchors.fill: parent
         color: Colors.background
 
@@ -85,7 +85,7 @@ PanelWindow {
     }
 
     BarHorizontal {
-        visible: !Config.barVertical
+        visible: !Config.bar.vertical
         anchors.fill: parent
     }
 }

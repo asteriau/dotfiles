@@ -24,7 +24,7 @@ Item {
 
     property string timeString: NotificationUtils.getFriendlyNotifTimeString(n?.time)
 
-    implicitWidth: Config.notificationWidth
+    implicitWidth: Config.notifications.width
     implicitHeight: background.implicitHeight
 
     // Popup appear animation.

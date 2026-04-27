@@ -53,9 +53,9 @@ ContentPage {
 
             SliderRow {
                 icon: "straighten"
-                from: 100; to: 400; value: Config.osdWidth; stepSize: 10
+                from: 100; to: 400; value: Config.osd.width; stepSize: 10
                 suffix: "px"
-                onMoved: v => Config.osdWidth = v
+                onMoved: v => Config.osd.width = v
             }
         }
 
@@ -64,9 +64,9 @@ ContentPage {
 
             SliderRow {
                 icon: "timer"
-                from: 500; to: 5000; value: Config.osdTimeoutMs; stepSize: 100
+                from: 500; to: 5000; value: Config.osd.timeoutMs; stepSize: 100
                 suffix: "ms"
-                onMoved: v => Config.osdTimeoutMs = v
+                onMoved: v => Config.osd.timeoutMs = v
             }
         }
     }

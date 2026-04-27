@@ -87,7 +87,7 @@ Scope {
 
     Timer {
         id: hideTimer
-        interval: Config.osdTimeoutMs
+        interval: Config.osd.timeoutMs
         onTriggered: scope.osdVisible = false
     }
 
@@ -127,7 +127,7 @@ Scope {
             }
 
             margins {
-                top: Config.barHeight + Config.padding * 4
+                top: Config.bar.height + Config.padding * 4
             }
 
             implicitWidth: osdPill.implicitWidth + Config.padding * 10
@@ -138,7 +138,7 @@ Scope {
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 y: (parent.height - height) / 2 + yOffset
-                implicitWidth: Config.osdWidth
+                implicitWidth: Config.osd.width
                 implicitHeight: 48
 
                 property real yOffset: scope.osdVisible ? 0 : -18
@@ -170,7 +170,7 @@ Scope {
                     anchors.fill: pillBg
                     radius: pillBg.radius
                     offset.y: Config.padding
-                    blur: Config.blurMax
+                    blur: Config.shadow.blur
                     spread: Config.padding
                     color: Colors.windowShadow
                 }

@@ -18,12 +18,12 @@ import qs.bar.workspaces
 Item {
     id: root
 
-    property bool vertical: Config.barVertical
+    property bool vertical: Config.bar.vertical
 
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(QsWindow.window?.screen)
     readonly property Toplevel activeWindow: ToplevelManager.activeToplevel
     readonly property int effectiveActiveWorkspaceId: monitor?.activeWorkspace?.id ?? 1
-    readonly property int workspacesShown: Config.workspacesShown
+    readonly property int workspacesShown: Config.workspaces.shown
     readonly property int workspaceGroup: Math.floor((effectiveActiveWorkspaceId - 1) / workspacesShown)
     readonly property int workspaceIndexInGroup: (effectiveActiveWorkspaceId - 1) % workspacesShown
 
@@ -35,7 +35,7 @@ Item {
 
     readonly property bool showNumbers: Config.showWorkspaceNumbers
 
-    implicitWidth:  vertical ? Config.barWidth : (workspaceButtonWidth * workspacesShown)
+    implicitWidth:  vertical ? Config.bar.width : (workspaceButtonWidth * workspacesShown)
     implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : (workspaceButtonWidth + 8)
 
     // ── Occupancy tracking ────────────────────────────────────────────────
