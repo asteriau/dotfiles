@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Effects
-import qs.components
-import qs.utils
+import qs.components.surfaces
+import qs.sidebar.weather.scene
 
 Item {
     id: scene
@@ -41,19 +41,19 @@ Item {
         }
     }
 
-    component StreakLayer: Item {
+    component StreakLayer: ParallaxGroup {
         id: ly
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.35
+
         property int count: 18
         property real minLen: 14
         property real maxLen: 22
         property real op: 0.5
         property real minDur: 800
         property real maxDur: 1100
-        property real depth: 0.35
         property real layerBlur: 0.0
-
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * ly.depth; y: scene.parallaxY * ly.depth }
 
         Repeater {
             model: ly.count
@@ -89,9 +89,11 @@ Item {
     StreakLayer { count: 14; minLen: 26; maxLen: 32; op: 0.82; minDur: 500; maxDur: 700;  depth: 0.65; layerBlur: 0.0 }
 
     // Ripples — Oval discs, two concentric per spawn point
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.8; y: scene.parallaxY * 0.4 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.8
+        depthY: 0.4
 
         Repeater {
             model: 4

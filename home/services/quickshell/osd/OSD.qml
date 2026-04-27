@@ -5,8 +5,11 @@ import Quickshell.Widgets
 import QtQuick
 import QtQuick.Effects
 import QtQuick.Layouts
+import qs.components.controls
+import qs.components.shape
+import qs.components.text
 import qs.utils
-import qs.components
+import qs.utils.state
 
 Scope {
     id: scope
@@ -14,24 +17,6 @@ Scope {
     property real progress: 0
     property string icon: "volume_up"
     property string label: ""
-
-    // Icon crossfade state.
-    property string iconA: "volume_up"
-    property string iconB: ""
-    property bool aActive: true
-
-    onIconChanged: {
-        const current = aActive ? iconA : iconB;
-        if (icon === current)
-            return;
-        if (aActive) {
-            iconB = icon;
-            aActive = false;
-        } else {
-            iconA = icon;
-            aActive = true;
-        }
-    }
 
     Connections {
         target: PipeWireState.defaultSink ? PipeWireState.defaultSink.audio : null
@@ -109,7 +94,7 @@ Scope {
     // Hold the window mapped long enough for the exit animation to finish.
     Timer {
         id: exitHold
-        interval: 420
+        interval: M3Easing.durationLong1
         repeat: false
     }
 
@@ -159,21 +144,19 @@ Scope {
                 property real yOffset: scope.osdVisible ? 0 : -18
                 opacity: scope.osdVisible ? 1 : 0
 
-                // M3 emphasized easing.
-                // Enter: emphasized decelerate (0.05, 0.7, 0.1, 1.0), 500ms.
-                // Exit: emphasized accelerate (0.3, 0.0, 0.8, 0.15), 200ms.
+                // M3 emphasized easing: decelerate in (long2), accelerate out (short4).
                 Behavior on opacity {
                     NumberAnimation {
-                        duration: scope.osdVisible ? 500 : 200
+                        duration: scope.osdVisible ? M3Easing.durationLong2 : M3Easing.durationShort4
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: scope.osdVisible ? [0.05, 0.7, 0.1, 1.0, 1, 1] : [0.3, 0.0, 0.8, 0.15, 1, 1]
+                        easing.bezierCurve: scope.osdVisible ? M3Easing.emphasizedDecel : M3Easing.emphasizedAccel
                     }
                 }
                 Behavior on yOffset {
                     NumberAnimation {
-                        duration: scope.osdVisible ? 500 : 200
+                        duration: scope.osdVisible ? M3Easing.durationLong2 : M3Easing.durationShort4
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: scope.osdVisible ? [0.05, 0.7, 0.1, 1.0, 1, 1] : [0.3, 0.0, 0.8, 0.15, 1, 1]
+                        easing.bezierCurve: scope.osdVisible ? M3Easing.emphasizedDecel : M3Easing.emphasizedAccel
                     }
                 }
 
@@ -225,38 +208,11 @@ Scope {
                             implicitSize: 30
                         }
 
-                        MaterialIcon {
+                        CrossfadeIcon {
                             anchors.fill: parent
-                            text: scope.iconA
-                            font.pixelSize: 30
+                            text: scope.icon
+                            pixelSize: 30
                             color: Colors.background
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            opacity: scope.aActive ? 1 : 0
-                            Behavior on opacity {
-                                NumberAnimation {
-                                    duration: 200
-                                    easing.type: Easing.BezierSpline
-                                    easing.bezierCurve: [0.2, 0, 0, 1, 1, 1]
-                                }
-                            }
-                        }
-
-                        MaterialIcon {
-                            anchors.fill: parent
-                            text: scope.iconB
-                            font.pixelSize: 30
-                            color: Colors.background
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            opacity: scope.aActive ? 0 : 1
-                            Behavior on opacity {
-                                NumberAnimation {
-                                    duration: 200
-                                    easing.type: Easing.BezierSpline
-                                    easing.bezierCurve: [0.2, 0, 0, 1, 1, 1]
-                                }
-                            }
                         }
                     }
 
@@ -271,74 +227,31 @@ Scope {
                             Layout.leftMargin: 3
                             Layout.rightMargin: 3
 
-                            Text {
+                            StyledText {
                                 text: scope.label
-                                font.pixelSize: 15
+                                font.pixelSize: Config.typography.small
                                 font.weight: Font.Medium
                                 color: Colors.foreground
                                 Layout.fillWidth: true
                             }
 
-                            Text {
+                            StyledText {
                                 text: Math.round(Math.max(0, Math.min(1, scope.progress)) * 100)
-                                font.pixelSize: 15
+                                font.pixelSize: Config.typography.small
                                 font.weight: Font.Medium
                                 color: Colors.foreground
                                 horizontalAlignment: Text.AlignRight
                             }
                         }
 
-                        Item {
-                            id: progress
+                        StyledProgressBar {
                             Layout.fillWidth: true
-                            implicitHeight: 4
-
-                            property real valueBarGap: 4
-                            property real pos: Math.max(0, Math.min(1, scope.progress))
-
-                            Rectangle {
-                                id: bar
-                                anchors.left: parent.left
-                                anchors.verticalCenter: parent.verticalCenter
-                                width: parent.width * progress.pos
-                                height: parent.height
-                                radius: height / 2
-                                color: Colors.accent
-
-                                Behavior on width {
-                                    NumberAnimation {
-                                        duration: 90
-                                        easing.type: Easing.OutCubic
-                                    }
-                                }
-                            }
-
-                            Rectangle {
-                                id: track
-                                anchors.right: parent.right
-                                anchors.verticalCenter: parent.verticalCenter
-                                width: Math.max(0, (1 - progress.pos) * parent.width - progress.valueBarGap)
-                                height: parent.height
-                                radius: height / 2
-                                color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.45)
-
-                                Behavior on width {
-                                    NumberAnimation {
-                                        duration: 90
-                                        easing.type: Easing.OutCubic
-                                    }
-                                }
-                            }
-
-                            Rectangle {
-                                id: stopDot
-                                anchors.right: parent.right
-                                anchors.verticalCenter: parent.verticalCenter
-                                width: progress.valueBarGap
-                                height: progress.valueBarGap
-                                radius: height / 2
-                                color: Colors.accent
-                            }
+                            Layout.preferredHeight: 4
+                            padding: 0
+                            valueBarHeight: 4
+                            value: Math.max(0, Math.min(1, scope.progress))
+                            highlightColor: Colors.accent
+                            trackColor: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.45)
                         }
                     }
                 }

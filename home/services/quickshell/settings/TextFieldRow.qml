@@ -12,7 +12,7 @@ Rectangle {
     Layout.preferredWidth: 240
     Layout.topMargin: 2
     implicitHeight: 36
-    radius: 12
+    radius: Config.layout.radiusMd
     color: Colors.background
     border.width: 1
     border.color: Colors.divider

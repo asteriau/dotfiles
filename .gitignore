@@ -1,3 +1,4 @@
+.claude/
 .direnv
 .pre-commit-config.yaml
 .qmlls.ini

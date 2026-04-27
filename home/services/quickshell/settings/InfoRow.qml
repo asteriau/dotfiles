@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs.components.text
 import qs.utils
 
 RowLayout {
@@ -10,18 +11,16 @@ RowLayout {
     Layout.fillWidth: true
     spacing: 8
 
-    Text {
+    StyledText {
         text: root.label
         color: Colors.comment
-        font.family: Config.typography.family
         font.pixelSize: Config.typography.smallie
         Layout.preferredWidth: 96
     }
 
-    Text {
+    StyledText {
         text: root.value
         color: Colors.foreground
-        font.family: Config.typography.family
         font.pixelSize: Config.typography.smallie
         elide: Text.ElideRight
         Layout.fillWidth: true

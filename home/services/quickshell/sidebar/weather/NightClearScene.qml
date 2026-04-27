@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Effects
-import qs.components
+import qs.components.shape
+import qs.components.surfaces
+import qs.sidebar.weather.scene
 import qs.utils
 
 Item {
@@ -23,9 +25,10 @@ Item {
     }
 
     // Far stars — depth 0.1
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.1; y: scene.parallaxY * 0.1 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.1
 
         Repeater {
             model: 24
@@ -49,10 +52,12 @@ Item {
         }
     }
 
-    // Aurora ribbon — depth 0.4
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.4; y: scene.parallaxY * 0.25 }
+    // Aurora ribbon — depth 0.4 (Y parallax dampened)
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.4
+        depthY: 0.25
 
         MaterialShape {
             id: aurora
@@ -84,9 +89,10 @@ Item {
     }
 
     // Near stars — depth 0.25
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.25; y: scene.parallaxY * 0.25 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.25
 
         Repeater {
             model: 8
@@ -185,9 +191,10 @@ Item {
     }
 
     // Moon hero — depth 0.6
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.6; y: scene.parallaxY * 0.6 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.6
 
         Item {
             id: moon

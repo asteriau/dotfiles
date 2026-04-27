@@ -1,0 +1,63 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import qs.utils
+
+// One occupied-workspace orb. Rounded corners collapse toward neighbors so a
+// run of occupied workspaces reads as a single continuous pill. Fades out on
+// the active slot (which is drawn by WorkspaceActiveShape instead).
+Rectangle {
+    id: root
+
+    required property int index
+
+    // Inputs from the orchestrator.
+    property real buttonWidth: 26
+    property bool vertical: false
+    property int  perGroup: 10
+    property int  activeId: 1
+    property bool activeWindowActivated: false
+    property var  occupied: []
+
+    readonly property real rFull: buttonWidth / 2
+
+    readonly property bool prevOccupied:
+        (index > 0 ? (occupied[index - 1] ?? false) : false) &&
+        !(!activeWindowActivated && activeId === index)
+    readonly property bool nextOccupied:
+        (index < perGroup - 1 ? (occupied[index + 1] ?? false) : false) &&
+        !(!activeWindowActivated && activeId === index + 2)
+    readonly property bool occupiedVisible:
+        (occupied[index] ?? false) &&
+        !(!activeWindowActivated && activeId === index + 1)
+
+    implicitWidth:  buttonWidth
+    implicitHeight: buttonWidth
+
+    // Corners flatten toward neighbors so a run of occupied workspaces reads as
+    // one continuous pill. Horizontal run collapses on left/right;
+    // vertical run collapses on top/bottom.
+    topLeftRadius:     prevOccupied ? 0 : rFull
+    bottomRightRadius: nextOccupied ? 0 : rFull
+    topRightRadius:    (vertical ? prevOccupied : nextOccupied) ? 0 : rFull
+    bottomLeftRadius:  (vertical ? nextOccupied : prevOccupied) ? 0 : rFull
+
+    color: Colors.wsOrbFill
+    opacity: occupiedVisible ? 1 : 0
+
+    Behavior on opacity {
+        NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+    }
+    Behavior on topLeftRadius {
+        NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
+    }
+    Behavior on bottomRightRadius {
+        NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
+    }
+    Behavior on topRightRadius {
+        NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
+    }
+    Behavior on bottomLeftRadius {
+        NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
+    }
+}

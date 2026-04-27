@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Effects
-import qs.components
-import qs.utils
+import qs.components.shape
+import qs.components.surfaces
+import qs.sidebar.weather.scene
 
 Item {
     id: scene
@@ -27,22 +28,26 @@ Item {
         parallaxY: scene.parallaxY
     }
 
-    StormBolt {
-        id: bolt
-        boltHeight: parent.height * (0.4 + Math.random() * 0.2)
-        boltWidth: 32
-        x: parent.width * 0.4
-        y: 10
-        transform: Translate { x: scene.parallaxX * 0.1; y: scene.parallaxY * 0.1 }
-    }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.1
 
-    StormBolt {
-        id: bolt2
-        boltHeight: parent.height * 0.45
-        boltWidth: 28
-        x: parent.width * 0.55
-        y: 10
-        transform: Translate { x: scene.parallaxX * 0.1; y: scene.parallaxY * 0.1 }
+        StormBolt {
+            id: bolt
+            boltHeight: parent.height * (0.4 + Math.random() * 0.2)
+            boltWidth: 32
+            x: parent.width * 0.4
+            y: 10
+        }
+
+        StormBolt {
+            id: bolt2
+            boltHeight: parent.height * 0.45
+            boltWidth: 28
+            x: parent.width * 0.55
+            y: 10
+        }
     }
 
     Timer {

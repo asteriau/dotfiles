@@ -1,0 +1,8 @@
+module qs.components.controls
+RippleButton 1.0 RippleButton.qml
+StyledSlider 1.0 StyledSlider.qml
+StyledProgressBar 1.0 StyledProgressBar.qml
+StyledSwitch 1.0 StyledSwitch.qml
+SegmentedControl 1.0 SegmentedControl.qml
+NavRail 1.0 NavRail.qml
+Button 1.0 Button.qml

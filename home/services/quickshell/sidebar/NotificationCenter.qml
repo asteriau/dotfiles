@@ -6,9 +6,11 @@ import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
-import qs.components
-import qs.utils
+import qs.components.shape
+import qs.components.text
 import qs.notifications
+import qs.utils
+import qs.utils.state
 
 Item {
     id: root
@@ -76,7 +78,7 @@ Item {
                 opacity: visible ? 0.9 : 0
 
                 Behavior on opacity {
-                    NumberAnimation { duration: 250 }
+                    NumberAnimation { duration: M3Easing.durationMedium1 }
                 }
 
                 Item { Layout.fillHeight: true }
@@ -93,24 +95,23 @@ Item {
                         implicitSize: 80
                     }
 
-                    Text {
+                    MaterialIcon {
                         anchors.centerIn: parent
                         text: "notifications_active"
-                        font.family: "Material Symbols Rounded"
-                        font.pixelSize: 40
-                        font.variableAxes: ({ FILL: 0, wght: 400, opsz: 48, GRAD: 0 })
+                        pixelSize: 40
+                        fill: 0
+                        weight: 400
+                        grade: 0
                         color: Colors.accent
-                        renderType: Text.NativeRendering
                     }
                 }
 
-                Text {
+                StyledText {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.topMargin: 14
                     text: "Nothing here D:"
                     color: Colors.comment
-                    font.family: Config.fontFamily
-                    font.pixelSize: 15
+                    font.pixelSize: Config.typography.small
                     font.weight: Font.Medium
                     horizontalAlignment: Text.AlignHCenter
                 }

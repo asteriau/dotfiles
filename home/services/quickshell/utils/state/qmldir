@@ -1,0 +1,10 @@
+module qs.utils.state
+singleton BrightnessState 1.0 BrightnessState.qml
+singleton MprisState 1.0 MprisState.qml
+singleton NightLightState 1.0 NightLightState.qml
+singleton NotificationState 1.0 NotificationState.qml
+singleton NotificationUtils 1.0 NotificationUtils.qml
+singleton OsdState 1.0 OsdState.qml
+singleton PipeWireState 1.0 PipeWireState.qml
+singleton SystemInfoState 1.0 SystemInfoState.qml
+singleton WeatherState 1.0 WeatherState.qml

@@ -2,8 +2,8 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Window
+import qs.components.controls
 import qs.utils
-import qs.components
 
 Window {
     id: settingsWindow

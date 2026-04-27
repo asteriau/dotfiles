@@ -1,8 +1,9 @@
 import QtQuick
 import QtQuick.Layouts
-import qs.utils
-import qs.components
+import qs.components.content
+import qs.components.controls
 import qs.settings
+import qs.utils
 
 ContentPage {
     ContentSection {

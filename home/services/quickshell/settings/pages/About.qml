@@ -1,27 +1,27 @@
 import QtQuick
 import QtQuick.Layouts
-import qs.utils
-import qs.components
+import qs.components.content
+import qs.components.text
 import qs.settings
+import qs.utils
+import qs.utils.state
 
 ContentPage {
     ColumnLayout {
         Layout.fillWidth: true
         spacing: 4
 
-        Text {
+        StyledText {
             text: "Tachyon"
             color: Colors.accent
-            font.family: Config.typography.family
             font.pixelSize: Config.typography.huge + 4
             font.weight: Font.Medium
             font.letterSpacing: -0.4
         }
 
-        Text {
+        StyledText {
             text: "A shell that's slightly fast"
             color: Colors.comment
-            font.family: Config.typography.family
             font.pixelSize: Config.typography.small
             Layout.bottomMargin: 6
         }

@@ -1,36 +1,23 @@
 import QtQuick
 import Qt5Compat.GraphicalEffects
-import qs.components
+import qs.components.surfaces
 import qs.utils
+import qs.utils.state
 
-Item {
+PressablePill {
     id: root
+
+    radius: width / 2
+    colorIdle:    Colors.transparent
+    colorHover:   Colors.hoverStrong
+    colorPressed: Colors.hoverStrong
+    pressScale: 0.9
+    pressDuration: M3Easing.durationShort3  // match sparkIcon's scale timing
 
     implicitWidth: 32
     implicitHeight: 32
 
     readonly property color iconColor: Colors.accent
-
-    Rectangle {
-        id: pill
-        anchors.fill: parent
-        radius: width / 2
-        color: ma.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : "transparent"
-        scale: ma.pressed ? 0.9 : 1.0
-
-        Behavior on color {
-            ColorAnimation {
-                duration: M3Easing.effectsDuration
-                easing.type: Easing.OutCubic
-            }
-        }
-        Behavior on scale {
-            NumberAnimation {
-                duration: M3Easing.durationShort3
-                easing.type: Easing.OutQuad
-            }
-        }
-    }
 
     Image {
         id: sparkIcon
@@ -39,7 +26,7 @@ Item {
         width: 19
         height: 19
         sourceSize: Qt.size(width, height)
-        scale: ma.pressed ? 0.9 : 1.0
+        scale: root.pressed ? 0.9 : 1.0
 
         Behavior on scale {
             NumberAnimation {
@@ -56,14 +43,8 @@ Item {
         scale: sparkIcon.scale
     }
 
-    MouseArea {
-        id: ma
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        onClicked: {
-            NotificationState.notifOverlayOpen = false;
-            Config.showSidebar = !Config.showSidebar;
-        }
+    onClicked: {
+        NotificationState.notifOverlayOpen = false;
+        Config.showSidebar = !Config.showSidebar;
     }
 }

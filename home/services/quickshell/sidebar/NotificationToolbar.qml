@@ -2,8 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
-import qs.sidebar.quickToggles
+import qs.components.text
+import qs.sidebar.controls
 import qs.utils
+import qs.utils.state
 
 RowLayout {
     id: root
@@ -12,7 +14,7 @@ RowLayout {
 
     readonly property int notifCount: NotificationState.allNotifs.length
 
-    Text {
+    StyledText {
         Layout.fillWidth: true
         Layout.leftMargin: 8
         horizontalAlignment: Text.AlignLeft
@@ -21,8 +23,7 @@ RowLayout {
             ? (root.notifCount + " notification" + (root.notifCount === 1 ? "" : "s"))
             : "No notifications"
         color: root.notifCount > 0 ? Colors.foreground : Colors.comment
-        font.family: Config.fontFamily
-        font.pixelSize: 13
+        font.pixelSize: Config.typography.smallie
         font.weight: Font.Medium
 
         Behavior on color {

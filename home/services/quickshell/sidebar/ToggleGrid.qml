@@ -4,8 +4,9 @@ import Quickshell.Bluetooth
 import Quickshell.Io
 import Quickshell.Networking
 import Quickshell.Services.Pipewire
-import qs.sidebar.quickToggles
+import qs.sidebar.controls
 import qs.utils
+import qs.utils.state
 
 ColumnLayout {
     id: root
@@ -16,8 +17,6 @@ ColumnLayout {
     readonly property var btAdapter: Bluetooth.defaultAdapter
     readonly property bool btOn: btAdapter?.state === BluetoothAdapterState.Enabled
     readonly property bool micMuted: PipeWireState.defaultSource?.audio?.muted ?? false
-
-    property real mediaVol: 0.5
 
     Process { id: wifiProc }
     Process { id: btProc }
@@ -92,9 +91,8 @@ ColumnLayout {
             Layout.preferredWidth: 56
             Layout.preferredHeight: 132
             icon: "music_note"
-            value: MprisState.player ? (MprisState.player.volume ?? root.mediaVol) : root.mediaVol
+            value: MprisState.player?.volume ?? 0.5
             onMoved: v => {
-                root.mediaVol = v;
                 if (MprisState.player)
                     MprisState.player.volume = v;
                 OsdState.show("music_note", "Media", v);

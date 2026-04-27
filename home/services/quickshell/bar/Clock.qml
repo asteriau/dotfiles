@@ -1,10 +1,13 @@
 import QtQuick
 import QtQuick.Layouts
+import qs.components.text
 import qs.utils
-import qs.components
 
 Item {
-    property bool horizontal: !Config.barVertical
+    id: root
+
+    property bool vertical: Config.barVertical
+    readonly property bool horizontal: !vertical
 
     implicitWidth:  horizontal ? (hRow.implicitWidth + 20) : Config.barWidth
     implicitHeight: horizontal ? Config.barHeight : (col.implicitHeight + 16)
@@ -12,8 +15,8 @@ Item {
     Rectangle {
         anchors {
             fill: parent
-            topMargin:    horizontal ? 4 : 0
-            bottomMargin: horizontal ? 4 : 0
+            topMargin:    root.horizontal ? 4 : 0
+            bottomMargin: root.horizontal ? 4 : 0
             leftMargin:   0
             rightMargin:  0
         }
@@ -23,7 +26,7 @@ Item {
         // Vertical mode: stacked hh / mm / date
         ColumnLayout {
             id: col
-            visible: !horizontal
+            visible: root.vertical
             anchors.centerIn: parent
             spacing: 6
 
@@ -35,7 +38,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: Qt.formatDateTime(Utils.clock.date, "hh")
                     font.pixelSize: 17
-                    font.family: Config.fontFamily
+                    font.family: Config.typography.family
                     color: Colors.foreground
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -44,7 +47,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     text: Qt.formatDateTime(Utils.clock.date, "mm")
                     font.pixelSize: 17
-                    font.family: Config.fontFamily
+                    font.family: Config.typography.family
                     color: Colors.foreground
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -61,7 +64,7 @@ Item {
                 Layout.alignment: Qt.AlignHCenter
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 10
-                font.family: Config.fontFamily
+                font.family: Config.typography.family
                 color: Colors.m3onSurfaceInactive
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -70,14 +73,14 @@ Item {
         // Horizontal mode: inline "hh:mm · dd/MM"
         RowLayout {
             id: hRow
-            visible: horizontal
+            visible: root.horizontal
             anchors.centerIn: parent
             spacing: 4
 
             ShadowText {
                 text: Qt.formatDateTime(Utils.clock.date, "hh:mm")
                 font.pixelSize: 17
-                font.family: Config.fontFamily
+                font.family: Config.typography.family
                 color: Colors.foreground
             }
 
@@ -90,7 +93,7 @@ Item {
             ShadowText {
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 13
-                font.family: Config.fontFamily
+                font.family: Config.typography.family
                 color: Colors.m3onSurfaceInactive
             }
         }

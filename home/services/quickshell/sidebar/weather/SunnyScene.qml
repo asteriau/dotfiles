@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Effects
-import qs.components
+import qs.components.shape
+import qs.components.surfaces
+import qs.sidebar.weather.scene
 import qs.utils
 
 Item {
@@ -25,9 +27,10 @@ Item {
     }
 
     // Back hill — depth 0.25, bumpy silhouette
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.25; y: scene.parallaxY * 0.25 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.25
 
         Item {
             id: backHillGroup
@@ -65,10 +68,11 @@ Item {
     }
 
     // Front hill — depth 0.5, bumpy + tufts
-    Item {
+    ParallaxGroup {
         id: frontHillHost
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.5; y: scene.parallaxY * 0.5 }
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.5
 
         // Base sheet
         Rectangle {
@@ -157,10 +161,12 @@ Item {
         }
     }
 
-    // Distant clouds — parallax depth 0.5
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.5; y: scene.parallaxY * 0.3 }
+    // Distant clouds — parallax depth 0.5 (Y parallax dampened)
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.5
+        depthY: 0.3
 
         Repeater {
             model: 2
@@ -193,9 +199,10 @@ Item {
     }
 
     // Dust motes — parallax depth 0.15
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.15; y: scene.parallaxY * 0.15 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.15
 
         Repeater {
             model: 14
@@ -230,10 +237,11 @@ Item {
     }
 
     // Ray fan — parallax depth 0.3
-    Item {
+    ParallaxGroup {
         id: rayContainer
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.3; y: scene.parallaxY * 0.3 }
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.3
 
         Item {
             id: rays
@@ -274,10 +282,11 @@ Item {
     }
 
     // Sun hero — parallax depth 0.6
-    Item {
+    ParallaxGroup {
         id: sunHost
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.6; y: scene.parallaxY * 0.6 }
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.6
 
         Item {
             id: sun

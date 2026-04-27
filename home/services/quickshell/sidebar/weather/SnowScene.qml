@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Effects
-import qs.components
-import qs.utils
+import qs.components.shape
+import qs.components.surfaces
+import qs.sidebar.weather.scene
 
 Item {
     id: scene
@@ -65,9 +66,10 @@ Item {
     }
 
     // Back layer — depth 0.15
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.15; y: scene.parallaxY * 0.15 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.15
 
         Repeater {
             model: 14
@@ -89,9 +91,10 @@ Item {
     }
 
     // Front layer — depth 0.45
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.45; y: scene.parallaxY * 0.45 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.45
 
         Repeater {
             model: 12
@@ -113,9 +116,10 @@ Item {
     }
 
     // Hero flake
-    Item {
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * 0.85; y: scene.parallaxY * 0.85 }
+    ParallaxGroup {
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.85
 
         Flake {
             implicitSize: 22

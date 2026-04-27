@@ -7,58 +7,20 @@ import QtQuick
 import QtQuick.Effects
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
-import qs.components
+import qs.components.shape
+import qs.components.text
+import qs.sidebar.weather.scene
 import qs.utils
-import qs.sidebar.weather
+import qs.utils.state
 
 Item {
     id: root
     Layout.fillWidth: true
     clip: true
 
-    readonly property int cornerRadius: 22
-    readonly property string cond: WeatherState.condition
+    readonly property int cornerRadius: Config.layout.weatherRadius
     readonly property bool night: WeatherState.isNight
     readonly property bool ready: WeatherState.ready
-
-    function sceneSource(c, n) {
-        if (c === "Clear")        return n ? "weather/NightClearScene.qml" : "weather/SunnyScene.qml";
-        if (c === "Clouds")       return "weather/CloudsScene.qml";
-        if (c === "Rain" || c === "Drizzle") return "weather/RainScene.qml";
-        if (c === "Snow")         return "weather/SnowScene.qml";
-        if (c === "Thunderstorm") return "weather/ThunderScene.qml";
-        if (c === "Mist" || c === "Fog" || c === "Haze" || c === "Smoke") return "weather/FogScene.qml";
-        return "weather/CloudsScene.qml";
-    }
-
-    function glyph(c, n) {
-        if (c === "Clear")        return n ? "bedtime" : "wb_sunny";
-        if (c === "Clouds")       return "cloud";
-        if (c === "Rain" || c === "Drizzle") return "rainy";
-        if (c === "Snow")         return "weather_snowy";
-        if (c === "Thunderstorm") return "thunderstorm";
-        if (c === "Mist" || c === "Fog" || c === "Haze" || c === "Smoke") return "foggy";
-        return "cloud";
-    }
-
-    function skyTop(c, n) {
-        if (c === "Clear")        return n ? "#0F1D33" : "#7DB9E8";
-        if (c === "Clouds")       return n ? "#252B36" : "#5A6672";
-        if (c === "Rain" || c === "Drizzle") return n ? "#1F2A38" : "#39485B";
-        if (c === "Snow")         return n ? "#3E4A5C" : "#A7B4C4";
-        if (c === "Thunderstorm") return "#1A1E26";
-        if (c === "Mist" || c === "Fog" || c === "Haze" || c === "Smoke") return n ? "#2C313A" : "#7A8590";
-        return "#3A434F";
-    }
-    function skyBot(c, n) {
-        if (c === "Clear")        return n ? "#1C2A44" : "#C2E3F7";
-        if (c === "Clouds")       return n ? "#3A4250" : "#A2ADB9";
-        if (c === "Rain" || c === "Drizzle") return n ? "#2C3A4C" : "#6A7A8F";
-        if (c === "Snow")         return n ? "#5A6577" : "#DCE4EE";
-        if (c === "Thunderstorm") return "#3A3F4A";
-        if (c === "Mist" || c === "Fog" || c === "Haze" || c === "Smoke") return n ? "#444B58" : "#B5BDC6";
-        return "#5A6470";
-    }
 
     layer.enabled: true
     layer.effect: OpacityMask {
@@ -70,16 +32,12 @@ Item {
     }
 
     // Sky backdrop
-    Rectangle {
+    SkyGradient {
         id: sky
-        anchors.fill: parent
+        topColor: WeatherState.skyTop
+        botColor: WeatherState.skyBot
         opacity: 0.55
-        gradient: Gradient {
-            orientation: Gradient.Vertical
-            GradientStop { position: 0; color: root.skyTop(root.cond, root.night) }
-            GradientStop { position: 1; color: root.skyBot(root.cond, root.night) }
-        }
-        Behavior on opacity { NumberAnimation { duration: 420 } }
+        Behavior on opacity { NumberAnimation { duration: M3Easing.durationLong1 } }
     }
 
     // Animated condition scene wrapped in parallax host
@@ -90,13 +48,13 @@ Item {
         Loader {
             id: sceneLoader
             anchors.fill: parent
-            source: root.ready ? root.sceneSource(root.cond, root.night) : ""
+            source: root.ready ? WeatherState.scene : ""
             opacity: status === Loader.Ready ? 1 : 0
             Behavior on opacity {
                 NumberAnimation {
-                    duration: 420
+                    duration: M3Easing.durationLong1
                     easing.type: Easing.BezierSpline
-                    easing.bezierCurve: [0.05, 0.7, 0.1, 1.0, 1, 1]
+                    easing.bezierCurve: M3Easing.emphasizedDecel
                 }
             }
             onLoaded: {
@@ -121,7 +79,7 @@ Item {
         gradient: Gradient {
             orientation: Gradient.Vertical
             GradientStop { position: 0; color: "transparent" }
-            GradientStop { position: 1; color: Qt.rgba(0, 0, 0, 0.22) }
+            GradientStop { position: 1; color: Colors.scrim }
         }
     }
 
@@ -135,11 +93,10 @@ Item {
             Layout.fillWidth: true
             spacing: 0
 
-            Text {
+            StyledText {
                 text: "Bucharest"
                 color: Colors.foreground
                 opacity: 0.9
-                font.family: Config.fontFamily
                 font.pixelSize: 14
                 font.weight: Font.Normal
 
@@ -160,11 +117,10 @@ Item {
             Layout.fillWidth: true
             spacing: 0
 
-            Text {
+            StyledText {
                 visible: root.ready
                 text: Math.round(WeatherState.temp) + "°"
                 color: Colors.foreground
-                font.family: Config.fontFamily
                 font.pixelSize: 56
                 font.weight: Font.Thin
                 font.letterSpacing: -2.4
@@ -179,43 +135,39 @@ Item {
                 }
             }
 
-            Text {
+            StyledText {
                 visible: root.ready
                 text: {
                     const d = WeatherState.description;
                     return d.length > 0 ? d.charAt(0).toUpperCase() + d.slice(1) : "";
                 }
                 color: Colors.m3onSurfaceVariant
-                font.family: Config.fontFamily
-                font.pixelSize: 13
+                font.pixelSize: Config.typography.smallie
                 font.weight: Font.Medium
                 Layout.topMargin: -4
             }
 
-            Text {
+            StyledText {
                 visible: root.ready
                 text: "H: " + Math.round(WeatherState.tempMax) + "°  L: " + Math.round(WeatherState.tempMin) + "°"
                 color: Colors.comment
-                font.family: Config.fontFamily
                 font.pixelSize: 11
                 Layout.topMargin: 2
             }
 
-            Text {
+            StyledText {
                 visible: !root.ready
                 text: WeatherState.errorMessage.length > 0 ? WeatherState.errorMessage : "Loading weather…"
                 color: Colors.comment
-                font.family: Config.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Config.typography.smaller
                 font.weight: Font.Medium
                 wrapMode: Text.WordWrap
                 Layout.maximumWidth: 240
             }
-            Text {
+            StyledText {
                 visible: !root.ready && WeatherState.errorMessage.indexOf("401") >= 0
                 text: "New keys take ~1-2h to activate"
                 color: Colors.comment
-                font.family: Config.fontFamily
                 font.pixelSize: 10
                 opacity: 0.7
             }
@@ -226,7 +178,7 @@ Item {
             Layout.fillWidth: true
             Layout.topMargin: 10
             height: 1
-            color: Qt.rgba(1, 1, 1, 0.12)
+            color: Colors.hoverStrongest
         }
 
         RowLayout {
@@ -235,28 +187,26 @@ Item {
             Layout.topMargin: 8
             spacing: 14
 
-            Text {
+            StyledText {
                 text: "Feels " + Math.round(WeatherState.feelsLike) + "°"
                 color: Colors.m3onSurfaceVariant
-                font.family: Config.fontFamily
                 font.pixelSize: 11
                 font.weight: Font.Medium
             }
 
             RowLayout {
                 spacing: 4
-                Text {
+                MaterialIcon {
                     text: "humidity_percentage"
-                    font.family: "Material Symbols Rounded"
-                    font.pixelSize: 14
-                    font.variableAxes: ({ FILL: 1, wght: 400, opsz: 20, GRAD: 0 })
+                    pixelSize: 14
+                    fill: 1
+                    weight: 400
+                    grade: 0
                     color: Colors.m3onSurfaceVariant
-                    renderType: Text.NativeRendering
                 }
-                Text {
+                StyledText {
                     text: WeatherState.humidity + "%"
                     color: Colors.m3onSurfaceVariant
-                    font.family: Config.fontFamily
                     font.pixelSize: 11
                     font.weight: Font.Medium
                 }
@@ -264,18 +214,17 @@ Item {
 
             RowLayout {
                 spacing: 4
-                Text {
+                MaterialIcon {
                     text: "air"
-                    font.family: "Material Symbols Rounded"
-                    font.pixelSize: 14
-                    font.variableAxes: ({ FILL: 1, wght: 400, opsz: 20, GRAD: 0 })
+                    pixelSize: 14
+                    fill: 1
+                    weight: 400
+                    grade: 0
                     color: Colors.m3onSurfaceVariant
-                    renderType: Text.NativeRendering
                 }
-                Text {
+                StyledText {
                     text: Math.round(WeatherState.windSpeed) + " m/s"
                     color: Colors.m3onSurfaceVariant
-                    font.family: Config.fontFamily
                     font.pixelSize: 11
                     font.weight: Font.Medium
                 }

@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
+import qs.components.controls
+import qs.components.text
 import qs.utils
-import qs.components
 
 RowLayout {
     id: root
@@ -27,11 +28,10 @@ RowLayout {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    Text {
+    StyledText {
         visible: root.text.length > 0
         text: root.text
         color: Colors.foreground
-        font.family: Config.typography.family
         font.pixelSize: Config.typography.small
         Layout.preferredWidth: 120
         elide: Text.ElideRight
@@ -52,10 +52,9 @@ RowLayout {
         }
     }
 
-    Text {
+    StyledText {
         text: Math.round(root.value) + root.suffix
         color: Colors.m3onSurfaceVariant
-        font.family: Config.typography.family
         font.pixelSize: Config.typography.smallie
         font.weight: Font.Medium
         Layout.preferredWidth: 48

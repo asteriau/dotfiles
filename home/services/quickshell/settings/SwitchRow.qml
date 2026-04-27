@@ -1,8 +1,9 @@
 // Tappable row that toggles a switch when clicked anywhere.
 import QtQuick
 import QtQuick.Layouts
+import qs.components.controls
+import qs.components.text
 import qs.utils
-import qs.components
 
 Rectangle {
     id: root
@@ -16,7 +17,7 @@ Rectangle {
 
     Layout.fillWidth: true
     implicitHeight: Math.max(Config.layout.rowMinHeight, contentRow.implicitHeight + 16)
-    radius: 12
+    radius: Config.layout.radiusMd
 
     color: ma.containsMouse ? Colors.hoverFaint : Colors.transparent
     Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
@@ -47,18 +48,16 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             spacing: 2
 
-            Text {
+            StyledText {
                 text: root.text
                 color: Colors.foreground
-                font.family: Config.typography.family
                 font.pixelSize: Config.typography.small
             }
 
-            Text {
+            StyledText {
                 visible: root.caption.length > 0
                 text: root.caption
                 color: Colors.comment
-                font.family: Config.typography.family
                 font.pixelSize: Config.typography.smaller
             }
         }

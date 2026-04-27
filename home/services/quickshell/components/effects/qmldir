@@ -1,0 +1,4 @@
+module qs.components.effects
+AnimatedTabPair 1.0 AnimatedTabPair.qml
+HoverTooltip 1.0 HoverTooltip.qml
+TextTooltip 1.0 TextTooltip.qml

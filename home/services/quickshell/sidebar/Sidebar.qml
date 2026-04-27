@@ -4,8 +4,8 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
-import qs.components
-import qs.sidebar.quickToggles
+import qs.components.surfaces
+import qs.sidebar.media
 import qs.utils
 
 Scope {

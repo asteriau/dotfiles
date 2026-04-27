@@ -1,7 +1,8 @@
 import QtQuick
 import Quickshell
 import Quickshell.Bluetooth
-import qs.components
+import qs.components.effects
+import qs.components.text
 import qs.utils
 
 HoverTooltip {

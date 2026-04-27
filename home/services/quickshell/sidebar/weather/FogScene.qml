@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Effects
-import qs.components
-import qs.utils
+import qs.components.shape
+import qs.components.surfaces
+import qs.sidebar.weather.scene
 
 Item {
     id: scene
@@ -24,18 +25,18 @@ Item {
         }
     }
 
-    component Bank: Item {
+    component Bank: ParallaxGroup {
         id: bank
+        parallaxX: scene.parallaxX
+        parallaxY: scene.parallaxY
+        depth: 0.3
+
         property real yFrac: 0.5
         property real speed: 40000
         property real startX: 0
         property real puffSize: 110
         property real op: 0.14
-        property real depth: 0.3
         property bool flip: false
-
-        anchors.fill: parent
-        transform: Translate { x: scene.parallaxX * bank.depth; y: scene.parallaxY * bank.depth }
 
         Item {
             id: cluster
