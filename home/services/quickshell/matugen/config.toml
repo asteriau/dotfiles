@@ -1,0 +1,18 @@
+# Matugen configuration for the shell.
+#
+# NOTE: This file is a *reference template*. At runtime, both the Settings
+# UI and `scripts/set-theme.sh` generate a fresh config at
+# `<shellDir>/state/matugen.toml` with absolute paths resolved from the
+# actual on-disk location of the shell source — that way matugen works
+# whether the config lives at ~/.config/quickshell/ (symlink) or anywhere
+# else it was launched from via `quickshell --config <path>`.
+#
+# If you want to invoke matugen by hand, copy this file, edit the `~`
+# paths to match your install, and pass `--config <your-copy>`.
+
+[config]
+# Matugen requires this table to exist (even if empty).
+
+[templates.quickshell]
+input_path  = "~/.config/quickshell/matugen/template.json"
+output_path = "~/.config/quickshell/state/colors.json"

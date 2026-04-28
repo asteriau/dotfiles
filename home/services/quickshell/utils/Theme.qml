@@ -1,0 +1,201 @@
+pragma Singleton
+
+import QtQuick
+import Quickshell
+import Quickshell.Io
+import qs.utils
+
+// Theme singleton.
+//
+// Source of truth for the base palette. Reads JSON from either:
+//   - a preset file at  <shellDir>/themes/<preset>.json
+//   - the matugen output at <shellDir>/state/colors.json
+//
+// selected by `Config.theme.mode`. `<shellDir>` is resolved at runtime from
+// the on-disk location of this QML file, so everything Just Works whether
+// the shell lives at ~/.config/quickshell/ (symlink) or is launched with
+// `--config /path/to/quickshell` from anywhere else.
+//
+// Falls back to the bundled defaults when the file is missing or malformed
+// (warns once per failure mode).
+//
+// Colors.qml consumes these props and adds derived tokens on top — the 61
+// existing call sites keep using the `Colors.*` API unchanged.
+Singleton {
+    id: root
+
+    // ── Defaults (current dark palette — also the "default-dark" preset) ──
+    readonly property var defaults: ({
+        "background":              "#151515",
+        "foreground":              "#E8E3E3",
+        "elevated":                "#1E1E1E",
+        "border":                  "#252525",
+        "accent":                  "#8DA3B9",
+        "red":                     "#B66467",
+        "mpris":                   "#8C977D",
+        "surfaceContainerLowest":  "#0F1012",
+        "surfaceContainerLow":     "#1A1D21",
+        "surfaceContainer":        "#1E2226",
+        "surfaceContainerHigh":    "#282D32",
+        "surfaceContainerHighest": "#333940",
+        "primaryContainer":        "#253240",
+        "m3onPrimary":             "#1A2530",
+        "m3onPrimaryContainer":    "#B5C8D8",
+        "secondaryContainer":      "#3A4249",
+        "m3onSecondaryContainer":  "#DAE2EA",
+        "accentContainer":         "#263545",
+        "accentText":              "#151520",
+        "accentContainerText":     "#C8D6E3",
+        "m3onSurfaceVariant":      "#B0B8C0",
+        "m3outline":               "#7A8590"
+    })
+
+    property var palette: defaults
+    property bool _warnedMissing: false
+    property bool _warnedParse:   false
+
+    // Shell source directory (parent of utils/), as a plain filesystem path.
+    readonly property string shellDir: {
+        const u = Qt.resolvedUrl("..").toString();
+        return u.replace(/^file:\/\//, "").replace(/\/$/, "");
+    }
+
+    readonly property string activePath: {
+        if (Config.theme.mode === "matugen")
+            return root.shellDir + "/state/colors.json";
+        return root.shellDir + "/themes/" + Config.theme.preset + ".json";
+    }
+
+    function _val(key: string): string {
+        const v = palette ? palette[key] : undefined;
+        if (v !== undefined && v !== null && v !== "")
+            return v;
+        return defaults[key];
+    }
+
+    // ── Exposed palette (consumed by Colors.qml) ──────────────────────────
+    readonly property color background:              _val("background")
+    readonly property color foreground:              _val("foreground")
+    readonly property color elevated:                _val("elevated")
+    readonly property color border:                  _val("border")
+    readonly property color accent:                  _val("accent")
+    readonly property color red:                     _val("red")
+    readonly property color mpris:                   _val("mpris")
+    readonly property color surfaceContainerLowest:  _val("surfaceContainerLowest")
+    readonly property color surfaceContainerLow:     _val("surfaceContainerLow")
+    readonly property color surfaceContainer:        _val("surfaceContainer")
+    readonly property color surfaceContainerHigh:    _val("surfaceContainerHigh")
+    readonly property color surfaceContainerHighest: _val("surfaceContainerHighest")
+    readonly property color primaryContainer:        _val("primaryContainer")
+    readonly property color m3onPrimary:             _val("m3onPrimary")
+    readonly property color m3onPrimaryContainer:    _val("m3onPrimaryContainer")
+    readonly property color secondaryContainer:      _val("secondaryContainer")
+    readonly property color m3onSecondaryContainer:  _val("m3onSecondaryContainer")
+    readonly property color accentContainer:         _val("accentContainer")
+    readonly property color accentText:              _val("accentText")
+    readonly property color accentContainerText:     _val("accentContainerText")
+    readonly property color m3onSurfaceVariant:      _val("m3onSurfaceVariant")
+    readonly property color m3outline:               _val("m3outline")
+
+    // Force a fresh read of the matugen output (used after the process exits,
+    // since QFileSystemWatcher can't watch a file that didn't exist at startup).
+    function reload(): void {
+        if (Config.theme.mode !== "matugen") return;
+        reloader.running = false;
+        reloader.command = ["cat", root.shellDir + "/state/colors.json"];
+        reloader.running = true;
+    }
+
+    Process {
+        id: reloader
+        running: false
+        stdout: StdioCollector {
+            id: reloaderOut
+            onStreamFinished: {
+                if (reloaderOut.text && reloaderOut.text.length > 0)
+                    root._apply(reloaderOut.text);
+            }
+        }
+    }
+
+    // ── Loader ────────────────────────────────────────────────────────────
+
+    // Translate the full M3 snake_case palette (as produced by ii-compatible
+    // matugen template) into the internal camelCase palette structure.
+    // Preset JSON files use the camelCase format directly and skip this step.
+    function _fromM3(m: var): var {
+        return {
+            background:              m.surface,
+            foreground:              m.on_surface,
+            elevated:                m.surface_container_low,
+            border:                  m.outline_variant,
+            accent:                  m.primary,
+            red:                     m.error,
+            mpris:                   m.tertiary,
+            surfaceContainerLowest:  m.surface_container_lowest,
+            surfaceContainerLow:     m.surface_container_low,
+            surfaceContainer:        m.surface_container,
+            surfaceContainerHigh:    m.surface_container_high,
+            surfaceContainerHighest: m.surface_container_highest,
+            primaryContainer:        m.primary_container,
+            m3onPrimary:             m.on_primary,
+            m3onPrimaryContainer:    m.on_primary_container,
+            secondaryContainer:      m.secondary_container,
+            m3onSecondaryContainer:  m.on_secondary_container,
+            accentContainer:         m.primary_container,
+            accentText:              m.on_primary,
+            accentContainerText:     m.on_primary_container,
+            m3onSurfaceVariant:      m.on_surface_variant,
+            m3outline:               m.outline
+        };
+    }
+
+    function _apply(raw: string): void {
+        if (!raw || raw.length === 0) {
+            if (!root._warnedParse) {
+                console.warn("Theme: empty JSON at", root.activePath, "— using defaults");
+                root._warnedParse = true;
+            }
+            root.palette = root.defaults;
+            return;
+        }
+        try {
+            const obj = JSON.parse(raw);
+            if (obj && typeof obj === "object") {
+                // M3 snake_case format (matugen output) has a 'surface' key;
+                // legacy camelCase preset format has a 'background' key.
+                root.palette = ("surface" in obj) ? root._fromM3(obj) : obj;
+                root._warnedMissing = false;
+                root._warnedParse = false;
+            } else {
+                if (!root._warnedParse) {
+                    console.warn("Theme: non-object JSON at", root.activePath, "— using defaults");
+                    root._warnedParse = true;
+                }
+                root.palette = root.defaults;
+            }
+        } catch (e) {
+            if (!root._warnedParse) {
+                console.warn("Theme: failed to parse", root.activePath, "—", e, "— using defaults");
+                root._warnedParse = true;
+            }
+            root.palette = root.defaults;
+        }
+    }
+
+    FileView {
+        id: source
+        path: root.activePath
+        watchChanges: true
+        blockLoading: false
+
+        onLoaded: root._apply(source.text())
+        onLoadFailed: err => {
+            if (!root._warnedMissing) {
+                console.warn("Theme: could not load", root.activePath, "(", err, ") — using defaults");
+                root._warnedMissing = true;
+            }
+            root.palette = root.defaults;
+        }
+    }
+}

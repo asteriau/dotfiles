@@ -24,12 +24,12 @@ ColumnLayout {
             text: root.icon
             font.pointSize: Config.typography.hugeass
             fill: 1
-            color: Colors.m3onSecondaryContainer
+            color: Colors.accent
         }
 
         Text {
             text: root.title
-            color: Colors.m3onSecondaryContainer
+            color: Colors.foreground
             font.family: Config.typography.titleFamily
             font.pixelSize: Config.typography.larger
             font.weight: Font.Medium

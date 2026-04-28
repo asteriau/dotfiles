@@ -3,3 +3,6 @@
 .pre-commit-config.yaml
 .qmlls.ini
 CLAUDE.md
+
+# Runtime state (matugen palette output, etc.)
+home/services/quickshell/state/

@@ -16,6 +16,7 @@ RowLayout {
     property real value: 0
     property real stepSize: 1
     property string suffix: ""
+    property int    decimals: 0
 
     signal moved(real newValue)
 
@@ -53,7 +54,8 @@ RowLayout {
     }
 
     StyledText {
-        text: Math.round(root.value) + root.suffix
+        text: (root.decimals > 0 ? root.value.toFixed(root.decimals)
+                                 : String(Math.round(root.value))) + root.suffix
         color: Colors.m3onSurfaceVariant
         font.pixelSize: Config.typography.smallie
         font.weight: Font.Medium

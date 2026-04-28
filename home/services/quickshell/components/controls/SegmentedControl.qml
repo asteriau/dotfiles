@@ -22,8 +22,10 @@ Item {
     signal selectedValue(var value)
 
     Layout.fillWidth: true
-    implicitHeight: Config.layout.rowMinHeight - 4
-    implicitWidth: flow.implicitWidth
+    // Track Flow's wrapped content size so neighbors in a ColumnLayout don't
+    // overlap when options wrap to multiple rows (e.g. a 9-way scheme picker).
+    implicitHeight: flow.implicitHeight
+    implicitWidth:  flow.implicitWidth
 
     readonly property int _resolvedIndex: {
         if (root.currentValue !== undefined) {
@@ -106,7 +108,9 @@ Item {
 
     Flow {
         id: flow
-        anchors.fill: parent
+        // Bind width (not anchors.fill) so `implicitHeight` reflects the
+        // wrapped content rather than inheriting parent's fixed height.
+        width: root.width
         spacing: 2
 
         Repeater {
