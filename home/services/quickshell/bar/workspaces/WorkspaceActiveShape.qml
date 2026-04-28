@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Effects
 import qs.components.effects
 import qs.components.shape
 import qs.utils
@@ -58,15 +57,5 @@ Item {
         ]
 
         shape: morphShapes[((root.activeWorkspaceId ?? 1) - 1) % morphShapes.length]
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowBlur: 0.8
-            shadowColor: Colors.wsActiveGlow
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 2
-            blurMax: 32
-        }
     }
 }

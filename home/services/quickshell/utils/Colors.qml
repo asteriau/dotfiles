@@ -80,9 +80,7 @@ Singleton {
     readonly property color m3outline:           Theme.m3outline
 
     // Workspace visuals.
-    readonly property color wsGlow:        Qt.rgba(accent.r, accent.g, accent.b, 0.25)
     readonly property color wsOrbFill:     Qt.rgba(secondaryContainer.r, secondaryContainer.g, secondaryContainer.b, 0.7)
-    readonly property color wsActiveGlow:  Qt.rgba(accent.r, accent.g, accent.b, 0.35)
     readonly property color wsRingStroke:  Qt.rgba(m3onSurfaceVariant.r, m3onSurfaceVariant.g, m3onSurfaceVariant.b, 0.3)
     readonly property color wsCapsuleFill: Qt.lighter(elevated, 1.05)
     readonly property color wsCapsuleEdge: Qt.darker(elevated, 1.1)
