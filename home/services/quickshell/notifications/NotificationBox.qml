@@ -81,8 +81,6 @@ Item {
         width: parent.width
         color: root.isPopup ? Colors.popupBackground : Colors.elevated
         radius: root.isPopup ? Config.layout.notificationRadius : Config.layout.notificationCollapsedR
-        border.width: 1
-        border.color: Colors.border
         antialiasing: true
         clip: true
         opacity: Math.max(0, 1 - Math.abs(x) / (width * 0.9))

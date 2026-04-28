@@ -1,9 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Dialogs
 import Qt.labs.folderlistmodel
-import Quickshell
-import Quickshell.Io
+import Qt5Compat.GraphicalEffects
 import qs.components.content
 import qs.components.controls
 import qs.components.text
@@ -15,13 +13,12 @@ ContentPage {
 
     readonly property bool isMatugen: Config.theme.mode === "matugen"
 
-    // Shell source dir resolved at runtime (page is in settings/pages/).
+    // ── Preset discovery ──────────────────────────────────────────────────
     readonly property string shellDir: {
         const u = Qt.resolvedUrl("../..").toString();
         return u.replace(/^file:\/\//, "").replace(/\/$/, "");
     }
 
-    // ── Preset discovery ──────────────────────────────────────────────────
     FolderListModel {
         id: presetsModel
         folder: "file://" + page.shellDir + "/themes"
@@ -51,82 +48,6 @@ ContentPage {
     }
     Component.onCompleted: rebuildPresetOptions()
 
-    // ── Matugen regeneration ──────────────────────────────────────────────
-    Process {
-        id: matugenProc
-        running: false
-        property bool _started: false
-        onRunningChanged: {
-            if (running) {
-                _started = true;
-            } else if (_started) {
-                _started = false;
-                Theme.reload();
-            }
-        }
-        stderr: StdioCollector {
-            id: matugenStderr
-            onStreamFinished: {
-                if (matugenStderr.text && matugenStderr.text.trim().length > 0)
-                    console.warn("matugen:", matugenStderr.text.trim());
-            }
-        }
-    }
-
-    function regenerateMatugen(): void {
-        const wp = Config.theme.matugen.wallpaper;
-        if (!wp || wp.length === 0) return;
-        // Generate a matugen config with absolute paths resolved from the
-        // shell source dir (which is not necessarily ~/.config/quickshell),
-        // then shell out to matugen against that generated config. This
-        // sidesteps the ~-expansion / install-location problem entirely.
-        const script =
-            'set -e; ' +
-            'mkdir -p "$SHELL_DIR/state"; ' +
-            'cat > "$SHELL_DIR/state/matugen.toml" <<EOF\n' +
-            '[config]\n' +
-            '\n' +
-            '[templates.quickshell]\n' +
-            'input_path  = "$SHELL_DIR/matugen/template.json"\n' +
-            'output_path = "$SHELL_DIR/state/colors.json"\n' +
-            'EOF\n' +
-            'exec matugen image "$WALLPAPER" ' +
-                '-m "$MODE" -t "$SCHEME" ' +
-                '--contrast "$CONTRAST" ' +
-                '--source-color-index 0 ' +
-                '--config "$SHELL_DIR/state/matugen.toml"';
-        matugenProc.running = false;
-        matugenProc.environment = {
-            "SHELL_DIR": page.shellDir,
-            "WALLPAPER": wp,
-            "MODE":      Config.theme.matugen.dark ? "dark" : "light",
-            "SCHEME":    Config.theme.matugen.scheme,
-            "CONTRAST":  String(Config.theme.matugen.contrast)
-        };
-        matugenProc.command = ["bash", "-c", script];
-        matugenProc.running = true;
-    }
-
-    Timer {
-        id: regenDebounce
-        interval: 350
-        repeat: false
-        onTriggered: page.regenerateMatugen()
-    }
-    function scheduleRegen(): void { regenDebounce.restart(); }
-
-    FileDialog {
-        id: wallpaperDialog
-        title: "Pick a wallpaper"
-        fileMode: FileDialog.OpenFile
-        nameFilters: ["Images (*.jpg *.jpeg *.png *.webp *.gif *.bmp)", "All files (*)"]
-        onAccepted: {
-            const p = selectedFile.toString().replace(/^file:\/\//, "");
-            Config.theme.matugen.wallpaper = p;
-            page.scheduleRegen();
-        }
-    }
-
     // ─────────────────────────────────────────────────────────────────────
     ContentSection {
         title: "Source"
@@ -137,15 +58,98 @@ ContentPage {
 
             SegmentedControl {
                 currentValue: Config.theme.mode
-                onSelectedValue: v => {
-                    Config.theme.mode = v;
-                    if (v === "matugen" && Config.theme.matugen.wallpaper.length > 0)
-                        page.scheduleRegen();
-                }
+                onSelectedValue: v => Config.theme.mode = v
                 options: [
                     { label: "Preset",  icon: "style",    value: "preset"  },
                     { label: "Matugen", icon: "colorize", value: "matugen" }
                 ]
+            }
+        }
+    }
+
+    // ── Wallpaper ─────────────────────────────────────────────────────────
+    ContentSection {
+        title: "Wallpaper"
+        icon: "wallpaper"
+
+        ContentSubsection {
+            title: "Wallpaper"
+
+            // Preview
+            Item {
+                id: previewItem
+                Layout.fillWidth: true
+                Layout.preferredHeight: 200
+
+                Rectangle {
+                    anchors.fill: parent
+                    visible: Config.theme.matugen.wallpaper.length === 0
+                    radius: Config.layout.radiusMd
+                    color: Colors.surfaceContainerHigh
+                    border.width: 1
+                    border.color: Colors.border
+
+                    MaterialIcon {
+                        anchors.centerIn: parent
+                        text: "image"
+                        pixelSize: 28
+                        color: Colors.comment
+                    }
+                }
+
+                Image {
+                    id: wpPreview
+                    anchors.fill: parent
+                    visible: Config.theme.matugen.wallpaper.length > 0
+                    source: visible ? "file://" + Config.theme.matugen.wallpaper : ""
+                    fillMode: Image.PreserveAspectCrop
+                    asynchronous: true
+                    cache: false
+                    sourceSize.width: previewItem.width
+                    sourceSize.height: previewItem.height
+                    layer.enabled: true
+                    layer.effect: OpacityMask {
+                        maskSource: Rectangle {
+                            width: wpPreview.width
+                            height: wpPreview.height
+                            radius: Config.layout.radiusMd
+                        }
+                    }
+                }
+            }
+
+            // Choose file button
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 40
+                radius: Config.layout.radiusMd
+                color: chooseMa.containsMouse ? Colors.surfaceContainerHighest : Colors.surfaceContainerHigh
+                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+
+                RowLayout {
+                    anchors.centerIn: parent
+                    spacing: Config.layout.gapSm
+
+                    MaterialIcon {
+                        text: "wallpaper"
+                        pixelSize: 16
+                        color: Colors.foreground
+                    }
+                    StyledText {
+                        text: "Choose file"
+                        color: Colors.foreground
+                        font.pixelSize: Config.typography.small
+                        font.weight: Font.Medium
+                    }
+                }
+
+                MouseArea {
+                    id: chooseMa
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: Config.showWallpaperPicker = true
+                }
             }
         }
     }
@@ -209,10 +213,7 @@ ContentPage {
                     { label: "Content",     value: "scheme-content"     },
                     { label: "Fidelity",    value: "scheme-fidelity"    }
                 ]
-                onSelectedValue: v => {
-                    Config.theme.matugen.scheme = v;
-                    page.scheduleRegen();
-                }
+                onSelectedValue: v => Config.theme.matugen.scheme = v
             }
         }
 
@@ -220,10 +221,7 @@ ContentPage {
             text: "Dark mode"
             icon: "dark_mode"
             checked: Config.theme.matugen.dark
-            onToggled: v => {
-                Config.theme.matugen.dark = v;
-                page.scheduleRegen();
-            }
+            onToggled: v => Config.theme.matugen.dark = v
         }
 
         ContentSubsection {
@@ -236,91 +234,7 @@ ContentPage {
                 stepSize: 0.1
                 decimals: 1
                 value: Config.theme.matugen.contrast
-                onMoved: v => {
-                    Config.theme.matugen.contrast = v;
-                    page.scheduleRegen();
-                }
-            }
-        }
-
-        ContentSubsection {
-            title: "Wallpaper"
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: 8
-
-                TextFieldRow {
-                    Layout.fillWidth: true
-                    text: Config.theme.matugen.wallpaper
-                    onEdited: v => {
-                        Config.theme.matugen.wallpaper = v;
-                        page.scheduleRegen();
-                    }
-                }
-
-                Rectangle {
-                    Layout.preferredWidth: 80
-                    Layout.preferredHeight: 36
-                    radius: Config.layout.radiusMd
-                    color: pickMa.containsMouse ? Colors.hoverStrong : Colors.surfaceContainerHigh
-                    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-
-                    StyledText {
-                        anchors.centerIn: parent
-                        text: "Pick\u2026"
-                        color: Colors.foreground
-                        font.pixelSize: Config.typography.smallie
-                        font.weight: Font.Medium
-                    }
-
-                    MouseArea {
-                        id: pickMa
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: wallpaperDialog.open()
-                    }
-                }
-            }
-        }
-
-        ContentSubsection {
-            title: "Actions"
-
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
-                radius: Config.layout.radiusMd
-                enabled: Config.theme.matugen.wallpaper.length > 0
-                opacity: enabled ? 1.0 : 0.5
-                color: regenMa.containsMouse && enabled ? Colors.accentHover : Colors.accent
-                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-
-                StyledText {
-                    anchors.centerIn: parent
-                    text: "Regenerate now"
-                    color: Colors.accentText
-                    font.pixelSize: Config.typography.small
-                    font.weight: Font.Medium
-                }
-
-                MouseArea {
-                    id: regenMa
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: parent.enabled ? Qt.PointingHandCursor : Qt.ForbiddenCursor
-                    onClicked: if (parent.enabled) page.regenerateMatugen()
-                }
-            }
-
-            StyledText {
-                Layout.topMargin: 4
-                text: "Requires the `matugen` CLI on PATH. Output is written to " + page.shellDir + "/state/colors.json and reloaded automatically."
-                color: Colors.comment
-                font.pixelSize: Config.typography.smaller
-                wrapMode: Text.WordWrap
-                Layout.fillWidth: true
+                onMoved: v => Config.theme.matugen.contrast = v
             }
         }
     }

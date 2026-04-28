@@ -2,20 +2,27 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Window
+import qs.background
 import qs.bar
 import qs.notifications
 import qs.osd
 import qs.settings
 import qs.sidebar
 import qs.utils
+import qs.wallpaper
 import Quickshell // for ShellRoot and PanelWindow
 import Quickshell.Hyprland // for GlobalShortcut
 
 ShellRoot {
+    // Keep MatugenState alive so its Connections auto-regen on wallpaper/scheme changes
+    readonly property var _matugen: MatugenState
+
+    Background {}
     Bar {}
     NotificationOverlay {}
     OSD {}
     Sidebar {}
+    WallpaperPicker {}
     // Settings window
     property var _settingsWindow: null
     Connections {

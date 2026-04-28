@@ -18,6 +18,7 @@ Singleton {
     property var  preferredMonitor: [...Quickshell.screens].sort().reverse()[0]
     property bool showSidebar:          false
     property bool showWorkspaceNumbers: false
+    property bool showWallpaperPicker:  false
 
     // ── Persistent settings (written to state/settings.json) ──────────────
     property bool   doNotDisturb:                 false
