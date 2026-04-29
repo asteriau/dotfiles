@@ -34,7 +34,7 @@ Item {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: -4
 
-                ShadowText {
+                StyledText {
                     Layout.alignment: Qt.AlignHCenter
                     text: Qt.formatDateTime(Utils.clock.date, "hh")
                     font.pixelSize: 17
@@ -43,7 +43,7 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                 }
 
-                ShadowText {
+                StyledText {
                     Layout.alignment: Qt.AlignHCenter
                     text: Qt.formatDateTime(Utils.clock.date, "mm")
                     font.pixelSize: 17
@@ -60,7 +60,7 @@ Item {
                 color: Colors.divider
             }
 
-            ShadowText {
+            StyledText {
                 Layout.alignment: Qt.AlignHCenter
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 10
@@ -77,7 +77,7 @@ Item {
             anchors.centerIn: parent
             spacing: 4
 
-            ShadowText {
+            StyledText {
                 text: Qt.formatDateTime(Utils.clock.date, "hh:mm")
                 font.pixelSize: 17
                 font.family: Config.typography.family
@@ -90,7 +90,7 @@ Item {
                 color: Colors.divider
             }
 
-            ShadowText {
+            StyledText {
                 text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
                 font.pixelSize: 13
                 font.family: Config.typography.family

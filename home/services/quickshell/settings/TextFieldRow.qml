@@ -14,8 +14,6 @@ Rectangle {
     implicitHeight: 36
     radius: Config.layout.radiusMd
     color: Colors.background
-    border.width: 1
-    border.color: Colors.divider
 
     TextInput {
         anchors.fill: parent

@@ -75,7 +75,6 @@ ContentPage {
         ContentSubsection {
             title: "Wallpaper"
 
-            // Preview
             Item {
                 id: previewItem
                 Layout.fillWidth: true
@@ -118,7 +117,6 @@ ContentPage {
                 }
             }
 
-            // Choose file button
             Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
@@ -198,7 +196,7 @@ ContentPage {
         icon: "colorize"
 
         ContentSubsection {
-            title: "Scheme"
+            title: "Color scheme"
 
             SegmentedControl {
                 currentValue: Config.theme.matugen.scheme
@@ -217,24 +215,28 @@ ContentPage {
             }
         }
 
-        SwitchRow {
-            text: "Dark mode"
-            icon: "dark_mode"
-            checked: Config.theme.matugen.dark
-            onToggled: v => Config.theme.matugen.dark = v
-        }
-
         ContentSubsection {
             title: "Contrast"
 
-            SliderRow {
-                icon: "contrast"
-                from: -1.0
-                to: 1.0
-                stepSize: 0.1
-                decimals: 1
-                value: Config.theme.matugen.contrast
-                onMoved: v => Config.theme.matugen.contrast = v
+            ColumnLayout {
+                spacing: Config.layout.gapMd
+
+                SliderRow {
+                    icon: "contrast"
+                    from: -1.0
+                    to: 1.0
+                    stepSize: 0.1
+                    decimals: 1
+                    value: Config.theme.matugen.contrast
+                    onMoved: v => Config.theme.matugen.contrast = v
+                }
+
+                SwitchRow {
+                    text: "Dark mode"
+                    icon: "dark_mode"
+                    checked: Config.theme.matugen.dark
+                    onToggled: v => Config.theme.matugen.dark = v
+                }
             }
         }
     }
