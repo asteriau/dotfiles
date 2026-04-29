@@ -24,7 +24,7 @@ Singleton {
     property bool   doNotDisturb:                 false
     property string barPosition:                  "left"
     property int    barHeight:                    40
-    property int    barWidth:                     52
+    property int    barWidth:                     46
     property int    sidebarWidth:                 420
     property int    workspacesShown:              10
     property bool   workspaceShowAppIcons:        true
@@ -96,8 +96,7 @@ Singleton {
             }
             if ("doNotDisturb"               in obj) root.doNotDisturb               = !!obj.doNotDisturb;
             if ("barPosition"                in obj) root.barPosition                = String(obj.barPosition);
-            if ("barHeight"                  in obj) root.barHeight                  = parseInt(obj.barHeight)    || root.barHeight;
-            if ("barWidth"                   in obj) root.barWidth                   = parseInt(obj.barWidth)     || root.barWidth;
+            // barHeight and barWidth are fixed — ignore saved values.
             if ("sidebarWidth"               in obj) root.sidebarWidth               = parseInt(obj.sidebarWidth) || root.sidebarWidth;
             if ("workspacesShown"            in obj) root.workspacesShown            = parseInt(obj.workspacesShown) || root.workspacesShown;
             if ("workspaceShowAppIcons"      in obj) root.workspaceShowAppIcons      = !!obj.workspaceShowAppIcons;
@@ -131,8 +130,6 @@ Singleton {
         const obj = {
             doNotDisturb:               root.doNotDisturb,
             barPosition:                root.barPosition,
-            barHeight:                  root.barHeight,
-            barWidth:                   root.barWidth,
             sidebarWidth:               root.sidebarWidth,
             workspacesShown:            root.workspacesShown,
             workspaceShowAppIcons:      root.workspaceShowAppIcons,

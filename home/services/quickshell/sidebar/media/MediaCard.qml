@@ -15,6 +15,7 @@ Item {
     Layout.fillHeight: true
     Layout.minimumHeight: 160
 
+    property bool showShadow: true
     readonly property var activePlayer: MprisState.player
 
     ColumnLayout {
@@ -26,6 +27,7 @@ Item {
             delegate: PlayerControl {
                 required property var modelData
                 player: modelData
+                showShadow: root.showShadow
                 Layout.fillWidth: true
                 Layout.preferredHeight: 140
                 Layout.maximumHeight: 140
@@ -44,6 +46,7 @@ Item {
             readonly property real radius: Config.layout.mediaCardRadius
 
             RectangularShadow {
+                visible: root.showShadow
                 anchors.fill: emptyBackground
                 radius: emptyBackground.radius
                 blur: 18
@@ -56,7 +59,7 @@ Item {
             Rectangle {
                 id: emptyBackground
                 anchors.fill: parent
-                anchors.margins: 4
+                anchors.margins: root.showShadow ? 4 : 0
                 radius: emptyState.radius
                 color: Colors.elevated
 

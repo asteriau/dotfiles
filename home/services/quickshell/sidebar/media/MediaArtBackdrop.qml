@@ -15,8 +15,10 @@ Item {
     property real radius: 0
     property string artSource: ""
     property var colors: null
+    property bool showShadow: true
 
     RectangularShadow {
+        visible: root.showShadow
         anchors.fill: background
         radius: background.radius
         blur: 18
@@ -29,7 +31,7 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        anchors.margins: 4
+        anchors.margins: root.showShadow ? 4 : 0
         color: root.colors ? ColorMix.applyAlpha(root.colors.colLayer0, 1) : Colors.elevated
         radius: root.radius
 

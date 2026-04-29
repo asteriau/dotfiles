@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+import qs.components.controls
 import qs.utils
 
 PanelWindow {
@@ -32,8 +33,7 @@ PanelWindow {
                 topMargin: 16
                 horizontalCenter: parent.horizontalCenter
             }
-            width: parent.width - 12
-            spacing: 8
+            spacing: 10
 
             SidebarToggle {
                 Layout.alignment: Qt.AlignHCenter
@@ -46,17 +46,33 @@ PanelWindow {
                 verticalCenter: parent.verticalCenter
                 horizontalCenter: parent.horizontalCenter
             }
-            width: parent.width - 12
-            spacing: 8
+            spacing: 10
 
-            Workspaces {
+            BarGroup {
                 Layout.alignment: Qt.AlignHCenter
-                Layout.fillWidth: true
+                padding: 6
+                rowSpacing: 8
+
+                Resources {}
+                BarSeparator { length: 16 }
+                MediaIndicator {}
             }
 
-            Clock {
+            BarGroup {
                 Layout.alignment: Qt.AlignHCenter
-                Layout.fillWidth: true
+                padding: 4
+                rowSpacing: 0
+
+                Workspaces {}
+            }
+
+            BarGroup {
+                Layout.alignment: Qt.AlignHCenter
+                padding: 6
+                rowSpacing: 8
+
+                Clock {}
+                Battery {}
             }
         }
 
@@ -64,18 +80,19 @@ PanelWindow {
             id: bottomGroup
             anchors {
                 bottom: parent.bottom
-                bottomMargin: 10
+                bottomMargin: 12
                 horizontalCenter: parent.horizontalCenter
             }
-            width: parent.width - 12
-            spacing: 8
+            spacing: 10
 
-            Status {
+            BarGroup {
                 Layout.alignment: Qt.AlignHCenter
-            }
+                padding: 6
+                rowSpacing: 10
+                visible: net.visible || bt.visible
 
-            Battery {
-                Layout.alignment: Qt.AlignHCenter
+                Network  { id: net }
+                Bluetooth { id: bt }
             }
 
             Tray {

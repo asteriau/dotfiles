@@ -35,8 +35,8 @@ Item {
 
     readonly property bool showNumbers: Config.showWorkspaceNumbers
 
-    implicitWidth:  vertical ? Config.bar.width : (workspaceButtonWidth * workspacesShown)
-    implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : (workspaceButtonWidth + 8)
+    implicitWidth:  vertical ? workspaceButtonWidth : (workspaceButtonWidth * workspacesShown)
+    implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Config.bar.height
 
     // ── Occupancy tracking ────────────────────────────────────────────────
     function updateWorkspaceOccupied() {

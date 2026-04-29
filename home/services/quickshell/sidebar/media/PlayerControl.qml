@@ -26,6 +26,7 @@ Item {
     property color  artDominantColor: ColorMix.mix((colorQuantizer?.colors[0] ?? Colors.accent), Colors.primaryContainer, 0.8)
     property bool   downloaded: false
     property real   radius: Config.layout.mediaCardRadius
+    property bool   showShadow: true
 
     readonly property bool   browserPlayer:      MprisState.isBrowserPlayer(root.player?.dbusName ?? "")
     readonly property string playerctlName:      MprisState.playerctlNameFromDbus(root.player?.dbusName ?? "")
@@ -116,6 +117,7 @@ Item {
         radius: root.radius
         artSource: root.displayedArtFilePath
         colors: root.blendedColors
+        showShadow: root.showShadow
 
         RowLayout {
             anchors.fill: parent

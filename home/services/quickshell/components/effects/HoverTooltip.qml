@@ -12,21 +12,27 @@ WrapperMouseArea {
     hoverEnabled: true
     acceptedButtons: Qt.NoButton
 
-    onEntered: timer.running = true
+    onEntered: {
+        if (root.text === "") return
+        hideTimer.stop()
+        tooltip.visible = true
+    }
     onExited: {
-        timer.running = false;
-        tooltip.visible = false;
+        if (tooltip.visible) {
+            tooltip.shown = false
+            hideTimer.restart()
+        }
     }
 
     implicitWidth: contentItem.childrenRect.width
     implicitHeight: contentItem.childrenRect.height
 
     Timer {
-        id: timer
-        interval: Config.hoverTimeoutMs
-        repeat: false
-        onTriggered: if (root.containsMouse && root.text != "")
-            tooltip.visible = true
+        id: hideTimer
+        // Matches the bg shrink animation duration so the popup window stays
+        // alive long enough to play the exit transition.
+        interval: 220
+        onTriggered: tooltip.visible = false
     }
 
     TextTooltip {
@@ -34,6 +40,7 @@ WrapperMouseArea {
         targetItem: root
         targetRect: root.rect
         targetText: root.text
+        visible: false
     }
 
     Item {

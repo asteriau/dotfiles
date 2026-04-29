@@ -41,10 +41,16 @@ Singleton {
     readonly property color popupBackground: Qt.rgba(elevated.r, elevated.g, elevated.b, 0.94)
 
     // Derived.
-    readonly property color overlay:      Qt.hsla(0, 0, 0.95, 0.7)
-    readonly property color windowShadow: Qt.rgba(0, 0, 0, 0.2)
-    readonly property color divider:      Qt.rgba(foreground.r, foreground.g, foreground.b, 0.15)
-    readonly property color cardBorder:   Qt.rgba(1, 1, 1, 0.04)
+    readonly property color overlay:        Qt.hsla(0, 0, 0.95, 0.7)
+    readonly property color windowShadow:   Qt.rgba(0, 0, 0, 0.2)
+    readonly property color divider:        Qt.rgba(foreground.r, foreground.g, foreground.b, 0.15)
+    readonly property color outlineVariant: divider
+    readonly property color cardBorder:     Qt.rgba(1, 1, 1, 0.04)
+
+    // Tooltip uses inverse-surface tokens (light bg in dark themes, vice
+    // versa) so it pops against the panel.
+    readonly property color tooltipBg: foreground
+    readonly property color tooltipFg: background
 
     readonly property color buttonDisabled:      elevated
     readonly property color buttonDisabledHover: Qt.rgba(0.95, 0.95, 0.95, 0.25)

@@ -1,32 +1,51 @@
 import QtQuick
+import qs.components.controls
 import qs.utils
 
 Rectangle {
     id: root
     color: Colors.background
 
-    // Left: sidebar toggle.
     Row {
         anchors {
             left: parent.left
             leftMargin: 10
             verticalCenter: parent.verticalCenter
         }
+        spacing: 8
 
-        SidebarToggle {}
+        SidebarToggle { anchors.verticalCenter: parent.verticalCenter }
+        ActiveWindow  { anchors.verticalCenter: parent.verticalCenter }
     }
 
-    // Center: workspaces.
     Row {
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
         }
+        spacing: 6
 
-        Workspaces {}
+        BarGroup {
+            anchors.verticalCenter: parent.verticalCenter
+            padding: 6
+            columnSpacing: 8
+
+            Resources {}
+            BarSeparator { length: 14 }
+            MediaIndicator {}
+        }
+
+        Workspaces { anchors.verticalCenter: parent.verticalCenter }
+
+        BarGroup {
+            anchors.verticalCenter: parent.verticalCenter
+            padding: 6
+            columnSpacing: 8
+
+            Clock {}
+        }
     }
 
-    // Right: tray + network + bluetooth + battery + clock.
     Row {
         anchors {
             right: parent.right
@@ -35,10 +54,18 @@ Rectangle {
         }
         spacing: 8
 
-        Tray      { vertical: false; anchors.verticalCenter: parent.verticalCenter }
-        Network   { anchors.verticalCenter: parent.verticalCenter }
-        Bluetooth { anchors.verticalCenter: parent.verticalCenter }
-        Battery   { vertical: false; anchors.verticalCenter: parent.verticalCenter }
-        Clock     { anchors.verticalCenter: parent.verticalCenter }
+        WeatherBar { anchors.verticalCenter: parent.verticalCenter }
+        Tray       { vertical: false; anchors.verticalCenter: parent.verticalCenter }
+
+        BarGroup {
+            anchors.verticalCenter: parent.verticalCenter
+            padding: 6
+            columnSpacing: 8
+            visible: net.visible || bt.visible || batt.visible
+
+            Network   { id: net }
+            Bluetooth { id: bt }
+            Battery   { id: batt; vertical: false }
+        }
     }
 }

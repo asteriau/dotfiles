@@ -9,93 +9,81 @@ Item {
     property bool vertical: Config.bar.vertical
     readonly property bool horizontal: !vertical
 
-    implicitWidth:  horizontal ? (hRow.implicitWidth + 20) : Config.bar.width
-    implicitHeight: horizontal ? Config.bar.height : (col.implicitHeight + 16)
+    implicitWidth:  horizontal ? hRow.implicitWidth : col.implicitWidth
+    implicitHeight: horizontal ? Config.bar.height : col.implicitHeight
 
-    Rectangle {
-        anchors {
-            fill: parent
-            topMargin:    root.horizontal ? 4 : 0
-            bottomMargin: root.horizontal ? 4 : 0
-            leftMargin:   0
-            rightMargin:  0
-        }
-        radius: 12
-        color: Colors.elevated
+    // Stacked hh / mm / dd-MM in vertical bar.
+    ColumnLayout {
+        id: col
+        visible: root.vertical
+        anchors.centerIn: parent
+        spacing: 6
 
-        // Vertical mode: stacked hh / mm / date
         ColumnLayout {
-            id: col
-            visible: root.vertical
-            anchors.centerIn: parent
-            spacing: 6
+            Layout.alignment: Qt.AlignHCenter
+            // Tight stack between hh and mm imitates a digital-clock face.
+            spacing: -4
 
-            ColumnLayout {
+            StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                spacing: -4
-
-                StyledText {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: Qt.formatDateTime(Utils.clock.date, "hh")
-                    font.pixelSize: 17
-                    font.family: Config.typography.family
-                    color: Colors.foreground
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                StyledText {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: Qt.formatDateTime(Utils.clock.date, "mm")
-                    font.pixelSize: 17
-                    font.family: Config.typography.family
-                    color: Colors.foreground
-                    horizontalAlignment: Text.AlignHCenter
-                }
-            }
-
-            Rectangle {
-                Layout.alignment: Qt.AlignHCenter
-                implicitWidth: 20
-                implicitHeight: 1
-                color: Colors.divider
+                text: Qt.formatDateTime(Utils.clock.date, "hh")
+                font.pixelSize: Config.typography.large
+                font.family: Config.typography.family
+                color: Colors.foreground
+                horizontalAlignment: Text.AlignHCenter
             }
 
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
-                font.pixelSize: 10
+                text: Qt.formatDateTime(Utils.clock.date, "mm")
+                font.pixelSize: Config.typography.large
                 font.family: Config.typography.family
-                color: Colors.m3onSurfaceInactive
+                color: Colors.foreground
                 horizontalAlignment: Text.AlignHCenter
             }
         }
 
-        // Horizontal mode: inline "hh:mm · dd/MM"
-        RowLayout {
-            id: hRow
-            visible: root.horizontal
-            anchors.centerIn: parent
-            spacing: 4
+        Rectangle {
+            Layout.alignment: Qt.AlignHCenter
+            implicitWidth: 20
+            implicitHeight: 1
+            color: Colors.divider
+        }
 
-            StyledText {
-                text: Qt.formatDateTime(Utils.clock.date, "hh:mm")
-                font.pixelSize: 17
-                font.family: Config.typography.family
-                color: Colors.foreground
-            }
+        StyledText {
+            Layout.alignment: Qt.AlignHCenter
+            text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
+            font.pixelSize: Config.typography.smallest
+            font.family: Config.typography.family
+            color: Colors.m3onSurfaceInactive
+            horizontalAlignment: Text.AlignHCenter
+        }
+    }
 
-            Rectangle {
-                implicitWidth: 1
-                implicitHeight: 14
-                color: Colors.divider
-            }
+    RowLayout {
+        id: hRow
+        visible: root.horizontal
+        anchors.centerIn: parent
+        spacing: 6
 
-            StyledText {
-                text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
-                font.pixelSize: 13
-                font.family: Config.typography.family
-                color: Colors.m3onSurfaceInactive
-            }
+        StyledText {
+            text: Qt.formatDateTime(Utils.clock.date, "hh:mm")
+            font.pixelSize: Config.typography.large
+            font.family: Config.typography.family
+            color: Colors.foreground
+        }
+
+        StyledText {
+            text: "•"
+            font.pixelSize: Config.typography.small
+            color: Colors.m3onSurfaceInactive
+        }
+
+        StyledText {
+            text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
+            font.pixelSize: Config.typography.small
+            font.family: Config.typography.family
+            color: Colors.m3onSurfaceInactive
         }
     }
 }

@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import Quickshell.Widgets
 import qs.utils
 
 PopupWindow {
@@ -9,6 +8,7 @@ PopupWindow {
     required property var targetItem
     required property var targetRect
     required property string targetText
+    property bool shown: false
 
     color: "transparent"
 
@@ -19,18 +19,49 @@ PopupWindow {
         gravity: Edges.Bottom
     }
 
-    implicitHeight: textRect.implicitHeight
-    implicitWidth: textRect.implicitWidth
+    implicitWidth:  label.implicitWidth  + 20
+    implicitHeight: label.implicitHeight + 10
 
-    WrapperRectangle {
-        id: textRect
+    // Reset and re-arm the reveal each time the surface maps. Setting `shown`
+    // on the next tick lets the bg paint at scale 0.92/opacity 0 before the
+    // Behaviors animate it in.
+    onVisibleChanged: {
+        if (visible) {
+            shown = false
+            Qt.callLater(() => root.shown = true)
+        } else {
+            shown = false
+        }
+    }
 
-        color: Colors.background
-        margin: 6
-        radius: Config.layout.cardRadius / 2
+    Rectangle {
+        id: bg
+        anchors.fill: parent
+        color: Colors.tooltipBg
+        radius: Config.layout.radiusSm
+        opacity: root.shown ? 1 : 0
+        scale:   root.shown ? 1 : 0.92
+        transformOrigin: Item.Top
+
+        Behavior on opacity {
+            NumberAnimation { duration: 140 }
+        }
+        Behavior on scale {
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: [0.34, 0.80, 0.34, 1.00, 1, 1]
+            }
+        }
 
         Text {
+            id: label
+            anchors.centerIn: parent
             text: root.targetText
+            font.family: Config.fontFamily
+            font.pixelSize: Config.typography.smaller
+            font.hintingPreference: Font.PreferNoHinting
+            color: Colors.tooltipFg
         }
     }
 }

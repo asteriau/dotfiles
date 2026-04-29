@@ -31,28 +31,6 @@ ContentPage {
         icon: "straighten"
 
         ContentSubsection {
-            title: "Bar height"
-
-            SliderRow {
-                icon: "height"
-                from: 24; to: 64; value: Config.bar.height; stepSize: 2
-                suffix: "px"
-                onMoved: v => Config.bar.height = v
-            }
-        }
-
-        ContentSubsection {
-            title: "Bar width"
-
-            SliderRow {
-                icon: "width_normal"
-                from: 36; to: 80; value: Config.bar.width; stepSize: 2
-                suffix: "px"
-                onMoved: v => Config.bar.width = v
-            }
-        }
-
-        ContentSubsection {
             title: "Sidebar width"
 
             SliderRow {
