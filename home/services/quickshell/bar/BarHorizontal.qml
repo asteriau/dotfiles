@@ -20,7 +20,8 @@ Rectangle {
     }
 
     // ── Focal ────────────────────────────────────────────────────────────
-    FocalSlot {
+    ActiveWindow {
+        maxTitleWidth: Config.layout.focalMaxWidth - 60
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter

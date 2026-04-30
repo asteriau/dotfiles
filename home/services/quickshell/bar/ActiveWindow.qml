@@ -17,6 +17,7 @@ Item {
     readonly property string title: focused ? (activeWindow?.title ?? "") : ""
 
     property int maxTitleWidth: 240
+    property bool iconOnly: false
 
     implicitWidth:  row.implicitWidth
     implicitHeight: row.implicitHeight
@@ -69,6 +70,7 @@ Item {
 
         // Title — crossfade on text change.
         Item {
+            visible: !root.iconOnly
             Layout.alignment: Qt.AlignVCenter
             Layout.maximumWidth: root.maxTitleWidth
             implicitWidth:  Math.min(Math.max(titleA.implicitWidth, titleB.implicitWidth), root.maxTitleWidth)

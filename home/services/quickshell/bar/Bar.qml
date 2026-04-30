@@ -42,7 +42,8 @@ PanelWindow {
         }
 
         // ── Focal ────────────────────────────────────────────────────────
-        FocalSlot {
+        ActiveWindow {
+            iconOnly: true
             anchors {
                 verticalCenter: parent.verticalCenter
                 horizontalCenter: parent.horizontalCenter

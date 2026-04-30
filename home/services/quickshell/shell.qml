@@ -4,8 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Window
 import qs.background
 import qs.bar
-import qs.notifications
-import qs.osd
+import qs.island
 import qs.settings
 import qs.sidebar
 import qs.utils
@@ -19,8 +18,7 @@ ShellRoot {
 
     Background {}
     Bar {}
-    NotificationOverlay {}
-    OSD {}
+    Island {}
     Sidebar {}
     WallpaperPicker {}
     // Settings window
