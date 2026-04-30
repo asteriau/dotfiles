@@ -12,15 +12,14 @@ import qs.sidebar.media
 import qs.utils
 import qs.utils.state
 
-// Bespoke island media card. Dense horizontal layout tuned for ~420x96.
-// Lifts art-download / ColorQuantizer / AdaptedMaterialScheme plumbing from
-// PlayerControl, but does not reuse that view because its dimensions are
-// hardcoded for the sidebar.
+// Expanded media card for the island. Targets ~440x112. Art-themed surface via
+// MediaArtBackdrop + AdaptedMaterialScheme. Lifts art-download / quantizer
+// plumbing from PlayerControl (cannot be reused directly; sidebar geometry).
 Item {
     id: root
 
     property MprisPlayer player: MprisState.player
-    property real radius: 22
+    property real radius: Config.island.expandRadius
 
     readonly property string artUrl: (player?.trackArtUrl ?? "").toString()
     readonly property string artDownloadLocation: StandardPaths.writableLocation(StandardPaths.CacheLocation) + "/quickshell/coverart"
@@ -108,35 +107,24 @@ Item {
         return m + ":" + (r < 10 ? "0" : "") + r;
     }
 
-    component IconBtn: MouseArea {
-        id: btnArea
+    component CtlBtn: RippleButton {
         property string iconName
-        property var action
-        property bool btnEnabled: true
-        width: 28
-        height: 28
-        cursorShape: btnEnabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-        hoverEnabled: true
-        enabled: btnEnabled
-        opacity: btnEnabled ? (containsMouse ? 1 : 0.85) : 0.35
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration } }
-        onClicked: { if (btnEnabled && action) action() }
+        property color iconColor: root.blendedColors.colOnLayer0
+        implicitWidth: 32
+        implicitHeight: 32
+        buttonRadius: 999
+        colBackground: ColorMix.transparentize(root.blendedColors.colSecondaryContainer, 1)
+        colBackgroundHover: ColorMix.transparentize(root.blendedColors.colSecondaryContainerHover, 0.4)
+        colRipple: root.blendedColors.colPrimary
 
-        Rectangle {
-            anchors.fill: parent
-            radius: width / 2
-            color: btnArea.containsMouse && btnArea.btnEnabled
-                ? ColorMix.transparentize(root.blendedColors.colSecondaryContainer, 0.4)
-                : "transparent"
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-        }
-
-        MaterialIcon {
-            anchors.centerIn: parent
-            text: btnArea.iconName
+        contentItem: MaterialIcon {
+            text: parent.iconName
             fill: 1
-            font.pointSize: 14
-            color: root.blendedColors.colOnLayer0
+            pixelSize: 18
+            color: parent.iconColor
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
         }
     }
 
@@ -149,19 +137,19 @@ Item {
 
         RowLayout {
             anchors.fill: parent
-            anchors.leftMargin: 12
-            anchors.rightMargin: 12
-            anchors.topMargin: 10
-            anchors.bottomMargin: 10
-            spacing: 12
+            anchors.leftMargin: 14
+            anchors.rightMargin: 14
+            anchors.topMargin: 12
+            anchors.bottomMargin: 12
+            spacing: 14
 
             // ── Art tile ─────────────────────────────────────────────────
             Rectangle {
                 id: artTile
-                Layout.preferredWidth: 64
-                Layout.preferredHeight: 64
+                Layout.preferredWidth: 80
+                Layout.preferredHeight: 80
                 Layout.alignment: Qt.AlignVCenter
-                radius: 12
+                radius: 16
                 color: ColorMix.transparentize(root.blendedColors.colLayer1, 0.4)
                 antialiasing: true
 
@@ -181,8 +169,8 @@ Item {
                     cache: false
                     asynchronous: true
                     antialiasing: true
-                    sourceSize.width: 192
-                    sourceSize.height: 192
+                    sourceSize.width: 256
+                    sourceSize.height: 256
                     visible: opacity > 0
                     opacity: status === Image.Ready ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium3; easing.type: Easing.OutCubic } }
@@ -193,7 +181,7 @@ Item {
                     visible: root.displayedArtFilePath.length === 0
                     text: "music_note"
                     fill: 1
-                    font.pointSize: 22
+                    pixelSize: 28
                     color: root.blendedColors.colSubtext
                 }
             }
@@ -202,11 +190,11 @@ Item {
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                spacing: 2
+                spacing: 0
 
                 MarqueeText {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 22
+                    Layout.preferredHeight: 24
                     text: (root.player?.trackTitle ?? "") || "Untitled"
                     color: root.blendedColors.colOnLayer0
                     font.family: Config.typography.family
@@ -217,94 +205,70 @@ Item {
 
                 StyledText {
                     Layout.fillWidth: true
+                    Layout.preferredHeight: 16
+                    variant: StyledText.Variant.Caption
                     text: root.player?.trackArtist ?? ""
                     color: root.blendedColors.colSubtext
-                    font.pixelSize: Config.typography.smaller
                     elide: Text.ElideRight
                 }
 
-                Item { Layout.fillHeight: true }
+                Item { Layout.fillHeight: true; Layout.fillWidth: true }
 
-                // Progress + controls row
-                Item {
+                // Progress (wavy slider when seekable)
+                MediaProgress {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 28
+                    Layout.preferredHeight: 32
+                    player: root.player
+                    position: root.displayedPosition
+                    length: root.lengthSec
+                    animating: root.progressAnimating
+                    browserPlayer: root.browserPlayer
+                    colors: root.blendedColors
+                    onSeekRequested: pos => {
+                        if (!root.player) return;
+                        root.player.position = pos;
+                        if (root.browserPlayer) browserPoller.syncPosition(pos);
+                    }
+                }
 
-                    Row {
-                        id: controls
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: 4
+                // Times + controls row
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.topMargin: 4
+                    spacing: 6
 
-                        IconBtn {
-                            iconName: "skip_previous"
-                            btnEnabled: root.player?.canGoPrevious ?? false
-                            action: () => root.player?.previous()
-                        }
-                        IconBtn {
-                            iconName: root.player?.isPlaying ? "pause" : "play_arrow"
-                            btnEnabled: root.player?.canTogglePlaying ?? true
-                            action: () => root.player?.togglePlaying()
-                        }
-                        IconBtn {
-                            iconName: "skip_next"
-                            btnEnabled: root.player?.canGoNext ?? false
-                            action: () => root.player?.next()
-                        }
+                    StyledText {
+                        variant: StyledText.Variant.Label
+                        text: root.fmtTime(root.displayedPosition)
+                        color: root.blendedColors.colSubtext
+                    }
+                    Item { Layout.fillWidth: true }
+
+                    CtlBtn {
+                        iconName: "skip_previous"
+                        enabled: root.player?.canGoPrevious ?? false
+                        downAction: () => root.player?.previous()
+                    }
+                    CtlBtn {
+                        iconName: root.player?.isPlaying ? "pause" : "play_arrow"
+                        enabled: root.player?.canTogglePlaying ?? true
+                        colBackground: ColorMix.transparentize(root.blendedColors.colPrimary, 0.15)
+                        colBackgroundHover: root.blendedColors.colPrimary
+                        iconColor: root.blendedColors.colOnPrimary
+                        downAction: () => root.player?.togglePlaying()
+                    }
+                    CtlBtn {
+                        iconName: "skip_next"
+                        enabled: root.player?.canGoNext ?? false
+                        downAction: () => root.player?.next()
                     }
 
-                    Item {
-                        id: progressArea
-                        anchors.left: parent.left
-                        anchors.right: controls.left
-                        anchors.rightMargin: 12
-                        anchors.verticalCenter: parent.verticalCenter
-                        height: 18
-
-                        Rectangle {
-                            id: track
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            height: 3
-                            radius: 2
-                            color: ColorMix.transparentize(root.blendedColors.colOnLayer0, 0.7)
-                        }
-                        Rectangle {
-                            anchors.left: track.left
-                            anchors.verticalCenter: track.verticalCenter
-                            height: track.height
-                            radius: track.radius
-                            width: track.width * root.progressFrac
-                            color: root.blendedColors.colPrimary
-                        }
-                        StyledText {
-                            anchors.left: parent.left
-                            anchors.bottom: track.top
-                            anchors.bottomMargin: 2
-                            text: root.fmtTime(root.displayedPosition)
-                            font.pixelSize: 10
-                            color: root.blendedColors.colSubtext
-                        }
-                        StyledText {
-                            anchors.right: parent.right
-                            anchors.bottom: track.top
-                            anchors.bottomMargin: 2
-                            text: root.fmtTime(root.lengthSec)
-                            font.pixelSize: 10
-                            color: root.blendedColors.colSubtext
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: e => {
-                                if (!root.player || root.lengthSec <= 0) return;
-                                const frac = Math.max(0, Math.min(1, e.x / width));
-                                root.player.position = frac * root.lengthSec;
-                                if (root.browserPlayer) browserPoller.syncPosition(frac * root.lengthSec);
-                            }
-                        }
+                    Item { Layout.fillWidth: true }
+                    StyledText {
+                        variant: StyledText.Variant.Label
+                        text: root.fmtTime(root.lengthSec)
+                        color: root.blendedColors.colSubtext
+                        horizontalAlignment: Text.AlignRight
                     }
                 }
             }

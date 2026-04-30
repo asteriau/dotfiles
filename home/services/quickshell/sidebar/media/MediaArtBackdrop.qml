@@ -48,8 +48,8 @@ Item {
             id: blurredArt
             anchors.fill: parent
             source: root.artSource
-            sourceSize.width: background.width
-            sourceSize.height: background.height
+            sourceSize.width: 512
+            sourceSize.height: 512
             fillMode: Image.PreserveAspectCrop
             cache: false
             antialiasing: true

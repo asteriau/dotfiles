@@ -215,6 +215,23 @@ Singleton {
         property alias timeoutMs: root.osdTimeoutMs
     }
 
+    readonly property QtObject island: QtObject {
+        readonly property int compactHeight:      38
+        readonly property int expandedHeight:     128
+        readonly property int expandedHeightNotif: 96
+        readonly property int maxWidth:           440
+        readonly property int compactRadius:      19
+        readonly property int expandRadius:       26
+        readonly property int peekDurationMs:     2200
+        readonly property int swapDurationMs:     110
+
+        readonly property int compactWidthOsd:    260
+        readonly property int compactWidthNotif:  320
+        readonly property int compactWidthMedia:  180
+        readonly property int expandedWidthMedia: 440
+        readonly property int expandedWidthNotif: 380
+    }
+
     readonly property QtObject notifications: QtObject {
         readonly property int expireTimeout: 5000
         readonly property int iconSize:      48

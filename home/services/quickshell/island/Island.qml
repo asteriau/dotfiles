@@ -1,19 +1,16 @@
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
-import Quickshell.Widgets
 import Quickshell.Services.Mpris
 import Quickshell.Hyprland
-import qs.components.controls
-import qs.components.text
-import qs.notifications
 import qs.utils
 import qs.utils.state
 
 // Top-center floating dynamic island. Single PanelWindow that morphs between
-// idle pebble / mpris / notif / osd compact rows and hover-expanded cards.
+// hidden (idle) → compact (peek/passive) → expanded (hover) for OSD, notif,
+// and media states. Per-mode child Items handle their own visuals; this file
+// owns the state machine, sizing, motion and shadow.
 Scope {
     id: scope
 
@@ -31,6 +28,9 @@ Scope {
     property string osdLabel: ""
     property real osdProgress: 0
 
+    // Peek-on-arrival auto-expand (notif only).
+    property bool peeking: false
+
     // Hide entirely when any window on the active workspace is fullscreen.
     readonly property HyprlandMonitor _hMonitor: Hyprland.monitorFor(win.screen)
     readonly property int _activeWsId: _hMonitor?.activeWorkspace?.id ?? -1
@@ -39,9 +39,9 @@ Scope {
 
     // Resolved priority: osd > notif > media > idle
     readonly property string mode: {
-        if (_osdActive)              return "osd";
+        if (_osdActive)               return "osd";
         if (_notifActive && topNotif) return "notif";
-        if (mediaActive)             return "media";
+        if (mediaActive)              return "media";
         return "idle";
     }
 
@@ -51,6 +51,8 @@ Scope {
             _lastNotif = topNotif;
             _notifActive = true;
             notifTimer.restart();
+            scope.peeking = true;
+            peekTimer.restart();
         } else if (!topNotif) {
             _notifActive = false;
             notifTimer.stop();
@@ -61,6 +63,13 @@ Scope {
         interval: Config.notifications.expireTimeout
         repeat: false
         onTriggered: scope._notifActive = false
+    }
+
+    Timer {
+        id: peekTimer
+        interval: Config.island.peekDurationMs
+        repeat: false
+        onTriggered: scope.peeking = false
     }
 
     // ── OSD inputs ───────────────────────────────────────────────────────
@@ -132,9 +141,9 @@ Scope {
         anchors { top: true }
         margins { top: 0 }
 
-        // Sized for the largest possible state (hover-expanded card) plus headroom.
-        implicitWidth: 480
-        implicitHeight: 200
+        // Sized to fit the largest expanded card plus shadow blur headroom.
+        implicitWidth: Config.island.maxWidth + 60
+        implicitHeight: Config.island.expandedHeight + 60
 
         // ── Pill ─────────────────────────────────────────────────────────
         Item {
@@ -143,7 +152,7 @@ Scope {
             y: 0
 
             // Latched display mode: when scope.mode changes mid-hover, expansion
-            // collapses for one spring period before the new mode is shown.
+            // collapses for a swap window before the new mode is shown.
             property string _displayMode: scope.mode
             property bool _modeStable: true
 
@@ -156,7 +165,7 @@ Scope {
             }
             Timer {
                 id: modeStableTimer
-                interval: 140
+                interval: Config.island.swapDurationMs
                 onTriggered: {
                     pill._displayMode = scope.mode;
                     pill._modeStable = true;
@@ -164,62 +173,87 @@ Scope {
             }
 
             readonly property bool hoverable: _displayMode === "media" || _displayMode === "notif"
-            readonly property bool expanded: hoverable && hover.hovered && _modeStable
+            readonly property bool expanded:
+                hoverable && _modeStable && (hover.hovered || scope.peeking)
 
             // Target sizes per state.
             readonly property int targetW: {
-                if (expanded && _displayMode === "media") return 420;
-                if (expanded && _displayMode === "notif") return 360;
+                if (_displayMode === "idle") return 0;
+                if (expanded && _displayMode === "media") return Config.island.expandedWidthMedia;
+                if (expanded && _displayMode === "notif") return Config.island.expandedWidthNotif;
                 switch (_displayMode) {
-                    case "idle":  return 140;
-                    case "osd":   return 240;
-                    case "notif": return Math.min(320, notifCompact.implicitWidth + 24);
-                    case "media": return 140;
+                    case "osd":   return Config.island.compactWidthOsd;
+                    case "notif": return Config.island.compactWidthNotif;
+                    case "media": return Config.island.compactWidthMedia;
                 }
-                return 140;
+                return 0;
             }
             readonly property int targetH: {
-                if (expanded && _displayMode === "media") return 96;
-                if (expanded && _displayMode === "notif") return 120;
-                switch (_displayMode) {
-                    case "idle":  return 8;
-                    case "media": return 32;
-                    default:      return 36;
+                if (_displayMode === "idle") return 0;
+                if (expanded) {
+                    return _displayMode === "notif"
+                        ? Config.island.expandedHeightNotif
+                        : Config.island.expandedHeight;
                 }
+                return Config.island.compactHeight;
             }
             readonly property real targetR: {
-                if (expanded) return 22;
-                if (_displayMode === "idle") return 4;
-                return 16;
+                if (_displayMode === "idle") return Config.island.compactRadius;
+                if (expanded) return Config.island.expandRadius;
+                return Config.island.compactRadius;
             }
 
             implicitWidth:  targetW
             implicitHeight: targetH
+            opacity: _displayMode === "idle" ? 0 : 1
+            visible: opacity > 0.001
 
             Behavior on implicitWidth {
-                SpringAnimation { spring: 4.5; damping: 0.26; mass: 0.55; epsilon: 0.1 }
+                SpringAnimation { spring: 3.8; damping: 0.34; mass: 0.6; epsilon: 0.05 }
             }
             Behavior on implicitHeight {
-                SpringAnimation { spring: 4.5; damping: 0.26; mass: 0.55; epsilon: 0.1 }
+                SpringAnimation { spring: 4.0; damping: 0.36; mass: 0.55; epsilon: 0.05 }
+            }
+            Behavior on opacity {
+                NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic }
             }
 
+            // ── Shadow (drawn behind everything) ─────────────────────────
+            IslandShadow {
+                anchors.fill: parent
+                z: -1
+                radius: pill.targetR
+            }
+
+            // ── Background ───────────────────────────────────────────────
+            // Hidden when media-expanded (MediaArtBackdrop owns the surface).
             Rectangle {
                 id: bg
                 anchors.fill: parent
-                topLeftRadius: pill.expanded ? pill.targetR : 0
-                topRightRadius: pill.expanded ? pill.targetR : 0
+                topLeftRadius: pill.targetR
+                topRightRadius: pill.targetR
                 bottomLeftRadius: pill.targetR
                 bottomRightRadius: pill.targetR
-                color: pill._displayMode === "idle" ? Colors.surfaceContainerHighest : Colors.background
+                color: Colors.background
                 antialiasing: true
                 clip: true
 
-                Behavior on topLeftRadius { SpringAnimation { spring: 5.5; damping: 0.32 } }
-                Behavior on topRightRadius { SpringAnimation { spring: 5.5; damping: 0.32 } }
-                Behavior on bottomLeftRadius { SpringAnimation { spring: 5.5; damping: 0.32 } }
-                Behavior on bottomRightRadius { SpringAnimation { spring: 5.5; damping: 0.32 } }
-                Behavior on color {
-                    ColorAnimation { duration: M3Easing.effectsDuration }
+                Behavior on topLeftRadius     { SpringAnimation { spring: 5.0; damping: 0.42 } }
+                Behavior on topRightRadius    { SpringAnimation { spring: 5.0; damping: 0.42 } }
+                Behavior on bottomLeftRadius  { SpringAnimation { spring: 5.0; damping: 0.42 } }
+                Behavior on bottomRightRadius { SpringAnimation { spring: 5.0; damping: 0.42 } }
+                Behavior on color   { ColorAnimation  { duration: M3Easing.effectsDuration } }
+
+                // Subtle accent edge ring for non-media states (M3E feel).
+                Rectangle {
+                    anchors.fill: parent
+                    radius: parent.bottomLeftRadius
+                    color: "transparent"
+                    border.color: ColorMix.transparentize(Colors.accent, 0.85)
+                    border.width: 1
+                    visible: pill._displayMode !== "media"
+                    opacity: pill.expanded ? 0.0 : 0.6
+                    Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration } }
                 }
             }
 
@@ -229,7 +263,7 @@ Scope {
                 anchors.fill: parent
                 hoverEnabled: false
                 acceptedButtons: Qt.LeftButton | Qt.MiddleButton
-                // In expanded media, IslandMediaCard owns clicks (button hit areas only).
+                // Expanded media gives clicks to IslandMediaCard (button hit areas).
                 enabled: !(pill._displayMode === "media" && pill.expanded)
                 onClicked: e => {
                     if (pill._displayMode === "notif") {
@@ -241,212 +275,46 @@ Scope {
                 }
             }
 
-            // ── Idle pebble (no content) ─────────────────────────────────
-            // (just bg)
-
             // ── OSD compact ──────────────────────────────────────────────
-            RowLayout {
-                id: osdCompact
+            IslandOsd {
                 anchors.fill: parent
-                anchors.leftMargin: 12
-                anchors.rightMargin: 14
-                spacing: Config.layout.gapMd
-                opacity: pill._displayMode === "osd"  ? 1 : 0
+                icon: scope.osdIcon
+                progress: scope.osdProgress
+                opacity: pill._displayMode === "osd" ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-
-                CrossfadeIcon {
-                    text: scope.osdIcon
-                    fill: 1
-                    pixelSize: 20
-                    color: Colors.foreground
-                    Layout.alignment: Qt.AlignVCenter
-                }
-                StyledProgressBar {
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.preferredHeight: 4
-                    valueBarHeight: 4
-                    value: Math.max(0, Math.min(1, scope.osdProgress))
-                    highlightColor: Colors.accent
-                    trackColor: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.35)
-                }
-                StyledText {
-                    Layout.alignment: Qt.AlignVCenter
-                    text: Math.round(Math.max(0, Math.min(1, scope.osdProgress)) * 100)
-                    font.pixelSize: Config.typography.small
-                    font.weight: Font.Medium
-                    color: Colors.foreground
-                    horizontalAlignment: Text.AlignRight
-                }
             }
 
             // ── Notif compact ────────────────────────────────────────────
-            Row {
-                id: notifCompact
-                anchors.centerIn: parent
-                spacing: Config.layout.gapSm
-                opacity: pill._displayMode === "notif" && !pill.expanded  ? 1 : 0
+            IslandNotifCompact {
+                anchors.fill: parent
+                notif: scope.topNotif
+                opacity: pill._displayMode === "notif" && !pill.expanded ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-
-                MaterialIcon {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "notifications_active"
-                    fill: 1
-                    pixelSize: Config.typography.normal
-                    color: Colors.foreground
-                }
-                StyledText {
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: Math.min(implicitWidth, 260)
-                    elide: Text.ElideRight
-                    font.pixelSize: Config.typography.small
-                    color: Colors.foreground
-                    text: {
-                        const n = scope.topNotif;
-                        if (!n) return "";
-                        const s = n.summary ?? "";
-                        const b = n.body ?? "";
-                        return s && b ? `${s} — ${b}` : (s || b);
-                    }
-                }
             }
 
             // ── Notif expanded ───────────────────────────────────────────
-            RowLayout {
+            IslandNotifExpanded {
                 anchors.fill: parent
-                anchors.margins: 12
-                spacing: 12
-                opacity: pill._displayMode === "notif" && pill.expanded  ? 1 : 0
+                notif: scope.topNotif
+                opacity: pill._displayMode === "notif" && pill.expanded ? 1 : 0
                 visible: opacity > 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-
-                NotificationAppIcon {
-                    Layout.alignment: Qt.AlignTop
-                    image: scope.topNotif?.image ?? ""
-                    appIcon: scope.topNotif?.appIcon ?? ""
-                    summary: scope.topNotif?.summary ?? ""
-                    urgency: scope.topNotif?.urgency ?? 0
-                    implicitSize: 40
-                    Layout.preferredWidth: 40
-                    Layout.preferredHeight: 40
-                }
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    spacing: 2
-
-                    StyledText {
-                        Layout.fillWidth: true
-                        text: scope.topNotif?.appName ?? ""
-                        visible: text.length > 0
-                        color: Colors.m3onSurfaceVariant
-                        font.pixelSize: Config.typography.smaller
-                        elide: Text.ElideRight
-                    }
-                    StyledText {
-                        Layout.fillWidth: true
-                        text: scope.topNotif?.summary ?? ""
-                        color: Colors.foreground
-                        font.pixelSize: Config.typography.normal
-                        font.weight: Font.Medium
-                        wrapMode: Text.WordWrap
-                        elide: Text.ElideRight
-                        maximumLineCount: 1
-                    }
-                    StyledText {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        visible: text.length > 0
-                        text: scope.topNotif?.body ?? ""
-                        color: Colors.m3onSurfaceVariant
-                        font.pixelSize: Config.typography.small
-                        wrapMode: Text.WordWrap
-                        elide: Text.ElideRight
-                        maximumLineCount: 2
+                Behavior on opacity {
+                    SequentialAnimation {
+                        PauseAnimation { duration: 90 }
+                        NumberAnimation { duration: M3Easing.durationShort4; easing.type: Easing.OutCubic }
                     }
                 }
             }
 
             // ── Media compact ────────────────────────────────────────────
-            // Mini cover left, audio-bars equalizer right. No text.
-            Item {
-                id: mediaCompact
-                width: 140
-                height: 32
-                anchors.centerIn: parent
-                opacity: pill._displayMode === "media" && !pill.expanded  ? 1 : 0
+            IslandMediaCompact {
+                anchors.fill: parent
+                accentColor: mediaExpanded.tintColor
+                opacity: pill._displayMode === "media" && !pill.expanded ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-
-                readonly property string artUrl: (scope.player?.trackArtUrl ?? "").toString()
-                readonly property bool playing: scope.player?.isPlaying ?? false
-
-                ClippingRectangle {
-                    id: artClip
-                    width: 26
-                    height: 26
-                    anchors.left: parent.left
-                    anchors.leftMargin: 8
-                    anchors.verticalCenter: parent.verticalCenter
-                    radius: width / 2
-                    color: Colors.surfaceContainerHighest
-                    antialiasing: true
-
-                    Image {
-                        anchors.fill: parent
-                        fillMode: Image.PreserveAspectCrop
-                        smooth: true
-                        mipmap: true
-                        asynchronous: true
-                        cache: true
-                        sourceSize.width: 256
-                        sourceSize.height: 256
-                        source: mediaCompact.artUrl ? MprisState.resolveArtSource(mediaCompact.artUrl) : ""
-                        visible: status === Image.Ready
-                    }
-                    MaterialIcon {
-                        anchors.centerIn: parent
-                        visible: !mediaCompact.artUrl
-                        text: "music_note"
-                        fill: 1
-                        pixelSize: 14
-                        color: Colors.foreground
-                    }
-                }
-
-                Row {
-                    id: bars
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: 2
-
-                    Repeater {
-                        model: 4
-                        Rectangle {
-                            required property int index
-                            width: 2
-                            height: 14
-                            radius: 1
-                            color: Colors.accent
-                            transformOrigin: Item.Center
-
-                            SequentialAnimation on scale {
-                                running: mediaCompact.playing
-                                loops: Animation.Infinite
-                                NumberAnimation { from: 0.25; to: 1.0; duration: 380 + index * 80; easing.type: Easing.InOutSine }
-                                NumberAnimation { from: 1.0; to: 0.35; duration: 320 + index * 60; easing.type: Easing.InOutSine }
-                                NumberAnimation { from: 0.35; to: 0.7; duration: 240 + index * 40; easing.type: Easing.InOutSine }
-                            }
-
-                            scale: mediaCompact.playing ? scale : 0.3
-                            Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
-                        }
-                    }
-                }
             }
 
             // ── Media expanded ───────────────────────────────────────────
@@ -454,6 +322,7 @@ Scope {
                 id: mediaExpanded
                 anchors.fill: parent
                 readonly property bool shouldShow: pill._displayMode === "media" && pill.expanded
+                readonly property color tintColor: card.blendedColors?.colPrimary ?? Colors.accent
                 opacity: 0
                 visible: shouldShow || opacity > 0
 
@@ -465,10 +334,7 @@ Scope {
                 transitions: [
                     Transition {
                         to: "visible"
-                        SequentialAnimation {
-                            PauseAnimation { duration: 110 }
-                            NumberAnimation { property: "opacity"; duration: 160; easing.type: Easing.OutCubic }
-                        }
+                        NumberAnimation { property: "opacity"; duration: M3Easing.durationShort4; easing.type: Easing.OutCubic }
                     },
                     Transition {
                         from: "visible"
@@ -477,6 +343,7 @@ Scope {
                 ]
 
                 IslandMediaCard {
+                    id: card
                     anchors.fill: parent
                     radius: pill.targetR
                 }
