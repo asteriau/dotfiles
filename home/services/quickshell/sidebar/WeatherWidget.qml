@@ -4,7 +4,6 @@
 //   chmod 600 ~/.config/quickshell/secrets/openweathermap.key
 
 import QtQuick
-import QtQuick.Effects
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import qs.components.shape
@@ -16,123 +15,110 @@ import qs.utils.state
 Item {
     id: root
     Layout.fillWidth: true
-    clip: true
 
     readonly property int cornerRadius: Config.layout.weatherRadius
     readonly property bool night: WeatherState.isNight
     readonly property bool ready: WeatherState.ready
 
-    layer.enabled: true
-    layer.effect: OpacityMask {
-        maskSource: Rectangle {
-            width: root.width
-            height: root.height
-            radius: root.cornerRadius
-        }
-    }
-
-    // Sky backdrop
-    SkyGradient {
-        id: sky
-        topColor: WeatherState.skyTop
-        botColor: WeatherState.skyBot
-        opacity: 0.55
-        Behavior on opacity { NumberAnimation { duration: M3Easing.durationLong1 } }
-    }
-
-    // Animated condition scene wrapped in parallax host
-    ParallaxHost {
-        id: parallaxHost
-        anchors.fill: parent
-
-        Loader {
-            id: sceneLoader
-            anchors.fill: parent
-            source: root.ready ? WeatherState.scene : ""
-            opacity: status === Loader.Ready ? 1 : 0
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: M3Easing.durationLong1
-                    easing.type: Easing.BezierSpline
-                    easing.bezierCurve: M3Easing.emphasizedDecel
-                }
-            }
-            onLoaded: {
-                if (item) {
-                    if (item.hasOwnProperty("parallaxX"))
-                        item.parallaxX = Qt.binding(() => parallaxHost.parallaxX);
-                    if (item.hasOwnProperty("parallaxY"))
-                        item.parallaxY = Qt.binding(() => parallaxHost.parallaxY);
-                    if (item.hasOwnProperty("isNight"))
-                        item.isNight = Qt.binding(() => root.night);
-                }
-            }
-        }
-    }
-
-    // Subtle bottom shade for text legibility against bright scenes
     Rectangle {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        height: parent.height * 0.55
-        gradient: Gradient {
-            orientation: Gradient.Vertical
-            GradientStop { position: 0; color: "transparent" }
-            GradientStop { position: 1; color: Colors.scrim }
-        }
+        id: cardMask
+        anchors.fill: parent
+        radius: root.cornerRadius
+        color: "white"
+        visible: false
+        layer.enabled: true
     }
 
-    // Foreground content
-    ColumnLayout {
+    Rectangle {
+        id: card
         anchors.fill: parent
-        anchors.margins: 18
-        spacing: 0
+        radius: root.cornerRadius
+        color: Colors.surfaceContainer
+        border.width: 1
+        border.color: Colors.outlineVariant
 
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: 0
+        layer.enabled: true
+        layer.smooth: true
+        layer.effect: OpacityMask {
+            maskSource: cardMask
+        }
 
+        // Animated scene fills full card
+        Item {
+            id: sceneStrip
+            anchors.fill: parent
+            clip: true
+
+            SkyGradient {
+                anchors.fill: parent
+                topColor: WeatherState.skyTop
+                botColor: WeatherState.skyBot
+                opacity: 0.9
+                Behavior on opacity { NumberAnimation { duration: M3Easing.durationLong1 } }
+            }
+
+            ParallaxHost {
+                id: parallaxHost
+                anchors.fill: parent
+
+                Loader {
+                    id: sceneLoader
+                    anchors.fill: parent
+                    source: root.ready ? WeatherState.scene : ""
+                    opacity: status === Loader.Ready ? 1 : 0
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: M3Easing.durationLong1
+                            easing.type: Easing.BezierSpline
+                            easing.bezierCurve: M3Easing.emphasizedDecel
+                        }
+                    }
+                    onLoaded: {
+                        if (item) {
+                            if (item.hasOwnProperty("parallaxX"))
+                                item.parallaxX = Qt.binding(() => parallaxHost.parallaxX);
+                            if (item.hasOwnProperty("parallaxY"))
+                                item.parallaxY = Qt.binding(() => parallaxHost.parallaxY);
+                            if (item.hasOwnProperty("isNight"))
+                                item.isNight = Qt.binding(() => root.night);
+                        }
+                    }
+                }
+            }
+
+            // City label overlaid on scene
             StyledText {
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.margins: 16
                 text: Config.weather.city
                 color: Colors.foreground
-                opacity: 0.9
+                opacity: 0.95
                 font.pixelSize: 14
-                font.weight: Font.Normal
-
-                layer.enabled: true
-                layer.effect: MultiEffect {
-                    shadowEnabled: true
-                    shadowBlur: 0.6
-                    shadowOpacity: 0.35
-                    shadowVerticalOffset: 2
-                    shadowColor: "black"
-                }
+                font.weight: Font.Medium
+                style: Text.Raised
+                styleColor: Qt.rgba(0, 0, 0, 0.35)
             }
         }
 
-        Item { Layout.fillHeight: true }
-
+        // Bottom info panel
         ColumnLayout {
-            Layout.fillWidth: true
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: 18
+            anchors.rightMargin: 18
+            anchors.bottomMargin: 14
             spacing: 0
 
             StyledText {
                 visible: root.ready
                 text: Math.round(WeatherState.temp) + "°"
                 color: Colors.foreground
-                font.pixelSize: 56
+                font.pixelSize: 48
                 font.weight: Font.Thin
-                font.letterSpacing: -2.4
-
-                layer.enabled: true
-                layer.effect: MultiEffect {
-                    shadowEnabled: true
-                    shadowBlur: 0.6
-                    shadowOpacity: 0.35
-                    shadowVerticalOffset: 2
-                    shadowColor: "black"
-                }
+                font.letterSpacing: -2.0
+                Layout.bottomMargin: -4
             }
 
             StyledText {
@@ -141,10 +127,9 @@ Item {
                     const d = WeatherState.description;
                     return d.length > 0 ? d.charAt(0).toUpperCase() + d.slice(1) : "";
                 }
-                color: Colors.m3onSurfaceVariant
+                color: Colors.comment
                 font.pixelSize: Config.typography.smallie
                 font.weight: Font.Medium
-                Layout.topMargin: -4
             }
 
             StyledText {
@@ -158,7 +143,7 @@ Item {
             StyledText {
                 visible: !root.ready
                 text: WeatherState.errorMessage.length > 0 ? WeatherState.errorMessage : "Loading weather…"
-                color: Colors.comment
+                color: Colors.foreground
                 font.pixelSize: Config.typography.smaller
                 font.weight: Font.Medium
                 wrapMode: Text.WordWrap
@@ -171,66 +156,67 @@ Item {
                 font.pixelSize: 10
                 opacity: 0.7
             }
-        }
 
-        Rectangle {
-            visible: root.ready
-            Layout.fillWidth: true
-            Layout.topMargin: 10
-            height: 1
-            color: Colors.hoverStrongest
-        }
-
-        RowLayout {
-            visible: root.ready
-            Layout.fillWidth: true
-            Layout.topMargin: 8
-            spacing: 14
-
-            StyledText {
-                text: "Feels " + Math.round(WeatherState.feelsLike) + "°"
-                color: Colors.m3onSurfaceVariant
-                font.pixelSize: 11
-                font.weight: Font.Medium
+            Rectangle {
+                visible: root.ready
+                Layout.fillWidth: true
+                Layout.topMargin: 10
+                height: 1
+                color: Colors.outlineVariant
+                opacity: 0.5
             }
 
             RowLayout {
-                spacing: 4
-                MaterialIcon {
-                    text: "humidity_percentage"
-                    pixelSize: 14
-                    fill: 1
-                    weight: 400
-                    grade: 0
-                    color: Colors.m3onSurfaceVariant
-                }
+                visible: root.ready
+                Layout.fillWidth: true
+                Layout.topMargin: 8
+                spacing: 14
+
                 StyledText {
-                    text: WeatherState.humidity + "%"
-                    color: Colors.m3onSurfaceVariant
+                    text: "Feels " + Math.round(WeatherState.feelsLike) + "°"
+                    color: Colors.comment
                     font.pixelSize: 11
                     font.weight: Font.Medium
                 }
-            }
 
-            RowLayout {
-                spacing: 4
-                MaterialIcon {
-                    text: "air"
-                    pixelSize: 14
-                    fill: 1
-                    weight: 400
-                    grade: 0
-                    color: Colors.m3onSurfaceVariant
+                RowLayout {
+                    spacing: 4
+                    MaterialIcon {
+                        text: "humidity_percentage"
+                        pixelSize: 14
+                        fill: 1
+                        weight: 400
+                        grade: 0
+                        color: Colors.comment
+                    }
+                    StyledText {
+                        text: WeatherState.humidity + "%"
+                        color: Colors.comment
+                        font.pixelSize: 11
+                        font.weight: Font.Medium
+                    }
                 }
-                StyledText {
-                    text: Math.round(WeatherState.windSpeed) + " m/s"
-                    color: Colors.m3onSurfaceVariant
-                    font.pixelSize: 11
-                    font.weight: Font.Medium
-                }
-            }
 
-            Item { Layout.fillWidth: true }
+                RowLayout {
+                    spacing: 4
+                    MaterialIcon {
+                        text: "air"
+                        pixelSize: 14
+                        fill: 1
+                        weight: 400
+                        grade: 0
+                        color: Colors.comment
+                    }
+                    StyledText {
+                        text: Math.round(WeatherState.windSpeed) + " m/s"
+                        color: Colors.comment
+                        font.pixelSize: 11
+                        font.weight: Font.Medium
+                    }
+                }
+
+                Item { Layout.fillWidth: true }
+            }
         }
     }
 }

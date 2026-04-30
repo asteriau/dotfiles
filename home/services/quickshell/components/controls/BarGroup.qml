@@ -1,21 +1,27 @@
 import QtQuick
 import qs.utils
 
-// Pill container for bar widgets, mirroring ii's BarGroup. Default children
-// flow inside an inner Grid; pass `columns: 1` for vertical stacking.
+// Pill container for bar widgets. Default children flow inside an inner Grid;
+// pass `columns: 1` for vertical stacking. Tonal level via `tone`.
 Item {
     id: root
 
-    property int  padding: 5
-    property int  rowSpacing: 8
-    property int  columnSpacing: 4
+    property int  padding: Config.layout.gapSm
+    property int  rowSpacing: Config.layout.gapMd
+    property int  columnSpacing: Config.layout.gapSm
     property int  columns: -1
     property bool transparent: false
-    property color bgColor: Colors.surfaceContainerLow
-    property int  radius: 12
 
-    // Bar orientation drives the inset axis: bg hugs the long axis and leaves
-    // a small gap on the short axis (matches ii's 4px short-edge breathing).
+    // Tonal elevation level. "low" matches surfaceContainerLow (default),
+    // "lowest" demotes (recedes), "container" promotes.
+    property string tone: "low"
+    readonly property color toneColor: tone === "lowest"    ? Colors.surfaceContainerLowest
+                                     : tone === "container" ? Colors.surfaceContainer
+                                     : tone === "high"      ? Colors.surfaceContainerHigh
+                                                            : Colors.surfaceContainerLow
+    property color bgColor: toneColor
+    property int  radius: Config.layout.radiusMd
+
     readonly property bool vertical: Config.bar.vertical
 
     default property alias content: grid.children
@@ -33,6 +39,10 @@ Item {
         anchors.rightMargin:  root.vertical ? 4 : 0
         radius: root.radius
         color: root.transparent ? "transparent" : root.bgColor
+
+        Behavior on color {
+            ColorAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+        }
     }
 
     Grid {

@@ -314,5 +314,10 @@ Singleton {
         readonly property int notificationCollapsedR:    20
         readonly property int weatherRadius:             22
         readonly property int mediaCardRadius:           22
+
+        // Bar focal slot.
+        readonly property int focalMaxWidth:  280
+        readonly property int focalMinHeight: 28
+        readonly property int barZoneGap:     8
     }
 }

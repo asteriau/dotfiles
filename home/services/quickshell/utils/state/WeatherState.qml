@@ -44,7 +44,7 @@ Singleton {
     }
 
     function _sceneUrl(c: string, n: bool): url {
-        return Qt.resolvedUrl("../sidebar/weather/" + _sceneFile(c, n));
+        return Qt.resolvedUrl("../../sidebar/weather/" + _sceneFile(c, n));
     }
 
     function _glyph(c: string, n: bool): string {

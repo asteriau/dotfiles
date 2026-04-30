@@ -4,3 +4,4 @@ ShadowText 1.0 ShadowText.qml
 MaterialIcon 1.0 MaterialIcon.qml
 ShadowIcon 1.0 ShadowIcon.qml
 CrossfadeIcon 1.0 CrossfadeIcon.qml
+RollingText 1.0 RollingText.qml

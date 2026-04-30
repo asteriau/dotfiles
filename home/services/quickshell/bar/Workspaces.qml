@@ -76,8 +76,8 @@ Item {
             topMargin:    root.vertical ? 0 : 4
             bottomMargin: root.vertical ? 0 : 4
         }
-        radius: 12
-        color: Colors.elevated
+        radius: Config.layout.radiusMd
+        color: Colors.surfaceContainer
     }
 
     // z:2 — occupied orbs that merge into a continuous pill.

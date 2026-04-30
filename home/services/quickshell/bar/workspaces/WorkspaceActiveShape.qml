@@ -46,13 +46,13 @@ Item {
         readonly property list<var> morphShapes: [
             MaterialShape.Shape.Circle,
             MaterialShape.Shape.Cookie12Sided,
+            MaterialShape.Shape.Sunny,
             MaterialShape.Shape.Cookie9Sided,
-            MaterialShape.Shape.Cookie7Sided,
+            MaterialShape.Shape.Clover4Leaf,
             MaterialShape.Shape.Cookie6Sided,
-            MaterialShape.Shape.Pentagon,
+            MaterialShape.Shape.Burst,
             MaterialShape.Shape.Cookie4Sided,
-            MaterialShape.Shape.Square,
-            MaterialShape.Shape.Triangle,
+            MaterialShape.Shape.Puffy,
             MaterialShape.Shape.Diamond
         ]
 

@@ -20,8 +20,8 @@ Rectangle {
 
     implicitWidth:  vertical ? 32 : (hRow.implicitWidth + 12)
     implicitHeight: vertical ? (vCol.implicitHeight + 12) : (Config.bar.height - 8)
-    radius: 8
-    color: Colors.elevated
+    radius: Config.layout.radiusSm
+    color: Colors.surfaceContainerLowest
 
     Behavior on implicitHeight {
         NumberAnimation { duration: M3Easing.durationMedium1; easing.type: Easing.OutCubic }

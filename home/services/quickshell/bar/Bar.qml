@@ -21,83 +21,55 @@ PanelWindow {
 
     color: "transparent"
 
+    // Vertical: nav (top) · focal (center) · status (bottom).
     Rectangle {
         visible: Config.bar.vertical
         anchors.fill: parent
         color: Colors.background
 
+        // ── Nav ──────────────────────────────────────────────────────────
         ColumnLayout {
-            id: topGroup
+            id: navZone
             anchors {
                 top: parent.top
-                topMargin: 16
+                topMargin: Config.layout.gapXl
                 horizontalCenter: parent.horizontalCenter
             }
-            spacing: 10
+            spacing: Config.layout.barZoneGap
 
-            SidebarToggle {
-                Layout.alignment: Qt.AlignHCenter
-            }
+            SidebarToggle { Layout.alignment: Qt.AlignHCenter }
+            Workspaces    { Layout.alignment: Qt.AlignHCenter }
         }
 
-        ColumnLayout {
-            id: centerGroup
+        // ── Focal ────────────────────────────────────────────────────────
+        FocalSlot {
             anchors {
                 verticalCenter: parent.verticalCenter
                 horizontalCenter: parent.horizontalCenter
             }
-            spacing: 10
+        }
 
-            BarGroup {
-                Layout.alignment: Qt.AlignHCenter
-                padding: 6
-                rowSpacing: 8
-
-                Resources {}
-                BarSeparator { length: 16 }
-                MediaIndicator {}
+        // ── Status ───────────────────────────────────────────────────────
+        ColumnLayout {
+            id: statusZone
+            anchors {
+                bottom: parent.bottom
+                bottomMargin: Config.layout.gapLg
+                horizontalCenter: parent.horizontalCenter
             }
+            spacing: Config.layout.barZoneGap
 
             BarGroup {
                 Layout.alignment: Qt.AlignHCenter
-                padding: 4
-                rowSpacing: 0
-
-                Workspaces {}
-            }
-
-            BarGroup {
-                Layout.alignment: Qt.AlignHCenter
-                padding: 6
-                rowSpacing: 8
+                tone: "low"
+                rowSpacing: Config.layout.gapMd
 
                 Clock {}
                 Battery {}
-            }
-        }
-
-        ColumnLayout {
-            id: bottomGroup
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: 12
-                horizontalCenter: parent.horizontalCenter
-            }
-            spacing: 10
-
-            BarGroup {
-                Layout.alignment: Qt.AlignHCenter
-                padding: 6
-                rowSpacing: 10
-                visible: net.visible || bt.visible
-
-                Network  { id: net }
-                Bluetooth { id: bt }
+                Connectivity {}
             }
 
-            Tray {
-                Layout.alignment: Qt.AlignHCenter
-            }
+            Tray { Layout.alignment: Qt.AlignHCenter }
         }
     }
 

@@ -9,10 +9,15 @@ Item {
     property bool vertical: Config.bar.vertical
     readonly property bool horizontal: !vertical
 
+    readonly property string hh:    Qt.formatDateTime(Utils.clock.date, "hh")
+    readonly property string mm:    Qt.formatDateTime(Utils.clock.date, "mm")
+    readonly property string hhmm:  Qt.formatDateTime(Utils.clock.date, "hh:mm")
+    readonly property string ddmm:  Qt.formatDateTime(Utils.clock.date, "dd/MM")
+
     implicitWidth:  horizontal ? hRow.implicitWidth : col.implicitWidth
     implicitHeight: horizontal ? Config.bar.height : col.implicitHeight
 
-    // Stacked hh / mm / dd-MM in vertical bar.
+    // Vertical: stacked hh / mm / dd-MM with rolling digits.
     ColumnLayout {
         id: col
         visible: root.vertical
@@ -21,25 +26,22 @@ Item {
 
         ColumnLayout {
             Layout.alignment: Qt.AlignHCenter
-            // Tight stack between hh and mm imitates a digital-clock face.
             spacing: -4
 
-            StyledText {
+            RollingText {
                 Layout.alignment: Qt.AlignHCenter
-                text: Qt.formatDateTime(Utils.clock.date, "hh")
-                font.pixelSize: Config.typography.large
-                font.family: Config.typography.family
+                text: root.hh
+                pixelSize: Config.typography.large
+                family: Config.typography.family
                 color: Colors.foreground
-                horizontalAlignment: Text.AlignHCenter
             }
 
-            StyledText {
+            RollingText {
                 Layout.alignment: Qt.AlignHCenter
-                text: Qt.formatDateTime(Utils.clock.date, "mm")
-                font.pixelSize: Config.typography.large
-                font.family: Config.typography.family
+                text: root.mm
+                pixelSize: Config.typography.large
+                family: Config.typography.family
                 color: Colors.foreground
-                horizontalAlignment: Text.AlignHCenter
             }
         }
 
@@ -52,7 +54,7 @@ Item {
 
         StyledText {
             Layout.alignment: Qt.AlignHCenter
-            text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
+            text: root.ddmm
             font.pixelSize: Config.typography.smallest
             font.family: Config.typography.family
             color: Colors.m3onSurfaceInactive
@@ -60,16 +62,17 @@ Item {
         }
     }
 
+    // Horizontal: hh:mm • dd/MM with rolling hh:mm.
     RowLayout {
         id: hRow
         visible: root.horizontal
         anchors.centerIn: parent
         spacing: 6
 
-        StyledText {
-            text: Qt.formatDateTime(Utils.clock.date, "hh:mm")
-            font.pixelSize: Config.typography.large
-            font.family: Config.typography.family
+        RollingText {
+            text: root.hhmm
+            pixelSize: Config.typography.large
+            family: Config.typography.family
             color: Colors.foreground
         }
 
@@ -80,7 +83,7 @@ Item {
         }
 
         StyledText {
-            text: Qt.formatDateTime(Utils.clock.date, "dd/MM")
+            text: root.ddmm
             font.pixelSize: Config.typography.small
             font.family: Config.typography.family
             color: Colors.m3onSurfaceInactive

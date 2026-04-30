@@ -6,66 +6,47 @@ Rectangle {
     id: root
     color: Colors.background
 
+    // ── Nav ──────────────────────────────────────────────────────────────
     Row {
         anchors {
             left: parent.left
-            leftMargin: 10
+            leftMargin: Config.layout.gapLg
             verticalCenter: parent.verticalCenter
         }
-        spacing: 8
+        spacing: Config.layout.barZoneGap
 
         SidebarToggle { anchors.verticalCenter: parent.verticalCenter }
-        ActiveWindow  { anchors.verticalCenter: parent.verticalCenter }
+        Workspaces    { anchors.verticalCenter: parent.verticalCenter }
     }
 
-    Row {
+    // ── Focal ────────────────────────────────────────────────────────────
+    FocalSlot {
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
         }
-        spacing: 6
-
-        BarGroup {
-            anchors.verticalCenter: parent.verticalCenter
-            padding: 6
-            columnSpacing: 8
-
-            Resources {}
-            BarSeparator { length: 14 }
-            MediaIndicator {}
-        }
-
-        Workspaces { anchors.verticalCenter: parent.verticalCenter }
-
-        BarGroup {
-            anchors.verticalCenter: parent.verticalCenter
-            padding: 6
-            columnSpacing: 8
-
-            Clock {}
-        }
     }
 
+    // ── Status ───────────────────────────────────────────────────────────
     Row {
         anchors {
             right: parent.right
-            rightMargin: 10
+            rightMargin: Config.layout.gapLg
             verticalCenter: parent.verticalCenter
         }
-        spacing: 8
+        spacing: Config.layout.barZoneGap
 
         WeatherBar { anchors.verticalCenter: parent.verticalCenter }
         Tray       { vertical: false; anchors.verticalCenter: parent.verticalCenter }
 
         BarGroup {
             anchors.verticalCenter: parent.verticalCenter
-            padding: 6
-            columnSpacing: 8
-            visible: net.visible || bt.visible || batt.visible
+            tone: "low"
+            columnSpacing: Config.layout.gapMd
 
-            Network   { id: net }
-            Bluetooth { id: bt }
-            Battery   { id: batt; vertical: false }
+            Connectivity {}
+            Battery { vertical: false }
+            Clock {}
         }
     }
 }
