@@ -1,4 +1,5 @@
 module qs.utils.state
+singleton BatteryState 1.0 BatteryState.qml
 singleton BrightnessState 1.0 BrightnessState.qml
 singleton MprisState 1.0 MprisState.qml
 singleton NightLightState 1.0 NightLightState.qml

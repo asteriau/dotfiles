@@ -7,14 +7,11 @@ import Quickshell.Hyprland
 import qs.utils
 import qs.utils.state
 
-// Top-center floating dynamic island. Single PanelWindow that morphs between
-// hidden (idle) → compact (peek/passive) → expanded (hover) for OSD, notif,
-// and media states. Per-mode child Items handle their own visuals; this file
-// owns the state machine, sizing, motion and shadow.
+
 Scope {
     id: scope
 
-    // ── State sources ────────────────────────────────────────────────────
+    // State sources
     readonly property var topNotif: NotificationState.popupNotifs[0] ?? null
     readonly property MprisPlayer player: MprisState.player
     readonly property bool mediaActive: player !== null
@@ -22,30 +19,36 @@ Scope {
     property bool _notifActive: false
     property var _lastNotif: null
 
-    // OSD payload (volume / mic / brightness / programmatic show)
+    // OSD payload
     property bool _osdActive: false
     property string osdIcon: "volume_up"
     property string osdLabel: ""
     property real osdProgress: 0
 
-    // Peek-on-arrival auto-expand (notif only).
+    // Battery peek state
+    property bool _batteryActive: false
+    property bool _lastCharging: false
+    property bool _seededCharging: false
+
+    // Auto-peek: short force-expand window after fresh notif/battery event
     property bool peeking: false
 
-    // Hide entirely when any window on the active workspace is fullscreen.
+    // Hide entirely when any window on the active workspace is fullscreen
     readonly property HyprlandMonitor _hMonitor: Hyprland.monitorFor(win.screen)
     readonly property int _activeWsId: _hMonitor?.activeWorkspace?.id ?? -1
     readonly property bool fullscreenActive: WorkspaceAppData.windowList.some(w =>
         (w.fullscreen ?? 0) > 0 && (w.workspace?.id ?? -2) === _activeWsId)
 
-    // Resolved priority: osd > notif > media > idle
+    // Resolved priority: osd > battery > notif > media > home (idle)
     readonly property string mode: {
         if (_osdActive)               return "osd";
+        if (_batteryActive)           return "battery";
         if (_notifActive && topNotif) return "notif";
         if (mediaActive)              return "media";
-        return "idle";
+        return "home";
     }
 
-    // ── Notif timing ─────────────────────────────────────────────────────
+    // Notif timing
     onTopNotifChanged: {
         if (topNotif && topNotif !== _lastNotif) {
             _lastNotif = topNotif;
@@ -58,6 +61,7 @@ Scope {
             notifTimer.stop();
         }
     }
+
     Timer {
         id: notifTimer
         interval: Config.notifications.expireTimeout
@@ -72,7 +76,7 @@ Scope {
         onTriggered: scope.peeking = false
     }
 
-    // ── OSD inputs ───────────────────────────────────────────────────────
+    // OSD inputs
     Connections {
         target: PipeWireState.defaultSink ? PipeWireState.defaultSink.audio : null
         function update() {
@@ -87,6 +91,7 @@ Scope {
         function onVolumeChanged() { update() }
         function onMutedChanged()  { update() }
     }
+
     Connections {
         target: PipeWireState.defaultSource ? PipeWireState.defaultSource.audio : null
         function update() {
@@ -100,6 +105,7 @@ Scope {
         function onVolumeChanged() { update() }
         function onMutedChanged()  { update() }
     }
+
     Connections {
         target: BrightnessState
         function onBrightnessChanged() {
@@ -110,6 +116,7 @@ Scope {
             osdHide.restart();
         }
     }
+
     Connections {
         target: OsdState
         function onShow(icon, label, progress) {
@@ -120,13 +127,38 @@ Scope {
             osdHide.restart();
         }
     }
+
     Timer {
         id: osdHide
         interval: Config.osd.timeoutMs
         onTriggered: scope._osdActive = false
     }
 
-    // ── Window ───────────────────────────────────────────────────────────
+    // Battery transitions
+    Connections {
+        target: BatteryState
+        function onChargingChanged() {
+            if (!scope._seededCharging) {
+                scope._lastCharging = BatteryState.charging;
+                scope._seededCharging = true;
+                return;
+            }
+            if (BatteryState.charging !== scope._lastCharging) {
+                scope._lastCharging = BatteryState.charging;
+                scope._batteryActive = true;
+                scope.peeking = true;
+                peekTimer.restart();
+                batteryHide.restart();
+            }
+        }
+    }
+    Timer {
+        id: batteryHide
+        interval: Config.island.batteryPeekMs
+        onTriggered: scope._batteryActive = false
+    }
+
+    // Window
     PanelWindow {
         id: win
         screen: Config.preferredMonitor
@@ -136,30 +168,81 @@ Scope {
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "quickshell:island"
         color: "transparent"
-        mask: Region { item: pill }
+        mask: Region { item: container }
 
         anchors { top: true }
         margins { top: 0 }
 
-        // Sized to fit the largest expanded card plus shadow blur headroom.
-        implicitWidth: Config.island.maxWidth + 60
-        implicitHeight: Config.island.expandedHeight + 60
+        implicitWidth: Config.island.maxWidth + 80
+        implicitHeight: Math.max(Config.island.expandedHeightHome,
+                                 Config.island.expandedHeightMedia,
+                                 Config.island.expandedHeightNotif,
+                                 Config.island.expandedHeightBattery) + 80
 
-        // ── Pill ─────────────────────────────────────────────────────────
         Item {
-            id: pill
+            id: container
             anchors.horizontalCenter: parent.horizontalCenter
             y: 0
+            implicitWidth:  notch.implicitWidth
+            implicitHeight: notch.implicitHeight
 
-            // Latched display mode: when scope.mode changes mid-hover, expansion
-            // collapses for a swap window before the new mode is shown.
-            property string _displayMode: scope.mode
-            property bool _modeStable: true
+            readonly property bool mediaPeekVisible:
+                pillState._displayMode === "media" && !pillState.expanded
+
+            QtObject {
+                id: pillState
+
+                property string _displayMode: scope.mode
+                property bool _modeStable: true
+
+                readonly property bool hoverable:
+                    Config.island.hoverIdleExpand
+                        ? (_displayMode !== "osd")
+                        : (_displayMode === "media" || _displayMode === "notif" || _displayMode === "battery")
+
+                readonly property bool expanded:
+                    hoverable && _modeStable && (hoverHandler.hovered || scope.peeking)
+
+                readonly property int targetW: {
+                    if (expanded) {
+                        switch (_displayMode) {
+                            case "media":   return Config.island.expandedWidthMedia;
+                            case "notif":   return Config.island.expandedWidthNotif;
+                            case "battery": return Config.island.expandedWidthBattery;
+                            case "home":    return Config.island.expandedWidthHome;
+                        }
+                    }
+                    switch (_displayMode) {
+                        case "osd":     return Config.island.compactWidthOsd;
+                        case "notif":   return Config.island.compactWidthNotif;
+                        case "battery": return Config.island.compactWidthBattery;
+                        case "media":   return Config.island.compactWidthMedia;
+                        case "home":    return Config.island.notchClosedWidth;
+                    }
+                    return Config.island.notchClosedWidth;
+                }
+                readonly property int targetH: {
+                    if (!expanded) return Config.island.notchClosedHeight;
+                    switch (_displayMode) {
+                        case "media":   return Config.island.expandedHeightMedia;
+                        case "notif":   return Config.island.expandedHeightNotif;
+                        case "battery": return Config.island.expandedHeightBattery;
+                        case "home":    return Config.island.expandedHeightHome;
+                    }
+                    return Config.island.notchClosedHeight;
+                }
+                readonly property real targetTopR:
+                    expanded ? Config.island.notchOpenTopRadius
+                             : Config.island.notchClosedTopRadius
+                readonly property real targetBottomR:
+                    expanded ? Config.island.notchOpenBottomRadius
+                             : Config.island.notchClosedBottomRadius
+            }
 
             Connections {
                 target: scope
                 function onModeChanged() {
-                    pill._modeStable = false;
+                    pillState._modeStable = false;
                     modeStableTimer.restart();
                 }
             }
@@ -167,138 +250,81 @@ Scope {
                 id: modeStableTimer
                 interval: Config.island.swapDurationMs
                 onTriggered: {
-                    pill._displayMode = scope.mode;
-                    pill._modeStable = true;
+                    pillState._displayMode = scope.mode;
+                    pillState._modeStable = true;
                 }
             }
 
-            readonly property bool hoverable: _displayMode === "media" || _displayMode === "notif"
-            readonly property bool expanded:
-                hoverable && _modeStable && (hover.hovered || scope.peeking)
-
-            // Target sizes per state.
-            readonly property int targetW: {
-                if (_displayMode === "idle") return 0;
-                if (expanded && _displayMode === "media") return Config.island.expandedWidthMedia;
-                if (expanded && _displayMode === "notif") return Config.island.expandedWidthNotif;
-                switch (_displayMode) {
-                    case "osd":   return Config.island.compactWidthOsd;
-                    case "notif": return Config.island.compactWidthNotif;
-                    case "media": return Config.island.compactWidthMedia;
-                }
-                return 0;
-            }
-            readonly property int targetH: {
-                if (_displayMode === "idle") return 0;
-                if (expanded) {
-                    return _displayMode === "notif"
-                        ? Config.island.expandedHeightNotif
-                        : Config.island.expandedHeight;
-                }
-                return Config.island.compactHeight;
-            }
-            readonly property real targetR: {
-                if (_displayMode === "idle") return Config.island.compactRadius;
-                if (expanded) return Config.island.expandRadius;
-                return Config.island.compactRadius;
-            }
-
-            implicitWidth:  targetW
-            implicitHeight: targetH
-            opacity: _displayMode === "idle" ? 0 : 1
-            visible: opacity > 0.001
-
-            Behavior on implicitWidth {
-                SpringAnimation { spring: 3.8; damping: 0.34; mass: 0.6; epsilon: 0.05 }
-            }
-            Behavior on implicitHeight {
-                SpringAnimation { spring: 4.0; damping: 0.36; mass: 0.55; epsilon: 0.05 }
-            }
-            Behavior on opacity {
-                NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic }
-            }
-
-            // ── Shadow (drawn behind everything) ─────────────────────────
             IslandShadow {
-                anchors.fill: parent
+                anchors.horizontalCenter: parent.horizontalCenter
                 z: -1
-                radius: pill.targetR
+                bodyWidth: notch.bodyWidth
+                bodyHeight: notch.bodyHeight
+                topRadius: notch.topRadius
+                bottomRadius: notch.bottomRadius
+                tint: mediaTint
+                tintAmount: pillState._displayMode === "media" ? 1 : 0
+                shadowOpacity: pillState.expanded ? 0.65 : 0.35
             }
 
-            // ── Background ───────────────────────────────────────────────
-            // Hidden when media-expanded (MediaArtBackdrop owns the surface).
-            Rectangle {
-                id: bg
-                anchors.fill: parent
-                topLeftRadius: pill.targetR
-                topRightRadius: pill.targetR
-                bottomLeftRadius: pill.targetR
-                bottomRightRadius: pill.targetR
-                color: Colors.background
-                antialiasing: true
-                clip: true
-
-                Behavior on topLeftRadius     { SpringAnimation { spring: 5.0; damping: 0.42 } }
-                Behavior on topRightRadius    { SpringAnimation { spring: 5.0; damping: 0.42 } }
-                Behavior on bottomLeftRadius  { SpringAnimation { spring: 5.0; damping: 0.42 } }
-                Behavior on bottomRightRadius { SpringAnimation { spring: 5.0; damping: 0.42 } }
-                Behavior on color   { ColorAnimation  { duration: M3Easing.effectsDuration } }
-
-                // Subtle accent edge ring for non-media states (M3E feel).
-                Rectangle {
-                    anchors.fill: parent
-                    radius: parent.bottomLeftRadius
-                    color: "transparent"
-                    border.color: ColorMix.transparentize(Colors.accent, 0.85)
-                    border.width: 1
-                    visible: pill._displayMode !== "media"
-                    opacity: pill.expanded ? 0.0 : 0.6
-                    Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration } }
-                }
+            NotchShape {
+                id: notch
+                anchors.horizontalCenter: parent.horizontalCenter
+                y: 0
+                bodyWidth:    pillState.targetW
+                bodyHeight:   pillState.targetH
+                topRadius:    pillState.targetTopR
+                bottomRadius: pillState.targetBottomR
+                fillColor:    (pillState._displayMode === "media" && pillState.expanded)
+                                  ? mediaExpanded.backdropColor
+                                  : Colors.background
             }
 
-            HoverHandler { id: hover }
+            HoverHandler { id: hoverHandler }
 
             MouseArea {
-                anchors.fill: parent
+                anchors.fill: notch
                 hoverEnabled: false
                 acceptedButtons: Qt.LeftButton | Qt.MiddleButton
-                // Expanded media gives clicks to IslandMediaCard (button hit areas).
-                enabled: !(pill._displayMode === "media" && pill.expanded)
+                enabled: !(pillState._displayMode === "media" && pillState.expanded)
                 onClicked: e => {
-                    if (pill._displayMode === "notif") {
+                    if (pillState._displayMode === "notif") {
                         Config.showSidebar = true;
-                    } else if (pill._displayMode === "media" && scope.player) {
+                    } else if (pillState._displayMode === "media" && scope.player) {
                         if (e.button === Qt.MiddleButton && scope.player.canGoNext) scope.player.next();
                         else if (scope.player.canTogglePlaying) scope.player.togglePlaying();
                     }
                 }
             }
 
-            // ── OSD compact ──────────────────────────────────────────────
+            // OSD compact (volume/brightness/mic)
             IslandOsd {
-                anchors.fill: parent
+                anchors.fill: notch
+                anchors.leftMargin: notch.topRadius
+                anchors.rightMargin: notch.topRadius
                 icon: scope.osdIcon
                 progress: scope.osdProgress
-                opacity: pill._displayMode === "osd" ? 1 : 0
+                opacity: pillState._displayMode === "osd" ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
             }
 
-            // ── Notif compact ────────────────────────────────────────────
             IslandNotifCompact {
-                anchors.fill: parent
+                anchors.fill: notch
+                anchors.leftMargin: notch.topRadius + 4
+                anchors.rightMargin: notch.topRadius + 4
                 notif: scope.topNotif
-                opacity: pill._displayMode === "notif" && !pill.expanded ? 1 : 0
+                opacity: pillState._displayMode === "notif" && !pillState.expanded ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
             }
 
-            // ── Notif expanded ───────────────────────────────────────────
             IslandNotifExpanded {
-                anchors.fill: parent
+                anchors.fill: notch
+                anchors.leftMargin: notch.topRadius
+                anchors.rightMargin: notch.topRadius
                 notif: scope.topNotif
-                opacity: pill._displayMode === "notif" && pill.expanded ? 1 : 0
+                opacity: pillState._displayMode === "notif" && pillState.expanded ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity {
                     SequentialAnimation {
@@ -308,21 +334,42 @@ Scope {
                 }
             }
 
-            // ── Media compact ────────────────────────────────────────────
-            IslandMediaCompact {
-                anchors.fill: parent
-                accentColor: mediaExpanded.tintColor
-                opacity: pill._displayMode === "media" && !pill.expanded ? 1 : 0
+            IslandBattery {
+                id: batteryView
+                anchors.fill: notch
+                anchors.leftMargin: notch.topRadius
+                anchors.rightMargin: notch.topRadius
+                expanded: pillState.expanded
+                opacity: pillState._displayMode === "battery" ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
             }
 
-            // ── Media expanded ───────────────────────────────────────────
+            IslandHome {
+                anchors.fill: notch
+                anchors.leftMargin: notch.topRadius
+                anchors.rightMargin: notch.topRadius
+                opacity: pillState._displayMode === "home" && pillState.expanded ? 1 : 0
+                visible: opacity > 0
+                Behavior on opacity {
+                    SequentialAnimation {
+                        PauseAnimation { duration: 90 }
+                        NumberAnimation { duration: M3Easing.durationShort4; easing.type: Easing.OutCubic }
+                    }
+                }
+            }
+
+            // Media expanded card (clipped to the notch body via OpacityMask
+            // would be ideal; here we just inset slightly and let the curved
+            // bottom corners frame the content)
             Item {
                 id: mediaExpanded
-                anchors.fill: parent
-                readonly property bool shouldShow: pill._displayMode === "media" && pill.expanded
+                anchors.fill: notch
+                anchors.leftMargin: notch.topRadius
+                anchors.rightMargin: notch.topRadius
+                readonly property bool shouldShow: pillState._displayMode === "media" && pillState.expanded
                 readonly property color tintColor: card.blendedColors?.colPrimary ?? Colors.accent
+                readonly property color backdropColor: card.blendedColors?.colLayer0 ?? Colors.background
                 opacity: 0
                 visible: shouldShow || opacity > 0
 
@@ -345,8 +392,35 @@ Scope {
                 IslandMediaCard {
                     id: card
                     anchors.fill: parent
-                    radius: pill.targetR
+                    radius: notch.bottomRadius
                 }
+            }
+
+            readonly property color mediaTint: mediaExpanded.tintColor
+
+            IslandMediaArtPeek {
+                id: artPeek
+                width: Config.island.mediaArtPeekSize
+                height: Config.island.mediaArtPeekSize
+                anchors.left: notch.left
+                anchors.leftMargin: notch.topRadius + Config.island.mediaPeekGap
+                anchors.verticalCenter: notch.verticalCenter
+                opacity: container.mediaPeekVisible ? 1 : 0
+                visible: opacity > 0
+                Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+            }
+            
+            IslandMediaVizPeek {
+                id: vizPeek
+                width: Config.island.mediaVizPeekWidth
+                height: Config.island.mediaArtPeekSize
+                anchors.right: notch.right
+                anchors.rightMargin: notch.topRadius + Config.island.mediaPeekGap
+                anchors.verticalCenter: notch.verticalCenter
+                accentColor: container.mediaTint
+                opacity: container.mediaPeekVisible ? 1 : 0
+                visible: opacity > 0
+                Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
             }
         }
     }

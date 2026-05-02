@@ -1,28 +1,52 @@
 import QtQuick
 import QtQuick.Effects
-import Quickshell
 import qs.utils
 
-// Soft drop-shadow under the pill. Tints toward `accent` when caller passes a
-// non-null tint (used for art-themed media). Otherwise neutral window-shadow.
-RectangularShadow {
+Item {
     id: root
 
-    property color tint: Colors.windowShadow
-    property real  tintAmount: 0
+    property real bodyWidth: 185
+    property real bodyHeight: 32
+    property real topRadius: 6
+    property real bottomRadius: 14
 
-    radius: 0
-    blur:   24
-    spread: 1
-    offset: Qt.vector2d(0, 6)
-    cached: true
-    color: tintAmount > 0
+    property color tint: Colors.windowShadow
+    property real tintAmount: 0
+    property real shadowOpacity: 0.55
+    property int blurAmount: 24
+    property int verticalOffset: 6
+
+    readonly property color _color: tintAmount > 0
         ? Qt.rgba(
             Colors.windowShadow.r * (1 - tintAmount) + tint.r * tintAmount,
             Colors.windowShadow.g * (1 - tintAmount) + tint.g * tintAmount,
             Colors.windowShadow.b * (1 - tintAmount) + tint.b * tintAmount,
-            Colors.windowShadow.a * (1 - tintAmount) + tint.a * tintAmount * 0.7)
+            1)
         : Colors.windowShadow
 
-    Behavior on tintAmount { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+    NotchShape {
+        id: shadowShape
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: root.verticalOffset
+        bodyWidth: root.bodyWidth
+        bodyHeight: root.bodyHeight
+        topRadius: root.topRadius
+        bottomRadius: root.bottomRadius
+        fillColor: root._color
+        visible: false
+        layer.enabled: true
+    }
+
+    MultiEffect {
+        anchors.fill: shadowShape
+        anchors.horizontalCenterOffset: 0
+        source: shadowShape
+        blurEnabled: true
+        blurMax: 64
+        blur: 1.0
+        opacity: root.shadowOpacity
+    }
+
+    Behavior on tintAmount   { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+    Behavior on shadowOpacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
 }

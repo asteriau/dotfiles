@@ -14,13 +14,13 @@ Singleton {
     }
     readonly property string settingsPath: root.shellDir + "/state/settings.json"
 
-    // ── Runtime ephemera (never written to disk) ───────────────────────────
+    // Runtime ephemera (never written to disk) 
     property var  preferredMonitor: [...Quickshell.screens].sort().reverse()[0]
     property bool showSidebar:          false
     property bool showWorkspaceNumbers: false
     property bool showWallpaperPicker:  false
 
-    // ── Persistent settings (written to state/settings.json) ──────────────
+    // Persistent settings (written to state/settings.json)
     property bool   doNotDisturb:                 false
     property string barPosition:                  "left"
     property int    barHeight:                    40
@@ -44,7 +44,7 @@ Singleton {
     property real   themeMatugenContrast:         0.0
     property string themeMatugenWallpaper:        ""
 
-    // ── Save triggers (one per persisted property) ────────────────────────
+    // Save triggers (one per persisted property)
     onDoNotDisturbChanged:               save()
     onBarPositionChanged:                save()
     onBarHeightChanged:                  save()
@@ -68,7 +68,7 @@ Singleton {
     onThemeMatugenContrastChanged:       save()
     onThemeMatugenWallpaperChanged:      save()
 
-    // ── Cross-cutting tokens (flat, top-level) ─────────────────────────────
+    // Cross-cutting tokens (flat, top-level)
     readonly property string userName: "Laura"
 
     readonly property int  hoverTimeoutMs: 500
@@ -76,9 +76,6 @@ Singleton {
     readonly property real spacing: padding * 3
     readonly property real roundingPower: 2.5
 
-    // ── Persistence internals ─────────────────────────────────────────────
-    // Guard: don't write before the initial load completes; the onXxxChanged
-    // signals fired during _applySettings would otherwise trigger spurious saves.
     property bool _loaded: false
     property bool _warnedMissing: false
 
@@ -188,8 +185,6 @@ Singleton {
         running: false
     }
 
-    // ── Feature groups ─────────────────────────────────────────────────────
-
     readonly property QtObject bar: QtObject {
         property alias position: root.barPosition
         property alias height:   root.barHeight
@@ -216,20 +211,44 @@ Singleton {
     }
 
     readonly property QtObject island: QtObject {
-        readonly property int compactHeight:      38
-        readonly property int expandedHeight:     128
-        readonly property int expandedHeightNotif: 96
-        readonly property int maxWidth:           440
-        readonly property int compactRadius:      19
-        readonly property int expandRadius:       26
-        readonly property int peekDurationMs:     2200
-        readonly property int swapDurationMs:     110
+        readonly property int notchClosedWidth:  185
+        readonly property int notchClosedHeight: 32
+        readonly property int notchClosedTopRadius:    6
+        readonly property int notchClosedBottomRadius: 14
+
+        readonly property int notchOpenTopRadius:      19
+        readonly property int notchOpenBottomRadius:   24
+        readonly property int expandedWidthHome:   480
+        readonly property int expandedHeightHome:  160
+        readonly property int expandedWidthMedia:  520
+        readonly property int expandedHeightMedia: 160
+        readonly property int expandedWidthNotif:  440
+        readonly property int expandedHeightNotif: 110
+        readonly property int expandedWidthBattery:  440
+        readonly property int expandedHeightBattery: 110
 
         readonly property int compactWidthOsd:    260
-        readonly property int compactWidthNotif:  320
-        readonly property int compactWidthMedia:  180
-        readonly property int expandedWidthMedia: 440
-        readonly property int expandedWidthNotif: 380
+        readonly property int compactWidthNotif:  340
+        readonly property int compactWidthBattery: 200
+
+        readonly property int mediaArtPeekSize: 22
+        readonly property int mediaVizPeekWidth: 36
+        readonly property int mediaPeekGap: 6
+
+        readonly property int peekDurationMs:    2200
+        readonly property int swapDurationMs:    110
+        readonly property int batteryPeekMs:     4000
+
+        readonly property bool alwaysVisible: true
+        readonly property bool hoverIdleExpand: true
+
+        readonly property int compactHeight:    notchClosedHeight
+        readonly property int expandedHeight:   expandedHeightMedia
+        readonly property int notchTopRadius:   notchClosedTopRadius
+        readonly property int compactRadius:    notchClosedBottomRadius
+        readonly property int expandRadius:     notchOpenBottomRadius
+        readonly property int compactWidthMedia: notchClosedWidth + mediaArtPeekSize + mediaVizPeekWidth + 4 * mediaPeekGap
+        readonly property int maxWidth: Math.max(expandedWidthMedia, expandedWidthHome, expandedWidthNotif, expandedWidthBattery)
     }
 
     readonly property QtObject notifications: QtObject {
@@ -263,7 +282,7 @@ Singleton {
         readonly property int  blur:           16
     }
 
-    // ── Typography scale ───────────────────────────────────────────────────
+    // Typography scale
     readonly property QtObject typography: QtObject {
         readonly property string family: root.fontFamily
         readonly property string titleFamily: root.fontFamily
@@ -288,16 +307,16 @@ Singleton {
         readonly property int titleWeight: weightMedium
     }
 
-    // ── Layout scale ───────────────────────────────────────────────────────
+    // Layout scale
     readonly property QtObject layout: QtObject {
-        // Base gap scale.
+        // Base gap scale
         readonly property int gapXs:  2
         readonly property int gapSm:  4
         readonly property int gapMd:  8
         readonly property int gapLg:  12
         readonly property int gapXl:  16
 
-        // Radii.
+        // Radii
         readonly property int radiusSm:    8
         readonly property int radiusMd:    12
         readonly property int radiusLg:    16
@@ -306,7 +325,7 @@ Singleton {
         readonly property int cardRadius:  radiusLg
         readonly property int pillRadius:  9999
 
-        // Settings/content.
+        // Settings/content
         readonly property int pageMargin:      20
         readonly property int sectionGap:      30
         readonly property int sectionInner:     8
@@ -319,20 +338,20 @@ Singleton {
         readonly property int navRailCollapsed: 56
         readonly property int contentMaxWidth: 600
 
-        // Control sizes.
+        // Control sizes
         readonly property int iconBtnSize:   38
         readonly property int pillSize:      56
         readonly property int tileSize:      56
         readonly property int tileLargeHeight: 84
         readonly property int sliderColumnH: 132
 
-        // Notification/weather tweaks.
+        // Notification/weather tweaks
         readonly property int notificationRadius:        24
         readonly property int notificationCollapsedR:    20
         readonly property int weatherRadius:             22
         readonly property int mediaCardRadius:           22
 
-        // Bar focal slot.
+        // Bar focal slot
         readonly property int focalMaxWidth:  280
         readonly property int focalMinHeight: 28
         readonly property int barZoneGap:     8
