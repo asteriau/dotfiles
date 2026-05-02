@@ -21,14 +21,7 @@ Rectangle {
     implicitWidth:  vertical ? 32 : (hRow.implicitWidth + 12)
     implicitHeight: vertical ? (vCol.implicitHeight + 12) : (Config.bar.height - 8)
     radius: Config.layout.radiusSm
-    color: Colors.surfaceContainerLowest
-
-    Behavior on implicitHeight {
-        NumberAnimation { duration: M3Easing.durationMedium1; easing.type: Easing.OutCubic }
-    }
-    Behavior on implicitWidth {
-        NumberAnimation { duration: M3Easing.durationMedium1; easing.type: Easing.OutCubic }
-    }
+    color: Colors.surfaceContainerLow
 
     // Shared delegate: icon with right-click menu + tooltip.
     component TrayEntry: HoverTooltip {
@@ -103,7 +96,7 @@ Rectangle {
             opacity: root.iconsVisible ? 1 : 0
 
             Behavior on implicitHeight {
-                NumberAnimation { duration: M3Easing.durationMedium1; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: M3Easing.spatialDuration; easing.bezierCurve: M3Easing.emphasized }
             }
             Behavior on opacity {
                 NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
@@ -140,7 +133,7 @@ Rectangle {
                 rotation: root.iconsVisible ? 180 : 0
 
                 Behavior on rotation {
-                    NumberAnimation { duration: M3Easing.durationMedium1; easing.type: Easing.OutCubic }
+                    NumberAnimation { duration: M3Easing.spatialDuration; easing.bezierCurve: M3Easing.emphasized }
                 }
                 Behavior on color {
                     ColorAnimation { duration: M3Easing.effectsDuration }
@@ -163,7 +156,7 @@ Rectangle {
             clip: true
 
             Behavior on implicitWidth {
-                NumberAnimation { duration: M3Easing.durationMedium1; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: M3Easing.spatialDuration; easing.bezierCurve: M3Easing.emphasized }
             }
 
             Row {

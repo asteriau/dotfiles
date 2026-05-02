@@ -35,7 +35,7 @@ Item {
 
     readonly property bool showNumbers: Config.showWorkspaceNumbers
 
-    implicitWidth:  vertical ? workspaceButtonWidth : (workspaceButtonWidth * workspacesShown)
+    implicitWidth:  vertical ? Config.bar.width : (workspaceButtonWidth * workspacesShown)
     implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Config.bar.height
 
     // ── Occupancy tracking ────────────────────────────────────────────────
@@ -75,6 +75,8 @@ Item {
             fill: parent
             topMargin:    root.vertical ? 0 : 4
             bottomMargin: root.vertical ? 0 : 4
+            leftMargin:   root.vertical ? 4 : 0
+            rightMargin:  root.vertical ? 4 : 0
         }
         radius: Config.layout.radiusMd
         color: Colors.surfaceContainer

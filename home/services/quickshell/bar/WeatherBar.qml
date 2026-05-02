@@ -11,13 +11,21 @@ MouseArea {
     hoverEnabled: true
     acceptedButtons: Qt.NoButton
 
-    implicitWidth:  row.implicitWidth
-    implicitHeight: row.implicitHeight
+    implicitWidth:  row.implicitWidth + Config.layout.gapMd * 2
+    implicitHeight: Config.bar.height
+
+    Rectangle {
+        anchors.fill: parent
+        anchors.topMargin: 4
+        anchors.bottomMargin: 4
+        radius: Config.layout.radiusMd
+        color: Colors.surfaceContainerLow
+    }
 
     Row {
         id: row
         spacing: 4
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.centerIn: parent
 
         MaterialIcon {
             text: WeatherState.glyph

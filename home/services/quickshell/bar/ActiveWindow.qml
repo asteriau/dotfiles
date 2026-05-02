@@ -2,118 +2,97 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import qs.components.text
 import qs.utils
 
-// Compact active-window indicator for the horizontal bar focal slot.
-// Crossfades app icon + title on focus changes.
 Item {
     id: root
 
+    readonly property HyprlandMonitor monitor: Hyprland.monitorFor(QsWindow.window?.screen)
     readonly property Toplevel activeWindow: ToplevelManager.activeToplevel
-    readonly property bool focused: activeWindow?.activated ?? false
+    readonly property bool focusedHere: activeWindow?.activated ?? false
+    readonly property int activeWorkspaceId: monitor?.activeWorkspace?.id ?? 1
+    readonly property var biggestWin: WorkspaceAppData.biggestWindowForWorkspace(activeWorkspaceId)
 
-    readonly property string appId: focused ? (activeWindow?.appId ?? "") : ""
-    readonly property string title: focused ? (activeWindow?.title ?? "") : ""
+    readonly property string currentAppId: focusedHere && activeWindow && biggestWin
+        ? activeWindow.appId : (biggestWin?.class ?? "")
+    readonly property string currentTitle: focusedHere && activeWindow && biggestWin
+        ? activeWindow.title : (biggestWin?.title ?? "")
 
     property int maxTitleWidth: 240
-    property bool iconOnly: false
 
-    implicitWidth:  row.implicitWidth
-    implicitHeight: row.implicitHeight
+    visible: !Config.bar.vertical
 
-    RowLayout {
-        id: row
+    implicitWidth:  maxTitleWidth
+    implicitHeight: colA.implicitHeight
+
+    // A/B slots — toggled on window change so both lines crossfade atomically.
+    property var _a: ({ appId: "", title: "" })
+    property var _b: ({ appId: "", title: "" })
+    property bool _aActive: true
+
+    function _update() {
+        const next = { appId: root.currentAppId, title: root.currentTitle }
+        const current = _aActive ? _a : _b
+        if (current.appId === next.appId && current.title === next.title) return
+        if (_aActive) { _b = next; _aActive = false }
+        else          { _a = next; _aActive = true  }
+    }
+
+    onCurrentAppIdChanged: Qt.callLater(_update)
+    onCurrentTitleChanged: Qt.callLater(_update)
+    Component.onCompleted: { _a = { appId: currentAppId, title: currentTitle } }
+
+    ColumnLayout {
+        id: colA
+        width: parent.width
         anchors.verticalCenter: parent.verticalCenter
-        spacing: Config.layout.gapSm
+        spacing: -4
+        opacity: root._aActive ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
 
-        // App icon — crossfade on appId change.
-        Item {
-            Layout.alignment: Qt.AlignVCenter
-            implicitWidth:  Config.iconSize
-            implicitHeight: Config.iconSize
-
-            property string _a: root.appId
-            property string _b: ""
-            property bool _aActive: true
-
-            onChildrenChanged: {}
-            Component.onCompleted: _a = root.appId
-            Connections {
-                target: root
-                function onAppIdChanged() {
-                    if (root.appId === (parent._aActive ? parent._a : parent._b)) return;
-                    if (parent._aActive) { parent._b = root.appId; parent._aActive = false; }
-                    else                 { parent._a = root.appId; parent._aActive = true; }
-                }
-            }
-
-            Image {
-                id: imgA
-                anchors.fill: parent
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-                source: parent._a ? Quickshell.iconPath(WorkspaceIconSearch.guessIcon(parent._a), true) : ""
-                opacity: parent._aActive ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            }
-            Image {
-                id: imgB
-                anchors.fill: parent
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-                source: parent._b ? Quickshell.iconPath(WorkspaceIconSearch.guessIcon(parent._b), true) : ""
-                opacity: parent._aActive ? 0 : 1
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            }
+        StyledText {
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Config.typography.smallest
+            color: Colors.m3onSurfaceInactive
+            elide: Text.ElideRight
+            text: root._a.appId
         }
+        StyledText {
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Config.typography.small
+            color: Colors.foreground
+            elide: Text.ElideRight
+            text: root._a.title
+        }
+    }
 
-        // Title — crossfade on text change.
-        Item {
-            visible: !root.iconOnly
-            Layout.alignment: Qt.AlignVCenter
-            Layout.maximumWidth: root.maxTitleWidth
-            implicitWidth:  Math.min(Math.max(titleA.implicitWidth, titleB.implicitWidth), root.maxTitleWidth)
-            implicitHeight: Math.max(titleA.implicitHeight, titleB.implicitHeight)
-            clip: true
+    ColumnLayout {
+        id: colB
+        width: parent.width
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: -4
+        opacity: root._aActive ? 0 : 1
+        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
 
-            property string _a: root.title
-            property string _b: ""
-            property bool _aActive: true
-
-            Connections {
-                target: root
-                function onTitleChanged() {
-                    if (root.title === (parent._aActive ? parent._a : parent._b)) return;
-                    if (parent._aActive) { parent._b = root.title; parent._aActive = false; }
-                    else                 { parent._a = root.title; parent._aActive = true; }
-                }
-            }
-
-            StyledText {
-                id: titleA
-                width: parent.width
-                anchors.verticalCenter: parent.verticalCenter
-                text: parent._a
-                font.pixelSize: Config.typography.small
-                font.family: Config.typography.family
-                color: Colors.m3onSecondaryContainer
-                elide: Text.ElideRight
-                opacity: parent._aActive ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            }
-            StyledText {
-                id: titleB
-                width: parent.width
-                anchors.verticalCenter: parent.verticalCenter
-                text: parent._b
-                font.pixelSize: Config.typography.small
-                font.family: Config.typography.family
-                color: Colors.m3onSecondaryContainer
-                elide: Text.ElideRight
-                opacity: parent._aActive ? 0 : 1
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            }
+        StyledText {
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Config.typography.smallest
+            color: Colors.m3onSurfaceInactive
+            elide: Text.ElideRight
+            text: root._b.appId
+        }
+        StyledText {
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Config.typography.small
+            color: Colors.foreground
+            elide: Text.ElideRight
+            text: root._b.title
         }
     }
 }

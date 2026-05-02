@@ -37,8 +37,8 @@ Rectangle {
         }
         spacing: Config.layout.barZoneGap
 
-        WeatherBar { anchors.verticalCenter: parent.verticalCenter }
         Tray       { vertical: false; anchors.verticalCenter: parent.verticalCenter }
+        WeatherBar { anchors.verticalCenter: parent.verticalCenter }
 
         BarGroup {
             anchors.verticalCenter: parent.verticalCenter

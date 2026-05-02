@@ -28,25 +28,42 @@ PanelWindow {
         color: Colors.background
 
         // ── Nav ──────────────────────────────────────────────────────────
-        ColumnLayout {
+        Item {
             id: navZone
             anchors {
                 top: parent.top
                 topMargin: Config.layout.gapXl
                 horizontalCenter: parent.horizontalCenter
             }
-            spacing: Config.layout.barZoneGap
+            implicitWidth: sidebarToggle.implicitWidth
+            implicitHeight: sidebarToggle.implicitHeight
 
-            SidebarToggle { Layout.alignment: Qt.AlignHCenter }
-            Workspaces    { Layout.alignment: Qt.AlignHCenter }
+            SidebarToggle { id: sidebarToggle }
         }
 
-        // ── Focal ────────────────────────────────────────────────────────
-        ActiveWindow {
-            iconOnly: true
+        // ── Center: resources · workspaces · clock ───────────────────────
+        ColumnLayout {
+            id: centerZone
             anchors {
                 verticalCenter: parent.verticalCenter
                 horizontalCenter: parent.horizontalCenter
+            }
+            spacing: Config.layout.barZoneGap
+
+            BarGroup {
+                Layout.alignment: Qt.AlignHCenter
+                tone: "low"
+
+                ResourcesBar {}
+            }
+            Workspaces   { Layout.alignment: Qt.AlignHCenter }
+
+            BarGroup {
+                Layout.alignment: Qt.AlignHCenter
+                tone: "low"
+                rowSpacing: Config.layout.gapMd
+
+                Clock {}
             }
         }
 
@@ -65,7 +82,6 @@ PanelWindow {
                 tone: "low"
                 rowSpacing: Config.layout.gapMd
 
-                Clock {}
                 Battery {}
                 Connectivity {}
             }
