@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
 import Quickshell.Services.UPower
 import qs.components.controls
 import qs.components.effects
@@ -11,75 +10,80 @@ HoverTooltip {
 
     property bool vertical: Config.bar.vertical
 
-    readonly property var  battery: UPower.displayDevice
-    readonly property int  percentage: Math.round(battery.percentage * 100)
-    readonly property real fraction: Math.max(0, Math.min(1, battery.percentage))
-    readonly property bool charging: battery.state === UPowerDeviceState.Charging
-        || battery.state === UPowerDeviceState.FullyCharged
+    readonly property var  battery:    UPower.displayDevice
+    readonly property int  percentage: Config.previewBattery ? 50 : Math.round(battery.percentage * 100)
+    readonly property real fraction:   Config.previewBattery ? 0.50 : Math.max(0, Math.min(1, battery.percentage))
+    readonly property bool charging:   Config.previewBattery ? false : (battery.state === UPowerDeviceState.Charging
+        || battery.state === UPowerDeviceState.FullyCharged)
     readonly property bool low: fraction <= 0.20 && !charging
+    readonly property string batteryIcon: charging ? "bolt"
+        : `battery_${Math.round(fraction * 6)}_bar`
 
-    visible: battery.isLaptopBattery
+    visible: battery.isLaptopBattery || Config.previewBattery
 
     text: `Battery ${percentage}%${charging ? " (charging)" : ""}`
 
-    implicitWidth:  vertical ? 20 : hRow.implicitWidth
-    implicitHeight: vertical ? 20 : hRow.implicitHeight
+    implicitWidth:  bar.implicitWidth
+    implicitHeight: bar.implicitHeight
 
-    CircularProgress {
-        id: vCirc
-        visible: root.vertical
-        anchors.centerIn: parent
+    ClippedProgressBar {
+        id: bar
+        vertical: root.vertical
         value: root.fraction
-        color: root.low ? Colors.red : Colors.m3onSecondaryContainer
+        valueBarWidth:  root.vertical ? 20 : 38
+        valueBarHeight: root.vertical ? 36 : 18
+        highlightColor: root.low ? Colors.red : Colors.m3onSecondaryContainer
 
         Item {
-            anchors.centerIn: parent
-            width: vCirc.implicitSize
-            height: vCirc.implicitSize
-            MaterialIcon {
+            width:  bar.valueBarWidth
+            height: bar.valueBarHeight
+
+            Column {
+                visible: root.vertical
                 anchors.centerIn: parent
-                text: root.charging ? "bolt" : "battery_full"
-                fill: 1
-                pixelSize: 13
-                weight: Font.DemiBold
-                color: Colors.m3onSecondaryContainer
-            }
-        }
-    }
+                spacing: -4
 
-    RowLayout {
-        id: hRow
-        visible: !root.vertical
-        anchors.verticalCenter: parent.verticalCenter
-        spacing: 4
-
-        CircularProgress {
-            id: hCirc
-            Layout.alignment: Qt.AlignVCenter
-            value: root.fraction
-            color: root.low ? Colors.red : Colors.m3onSecondaryContainer
-
-            Item {
-                anchors.centerIn: parent
-                width: hCirc.implicitSize
-                height: hCirc.implicitSize
                 MaterialIcon {
-                    anchors.centerIn: parent
-                    text: root.charging ? "bolt" : "battery_full"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: root.batteryIcon
                     fill: 1
                     pixelSize: Config.typography.normal
                     weight: Font.DemiBold
-                    color: Colors.m3onSecondaryContainer
+                    color: "white"
+                }
+                Text {
+                    visible: root.percentage < 100
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: `${root.percentage}`
+                    font.family: Config.fontFamily
+                    font.pixelSize: 13
+                    font.weight: Font.DemiBold
+                    color: "white"
                 }
             }
-        }
 
-        Text {
-            Layout.alignment: Qt.AlignVCenter
-            text: `${root.percentage}`
-            font.family: Config.fontFamily
-            font.pixelSize: Config.typography.small
-            color: Colors.foreground
+            Row {
+                visible: !root.vertical
+                anchors.centerIn: parent
+                spacing: 1
+
+                MaterialIcon {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: root.batteryIcon
+                    fill: 1
+                    pixelSize: 11
+                    weight: Font.DemiBold
+                    color: "white"
+                }
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: `${root.percentage}`
+                    font.family: Config.fontFamily
+                    font.pixelSize: 13
+                    font.weight: root.percentage < 100 ? Font.DemiBold : Font.Medium
+                    color: "white"
+                }
+            }
         }
     }
 }

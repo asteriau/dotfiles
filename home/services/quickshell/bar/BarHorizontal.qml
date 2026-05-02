@@ -38,6 +38,7 @@ Rectangle {
         spacing: Config.layout.barZoneGap
 
         Tray       { vertical: false; anchors.verticalCenter: parent.verticalCenter }
+        Battery    { vertical: false; anchors.verticalCenter: parent.verticalCenter }
         WeatherBar { anchors.verticalCenter: parent.verticalCenter }
 
         BarGroup {
@@ -45,8 +46,6 @@ Rectangle {
             tone: "low"
             columnSpacing: Config.layout.gapMd
 
-            Connectivity {}
-            Battery { vertical: false }
             Clock {}
         }
     }

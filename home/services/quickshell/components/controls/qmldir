@@ -7,5 +7,6 @@ SegmentedControl 1.0 SegmentedControl.qml
 NavRail 1.0 NavRail.qml
 Button 1.0 Button.qml
 CircularProgress 1.0 CircularProgress.qml
+ClippedProgressBar 1.0 ClippedProgressBar.qml
 BarGroup 1.0 BarGroup.qml
 BarSeparator 1.0 BarSeparator.qml

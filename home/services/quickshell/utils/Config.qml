@@ -14,11 +14,14 @@ Singleton {
     }
     readonly property string settingsPath: root.shellDir + "/state/settings.json"
 
-    // Runtime ephemera (never written to disk) 
+    // Runtime ephemera (never written to disk)
     property var  preferredMonitor: [...Quickshell.screens].sort().reverse()[0]
     property bool showSidebar:          false
     property bool showWorkspaceNumbers: false
     property bool showWallpaperPicker:  false
+    // These are here for people who don't have a laptop but still want to contribute
+    property bool previewBattery:       false
+    property bool previewConnectivity:  false
 
     // Persistent settings (written to state/settings.json)
     property bool   doNotDisturb:                 false

@@ -77,7 +77,7 @@ Item {
         }
 
         StyledText {
-            text: "•"
+            text: "/"
             font.pixelSize: Config.typography.small
             color: Colors.m3onSurfaceInactive
         }

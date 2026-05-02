@@ -51,5 +51,6 @@ Item {
         columns: root.vertical ? 1 : root.columns
         rowSpacing:    root.rowSpacing
         columnSpacing: root.columnSpacing
+        verticalItemAlignment: Grid.AlignVCenter
     }
 }

@@ -2,23 +2,23 @@ import QtQuick
 import Quickshell
 import Quickshell.Bluetooth
 import Quickshell.Networking
+import qs.components.controls
 import qs.components.effects
 import qs.components.text
 import qs.utils
 
-// Stacked connectivity chip: WiFi as base, Bluetooth as a small badge anchored
-// bottom-right. One chip replaces the previous Network + Bluetooth widgets.
 HoverTooltip {
     id: root
+
+    property bool vertical: Config.bar.vertical
 
     // ── WiFi ──────────────────────────────────────────────────────────────
     property NetworkDevice wifiAdapter: Networking.devices?.values?.find(d => d.type === DeviceType.Wifi) ?? null
     readonly property WifiNetwork activeNetwork: wifiAdapter?.networks?.values.find(n => n.connected) ?? null
-    readonly property bool ethernetConnected: {
-        return Networking.devices?.values.some(d => d.type === "ethernet" && d.connected) ?? false;
-    }
+    readonly property bool ethernetConnected: Networking.devices?.values.some(d => d.type === "ethernet" && d.connected) ?? false
 
     readonly property string wifiState: {
+        if (Config.previewConnectivity)      return "signal-good";
         if (!Networking.wifiHardwareEnabled) return "hardware-disabled";
         if (!Networking.wifiEnabled)         return "disabled";
         if (wifiAdapter?.state === DeviceConnectionState.Connecting
@@ -31,80 +31,94 @@ HoverTooltip {
         }
         return "offline";
     }
-    readonly property bool showWifi: !!wifiAdapter && !ethernetConnected
+    readonly property bool showWifi: Config.previewConnectivity || (!!wifiAdapter && !ethernetConnected)
+    readonly property real wifiValue: Config.previewConnectivity ? 0.8
+        : (wifiAdapter?.connected ? (activeNetwork?.signalStrength ?? 0) : 0)
 
     // ── Bluetooth ─────────────────────────────────────────────────────────
     property var btAdapter: Bluetooth.defaultAdapter
-    readonly property var btConnected:  btAdapter?.devices.values.filter(d => d.state === BluetoothDeviceState.Connected) ?? []
+    readonly property var btConnected:  btAdapter?.devices.values.filter(d => d.state === BluetoothDeviceState.Connected)  ?? []
     readonly property var btConnecting: btAdapter?.devices.values.filter(d => d.state === BluetoothDeviceState.Connecting) ?? []
-    readonly property string btState: {
-        if (btAdapter?.state === BluetoothAdapterState.Blocked)  return "hardware-disabled";
-        if (btAdapter?.state === BluetoothAdapterState.Disabled) return "disabled";
-        if (btConnecting.length) return "acquiring";
-        if (btConnected.length)  return "active";
-        if (btAdapter?.state === BluetoothAdapterState.Enabled) return "disconnected";
-        return "acquiring";
+    readonly property bool showBt: !!btAdapter
+    readonly property real btValue: {
+        if (!btAdapter) return 0;
+        if (btConnected.length)  return 1.0;
+        if (btConnecting.length) return 0.5;
+        if (btAdapter.state === BluetoothAdapterState.Enabled) return 0.25;
+        return 0.1;
     }
-    // Only badge when interesting (active/connecting) and adapter present.
-    readonly property bool showBtBadge: !!btAdapter && (btConnected.length > 0 || btConnecting.length > 0)
 
-    visible: showWifi || !!btAdapter
+    visible: showWifi || showBt
 
     text: {
         const lines = [];
         if (showWifi) {
-            if (!Networking.wifiEnabled) lines.push("WiFi disabled");
-            else if (wifiAdapter?.connected && activeNetwork) lines.push(`WiFi: ${activeNetwork.name}`);
-            else if (wifiAdapter?.state === DeviceConnectionState.Connecting) lines.push(`Connecting to ${activeNetwork?.name ?? "…"}`);
-            else lines.push("WiFi disconnected");
+            if (Config.previewConnectivity)                                     lines.push("WiFi: Home Network");
+            else if (!Networking.wifiEnabled)                                   lines.push("WiFi disabled");
+            else if (wifiAdapter?.connected && activeNetwork)                   lines.push(`WiFi: ${activeNetwork.name}`);
+            else if (wifiAdapter?.state === DeviceConnectionState.Connecting)   lines.push(`Connecting to ${activeNetwork?.name ?? "…"}`);
+            else                                                                lines.push("WiFi disconnected");
         }
-        if (btAdapter) {
-            if (btAdapter.state === BluetoothAdapterState.Disabled) lines.push("Bluetooth disabled");
-            else if (btConnecting.length) lines.push(`BT: connecting to ${btConnecting[0].name}`);
+        if (showBt) {
+            if (btAdapter.state === BluetoothAdapterState.Disabled)             lines.push("Bluetooth disabled");
+            else if (btConnecting.length)                                       lines.push(`BT: connecting to ${btConnecting[0].name}`);
             else if (btConnected.length === 1) {
                 const d = btConnected[0];
                 lines.push(d.batteryAvailable ? `BT: ${d.name} ${Math.round(d.battery * 100)}%` : `BT: ${d.name}`);
-            } else if (btConnected.length > 1) lines.push(`BT: ${btConnected.length} devices`);
-            else lines.push("Bluetooth disconnected");
+            } else if (btConnected.length > 1)                                  lines.push(`BT: ${btConnected.length} devices`);
+            else                                                                lines.push("Bluetooth disconnected");
         }
         return lines.join("\n");
     }
 
-    Item {
-        implicitWidth:  Config.iconSize
-        implicitHeight: Config.iconSize
+    implicitWidth:  chips.implicitWidth
+    implicitHeight: chips.implicitHeight
 
-        ShadowIcon {
-            anchors.centerIn: parent
+    Grid {
+        id: chips
+        columns: root.vertical ? 1 : -1
+        spacing: Config.layout.gapSm
+
+        ClippedProgressBar {
             visible: root.showWifi
-            source: Quickshell.iconPath(`network-wireless-${root.wifiState}-symbolic`)
-            color: Colors.foreground
+            vertical: root.vertical
+            value: root.wifiValue
+            valueBarWidth:  root.vertical ? 20 : 20
+            valueBarHeight: root.vertical ? 20 : 18
+            highlightColor: Colors.m3onSecondaryContainer
+
+            Item {
+                width: 20; height: root.vertical ? 20 : 18
+                MaterialIcon {
+                    anchors.centerIn: parent
+                    text: "wifi"
+                    fill: 1
+                    pixelSize: 12
+                    weight: Font.DemiBold
+                    color: "white"
+                }
+            }
         }
 
-        // Fallback when WiFi hidden (ethernet/no wifi adapter): show BT alone.
-        ShadowIcon {
-            anchors.centerIn: parent
-            visible: !root.showWifi && !!root.btAdapter
-            source: Quickshell.iconPath(`bluetooth-${root.btState}-symbolic`)
-            color: Colors.foreground
-        }
+        ClippedProgressBar {
+            visible: root.showBt
+            vertical: root.vertical
+            value: root.btValue
+            valueBarWidth:  root.vertical ? 20 : 20
+            valueBarHeight: root.vertical ? 20 : 18
+            highlightColor: root.btConnected.length > 0 ? Colors.m3onSecondaryContainer
+                : Qt.rgba(Colors.m3onSecondaryContainer.r, Colors.m3onSecondaryContainer.g, Colors.m3onSecondaryContainer.b, 0.7)
 
-        // Bluetooth badge when WiFi is the base.
-        Rectangle {
-            visible: root.showWifi && root.showBtBadge
-            width:  9
-            height: 9
-            radius: width / 2
-            color: Colors.surfaceContainerLow
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-
-            Rectangle {
-                anchors.centerIn: parent
-                width:  7
-                height: 7
-                radius: width / 2
-                color: root.btState === "acquiring" ? Colors.accentHover : Colors.accent
+            Item {
+                width: 20; height: root.vertical ? 20 : 18
+                MaterialIcon {
+                    anchors.centerIn: parent
+                    text: "bluetooth"
+                    fill: 1
+                    pixelSize: 12
+                    weight: Font.DemiBold
+                    color: "white"
+                }
             }
         }
     }

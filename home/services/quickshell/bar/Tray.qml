@@ -21,7 +21,7 @@ Rectangle {
     implicitWidth:  vertical ? 32 : (hRow.implicitWidth + 12)
     implicitHeight: vertical ? (vCol.implicitHeight + 12) : (Config.bar.height - 8)
     radius: Config.layout.radiusSm
-    color: Colors.surfaceContainerLow
+    color: "transparent"
 
     // Shared delegate: icon with right-click menu + tooltip.
     component TrayEntry: HoverTooltip {

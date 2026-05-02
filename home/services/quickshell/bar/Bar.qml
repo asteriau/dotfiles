@@ -81,9 +81,9 @@ PanelWindow {
                 Layout.alignment: Qt.AlignHCenter
                 tone: "low"
                 rowSpacing: Config.layout.gapMd
+                transparent: true
 
                 Battery {}
-                Connectivity {}
             }
 
             Tray { Layout.alignment: Qt.AlignHCenter }
