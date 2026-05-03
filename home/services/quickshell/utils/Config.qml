@@ -230,7 +230,10 @@ Singleton {
         readonly property int expandedWidthBattery:  440
         readonly property int expandedHeightBattery: 110
 
-        readonly property int compactWidthOsd:    260
+        readonly property int compactWidthOsd:    300
+        readonly property int osdHeight:          52
+        readonly property int osdTopRadius:        notchOpenTopRadius
+        readonly property int osdBottomRadius:     osdHeight / 2
         readonly property int compactWidthNotif:  340
         readonly property int compactWidthBattery: 200
 

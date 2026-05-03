@@ -5,11 +5,12 @@ import qs.components.text
 import qs.notifications
 import qs.utils
 
-// Compact notif row: small app icon + summary.
 Item {
     id: root
 
     property var notif: null
+
+    readonly property bool isCritical: (notif?.urgency ?? 0) === 2
 
     RowLayout {
         anchors.fill: parent
@@ -19,9 +20,9 @@ Item {
 
         NotificationAppIcon {
             Layout.alignment: Qt.AlignVCenter
-            implicitSize: 22
-            Layout.preferredWidth: 22
-            Layout.preferredHeight: 22
+            implicitSize: 28
+            Layout.preferredWidth: 28
+            Layout.preferredHeight: 28
             image:    root.notif?.image ?? ""
             appIcon:  root.notif?.appIcon ?? ""
             summary:  root.notif?.summary ?? ""
@@ -33,15 +34,9 @@ Item {
             Layout.alignment: Qt.AlignVCenter
             variant: StyledText.Variant.Body
             elide: Text.ElideRight
-            color: Colors.foreground
-            font.weight: Font.Medium
-            text: {
-                const n = root.notif;
-                if (!n) return "";
-                const s = n.summary ?? "";
-                const b = n.body ?? "";
-                return s && b ? `${s} — ${b}` : (s || b);
-            }
+            color: root.isCritical ? Colors.red : Colors.foreground
+            font.weight: Font.DemiBold
+            text: root.notif?.summary ?? ""
         }
     }
 }

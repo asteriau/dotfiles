@@ -6,7 +6,6 @@ import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Mpris
-import qs.components.controls
 import qs.components.text
 import qs.sidebar.media
 import qs.utils
@@ -100,33 +99,6 @@ Item {
         const len = Math.max(0, root.player?.length ?? 0);
         return len > 0 ? Math.min(safe, len) : safe;
     }
-    function fmtTime(sec) {
-        const s = Math.max(0, Math.floor(sec ?? 0));
-        const m = Math.floor(s / 60);
-        const r = s % 60;
-        return m + ":" + (r < 10 ? "0" : "") + r;
-    }
-
-    component CtlBtn: RippleButton {
-        property string iconName
-        property color iconColor: root.blendedColors.colOnLayer0
-        implicitWidth: 32
-        implicitHeight: 32
-        buttonRadius: 999
-        colBackground: ColorMix.transparentize(root.blendedColors.colSecondaryContainer, 1)
-        colBackgroundHover: ColorMix.transparentize(root.blendedColors.colSecondaryContainerHover, 0.4)
-        colRipple: root.blendedColors.colPrimary
-
-        contentItem: MaterialIcon {
-            text: parent.iconName
-            fill: 1
-            pixelSize: 18
-            color: parent.iconColor
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-        }
-    }
 
     MediaArtBackdrop {
         anchors.fill: parent
@@ -212,63 +184,28 @@ Item {
                     elide: Text.ElideRight
                 }
 
-                Item { Layout.fillHeight: true; Layout.fillWidth: true }
+                Item { Layout.fillHeight: true }
 
-                // Progress (wavy slider when seekable)
-                MediaProgress {
+                MediaControls {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 32
                     player: root.player
+                    colors: root.blendedColors
                     position: root.displayedPosition
                     length: root.lengthSec
-                    animating: root.progressAnimating
-                    browserPlayer: root.browserPlayer
-                    colors: root.blendedColors
-                    onSeekRequested: pos => {
-                        if (!root.player) return;
-                        root.player.position = pos;
-                        if (root.browserPlayer) browserPoller.syncPosition(pos);
-                    }
-                }
 
-                // Times + controls row
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.topMargin: 4
-                    spacing: 6
-
-                    StyledText {
-                        variant: StyledText.Variant.Label
-                        text: root.fmtTime(root.displayedPosition)
-                        color: root.blendedColors.colSubtext
-                    }
-                    Item { Layout.fillWidth: true }
-
-                    CtlBtn {
-                        iconName: "skip_previous"
-                        enabled: root.player?.canGoPrevious ?? false
-                        downAction: () => root.player?.previous()
-                    }
-                    CtlBtn {
-                        iconName: root.player?.isPlaying ? "pause" : "play_arrow"
-                        enabled: root.player?.canTogglePlaying ?? true
-                        colBackground: ColorMix.transparentize(root.blendedColors.colPrimary, 0.15)
-                        colBackgroundHover: root.blendedColors.colPrimary
-                        iconColor: root.blendedColors.colOnPrimary
-                        downAction: () => root.player?.togglePlaying()
-                    }
-                    CtlBtn {
-                        iconName: "skip_next"
-                        enabled: root.player?.canGoNext ?? false
-                        downAction: () => root.player?.next()
-                    }
-
-                    Item { Layout.fillWidth: true }
-                    StyledText {
-                        variant: StyledText.Variant.Label
-                        text: root.fmtTime(root.lengthSec)
-                        color: root.blendedColors.colSubtext
-                        horizontalAlignment: Text.AlignRight
+                    MediaProgress {
+                        anchors.fill: parent
+                        player: root.player
+                        position: root.displayedPosition
+                        length: root.lengthSec
+                        animating: root.progressAnimating
+                        browserPlayer: root.browserPlayer
+                        colors: root.blendedColors
+                        onSeekRequested: pos => {
+                            if (!root.player) return;
+                            root.player.position = pos;
+                            if (root.browserPlayer) browserPoller.syncPosition(pos);
+                        }
                     }
                 }
             }

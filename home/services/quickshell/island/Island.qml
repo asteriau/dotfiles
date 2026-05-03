@@ -222,7 +222,10 @@ Scope {
                     return Config.island.notchClosedWidth;
                 }
                 readonly property int targetH: {
-                    if (!expanded) return Config.island.notchClosedHeight;
+                    if (!expanded) {
+                        if (_displayMode === "osd") return Config.island.osdHeight;
+                        return Config.island.notchClosedHeight;
+                    }
                     switch (_displayMode) {
                         case "media":   return Config.island.expandedHeightMedia;
                         case "notif":   return Config.island.expandedHeightNotif;
@@ -232,11 +235,13 @@ Scope {
                     return Config.island.notchClosedHeight;
                 }
                 readonly property real targetTopR:
-                    expanded ? Config.island.notchOpenTopRadius
-                             : Config.island.notchClosedTopRadius
+                    _displayMode === "osd" ? Config.island.osdTopRadius
+                    : expanded ? Config.island.notchOpenTopRadius
+                    : Config.island.notchClosedTopRadius
                 readonly property real targetBottomR:
-                    expanded ? Config.island.notchOpenBottomRadius
-                             : Config.island.notchClosedBottomRadius
+                    _displayMode === "osd" ? Config.island.osdBottomRadius
+                    : expanded ? Config.island.notchOpenBottomRadius
+                    : Config.island.notchClosedBottomRadius
             }
 
             Connections {
@@ -303,6 +308,7 @@ Scope {
                 anchors.leftMargin: notch.topRadius
                 anchors.rightMargin: notch.topRadius
                 icon: scope.osdIcon
+                label: scope.osdLabel
                 progress: scope.osdProgress
                 opacity: pillState._displayMode === "osd" ? 1 : 0
                 visible: opacity > 0
