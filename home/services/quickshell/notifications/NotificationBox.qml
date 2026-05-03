@@ -177,6 +177,7 @@ Item {
                     summary: root.n?.summary ?? ""
                     timeString: root.timeString
                     expanded: root.expanded
+                    count: root.n?.count ?? 1
                     onToggleExpanded: root.expanded = !root.expanded
                 }
 

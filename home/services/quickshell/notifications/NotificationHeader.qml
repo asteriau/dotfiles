@@ -10,6 +10,7 @@ Item {
     property string summary: ""
     property string timeString: ""
     property bool expanded: false
+    property int count: 1
 
     signal toggleExpanded
 
@@ -49,7 +50,7 @@ Item {
         readonly property bool hovered: pillMouse.containsMouse
 
         implicitHeight: Config.typography.smaller + 8
-        implicitWidth: Math.max(30, chevron.implicitWidth + 10)
+        implicitWidth: Math.max(30, pillRow.implicitWidth + 10)
         radius: height / 2
         color: pillMouse.pressed ? Colors.pressedStrong
              : hovered           ? Colors.hoverStrongest
@@ -60,19 +61,32 @@ Item {
             ColorAnimation { duration: M3Easing.durationShort2 }
         }
 
-        MaterialIcon {
-            id: chevron
+        Row {
+            id: pillRow
             anchors.centerIn: parent
-            text: "keyboard_arrow_down"
-            color: Colors.foreground
-            pixelSize: Config.typography.normal
-            rotation: root.expanded ? 180 : 0
+            spacing: 2
 
-            Behavior on rotation {
-                NumberAnimation {
-                    duration: M3Easing.durationMedium1
-                    easing.type: Easing.BezierSpline
-                    easing.bezierCurve: M3Easing.emphasized
+            StyledText {
+                visible: root.count > 1
+                text: root.count
+                font.pixelSize: Config.typography.smaller
+                color: Colors.foreground
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            MaterialIcon {
+                id: chevron
+                text: "keyboard_arrow_down"
+                color: Colors.foreground
+                pixelSize: Config.typography.normal
+                rotation: root.expanded ? 180 : 0
+
+                Behavior on rotation {
+                    NumberAnimation {
+                        duration: M3Easing.durationMedium1
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasized
+                    }
                 }
             }
         }

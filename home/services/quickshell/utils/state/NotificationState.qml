@@ -26,6 +26,7 @@ Singleton {
         property double time: 0
         property var actions: []
         property bool lastGeneration: false
+        property int count: 1
 
         function capture() {
             if (!source)
@@ -62,6 +63,26 @@ Singleton {
     }
 
     function onNewNotif(notif) {
+        const incoming = {
+            appName: notif.appName ?? "",
+            summary: notif.summary ?? ""
+        };
+        const dup = (!notif.lastGeneration && incoming.appName.length > 0)
+            ? allNotifs.find(e => !e.lastGeneration && e.appName === incoming.appName && e.summary === incoming.summary)
+            : null;
+
+        if (dup) {
+            dup.count++;
+            dup.time = Date.now();
+            allNotifs = [dup, ...allNotifs.filter(e => e !== dup)];
+            if (!popupNotifs.includes(dup))
+                popupNotifs = [dup, ...popupNotifs];
+            if (!Config.showSidebar)
+                notifOverlayOpen = true;
+            try { notif.dismiss(); } catch (e) {}
+            return;
+        }
+
         const entry = notifEntryComponent.createObject(root, {
             source: notif,
             time: Date.now(),
