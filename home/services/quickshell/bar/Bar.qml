@@ -22,10 +22,26 @@ PanelWindow {
     color: "transparent"
 
     // Vertical: nav (top) · focal (center) · status (bottom).
-    Rectangle {
+    Item {
         visible: Config.bar.vertical
         anchors.fill: parent
-        color: Colors.background
+
+        Rectangle {
+            anchors.fill: parent
+            color: Colors.background
+            visible: !Config.bar.rounding
+        }
+
+        BarShape {
+            anchors.fill: parent
+            bodyWidth:    parent.width
+            bodyHeight:   parent.height
+            onEnd:        Config.bar.onEnd
+            screenRadius: 0
+            freeRadius:   Config.bar.cornerRadius
+            fillColor:    Colors.background
+            visible:      Config.bar.rounding
+        }
 
         // ── Nav ──────────────────────────────────────────────────────────
         Item {

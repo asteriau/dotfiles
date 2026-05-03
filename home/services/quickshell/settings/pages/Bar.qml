@@ -27,6 +27,18 @@ ContentPage {
     }
 
     ContentSection {
+        title: "Appearance"
+        icon: "palette"
+
+        SwitchRow {
+            text: "Rounding"
+            icon: "rounded_corner"
+            checked: Config.bar.rounding
+            onToggled: v => Config.bar.rounding = v
+        }
+    }
+
+    ContentSection {
         title: "Dimensions"
         icon: "straighten"
 

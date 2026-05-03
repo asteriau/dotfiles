@@ -5,6 +5,24 @@ import qs.utils
 Rectangle {
     id: root
     color: Colors.background
+    radius: Config.bar.rounding ? Config.bar.cornerRadius : 0
+
+    Rectangle {
+        visible: Config.bar.rounding
+        width: root.radius; height: root.radius
+        anchors.top:    Config.bar.onEnd ? undefined : parent.top
+        anchors.bottom: Config.bar.onEnd ? parent.bottom : undefined
+        anchors.left: parent.left
+        color: Colors.background
+    }
+    Rectangle {
+        visible: Config.bar.rounding
+        width: root.radius; height: root.radius
+        anchors.top:    Config.bar.onEnd ? undefined : parent.top
+        anchors.bottom: Config.bar.onEnd ? parent.bottom : undefined
+        anchors.right: parent.right
+        color: Colors.background
+    }
 
     // ── Nav ──────────────────────────────────────────────────────────────
     Row {

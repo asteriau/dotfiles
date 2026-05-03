@@ -26,6 +26,7 @@ Singleton {
     // Persistent settings (written to state/settings.json)
     property bool   doNotDisturb:                 false
     property string barPosition:                  "left"
+    property bool   barRounding:                  true
     property int    barHeight:                    40
     property int    barWidth:                     46
     property int    sidebarWidth:                 420
@@ -50,6 +51,7 @@ Singleton {
     // Save triggers (one per persisted property)
     onDoNotDisturbChanged:               save()
     onBarPositionChanged:                save()
+    onBarRoundingChanged:                save()
     onBarHeightChanged:                  save()
     onBarWidthChanged:                   save()
     onSidebarWidthChanged:               save()
@@ -96,6 +98,7 @@ Singleton {
             }
             if ("doNotDisturb"               in obj) root.doNotDisturb               = !!obj.doNotDisturb;
             if ("barPosition"                in obj) root.barPosition                = String(obj.barPosition);
+            if ("barRounding"                in obj) root.barRounding                = !!obj.barRounding;
             // barHeight and barWidth are fixed — ignore saved values.
             if ("sidebarWidth"               in obj) root.sidebarWidth               = parseInt(obj.sidebarWidth) || root.sidebarWidth;
             if ("workspacesShown"            in obj) root.workspacesShown            = parseInt(obj.workspacesShown) || root.workspacesShown;
@@ -130,6 +133,7 @@ Singleton {
         const obj = {
             doNotDisturb:               root.doNotDisturb,
             barPosition:                root.barPosition,
+            barRounding:                root.barRounding,
             sidebarWidth:               root.sidebarWidth,
             workspacesShown:            root.workspacesShown,
             workspaceShowAppIcons:      root.workspaceShowAppIcons,
@@ -195,6 +199,8 @@ Singleton {
 
         readonly property bool vertical: position === "left" || position === "right"
         readonly property bool onEnd:    position === "right" || position === "bottom"
+        readonly property int  cornerRadius: 18
+        property alias rounding: root.barRounding
     }
 
     readonly property QtObject sidebar: QtObject {
