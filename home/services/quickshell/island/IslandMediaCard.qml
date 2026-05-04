@@ -7,7 +7,6 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Mpris
 import qs.components.text
-import qs.sidebar.media
 import qs.utils
 import qs.utils.state
 

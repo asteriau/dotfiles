@@ -5,7 +5,6 @@ import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 import qs.components.surfaces
-import qs.sidebar.media
 import qs.utils
 
 Scope {
@@ -118,16 +117,6 @@ Scope {
                     Layout.leftMargin: 22
                     Layout.rightMargin: 22
                     Layout.topMargin: 8
-                }
-
-                MediaCard {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: false
-                    Layout.preferredHeight: 160
-                    Layout.minimumHeight: 160
-                    Layout.maximumHeight: 160
-                    Layout.leftMargin: 8
-                    Layout.rightMargin: 8
                 }
 
                 NotificationCenter {
