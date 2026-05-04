@@ -1,16 +1,19 @@
 import QtQuick
+import QtQuick.Layouts
 import qs.components.controls
+import qs.components.effects
 import qs.components.text
 import qs.utils
 import qs.utils.state
 
 MouseArea {
     id: root
-    hoverEnabled: true
-    acceptedButtons: Qt.NoButton
+    hoverEnabled: false
+    acceptedButtons: Qt.LeftButton
 
     implicitWidth:  col.implicitWidth
     implicitHeight: col.implicitHeight
+    onClicked: popup.active = !popup.active
 
     Column {
         id: col
@@ -76,43 +79,101 @@ MouseArea {
     }
 
     BarPopup {
+        id: popup
         targetItem: root
-        active: root.containsMouse
+        padding: 16
 
-        Row {
+        Column {
+            width: 280
             spacing: 12
 
+            StyledText {
+                text: "Resources"
+                font.pixelSize: Config.typography.large
+                font.weight: Font.Medium
+                color: Colors.accent
+            }
+
             Column {
-                spacing: 8
-                BarPopupHeaderRow { icon: "memory"; label: "RAM" }
-                Column {
-                    spacing: 4
-                    BarPopupValueRow { icon: "clock_loader_60"; label: "Used:";  value: ResourcesState.memUsedStr  }
-                    BarPopupValueRow { icon: "check_circle";    label: "Free:";  value: ResourcesState.memFreeStr  }
-                    BarPopupValueRow { icon: "empty_dashboard"; label: "Total:"; value: ResourcesState.memTotalStr }
+                width: parent.width
+                spacing: 4
+
+                BigSmallTextPair {
+                    width: parent.width
+                    icon: "memory"
+                    bigText: (ResourcesState.memUsedStr || "0").split(" ")[0]
+                    smallText: "/ " + (ResourcesState.memTotalStr || "0")
+                    label: "Memory"
+                }
+
+                StyledCombinedProgressBar {
+                    width: parent.width
+                    valueWeights: [ResourcesState.memoryTotal, ResourcesState.swapTotal]
+                    values: [ResourcesState.memoryUsedPercentage, ResourcesState.swapUsedPercentage]
                 }
             }
 
             Column {
-                visible: ResourcesState.swapTotal > 0
-                spacing: 8
-                BarPopupHeaderRow { icon: "swap_horiz"; label: "Swap" }
-                Column {
-                    spacing: 4
-                    BarPopupValueRow { icon: "clock_loader_60"; label: "Used:";  value: ResourcesState.swapUsedStr  }
-                    BarPopupValueRow { icon: "check_circle";    label: "Free:";  value: ResourcesState.swapFreeStr  }
-                    BarPopupValueRow { icon: "empty_dashboard"; label: "Total:"; value: ResourcesState.swapTotalStr }
-                }
-            }
+                width: parent.width
+                spacing: 4
 
-            Column {
-                spacing: 8
-                BarPopupHeaderRow { icon: "planner_review"; label: "CPU" }
-                Column {
-                    spacing: 4
-                    BarPopupValueRow { icon: "bolt"; label: "Load:"; value: Math.round(ResourcesState.cpuUsage * 100) + "%" }
+                BigSmallTextPair {
+                    width: parent.width
+                    icon: "developer_board"
+                    bigText: Math.round(ResourcesState.cpuUsage * 100)
+                    smallText: "%"
+                    label: "CPU"
+                }
+
+                StyledCombinedProgressBar {
+                    width: parent.width
+                    property bool useSingleAggregate: ResourcesState.cpuCoreUsages.length > 8
+                    valueWeights: useSingleAggregate ? [1.0] : (ResourcesState.cpuCoreWeights.length > 0 ? ResourcesState.cpuCoreWeights : [1.0])
+                    values: useSingleAggregate ? [ResourcesState.cpuUsage] : (ResourcesState.cpuCoreUsages.length > 0 ? ResourcesState.cpuCoreUsages : [ResourcesState.cpuUsage])
                 }
             }
+        }
+    }
+
+    component BigSmallTextPair: RowLayout {
+        id: txtPair
+        property string icon: ""
+        property string bigText: ""
+        property string smallText: ""
+        property string label: ""
+        spacing: 8
+
+        MaterialIcon {
+            Layout.alignment: Qt.AlignVCenter
+            text: txtPair.icon
+            pixelSize: 22
+            color: Colors.foreground
+        }
+
+        StyledText {
+            id: bigTxt
+            Layout.alignment: Qt.AlignBaseline
+            font.pixelSize: Config.typography.larger
+            font.weight: Font.Medium
+            text: txtPair.bigText
+            color: Colors.foreground
+        }
+
+        StyledText {
+            id: smallTxt
+            Layout.alignment: Qt.AlignBaseline
+            font.pixelSize: Config.typography.small
+            text: txtPair.smallText
+            color: Colors.m3onSurfaceInactive
+        }
+
+        Item { Layout.fillWidth: true }
+
+        StyledText {
+            Layout.alignment: Qt.AlignBaseline
+            text: txtPair.label
+            font.pixelSize: Config.typography.small
+            color: Colors.m3onSurfaceInactive
         }
     }
 }

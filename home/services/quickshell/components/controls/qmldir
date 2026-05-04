@@ -10,3 +10,8 @@ CircularProgress 1.0 CircularProgress.qml
 ClippedProgressBar 1.0 ClippedProgressBar.qml
 BarGroup 1.0 BarGroup.qml
 BarSeparator 1.0 BarSeparator.qml
+CalendarView 1.0 CalendarView.qml
+CalendarDaysOfWeek 1.0 CalendarDaysOfWeek.qml
+WeekRow 1.0 WeekRow.qml
+AbstractCombinedProgressBar 1.0 AbstractCombinedProgressBar.qml
+StyledCombinedProgressBar 1.0 StyledCombinedProgressBar.qml

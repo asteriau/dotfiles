@@ -18,7 +18,9 @@ Singleton {
     readonly property real swapUsedPercentage: swapTotal > 0 ? (swapUsed / swapTotal) : 0
 
     property real cpuUsage: 0
+    property list<real> cpuCoreUsages: []
     property var previousCpuStats: null
+    property var previousCoreStats: []
 
     readonly property string memUsedStr:  _kbToGb(memoryUsed)
     readonly property string memFreeStr:  _kbToGb(memoryFree)
@@ -47,7 +49,10 @@ Singleton {
             root.swapFree    = Number(textMeminfo.match(/SwapFree:\s*(\d+)/)?.[1] ?? 0);
 
             const textStat = fileStat.text();
-            const cpuLine = textStat.match(/^cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/);
+            const lines = textStat.split("\n");
+            
+            // Total CPU
+            const cpuLine = lines[0].match(/^cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/);
             if (cpuLine) {
                 const stats = cpuLine.slice(1).map(Number);
                 const total = stats.reduce((a, b) => a + b, 0);
@@ -59,8 +64,40 @@ Singleton {
                 }
                 root.previousCpuStats = { total, idle };
             }
+
+            // Per-core CPU
+            let coreUsages = [];
+            let coreStats = [];
+            for (let i = 1; i < lines.length; i++) {
+                const match = lines[i].match(/^cpu(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/);
+                if (!match) continue;
+                
+                const coreIdx = parseInt(match[1]);
+                const stats = match.slice(2).map(Number);
+                const total = stats.reduce((a, b) => a + b, 0);
+                const idle  = stats[3];
+                
+                let usage = 0;
+                if (root.previousCoreStats[coreIdx]) {
+                    const dt = total - root.previousCoreStats[coreIdx].total;
+                    const di = idle  - root.previousCoreStats[coreIdx].idle;
+                    usage = dt > 0 ? (1 - di / dt) : 0;
+                }
+                coreUsages.push(usage);
+                coreStats[coreIdx] = { total, idle };
+            }
+            root.cpuCoreUsages = coreUsages;
+            root.previousCoreStats = coreStats;
+
+            let coreWeights = [];
+            for (let i = 0; i < coreUsages.length; i++) {
+                coreWeights.push(1.0);
+            }
+            root.cpuCoreWeights = coreWeights;
         }
     }
+
+    property list<real> cpuCoreWeights: []
 
     FileView { id: fileMeminfo; path: "/proc/meminfo" }
     FileView { id: fileStat;    path: "/proc/stat" }
