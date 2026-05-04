@@ -94,42 +94,57 @@ Scope {
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.topMargin: 22
-                anchors.bottomMargin: 22
+                anchors.topMargin: Config.layout.gapXl + 4
+                anchors.bottomMargin: Config.layout.gapLg
                 anchors.leftMargin: 0
                 anchors.rightMargin: 0
-                spacing: 16
+                spacing: Config.layout.gapLg
 
                 Header {
-                    Layout.leftMargin: 22
-                    Layout.rightMargin: 22
+                    Layout.leftMargin: Config.layout.gapXl + 4
+                    Layout.rightMargin: Config.layout.gapXl + 4
+                    Layout.bottomMargin: Config.layout.gapLg
                 }
 
                 Divider {
                     Layout.fillWidth: true
-                    Layout.leftMargin: 22
-                    Layout.rightMargin: 22
-                    opacity: 0.5
+                    Layout.leftMargin: Config.layout.gapXl + 4
+                    Layout.rightMargin: Config.layout.gapXl + 4
+                    opacity: 0.4
                 }
 
-                ToggleGrid {
+                QuickToggles {
                     Layout.fillWidth: true
-                    Layout.leftMargin: 22
-                    Layout.rightMargin: 22
-                    Layout.topMargin: 8
+                    Layout.leftMargin: Config.layout.gapLg
+                    Layout.rightMargin: Config.layout.gapLg
+                    Layout.bottomMargin: Config.layout.gapLg
+                }
+
+
+                QuickSliders {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: Config.layout.gapLg
+                    Layout.rightMargin: Config.layout.gapLg
+                    Layout.bottomMargin: Config.layout.gapLg
+                }
+
+                Divider {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: Config.layout.gapXl + 4
+                    Layout.rightMargin: Config.layout.gapXl + 4
+                    opacity: 0.4
                 }
 
                 NotificationCenter {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.leftMargin: 8
-                    Layout.rightMargin: 8
+                    Layout.leftMargin: Config.layout.gapMd
+                    Layout.rightMargin: Config.layout.gapMd
                 }
 
                 NotificationToolbar {
-                    Layout.leftMargin: 22
-                    Layout.rightMargin: 22
-                    Layout.bottomMargin: 12
+                    Layout.leftMargin: Config.layout.gapXl + 4
+                    Layout.rightMargin: Config.layout.gapXl + 4
                 }
             }
         }

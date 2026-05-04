@@ -33,4 +33,14 @@ Singleton {
     readonly property int ambient:         ambientFast      // back-compat alias
 
     readonly property int expressiveOvershoot: Easing.OutBack
+
+    // ── ii-style expressive curves (for ported StyledSlider/GroupButton) ──
+    readonly property list<real> expressiveDefaultSpatial: [0.38, 1.21, 0.22, 1.00, 1, 1]
+    readonly property list<real> expressiveFastSpatial:    [0.42, 1.67, 0.21, 0.90, 1, 1]
+    readonly property list<real> expressiveEffects:        [0.34, 0.80, 0.34, 1.00, 1, 1]
+
+    readonly property int elementMoveDuration:     500   // expressiveDefaultSpatial
+    readonly property int elementMoveFastDuration: 200   // expressiveEffects
+    readonly property int clickBounceDuration:     400
+    readonly property int elementMoveFastVelocity: 850
 }

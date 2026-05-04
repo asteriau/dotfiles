@@ -8,7 +8,7 @@ import qs.utils.state
 Item {
     id: root
     Layout.fillWidth: true
-    implicitHeight: contentCol.implicitHeight
+    implicitHeight: row.implicitHeight
 
     property date now: new Date()
     readonly property string longDateLabel: {
@@ -23,7 +23,6 @@ Item {
 
         return Qt.formatDateTime(root.now, "ddd, MMM ") + day + suffix;
     }
-    readonly property string hiLowLabel: "H " + Math.round(WeatherState.tempMax) + "°  L " + Math.round(WeatherState.tempMin) + "°"
 
     Timer {
         interval: 30000
@@ -33,88 +32,82 @@ Item {
         onTriggered: root.now = new Date()
     }
 
-    // ── Top-left: hero clock + date/weather inline ──
-    ColumnLayout {
-        id: contentCol
+    // Single M3 row: date/weather meta · minimal settings icon
+    RowLayout {
+        id: row
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: parent.top
-        spacing: 0
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: 14
 
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: 8
-
-            StyledText {
-                Layout.alignment: Qt.AlignVCenter
-                text: Qt.formatDateTime(root.now, "HH:mm")
-                color: Colors.foreground
-                font.pixelSize: 40
-                font.weight: Font.Medium
-                font.letterSpacing: -0.6
-            }
-
-            Item { Layout.fillWidth: true }
-
-            IconButton {
-                Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: Config.layout.iconBtnSize
-                Layout.preferredHeight: Config.layout.iconBtnSize
-                radius: width / 2
-                colorIdle:    Colors.transparent
-                tintOnHover:  true
-                colorHover:   Colors.hover
-                colorPressed: Colors.hover
-                enableScale:  false
-                iconPixelSize: 18
-                iconGrade: 0
-                iconWeight: 400
-                colorIcon: Colors.m3onSurfaceVariant
-                icon: "settings"
-                onClicked: Utils.launchSettings()
-            }
-        }
-
-        RowLayout {
-            Layout.topMargin: 2
-            spacing: 8
+        // ── Date + weather ──
+        ColumnLayout {
+            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: false
+            spacing: 2
 
             StyledText {
                 text: root.longDateLabel
-                variant: StyledText.Variant.Caption
-            }
-
-            StyledText {
-                visible: WeatherState.ready
-                text: "·"
-                color: Colors.m3onSurfaceVariant
-                font.pixelSize: Config.typography.small
-            }
-
-            MaterialIcon {
-                visible: WeatherState.ready
-                text: WeatherState.glyph
-                pixelSize: 14
-                fill: 1
-                weight: 450
-                grade: 0
-                color: Colors.m3onSurfaceVariant
-            }
-
-            StyledText {
-                visible: WeatherState.ready
-                text: Math.round(WeatherState.temp) + "°"
                 color: Colors.foreground
                 font.pixelSize: Config.typography.small
                 font.weight: Font.Medium
             }
 
-            StyledText {
+            RowLayout {
+                spacing: 6
                 visible: WeatherState.ready
-                text: root.hiLowLabel
-                color: Colors.m3onSurfaceVariant
-                font.pixelSize: Config.typography.smaller
+
+                MaterialIcon {
+                    text: WeatherState.glyph
+                    pixelSize: 14
+                    fill: 1
+                    weight: 450
+                    grade: 0
+                    color: Colors.m3onSurfaceVariant
+                }
+
+                StyledText {
+                    text: Math.round(WeatherState.temp) + "°"
+                    color: Colors.m3onSurfaceVariant
+                    font.pixelSize: Config.typography.smaller
+                    font.weight: Font.Medium
+                }
+
+                StyledText {
+                    text: "·"
+                    color: Colors.m3onSurfaceVariant
+                    font.pixelSize: Config.typography.smaller
+                }
+
+                StyledText {
+                    text: {
+                        const d = WeatherState.description || WeatherState.condition;
+                        return d ? d.charAt(0).toUpperCase() + d.slice(1) : "";
+                    }
+                    color: Colors.m3onSurfaceVariant
+                    font.pixelSize: Config.typography.smaller
+                }
             }
+        }
+
+        Item { Layout.fillWidth: true }
+
+        // ── Settings: minimal borderless icon, M3 standard icon-button ──
+        IconButton {
+            Layout.alignment: Qt.AlignVCenter
+            Layout.preferredWidth: 32
+            Layout.preferredHeight: 32
+            implicitWidth: 32
+            implicitHeight: 32
+            radius: 16
+            icon: "settings"
+            iconPixelSize: 20
+            iconGrade: 0
+            colorIdle: "transparent"
+            colorActive: "transparent"
+            colorActiveHover: "transparent"
+            tintOnHover: true
+            onClicked: Utils.launchSettings()
         }
     }
 }

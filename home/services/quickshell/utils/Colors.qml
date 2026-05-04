@@ -85,6 +85,46 @@ Singleton {
     readonly property color m3onSurfaceInactive: Qt.rgba(m3onSurfaceVariant.r, m3onSurfaceVariant.g, m3onSurfaceVariant.b, 0.55)
     readonly property color m3outline:           Theme.m3outline
 
+    // ── ii-style layer/state aliases (used by ported QuickToggleTile/StyledSlider) ──
+    function _mix(a, b, t) {
+        return Qt.rgba(a.r * (1 - t) + b.r * t,
+                       a.g * (1 - t) + b.g * t,
+                       a.b * (1 - t) + b.b * t,
+                       a.a * (1 - t) + b.a * t);
+    }
+
+    // Layer aliases.
+    readonly property color colLayer0:        background
+    readonly property color colOnLayer0:      foreground
+    readonly property color colLayer1:        surfaceContainerLow
+    readonly property color colOnLayer1:      m3onSurfaceVariant
+    readonly property color colLayer2:        surfaceContainer
+    readonly property color colOnLayer2:      m3onSurface
+    readonly property color colLayer3:        surfaceContainerHigh
+    readonly property color colOnLayer3:      m3onSurface
+    readonly property color colLayer4:        surfaceContainerHighest
+    readonly property color colOnLayer4:      m3onSurface
+
+    // Layer state overlays (mix layer + onLayer).
+    readonly property color colLayer1Hover:   _mix(colLayer1, colOnLayer1, 0.08)
+    readonly property color colLayer1Active:  _mix(colLayer1, colOnLayer1, 0.15)
+    readonly property color colLayer2Hover:   _mix(colLayer2, colOnLayer2, 0.08)
+    readonly property color colLayer2Active:  _mix(colLayer2, colOnLayer2, 0.15)
+    readonly property color colLayer3Hover:   _mix(colLayer3, colOnLayer3, 0.08)
+    readonly property color colLayer3Active:  _mix(colLayer3, colOnLayer3, 0.15)
+
+    // Primary state overlays.
+    readonly property color colPrimary:        accent
+    readonly property color colOnPrimary:      m3onPrimary
+    readonly property color colPrimaryHover:   _mix(accent, colLayer1Hover, 0.13)
+    readonly property color colPrimaryActive:  _mix(accent, colLayer1Active, 0.30)
+
+    // Secondary container (used by slider unfilled track + dot color).
+    readonly property color colSecondaryContainer:    secondaryContainer
+    readonly property color colOnSecondaryContainer:  m3onSecondaryContainer
+    readonly property color colSecondary:             m3onSurfaceVariant
+    readonly property color colOutlineVariant:        outlineVariant
+
     // Workspace visuals.
     readonly property color wsOrbFill:     Qt.rgba(secondaryContainer.r, secondaryContainer.g, secondaryContainer.b, 0.7)
     readonly property color wsRingStroke:  Qt.rgba(m3onSurfaceVariant.r, m3onSurfaceVariant.g, m3onSurfaceVariant.b, 0.3)
