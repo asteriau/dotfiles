@@ -106,13 +106,6 @@ Scope {
                     Layout.bottomMargin: Config.layout.gapLg
                 }
 
-                Divider {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Config.layout.gapXl + 4
-                    Layout.rightMargin: Config.layout.gapXl + 4
-                    opacity: 0.4
-                }
-
                 QuickToggles {
                     Layout.fillWidth: true
                     Layout.leftMargin: Config.layout.gapLg
@@ -120,19 +113,11 @@ Scope {
                     Layout.bottomMargin: Config.layout.gapLg
                 }
 
-
                 QuickSliders {
                     Layout.fillWidth: true
                     Layout.leftMargin: Config.layout.gapLg
                     Layout.rightMargin: Config.layout.gapLg
                     Layout.bottomMargin: Config.layout.gapLg
-                }
-
-                Divider {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Config.layout.gapXl + 4
-                    Layout.rightMargin: Config.layout.gapXl + 4
-                    opacity: 0.4
                 }
 
                 NotificationCenter {

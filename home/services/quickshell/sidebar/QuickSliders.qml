@@ -22,7 +22,7 @@ Rectangle {
 
     Column {
         id: contentItem
-        spacing: 16
+        spacing: 8
         anchors {
             fill: parent
             leftMargin: root.horizontalPadding

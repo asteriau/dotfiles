@@ -55,13 +55,13 @@ Item {
         radius: height / 2
         color: Colors.colLayer1
         antialiasing: true
-        implicitWidth: row.implicitWidth + 16
-        implicitHeight: row.implicitHeight + 8
+        implicitWidth: row.implicitWidth + 24
+        implicitHeight: row.implicitHeight + 12
 
         RowLayout {
             id: row
             anchors.centerIn: parent
-            spacing: 12
+            spacing: 14
             layoutDirection: Qt.LeftToRight
 
             ToggleButton {
@@ -103,13 +103,14 @@ Item {
         id: btn
         property string icon
         property bool active
+        readonly property int toggleSize: Config.layout.pillSize
         signal activated
 
         Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: 44
-        Layout.preferredHeight: 44
-        implicitWidth: 44
-        implicitHeight: 44
+        Layout.preferredWidth: btn.toggleSize
+        Layout.preferredHeight: btn.toggleSize
+        implicitWidth: btn.toggleSize
+        implicitHeight: btn.toggleSize
 
         Rectangle {
             id: pill
@@ -136,7 +137,7 @@ Item {
             anchors.centerIn: parent
             text: btn.icon
             font.family: "Material Symbols Rounded"
-            font.pixelSize: 18
+            font.pixelSize: Math.round(btn.toggleSize * 0.4)
             color: btn.active ? Colors.background : Colors.foreground
 
             Behavior on color {
