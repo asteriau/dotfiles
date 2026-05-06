@@ -6,6 +6,7 @@ import qs.background
 import qs.bar
 import qs.island
 import qs.launcher
+import qs.screenshot
 import qs.settings
 import qs.sidebar
 import qs.utils
@@ -23,6 +24,7 @@ ShellRoot {
     Launcher {}
     Sidebar {}
     WallpaperPicker {}
+    RegionSelector {}
     // Settings window
     property var _settingsWindow: null
     Connections {

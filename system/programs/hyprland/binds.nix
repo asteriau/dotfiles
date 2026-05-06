@@ -71,18 +71,16 @@ in
       "$mod, up, movefocus, u"
       "$mod, down, movefocus, d"
 
-      # screenshot
-      # area
-      ", Print, exec, ${runOnce "grimblast"} --notify copysave area"
-      "$mod SHIFT, R, exec, ${runOnce "grimblast"} --notify copysave area"
-
-      # current screen
-      "CTRL, Print, exec, ${runOnce "grimblast"} --notify --cursor copysave output"
-      "$mod SHIFT CTRL, R, exec, ${runOnce "grimblast"} --notify --cursor copysave output"
-
-      # all screens
-      "ALT, Print, exec, ${runOnce "grimblast"} --notify --cursor copysave screen"
-      "$mod SHIFT ALT, R, exec, ${runOnce "grimblast"} --notify --cursor copysave screen"
+      # screenshot / recording (quickshell region selector)
+      # region screenshot
+      ", Print, global, quickshell:regionScreenshot"
+      "$mod SHIFT, S, global, quickshell:regionScreenshot"
+      # region recording
+      "$mod SHIFT, R, global, quickshell:regionRecord"
+      "$mod SHIFT ALT, R, global, quickshell:regionRecordWithSound"
+      # fullscreen recording (direct script)
+      "CTRL, Print, exec, bash $HOME/.config/quickshell/scripts/record.sh --fullscreen"
+      "$mod SHIFT CTRL, R, exec, bash $HOME/.config/quickshell/scripts/record.sh --fullscreen --sound"
 
       # special workspace
       "$mod SHIFT, grave, movetoworkspace, special"
@@ -104,7 +102,7 @@ in
 
     bindr = [
       # launcher
-      "$mod, SUPER_L, exec, vicinae toggle"
+      "$mod, SUPER_L, exec, qs ipc call launcher toggle"
     ];
 
     bindl = [

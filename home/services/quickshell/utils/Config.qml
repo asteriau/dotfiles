@@ -48,6 +48,13 @@ Singleton {
     property real   themeMatugenContrast:         0.0
     property string themeMatugenWallpaper:        ""
 
+    // Region selector / screenshot / recording
+    property string screenshotSavePath:    ""
+    property string recordingSavePath:     ""
+    property int    regionCircleStrokeWidth: 3
+    property int    regionCirclePadding:    4
+    property bool   regionCircleAimLines:   true
+
     // Save triggers (one per persisted property)
     onDoNotDisturbChanged:               save()
     onBarPositionChanged:                save()
@@ -72,6 +79,11 @@ Singleton {
     onThemeMatugenDarkChanged:           save()
     onThemeMatugenContrastChanged:       save()
     onThemeMatugenWallpaperChanged:      save()
+    onScreenshotSavePathChanged:         save()
+    onRecordingSavePathChanged:          save()
+    onRegionCircleStrokeWidthChanged:    save()
+    onRegionCirclePaddingChanged:        save()
+    onRegionCircleAimLinesChanged:       save()
 
     // Cross-cutting tokens (flat, top-level)
     readonly property string userName: "Laura"
@@ -118,6 +130,11 @@ Singleton {
             if ("themeMatugenDark"           in obj) root.themeMatugenDark           = !!obj.themeMatugenDark;
             if ("themeMatugenContrast"       in obj) root.themeMatugenContrast       = parseFloat(obj.themeMatugenContrast);
             if ("themeMatugenWallpaper"      in obj) root.themeMatugenWallpaper      = String(obj.themeMatugenWallpaper);
+            if ("screenshotSavePath"         in obj) root.screenshotSavePath         = String(obj.screenshotSavePath);
+            if ("recordingSavePath"          in obj) root.recordingSavePath          = String(obj.recordingSavePath);
+            if ("regionCircleStrokeWidth"    in obj) root.regionCircleStrokeWidth    = parseInt(obj.regionCircleStrokeWidth) || root.regionCircleStrokeWidth;
+            if ("regionCirclePadding"        in obj) root.regionCirclePadding        = parseInt(obj.regionCirclePadding) || root.regionCirclePadding;
+            if ("regionCircleAimLines"       in obj) root.regionCircleAimLines       = !!obj.regionCircleAimLines;
         } catch (e) {
             console.warn("Config: failed to parse settings.json —", e, "— using defaults");
         }
@@ -151,7 +168,12 @@ Singleton {
             themeMatugenScheme:         root.themeMatugenScheme,
             themeMatugenDark:           root.themeMatugenDark,
             themeMatugenContrast:       root.themeMatugenContrast,
-            themeMatugenWallpaper:      root.themeMatugenWallpaper
+            themeMatugenWallpaper:      root.themeMatugenWallpaper,
+            screenshotSavePath:         root.screenshotSavePath,
+            recordingSavePath:          root.recordingSavePath,
+            regionCircleStrokeWidth:    root.regionCircleStrokeWidth,
+            regionCirclePadding:        root.regionCirclePadding,
+            regionCircleAimLines:       root.regionCircleAimLines
         };
         saveProc.running = false;
         saveProc.command = [
