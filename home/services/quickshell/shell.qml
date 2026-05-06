@@ -5,6 +5,7 @@ import QtQuick.Window
 import qs.background
 import qs.bar
 import qs.island
+import qs.launcher
 import qs.settings
 import qs.sidebar
 import qs.utils
@@ -19,6 +20,7 @@ ShellRoot {
     Background {}
     Bar {}
     Island {}
+    Launcher {}
     Sidebar {}
     WallpaperPicker {}
     // Settings window
