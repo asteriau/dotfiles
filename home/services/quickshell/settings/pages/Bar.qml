@@ -88,5 +88,12 @@ ContentPage {
             checked: Config.workspaces.monochromeIcons
             onToggled: v => Config.workspaces.monochromeIcons = v
         }
+
+        SwitchRow {
+            text: "Tinted icons"
+            icon: "colorize"
+            checked: Config.workspaces.tintedIcons
+            onToggled: v => Config.workspaces.tintedIcons = v
+        }
     }
 }

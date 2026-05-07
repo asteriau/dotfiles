@@ -151,9 +151,9 @@ Item {
                 Behavior on anchors.rightMargin  { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
             }
 
-            // Monochrome overlay (optional).
+            // Monochrome overlay
             Loader {
-                active: Config.workspaces.monochromeIcons
+                active: Config.workspaces.monochromeIcons && !Config.workspaces.tintedIcons
                 anchors.fill: appIcon
 
                 sourceComponent: Item {
@@ -169,6 +169,27 @@ Item {
                         source: desatIcon
                         readonly property color tintColor: root.isActive ? Colors.m3onPrimary : Colors.m3onSecondaryContainer
                         color: Qt.rgba(tintColor.r, tintColor.g, tintColor.b, 0.9)
+                    }
+                }
+            }
+
+            // Tinted icons overlay: desaturate + subtle accent wash
+            Loader {
+                active: Config.workspaces.tintedIcons
+                anchors.fill: appIcon
+
+                sourceComponent: Item {
+                    Desaturate {
+                        id: desatTinted
+                        visible: false
+                        anchors.fill: parent
+                        source: appIcon
+                        desaturation: 0.8
+                    }
+                    ColorOverlay {
+                        anchors.fill: desatTinted
+                        source: desatTinted
+                        color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.1)
                     }
                 }
             }

@@ -34,6 +34,7 @@ Singleton {
     property bool   workspaceShowAppIcons:        true
     property bool   workspaceAlwaysShowNumbers:   false
     property bool   workspaceMonochromeIcons:     false
+    property bool   workspaceTintedIcons:         false
     property string fontFamily:                   "Google Sans Flex"
     property int    iconSize:                     14
     property int    osdWidth:                     200
@@ -66,6 +67,7 @@ Singleton {
     onWorkspaceShowAppIconsChanged:      save()
     onWorkspaceAlwaysShowNumbersChanged: save()
     onWorkspaceMonochromeIconsChanged:   save()
+    onWorkspaceTintedIconsChanged:       save()
     onFontFamilyChanged:                 save()
     onIconSizeChanged:                   save()
     onOsdWidthChanged:                   save()
@@ -117,6 +119,7 @@ Singleton {
             if ("workspaceShowAppIcons"      in obj) root.workspaceShowAppIcons      = !!obj.workspaceShowAppIcons;
             if ("workspaceAlwaysShowNumbers" in obj) root.workspaceAlwaysShowNumbers = !!obj.workspaceAlwaysShowNumbers;
             if ("workspaceMonochromeIcons"   in obj) root.workspaceMonochromeIcons   = !!obj.workspaceMonochromeIcons;
+            if ("workspaceTintedIcons"       in obj) root.workspaceTintedIcons       = !!obj.workspaceTintedIcons;
             if ("fontFamily"                 in obj) root.fontFamily                 = String(obj.fontFamily);
             if ("iconSize"                   in obj) root.iconSize                   = parseInt(obj.iconSize)    || root.iconSize;
             if ("osdWidth"                   in obj) root.osdWidth                   = parseInt(obj.osdWidth)    || root.osdWidth;
@@ -156,6 +159,7 @@ Singleton {
             workspaceShowAppIcons:      root.workspaceShowAppIcons,
             workspaceAlwaysShowNumbers: root.workspaceAlwaysShowNumbers,
             workspaceMonochromeIcons:   root.workspaceMonochromeIcons,
+            workspaceTintedIcons:       root.workspaceTintedIcons,
             fontFamily:                 root.fontFamily,
             iconSize:                   root.iconSize,
             osdWidth:                   root.osdWidth,
@@ -234,6 +238,7 @@ Singleton {
         property alias showAppIcons:      root.workspaceShowAppIcons
         property alias alwaysShowNumbers: root.workspaceAlwaysShowNumbers
         property alias monochromeIcons:   root.workspaceMonochromeIcons
+        property alias tintedIcons:      root.workspaceTintedIcons
     }
 
     readonly property QtObject osd: QtObject {
