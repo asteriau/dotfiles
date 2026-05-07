@@ -387,7 +387,6 @@ Singleton {
         // Notification/weather tweaks
         readonly property int notificationRadius:        24
         readonly property int notificationCollapsedR:    20
-        readonly property int weatherRadius:             22
         readonly property int mediaCardRadius:           22
 
         // Bar focal slot

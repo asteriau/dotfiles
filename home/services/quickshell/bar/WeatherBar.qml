@@ -1,15 +1,12 @@
 import QtQuick
 import qs.components.text
-import qs.sidebar
 import qs.utils
 import qs.utils.state
 
-MouseArea {
+Item {
     id: root
 
     visible: WeatherState.ready
-    hoverEnabled: true
-    acceptedButtons: Qt.NoButton
 
     implicitWidth:  row.implicitWidth + Config.layout.gapMd * 2
     implicitHeight: Config.bar.height
@@ -40,21 +37,6 @@ MouseArea {
             font.pixelSize: Config.typography.small
             color: Colors.foreground
             anchors.verticalCenter: parent.verticalCenter
-        }
-    }
-
-    BarPopup {
-        targetItem: root
-        active: root.containsMouse
-        transparent: true
-
-        Item {
-            implicitWidth:  380
-            implicitHeight: 200
-
-            WeatherWidget {
-                anchors.fill: parent
-            }
         }
     }
 }

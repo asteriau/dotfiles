@@ -26,26 +26,9 @@ Singleton {
 
     readonly property bool isNight: iconCode.endsWith("n")
 
-    // Derived visual tokens. Callers bind to these instead of repeating the
-    // condition/night switch in every widget.
-    readonly property url    scene:  _sceneUrl(condition, isNight)
+    // Derived visual tokens.
     readonly property string glyph:  _glyph(condition, isNight)
-    readonly property color  skyTop: _skyTop(condition, isNight)
-    readonly property color  skyBot: _skyBot(condition, isNight)
 
-    function _sceneFile(c: string, n: bool): string {
-        if (c === "Clear")        return n ? "NightClearScene.qml" : "SunnyScene.qml";
-        if (c === "Clouds")       return "CloudsScene.qml";
-        if (c === "Rain" || c === "Drizzle") return "RainScene.qml";
-        if (c === "Snow")         return "SnowScene.qml";
-        if (c === "Thunderstorm") return "ThunderScene.qml";
-        if (c === "Mist" || c === "Fog" || c === "Haze" || c === "Smoke") return "FogScene.qml";
-        return "CloudsScene.qml";
-    }
-
-    function _sceneUrl(c: string, n: bool): url {
-        return Qt.resolvedUrl("../../sidebar/weather/" + _sceneFile(c, n));
-    }
 
     function _glyph(c: string, n: bool): string {
         if (c === "Clear")        return n ? "bedtime" : "wb_sunny";
@@ -57,25 +40,6 @@ Singleton {
         return "cloud";
     }
 
-    function _skyTop(c: string, n: bool): color {
-        if (c === "Clear")        return n ? "#0F1D33" : "#7DB9E8";
-        if (c === "Clouds")       return n ? "#252B36" : "#5A6672";
-        if (c === "Rain" || c === "Drizzle") return n ? "#1F2A38" : "#39485B";
-        if (c === "Snow")         return n ? "#3E4A5C" : "#A7B4C4";
-        if (c === "Thunderstorm") return "#1A1E26";
-        if (c === "Mist" || c === "Fog" || c === "Haze" || c === "Smoke") return n ? "#2C313A" : "#7A8590";
-        return "#3A434F";
-    }
-
-    function _skyBot(c: string, n: bool): color {
-        if (c === "Clear")        return n ? "#1C2A44" : "#C2E3F7";
-        if (c === "Clouds")       return n ? "#3A4250" : "#A2ADB9";
-        if (c === "Rain" || c === "Drizzle") return n ? "#2C3A4C" : "#6A7A8F";
-        if (c === "Snow")         return n ? "#5A6577" : "#DCE4EE";
-        if (c === "Thunderstorm") return "#3A3F4A";
-        if (c === "Mist" || c === "Fog" || c === "Haze" || c === "Smoke") return n ? "#444B58" : "#B5BDC6";
-        return "#5A6470";
-    }
 
     readonly property string _fetchCmd:
         "KEY=$(cat \"${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/secrets/openweathermap.key\" 2>/dev/null); " +
