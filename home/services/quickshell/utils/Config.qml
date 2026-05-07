@@ -278,6 +278,14 @@ Singleton {
         readonly property int swapDurationMs:    110
         readonly property int batteryPeekMs:     4000
 
+        // Launcher mode (app search / clipboard)
+        readonly property int launcherCollapsedWidth: 440
+        readonly property int launcherWidth:          680
+        readonly property int launcherMaxHeight:      560
+        readonly property int launcherMinHeight:      72
+        readonly property int launcherTopRadius:      18
+        readonly property int launcherBottomRadius:   28
+
         readonly property bool alwaysVisible: true
         readonly property bool hoverIdleExpand: true
 
@@ -287,7 +295,7 @@ Singleton {
         readonly property int compactRadius:    notchClosedBottomRadius
         readonly property int expandRadius:     notchOpenBottomRadius
         readonly property int compactWidthMedia: notchClosedWidth + mediaArtPeekSize + mediaVizPeekWidth + 4 * mediaPeekGap
-        readonly property int maxWidth: Math.max(expandedWidthMedia, expandedWidthHome, expandedWidthNotif, expandedWidthBattery)
+        readonly property int maxWidth: Math.max(expandedWidthMedia, expandedWidthHome, expandedWidthNotif, expandedWidthBattery, launcherWidth)
     }
 
     readonly property QtObject notifications: QtObject {

@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Services.Mpris
 import Quickshell.Hyprland
+import qs.launcher
 import qs.utils
 import qs.utils.state
 
@@ -11,10 +12,14 @@ import qs.utils.state
 Scope {
     id: scope
 
+    required property var launcher
+
     // State sources
     readonly property var topNotif: NotificationState.popupNotifs[0] ?? null
     readonly property MprisPlayer player: MprisState.player
     readonly property bool mediaActive: player !== null
+
+    readonly property bool launcherOpen: launcher?.open ?? false
 
     property bool _notifActive: false
     property var _lastNotif: null
@@ -39,8 +44,9 @@ Scope {
     readonly property bool fullscreenActive: WorkspaceAppData.windowList.some(w =>
         (w.fullscreen ?? 0) > 0 && (w.workspace?.id ?? -2) === _activeWsId)
 
-    // Resolved priority: osd > battery > notif > media > home (idle)
+    // Resolved priority: launcher > osd > battery > notif > media > home (idle)
     readonly property string mode: {
+        if (launcherOpen)             return "launcher";
         if (_osdActive)               return "osd";
         if (_batteryActive)           return "battery";
         if (_notifActive && topNotif) return "notif";
@@ -167,17 +173,48 @@ Scope {
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "quickshell:island"
+        WlrLayershell.keyboardFocus: scope.launcherOpen ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
         color: "transparent"
         mask: Region { item: container }
 
         anchors { top: true }
         margins { top: 0 }
 
-        implicitWidth: Config.island.maxWidth + 80
+        HyprlandFocusGrab {
+            windows: [win]
+            active: scope.launcherOpen
+            onCleared: scope.launcher?.hide()
+        }
+
+        Keys.onPressed: event => {
+            if (!scope.launcherOpen) return;
+            if (event.key === Qt.Key_Escape) {
+                scope.launcher.hide();
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Down) {
+                launcherView.listView.incrementCurrentIndex();
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Up) {
+                launcherView.listView.decrementCurrentIndex();
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                launcherView.activateCurrent();
+                event.accepted = true;
+            }
+        }
+
+        Shortcut {
+            sequences: ["Escape"]
+            enabled: scope.launcherOpen
+            onActivated: scope.launcher?.hide()
+        }
+
+        implicitWidth: Math.max(Config.island.maxWidth, Config.island.launcherWidth) + 80
         implicitHeight: Math.max(Config.island.expandedHeightHome,
                                  Config.island.expandedHeightMedia,
                                  Config.island.expandedHeightNotif,
-                                 Config.island.expandedHeightBattery) + 80
+                                 Config.island.expandedHeightBattery,
+                                 Config.island.launcherMaxHeight) + 80
 
         Item {
             id: container
@@ -242,14 +279,21 @@ Scope {
                 property bool _modeStable: true
 
                 readonly property bool hoverable:
+                    _displayMode === "launcher" ? false :
                     Config.island.hoverIdleExpand
                         ? (_displayMode !== "osd")
                         : (_displayMode === "media" || _displayMode === "notif" || _displayMode === "battery")
 
                 readonly property bool expanded:
-                    hoverable && _modeStable && (hoverHandler.hovered || scope.peeking)
+                    _displayMode === "launcher" ? true :
+                    (hoverable && _modeStable && (hoverHandler.hovered || scope.peeking))
 
                 readonly property int targetW: {
+                    if (_displayMode === "launcher") {
+                        return LauncherSearch.query === ""
+                            ? Config.island.launcherCollapsedWidth
+                            : Config.island.launcherWidth;
+                    }
                     if (expanded) {
                         switch (_displayMode) {
                             case "media":   return Config.island.expandedWidthMedia;
@@ -268,6 +312,11 @@ Scope {
                     return Config.island.notchClosedWidth;
                 }
                 readonly property int targetH: {
+                    if (_displayMode === "launcher") {
+                        return Math.max(Config.island.launcherMinHeight,
+                                        Math.min(Config.island.launcherMaxHeight,
+                                                 launcherView.desiredHeight));
+                    }
                     if (!expanded) {
                         if (_displayMode === "osd") return Config.island.osdHeight;
                         return Config.island.notchClosedHeight;
@@ -281,11 +330,13 @@ Scope {
                     return Config.island.notchClosedHeight;
                 }
                 readonly property real targetTopR:
-                    _displayMode === "osd" ? Config.island.osdTopRadius
+                    _displayMode === "launcher" ? Config.island.launcherTopRadius
+                    : _displayMode === "osd" ? Config.island.osdTopRadius
                     : expanded ? Config.island.notchOpenTopRadius
                     : Config.island.notchClosedTopRadius
                 readonly property real targetBottomR:
-                    _displayMode === "osd" ? Config.island.osdBottomRadius
+                    _displayMode === "launcher" ? Config.island.launcherBottomRadius
+                    : _displayMode === "osd" ? Config.island.osdBottomRadius
                     : expanded ? Config.island.notchOpenBottomRadius
                     : Config.island.notchClosedBottomRadius
             }
@@ -339,6 +390,7 @@ Scope {
                 hoverEnabled: false
                 acceptedButtons: Qt.LeftButton | Qt.MiddleButton
                 enabled: !(pillState._displayMode === "media" && pillState.expanded)
+                          && pillState._displayMode !== "launcher"
                 onClicked: e => {
                     if (pillState._displayMode === "notif") {
                         Config.showSidebar = true;
@@ -449,6 +501,25 @@ Scope {
                 Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
             }
             
+            IslandLauncher {
+                id: launcherView
+                anchors.fill: notch
+                anchors.leftMargin: notch.topRadius
+                anchors.rightMargin: notch.topRadius
+                opacity: pillState._displayMode === "launcher" ? 1 : 0
+                visible: opacity > 0
+                onActivated: scope.launcher?.hide()
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: M3Easing.durationLong1
+                        easing.bezierCurve: M3Easing.emphasized
+                    }
+                }
+                Component.onCompleted: {
+                    if (scope.launcher) scope.launcher.islandView = launcherView;
+                }
+            }
+
             IslandMediaVizPeek {
                 id: vizPeek
                 width: Config.island.mediaVizPeekWidth

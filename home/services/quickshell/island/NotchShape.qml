@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Shapes
+import qs.utils
 
 Item {
     id: root
@@ -68,9 +69,9 @@ Item {
         }
     }
 
-    Behavior on bodyWidth     { NumberAnimation { duration: 360; easing.type: Easing.OutCubic } }
-    Behavior on bodyHeight    { NumberAnimation { duration: 320; easing.type: Easing.OutCubic } }
-    Behavior on topRadius     { NumberAnimation { duration: 320; easing.type: Easing.OutCubic } }
-    Behavior on bottomRadius  { NumberAnimation { duration: 320; easing.type: Easing.OutCubic } }
-    Behavior on fillColor     { ColorAnimation   { duration: 320; easing.type: Easing.OutCubic } }
+    Behavior on bodyWidth     { NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
+    Behavior on bodyHeight    { NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
+    Behavior on topRadius     { NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
+    Behavior on bottomRadius  { NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
+    Behavior on fillColor     { ColorAnimation   { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
 }

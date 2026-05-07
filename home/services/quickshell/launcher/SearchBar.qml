@@ -16,6 +16,8 @@ RowLayout {
     property bool animateWidth: false
 
     signal accepted
+    signal upPressed
+    signal downPressed
 
     readonly property string query: LauncherSearch.query
     readonly property bool isClipboard: query.startsWith(LauncherSearch.clipboardPrefix)
@@ -36,7 +38,7 @@ RowLayout {
                 : (root.query === "" ? MaterialShape.Shape.Cookie7Sided : MaterialShape.Shape.Clover4Leaf)
 
             Behavior on color {
-                ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
+                ColorAnimation { duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized }
             }
         }
 
@@ -48,37 +50,58 @@ RowLayout {
         }
     }
 
-    TextField {
-        id: input
-        Layout.fillWidth: false
+    Item {
         Layout.topMargin: 4
         Layout.bottomMargin: 4
-        leftPadding: 14
-        rightPadding: 14
-        implicitHeight: 40
-        font.family: Config.typography.family
-        font.pixelSize: Config.typography.small
-        color: Colors.foreground
-        placeholderText: "Search apps, # for clipboard"
-        placeholderTextColor: Colors.comment
-        selectByMouse: true
-        verticalAlignment: TextInput.AlignVCenter
-
-        background: Rectangle {
-            radius: 20
-            color: Colors.surfaceContainerLow
-        }
+        Layout.alignment: Qt.AlignVCenter
 
         readonly property int collapsedWidth: 320
         readonly property int expandedWidth: 560
         implicitWidth: root.query === "" ? collapsedWidth : expandedWidth
+        implicitHeight: 40
 
         Behavior on implicitWidth {
-            NumberAnimation { duration: 280; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized }
         }
 
-        onTextChanged: LauncherSearch.query = text
-        onAccepted: root.accepted()
-        Keys.onEscapePressed: event => event.accepted = false
+        TextField {
+            id: input
+            anchors.fill: parent
+            leftPadding: 14
+            rightPadding: 14
+            font.family: Config.typography.family
+            font.pixelSize: Config.typography.small
+            color: Colors.foreground
+            placeholderText: ""
+            selectByMouse: true
+            verticalAlignment: TextInput.AlignVCenter
+
+            background: Rectangle {
+                radius: 20
+                color: Colors.surfaceContainer
+            }
+
+            onTextChanged: LauncherSearch.query = text
+            onAccepted: root.accepted()
+            Keys.onEscapePressed: event => event.accepted = false
+            Keys.onUpPressed: event => { root.upPressed(); event.accepted = true; }
+            Keys.onDownPressed: event => { root.downPressed(); event.accepted = true; }
+        }
+
+        Text {
+            anchors.left: parent.left
+            anchors.leftMargin: input.leftPadding
+            anchors.right: parent.right
+            anchors.rightMargin: input.rightPadding
+            anchors.verticalCenter: parent.verticalCenter
+            text: qsTr("Search apps, # for clipboard")
+            color: Colors.comment
+            font: input.font
+            elide: Text.ElideRight
+            opacity: input.text === "" ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation { duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized }
+            }
+        }
     }
 }

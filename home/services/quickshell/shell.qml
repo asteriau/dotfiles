@@ -20,8 +20,8 @@ ShellRoot {
 
     Background {}
     Bar {}
-    Island {}
-    Launcher {}
+    Launcher { id: launcher }
+    Island { launcher: launcher }
     Sidebar {}
     WallpaperPicker {}
     RegionSelector {}
