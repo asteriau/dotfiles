@@ -162,7 +162,7 @@ Scope {
     PanelWindow {
         id: win
         screen: Config.preferredMonitor
-        visible: !scope.fullscreenActive
+        visible: true
 
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
@@ -188,6 +188,52 @@ Scope {
 
             readonly property bool mediaPeekVisible:
                 pillState._displayMode === "media" && !pillState.expanded
+
+            // Idle = nothing happening. Hide entirely with M3 emphasized
+            // expand/collapse animation instead of rendering a "home" pill.
+            readonly property bool idleHidden: pillState._displayMode === "home" || scope.fullscreenActive
+
+            opacity: idleHidden ? 0 : 1
+            visible: opacity > 0.001
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: M3Easing.durationMedium3
+                    easing.bezierCurve: M3Easing.emphasized
+                }
+            }
+
+            transform: [
+                Scale {
+                    id: containerScale
+                    origin.x: container.width / 2
+                    origin.y: 0
+                    xScale: container.idleHidden ? 0.6 : 1
+                    yScale: container.idleHidden ? 0.6 : 1
+                    Behavior on xScale {
+                        NumberAnimation {
+                            duration: M3Easing.durationLong1
+                            easing.bezierCurve: M3Easing.emphasized
+                        }
+                    }
+                    Behavior on yScale {
+                        NumberAnimation {
+                            duration: M3Easing.durationLong1
+                            easing.bezierCurve: M3Easing.emphasized
+                        }
+                    }
+                },
+                Translate {
+                    id: containerTranslate
+                    y: container.idleHidden ? -container.implicitHeight : 0
+                    Behavior on y {
+                        NumberAnimation {
+                            duration: M3Easing.durationLong1
+                            easing.bezierCurve: M3Easing.emphasized
+                        }
+                    }
+                }
+            ]
 
             QtObject {
                 id: pillState
@@ -283,6 +329,7 @@ Scope {
                 fillColor:    (pillState._displayMode === "media" && pillState.expanded)
                                   ? mediaExpanded.backdropColor
                                   : Colors.background
+                layer.enabled: true
             }
 
             HoverHandler { id: hoverHandler }
@@ -351,28 +398,12 @@ Scope {
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
             }
 
-            IslandHome {
-                anchors.fill: notch
-                anchors.leftMargin: notch.topRadius
-                anchors.rightMargin: notch.topRadius
-                opacity: pillState._displayMode === "home" && pillState.expanded ? 1 : 0
-                visible: opacity > 0
-                Behavior on opacity {
-                    SequentialAnimation {
-                        PauseAnimation { duration: 90 }
-                        NumberAnimation { duration: M3Easing.durationShort4; easing.type: Easing.OutCubic }
-                    }
-                }
-            }
-
             // Media expanded card (clipped to the notch body via OpacityMask
             // would be ideal; here we just inset slightly and let the curved
             // bottom corners frame the content)
             Item {
                 id: mediaExpanded
                 anchors.fill: notch
-                anchors.leftMargin: notch.topRadius
-                anchors.rightMargin: notch.topRadius
                 readonly property bool shouldShow: pillState._displayMode === "media" && pillState.expanded
                 readonly property color tintColor: card.blendedColors?.colPrimary ?? Colors.accent
                 readonly property color backdropColor: card.blendedColors?.colLayer0 ?? Colors.background
@@ -399,6 +430,8 @@ Scope {
                     id: card
                     anchors.fill: parent
                     radius: notch.bottomRadius
+                    backdropMask: notch
+                    contentSideInset: notch.topRadius
                 }
             }
 

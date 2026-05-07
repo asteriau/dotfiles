@@ -16,6 +16,10 @@ Item {
     property string artSource: ""
     property var colors: null
     property bool showShadow: true
+    // Optional external alpha mask. When set, shape comes from this item's
+    // rendered alpha instead of the internal rounded rectangle. Caller is
+    // responsible for ensuring the item is layer-backed (layer.enabled: true).
+    property Item maskSource: null
 
     RectangularShadow {
         visible: root.showShadow
@@ -33,15 +37,20 @@ Item {
         anchors.fill: parent
         anchors.margins: root.showShadow ? 4 : 0
         color: root.colors ? ColorMix.applyAlpha(root.colors.colLayer0, 1) : Colors.elevated
-        radius: root.radius
+        radius: root.maskSource ? 0 : root.radius
 
         layer.enabled: true
         layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: background.width
-                height: background.height
-                radius: background.radius
-            }
+            maskSource: root.maskSource ? root.maskSource : internalMask
+        }
+
+        Rectangle {
+            id: internalMask
+            visible: false
+            layer.enabled: true
+            width: background.width
+            height: background.height
+            radius: root.radius
         }
 
         Image {
@@ -73,7 +82,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             color: root.colors ? ColorMix.transparentize(root.colors.colLayer0, 0.3) : "transparent"
-            radius: root.radius
+            radius: root.maskSource ? 0 : root.radius
         }
     }
 }

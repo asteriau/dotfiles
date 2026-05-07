@@ -9,8 +9,8 @@ ProgressBar {
     property real valueBarWidth: 120
     property real valueBarHeight: 4
     property real valueBarGap: 4
-    property color highlightColor: Colors.accent
-    property color trackColor: Colors.secondaryContainer
+    property color highlightColor: Colors.colPrimary
+    property color trackColor: Colors.colSecondaryContainer
     property bool wavy: false
     property bool animateWave: true
     property real waveAmplitudeMultiplier: wavy ? 0.5 : 0
@@ -18,11 +18,11 @@ ProgressBar {
     property real waveFps: 60
 
     Behavior on waveAmplitudeMultiplier {
-        NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+        animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 
     Behavior on value {
-        NumberAnimation { duration: M3Easing.durationShort4; easing.type: Easing.OutCubic }
+        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
     }
 
     background: Item {
@@ -42,13 +42,13 @@ ProgressBar {
             active: root.wavy
             sourceComponent: WavyLine {
                 id: wavyFill
-                frequency: Math.max(2, width / 14)
+                frequency: root.waveFrequency
                 color: root.highlightColor
-                amplitudeMultiplier: root.wavy ? 1.2 : 0
-                height: 24
+                amplitudeMultiplier: root.wavy ? 0.5 : 0
+                height: contentItem.height * 6
                 width: contentItem.width * root.visualPosition
-                lineWidth: 5
-                fullLength: width
+                lineWidth: contentItem.height
+                fullLength: root.width
                 Connections {
                     target: root
                     function onValueChanged() { wavyFill.requestPaint(); }

@@ -29,7 +29,7 @@ Item {
         active: root.player?.canSeek ?? false
         sourceComponent: StyledSlider {
             configuration: StyledSlider.Configuration.Wavy
-            animateWave: root.animating
+            stopIndicatorValues: []
             highlightColor: root.colors?.colPrimary ?? Colors.accent
             trackColor: root.colors?.colSecondaryContainer ?? Colors.secondaryContainer
             handleColor: root.colors?.colPrimary ?? Colors.accent
@@ -48,7 +48,6 @@ Item {
         active: !(root.player?.canSeek ?? false)
         sourceComponent: StyledProgressBar {
             wavy: root.animating
-            animateWave: root.animating
             highlightColor: root.colors?.colPrimary ?? Colors.accent
             trackColor: root.colors?.colSecondaryContainer ?? Colors.secondaryContainer
             value: root.length > 0 ? (root.position / root.length) : 0

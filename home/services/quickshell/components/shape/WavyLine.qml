@@ -1,48 +1,30 @@
 import QtQuick
+import qs.utils
 
 Canvas {
     id: root
-
-    property real amplitudeMultiplier: 1.0
+    property real amplitudeMultiplier: 0.5
     property real frequency: 6
-    property color color: "#FFFFFF"
-    property real lineWidth: 3
+    property color color: Colors.colPrimary ?? "#685496"
+    property real lineWidth: 4
     property real fullLength: width
-    property real phaseSpeed: 1.0
-    property real phase: 0
-
-    FrameAnimation {
-        running: root.visible && root.phaseSpeed > 0
-        onTriggered: {
-            root.phase = (Date.now() / 400.0) * root.phaseSpeed;
-            root.requestPaint();
-        }
-    }
-
-    onWidthChanged: requestPaint()
-    onHeightChanged: requestPaint()
-    onColorChanged: requestPaint()
 
     onPaint: {
-        const ctx = getContext("2d");
+        var ctx = getContext("2d");
         ctx.clearRect(0, 0, width, height);
-        if (width <= 0 || height <= 0)
-            return;
 
-        const amplitude = lineWidth * amplitudeMultiplier;
-        const centerY = height / 2;
+        var amplitude = root.lineWidth * root.amplitudeMultiplier;
+        var frequency = root.frequency;
+        var phase = Date.now() / 400.0;
+        var centerY = height / 2;
 
-        ctx.strokeStyle = color;
-        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = root.color;
+        ctx.lineWidth = root.lineWidth;
         ctx.lineCap = "round";
-        ctx.lineJoin = "round";
         ctx.beginPath();
-
-        const startX = lineWidth / 2;
-        const endX = width - lineWidth / 2;
-        for (let x = startX; x <= endX; x += 1) {
-            const waveY = centerY + amplitude * Math.sin(frequency * 2 * Math.PI * x / fullLength + phase);
-            if (x === startX)
+        for (var x = ctx.lineWidth / 2; x <= root.width - ctx.lineWidth / 2; x += 1) {
+            var waveY = centerY + amplitude * Math.sin(frequency * 2 * Math.PI * x / root.fullLength + phase);
+            if (x === 0)
                 ctx.moveTo(x, waveY);
             else
                 ctx.lineTo(x, waveY);

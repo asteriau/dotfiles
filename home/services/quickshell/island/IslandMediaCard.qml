@@ -18,11 +18,16 @@ Item {
 
     property MprisPlayer player: MprisState.player
     property real radius: Config.island.expandRadius
+    property Item backdropMask: null
+    property real contentSideInset: 0
 
     readonly property string artUrl: (player?.trackArtUrl ?? "").toString()
-    readonly property string artDownloadLocation: StandardPaths.writableLocation(StandardPaths.CacheLocation) + "/quickshell/coverart"
-    readonly property string artFileName: Qt.md5(artUrl ?? "")
-    readonly property string artFilePath: `${artDownloadLocation}/${artFileName}`
+    readonly property string artDownloadLocation: {
+        const loc = StandardPaths.writableLocation(StandardPaths.CacheLocation);
+        return loc.toString().replace(/^file:\/\//, "").replace(/^file:/, "") + "/quickshell/coverart"
+    }
+    readonly property string artFileName: artUrl ? Qt.md5(artUrl) : ""
+    readonly property string artFilePath: artFileName ? `${artDownloadLocation}/${artFileName}` : ""
     property bool downloaded: false
     property color artDominantColor: ColorMix.mix((colorQuantizer?.colors[0] ?? Colors.accent), Colors.primaryContainer, 0.8)
 
@@ -105,11 +110,12 @@ Item {
         artSource: root.displayedArtFilePath
         colors: root.blendedColors
         showShadow: false
+        maskSource: root.backdropMask
 
         RowLayout {
             anchors.fill: parent
-            anchors.leftMargin: 14
-            anchors.rightMargin: 14
+            anchors.leftMargin: 14 + root.contentSideInset
+            anchors.rightMargin: 14 + root.contentSideInset
             anchors.topMargin: 12
             anchors.bottomMargin: 12
             spacing: 14

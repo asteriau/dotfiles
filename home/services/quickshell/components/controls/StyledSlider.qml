@@ -8,7 +8,7 @@ import qs.utils
 Slider {
     id: root
 
-    property list<real> stopIndicatorValues: []
+    property list<real> stopIndicatorValues: [1]
     property list<real> dividerValues: []
     enum Configuration {
         Wavy = 4,
@@ -23,10 +23,10 @@ Slider {
 
     property real handleDefaultWidth: 3
     property real handlePressedWidth: 1.5
-    property color highlightColor: Colors.accent
-    property color trackColor: Colors.secondaryContainer
-    property color handleColor: Colors.accent
-    property color dotColor: Colors.m3onSecondaryContainer
+    property color highlightColor: Colors.colPrimary
+    property color trackColor: Colors.colSecondaryContainer
+    property color handleColor: Colors.colPrimary
+    property color dotColor: Colors.colOnSecondaryContainer
     property color dotColorHighlighted: Colors.m3onPrimary
     property real unsharpenRadius: 2
     property real trackWidth: configuration
@@ -56,12 +56,16 @@ Slider {
 
     Behavior on value {
         SmoothedAnimation {
-            velocity: 3
+            velocity: M3Easing.elementMoveFastVelocity
         }
     }
 
     Behavior on handleMargins {
-        NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+        NumberAnimation {
+            duration: M3Easing.elementMoveFastDuration
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: M3Easing.expressiveEffects
+        }
     }
 
     component TrackDot: Rectangle {
@@ -71,15 +75,21 @@ Slider {
         x: root.handleMargins + (normalizedValue * root.effectiveDraggingWidth) - (root.trackDotSize / 2)
         width: root.trackDotSize
         height: root.trackDotSize
-        radius: 999
+        radius: 9999
         color: normalizedValue > root.visualPosition ? root.dotColor : root.dotColorHighlighted
 
-        Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on color {
+            ColorAnimation {
+                duration: M3Easing.elementMoveFastDuration
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: M3Easing.expressiveEffects
+            }
+        }
     }
 
     MouseArea {
         anchors.fill: parent
-        onPressed: mouse => mouse.accepted = false
+        onPressed: (mouse) => mouse.accepted = false
         cursorShape: root.pressed ? Qt.ClosedHandCursor : Qt.PointingHandCursor
     }
 
@@ -132,14 +142,12 @@ Slider {
                 active: root.wavy
                 sourceComponent: WavyLine {
                     id: wavyFill
-                    anchors.verticalCenter: parent.verticalCenter
-                    frequency: Math.max(2, width / 14)
-                    fullLength: width
+                    frequency: root.waveFrequency
+                    fullLength: root.width
                     color: root.highlightColor
-                    amplitudeMultiplier: root.wavy ? 1.2 : 0
+                    amplitudeMultiplier: root.wavy ? 0.5 : 0
                     width: parent.width
-                    height: 24
-                    lineWidth: 5
+                    height: root.trackWidth
                     Connections {
                         target: root
                         function onValueChanged() { wavyFill.requestPaint(); }
@@ -179,20 +187,27 @@ Slider {
             TrackDot {
                 required property real modelData
                 value: modelData
+                anchors.verticalCenter: parent?.verticalCenter
             }
         }
     }
 
     handle: Rectangle {
+        id: handle
+
         implicitWidth: root.handleWidth
         implicitHeight: root.handleHeight
         x: root.leftPadding + (root.visualPosition * root.effectiveDraggingWidth) - (root.handleWidth / 2)
         anchors.verticalCenter: parent.verticalCenter
-        radius: 999
+        radius: 9999
         color: root.handleColor
 
         Behavior on implicitWidth {
-            NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+            NumberAnimation {
+                duration: M3Easing.elementMoveFastDuration
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: M3Easing.expressiveEffects
+            }
         }
     }
 }
