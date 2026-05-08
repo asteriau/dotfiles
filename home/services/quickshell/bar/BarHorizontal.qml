@@ -5,7 +5,7 @@ import qs.utils
 Rectangle {
     id: root
     color: Colors.background
-    radius: Config.bar.rounding ? Config.bar.cornerRadius : 0
+    radius: Config.bar.rounding ? Config.layout.radiusBar : 0
 
     Rectangle {
         visible: Config.bar.rounding
@@ -28,7 +28,7 @@ Rectangle {
     Row {
         anchors {
             left: parent.left
-            leftMargin: Config.layout.gapLg
+            leftMargin: Config.layout.zonePaddingH
             verticalCenter: parent.verticalCenter
         }
         spacing: Config.layout.barZoneGap
@@ -50,7 +50,7 @@ Rectangle {
     Row {
         anchors {
             right: parent.right
-            rightMargin: Config.layout.gapLg
+            rightMargin: Config.layout.zonePaddingH
             verticalCenter: parent.verticalCenter
         }
         spacing: Config.layout.barZoneGap
@@ -59,12 +59,6 @@ Rectangle {
         Battery    { vertical: false; anchors.verticalCenter: parent.verticalCenter }
         WeatherBar { anchors.verticalCenter: parent.verticalCenter }
 
-        BarGroup {
-            anchors.verticalCenter: parent.verticalCenter
-            tone: "low"
-            columnSpacing: Config.layout.gapMd
-
-            Clock {}
-        }
+        Clock { anchors.verticalCenter: parent.verticalCenter }
     }
 }

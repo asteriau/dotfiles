@@ -2,21 +2,27 @@ import QtQuick
 import QtQuick.Layouts
 import qs.components.controls
 import qs.components.effects
+import qs.components.surfaces
 import qs.components.text
 import qs.utils
 import qs.utils.state
 
-MouseArea {
+PressablePill {
     id: root
-    hoverEnabled: false
-    acceptedButtons: Qt.LeftButton
 
-    implicitWidth:  col.implicitWidth
-    implicitHeight: col.implicitHeight
+    implicitWidth:  Config.bar.width - Config.layout.gapSm * 2
+    implicitHeight: col.implicitHeight + 8
+
+    radius: Config.layout.radiusContainer
+    colorIdle: Colors.transparent
+    useStateLayer: true
+    pressScale: 0.98
+
     onClicked: popup.active = !popup.active
 
     Column {
         id: col
+        anchors.centerIn: parent
         spacing: 6
 
         CircularProgress {

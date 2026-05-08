@@ -1,11 +1,12 @@
 import QtQuick
 import QtQuick.Layouts
+import qs.components.surfaces
 import qs.components.text
 import qs.components.effects
 import qs.components.controls
 import qs.utils
 
-MouseArea {
+PressablePill {
     id: root
 
     property bool vertical: Config.bar.vertical
@@ -16,8 +17,13 @@ MouseArea {
     readonly property string hhmm:  Qt.formatDateTime(Utils.clock.date, "hh:mm")
     readonly property string ddmm:  Qt.formatDateTime(Utils.clock.date, "dd/MM")
 
-    implicitWidth:  horizontal ? hRow.implicitWidth : col.implicitWidth
-    implicitHeight: horizontal ? Config.bar.height : col.implicitHeight
+    implicitWidth:  horizontal ? hRow.implicitWidth + 16 : Config.bar.width - Config.layout.gapSm * 2
+    implicitHeight: horizontal ? Config.bar.height - Config.layout.gapSm * 2 : col.implicitHeight + 8
+
+    radius: Config.layout.radiusContainer
+    colorIdle: horizontal ? Colors.surfaceContainerLow : Colors.transparent
+    useStateLayer: true
+    pressScale: 0.98
 
     onClicked: popup.active = !popup.active
 
@@ -135,6 +141,8 @@ MouseArea {
                                 text: "chevron_left"
                                 pixelSize: 20
                                 color: Colors.foreground
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
                             }
                         }
 
@@ -147,6 +155,8 @@ MouseArea {
                                 text: "chevron_right"
                                 pixelSize: 20
                                 color: Colors.foreground
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
                             }
                         }
                     }

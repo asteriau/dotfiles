@@ -5,6 +5,7 @@ import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Widgets
+import qs.components.surfaces
 import qs.components.text
 import qs.utils
 
@@ -45,25 +46,24 @@ Item {
         onPressed: Hyprland.dispatch(`workspace ${root.workspaceValue}`)
     }
 
-    // Flat luminous hover state (clipped to the button circle).
-    Rectangle {
+    // M3 state-layer overlay (clipped to the button circle).
+    StateLayer {
         anchors.centerIn: parent
         width: root.buttonWidth
         height: width
         radius: width / 2
-
-        color: Colors.m3onSurface
-        opacity: ma.pressed ? 0.18 :
-                 ma.containsMouse ? 0.12 : 0
-
-        Behavior on opacity {
-            NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
-        }
+        hovered: ma.containsMouse
+        pressed: ma.pressed
     }
 
     Item {
         id: content
         anchors.fill: parent
+
+        scale: ma.pressed ? 0.96 : 1.0
+        Behavior on scale {
+            NumberAnimation { duration: M3Easing.pressDuration; easing.type: Easing.OutQuad }
+        }
 
         readonly property var biggestWindow:
             WorkspaceAppData.biggestWindowForWorkspace(root.workspaceValue)

@@ -9,8 +9,8 @@ PressablePill {
 
     radius: width / 2
     colorIdle:    Colors.transparent
-    colorHover:   Colors.hoverStrong
-    colorPressed: Colors.hoverStrong
+    useStateLayer: true
+    stateLayerTone: iconColor
     pressScale: 0.9
     pressDuration: M3Easing.durationShort3  // match sparkIcon's scale timing
 

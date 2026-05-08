@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Services.SystemTray
 import Quickshell.Widgets
 import qs.components.effects
+import qs.components.surfaces
 import qs.components.text
 import qs.utils
 
@@ -20,7 +21,7 @@ Rectangle {
 
     implicitWidth:  vertical ? 32 : (hRow.implicitWidth + 12)
     implicitHeight: vertical ? (vCol.implicitHeight + 12) : (Config.bar.height - 8)
-    radius: Config.layout.radiusSm
+    radius: Config.layout.radiusContainer
     color: "transparent"
 
     // Shared delegate: icon with right-click menu + tooltip.
@@ -122,11 +123,18 @@ Rectangle {
             color: Colors.divider
         }
 
-        WrapperMouseArea {
+        PressablePill {
             Layout.alignment: Qt.AlignHCenter
+            implicitWidth: 24
+            implicitHeight: 24
+            radius: 12
+            colorIdle: Colors.transparent
+            useStateLayer: true
+            pressScale: 0.96
             onClicked: root.iconsVisible = !root.iconsVisible
 
             MaterialIcon {
+                anchors.centerIn: parent
                 text: "expand_more"
                 pixelSize: 14
                 color: root.iconsVisible ? Colors.accent : Colors.foreground
@@ -179,11 +187,18 @@ Rectangle {
             color: Colors.divider
         }
 
-        WrapperMouseArea {
+        PressablePill {
             anchors.verticalCenter: parent.verticalCenter
+            implicitWidth: 24
+            implicitHeight: 24
+            radius: 12
+            colorIdle: Colors.transparent
+            useStateLayer: true
+            pressScale: 0.96
             onClicked: root.iconsVisible = !root.iconsVisible
 
             MaterialIcon {
+                anchors.centerIn: parent
                 text: root.iconsVisible ? "chevron_right" : "chevron_left"
                 pixelSize: 14
                 color: root.iconsVisible ? Colors.accent : Colors.foreground

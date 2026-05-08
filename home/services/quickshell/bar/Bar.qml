@@ -48,7 +48,7 @@ PanelWindow {
             id: navZone
             anchors {
                 top: parent.top
-                topMargin: Config.layout.gapXl
+                topMargin: Config.layout.zonePaddingV
                 horizontalCenter: parent.horizontalCenter
             }
             implicitWidth: sidebarToggle.implicitWidth
@@ -69,6 +69,7 @@ PanelWindow {
             BarGroup {
                 Layout.alignment: Qt.AlignHCenter
                 tone: "low"
+                padding: 0
 
                 ResourcesBar {}
             }
@@ -78,6 +79,7 @@ PanelWindow {
                 Layout.alignment: Qt.AlignHCenter
                 tone: "low"
                 rowSpacing: Config.layout.gapMd
+                padding: 0
 
                 Clock {}
             }
@@ -88,18 +90,22 @@ PanelWindow {
             id: statusZone
             anchors {
                 bottom: parent.bottom
-                bottomMargin: Config.layout.gapLg
+                bottomMargin: Config.layout.zonePaddingV
                 horizontalCenter: parent.horizontalCenter
             }
             spacing: Config.layout.barZoneGap
 
             BarGroup {
+                id: batteryGroup
                 Layout.alignment: Qt.AlignHCenter
                 tone: "low"
                 rowSpacing: Config.layout.gapMd
-                transparent: true
+                transparent: !battery.low
+                bgColor: battery.low
+                    ? ColorMix.mix(Colors.red, toneColor, 0.2)
+                    : toneColor
 
-                Battery {}
+                Battery { id: battery }
             }
 
             Tray { Layout.alignment: Qt.AlignHCenter }

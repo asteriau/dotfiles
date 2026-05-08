@@ -50,10 +50,10 @@ Item {
             MaterialShape.Shape.Cookie9Sided,
             MaterialShape.Shape.Clover4Leaf,
             MaterialShape.Shape.Cookie6Sided,
-            MaterialShape.Shape.Burst,
+            MaterialShape.Shape.Flower,
             MaterialShape.Shape.Cookie4Sided,
-            MaterialShape.Shape.Puffy,
-            MaterialShape.Shape.Diamond
+            MaterialShape.Shape.SoftBoom,
+            MaterialShape.Shape.Clover8Leaf
         ]
 
         shape: morphShapes[((root.activeWorkspaceId ?? 1) - 1) % morphShapes.length]

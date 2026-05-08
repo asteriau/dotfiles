@@ -20,7 +20,7 @@ Item {
                                      : tone === "high"      ? Colors.surfaceContainerHigh
                                                             : Colors.surfaceContainerLow
     property color bgColor: toneColor
-    property int  radius: Config.layout.radiusMd
+    property int  radius: Config.layout.radiusContainer
 
     readonly property bool vertical: Config.bar.vertical
 
@@ -33,10 +33,10 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        anchors.topMargin:    root.vertical ? 0 : 4
-        anchors.bottomMargin: root.vertical ? 0 : 4
-        anchors.leftMargin:   root.vertical ? 4 : 0
-        anchors.rightMargin:  root.vertical ? 4 : 0
+        anchors.topMargin:    root.vertical ? 0 : Config.layout.gapSm
+        anchors.bottomMargin: root.vertical ? 0 : Config.layout.gapSm
+        anchors.leftMargin:   root.vertical ? Config.layout.gapSm : 0
+        anchors.rightMargin:  root.vertical ? Config.layout.gapSm : 0
         radius: root.radius
         color: root.transparent ? "transparent" : root.bgColor
 

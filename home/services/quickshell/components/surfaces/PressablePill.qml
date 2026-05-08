@@ -21,6 +21,11 @@ Item {
     property real pressScale: 0.92
     property int  pressDuration: M3Easing.pressDuration
 
+    // MD3 state-layer overlay (opt-in). When true, hover/press color blending is
+    // suppressed and a StateLayer overlay handles visual feedback.
+    property bool useStateLayer: false
+    property color stateLayerTone: Colors.m3onSurface
+
     readonly property alias hovered: ma.containsMouse
     readonly property alias pressed: ma.pressed
 
@@ -34,9 +39,11 @@ Item {
         anchors.fill: parent
         radius: root.radius
         antialiasing: true
-        color: root.active
-            ? (ma.containsMouse ? root.colorActiveHover : root.colorActive)
-            : (ma.pressed ? root.colorPressed : ma.containsMouse ? root.colorHover : root.colorIdle)
+        color: root.useStateLayer
+            ? (root.active ? root.colorActive : root.colorIdle)
+            : root.active
+                ? (ma.containsMouse ? root.colorActiveHover : root.colorActive)
+                : (ma.pressed ? root.colorPressed : ma.containsMouse ? root.colorHover : root.colorIdle)
         scale: root.enableScale && ma.pressed ? root.pressScale : 1.0
 
         Behavior on color {
@@ -44,6 +51,15 @@ Item {
         }
         Behavior on scale {
             NumberAnimation { duration: root.pressDuration; easing.type: Easing.OutQuad }
+        }
+
+        StateLayer {
+            anchors.fill: parent
+            visible: root.useStateLayer
+            radius: root.radius
+            tone: root.stateLayerTone
+            hovered: ma.containsMouse
+            pressed: ma.pressed
         }
     }
 

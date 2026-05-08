@@ -401,5 +401,23 @@ Singleton {
         readonly property int focalMaxWidth:  280
         readonly property int focalMinHeight: 28
         readonly property int barZoneGap:     8
+
+        // Semantic radius aliases (MD3)
+        readonly property int radiusInteractive: radiusSm
+        readonly property int radiusContainer:   radiusMd
+        readonly property int radiusBar:         18  // alias of Config.bar.cornerRadius
+
+        // Density tokens
+        readonly property int interactiveMinV: 40
+        readonly property int interactiveMinH: 32
+        readonly property int zonePaddingV:    gapXl
+        readonly property int zonePaddingH:    gapLg
+        readonly property int barWidgetPadding: gapSm
+
+        // M3 state-layer opacities
+        readonly property real stateHover: 0.08
+        readonly property real stateFocus: 0.10
+        readonly property real statePress: 0.10
+        readonly property real stateDrag:  0.16
     }
 }
