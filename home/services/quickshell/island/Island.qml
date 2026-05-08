@@ -30,6 +30,14 @@ Scope {
     property string osdLabel: ""
     property real osdProgress: 0
 
+    // OSD change-detection (avoid spurious triggers from upstream property refreshes)
+    property real _lastSinkVol: -1
+    property bool _lastSinkMuted: false
+    property bool _seededSink: false
+    property real _lastSourceVol: -1
+    property bool _lastSourceMuted: false
+    property bool _seededSource: false
+
     // Battery peek state
     property bool _batteryActive: false
     property bool _lastCharging: false
@@ -88,6 +96,13 @@ Scope {
         function update() {
             const muted = PipeWireState.defaultSink?.audio.muted ?? false;
             const vol = PipeWireState.defaultSink?.audio.volume ?? 0;
+            const changed = !scope._seededSink
+                || muted !== scope._lastSinkMuted
+                || Math.abs(vol - scope._lastSinkVol) > 0.0005;
+            scope._lastSinkVol = vol;
+            scope._lastSinkMuted = muted;
+            if (!scope._seededSink) { scope._seededSink = true; return; }
+            if (!changed) return;
             scope.osdIcon = muted ? "volume_off" : (vol < 0.01 ? "volume_mute" : (vol < 0.5 ? "volume_down" : "volume_up"));
             scope.osdLabel = "Volume";
             scope.osdProgress = vol;
@@ -102,9 +117,17 @@ Scope {
         target: PipeWireState.defaultSource ? PipeWireState.defaultSource.audio : null
         function update() {
             const muted = PipeWireState.defaultSource?.audio.muted ?? false;
+            const vol = PipeWireState.defaultSource?.audio.volume ?? 0;
+            const changed = !scope._seededSource
+                || muted !== scope._lastSourceMuted
+                || Math.abs(vol - scope._lastSourceVol) > 0.0005;
+            scope._lastSourceVol = vol;
+            scope._lastSourceMuted = muted;
+            if (!scope._seededSource) { scope._seededSource = true; return; }
+            if (!changed) return;
             scope.osdIcon = muted ? "mic_off" : "mic";
             scope.osdLabel = "Microphone";
-            scope.osdProgress = PipeWireState.defaultSource?.audio.volume ?? 0;
+            scope.osdProgress = vol;
             scope._osdActive = true;
             osdHide.restart();
         }

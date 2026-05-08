@@ -106,6 +106,13 @@ ContentPage {
                     cache: false
                     sourceSize.width: previewItem.width
                     sourceSize.height: previewItem.height
+                    opacity: status === Image.Ready ? 1 : 0
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: M3Easing.durationMedium2
+                            easing.type: Easing.OutCubic
+                        }
+                    }
                     layer.enabled: true
                     layer.effect: OpacityMask {
                         maskSource: Rectangle {
