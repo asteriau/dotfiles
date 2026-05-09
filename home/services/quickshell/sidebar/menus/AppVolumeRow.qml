@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Widgets
 import Quickshell.Services.Pipewire
 import qs.components.controls
 import qs.utils
@@ -25,9 +26,13 @@ Item {
     readonly property string iconHint: {
         if (!node) return "";
         return node.properties["application.icon-name"]
+            || node.properties["application.name"]
             || node.properties["node.name"]
             || "";
     }
+    readonly property string iconSource: iconHint.length > 0
+        ? Quickshell.iconPath(WorkspaceIconSearch.guessIcon(iconHint), "image-missing")
+        : ""
     readonly property bool muted: node?.audio?.muted ?? false
 
     ColumnLayout {
@@ -45,33 +50,11 @@ Item {
             Layout.fillWidth: true
             spacing: 10
 
-            Item {
-                implicitWidth: 22
-                implicitHeight: 22
-
-                Image {
-                    id: iconImg
-                    anchors.fill: parent
-                    sourceSize.width: 22
-                    sourceSize.height: 22
-                    smooth: true
-                    asynchronous: true
-                    visible: status === Image.Ready
-                    opacity: row.muted ? 0.4 : 1.0
-                    Behavior on opacity { Motion.Fade {} }
-                    source: row.iconHint.length > 0
-                        ? Quickshell.iconPath(row.iconHint, "image-missing")
-                        : ""
-                }
-
-                Text {
-                    anchors.centerIn: parent
-                    visible: iconImg.status !== Image.Ready
-                    text: "apps"
-                    color: row.muted ? Colors.m3onSurfaceInactive : Colors.m3onSurface
-                    font.family: "Material Symbols Rounded"
-                    font.pixelSize: 18
-                }
+            IconImage {
+                implicitSize: 22
+                source: row.iconSource
+                opacity: row.muted ? 0.4 : 1.0
+                Behavior on opacity { Motion.Fade {} }
             }
 
             Text {
