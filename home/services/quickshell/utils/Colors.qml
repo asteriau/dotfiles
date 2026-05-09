@@ -5,21 +5,25 @@ import qs.utils
 
 // Public color API.
 //
-// Base M3 roles delegate to `Appearance.colors.*` (the canonical surface).
-// State-layer overlays, layer aliases (colLayer*), and workspace visuals are
-// derived here. Eventual end state: consumers read `Appearance.colors.*` /
-// `Appearance.state.*` directly and this file disappears.
+// Base palette values come from the `Theme` singleton (see Theme.qml), which
+// reads a preset JSON or the matugen output. Derived tokens (state overlays,
+// accent shades, workspace visuals, etc.) are computed here from the base
+// palette — they do not belong in preset JSON files.
+//
+// This singleton is the stable public API: call sites stay unchanged when
+// swapping the underlying theme source. New code may also read the strict M3
+// surface at `Appearance.colors.*` directly.
 Singleton {
     id: root
 
-    // ── Base palette (delegated to Appearance.colors) ─────────────────────
-    readonly property color background: Appearance.colors.surface
-    readonly property color foreground: Appearance.colors.onSurface
-    readonly property color elevated:   Appearance.colors.surfaceVariant
-    readonly property color border:     Appearance.colors.outlineVariant
-    readonly property color accent:     Appearance.colors.primary
-    readonly property color red:        Appearance.colors.error
-    readonly property color mpris:      Appearance.colors.tertiary
+    // ── Core palette (from Theme) ─────────────────────────────────────────
+    readonly property color background: Theme.background
+    readonly property color foreground: Theme.foreground
+    readonly property color elevated:   Theme.elevated
+    readonly property color border:     Theme.border
+    readonly property color accent:     Theme.accent
+    readonly property color red:        Theme.red
+    readonly property color mpris:      Theme.mpris
 
     // Derived from foreground.
     readonly property color comment:    Qt.rgba(foreground.r, foreground.g, foreground.b, 0.5)
@@ -32,21 +36,22 @@ Singleton {
     readonly property color hoverStrongest: Qt.rgba(1, 1, 1, 0.12)
     readonly property color pressed:        Qt.rgba(1, 1, 1, 0.10)
     readonly property color pressedStrong:  Qt.rgba(1, 1, 1, 0.18)
-    readonly property color scrim:          Appearance.colors.scrim
+    readonly property color scrim:          Qt.rgba(0, 0, 0, 0.22)
 
     // Popup-layer surface (derived from elevated).
     readonly property color popupBackground: Qt.rgba(elevated.r, elevated.g, elevated.b, 0.94)
 
     // Derived.
     readonly property color overlay:        Qt.hsla(0, 0, 0.95, 0.7)
-    readonly property color windowShadow:   Appearance.colors.shadow
+    readonly property color windowShadow:   Qt.rgba(0, 0, 0, 0.2)
     readonly property color divider:        Qt.rgba(foreground.r, foreground.g, foreground.b, 0.15)
     readonly property color outlineVariant: divider
     readonly property color cardBorder:     Qt.rgba(1, 1, 1, 0.04)
 
-    // Tooltip uses inverse-surface tokens.
-    readonly property color tooltipBg: Appearance.colors.inverseSurface
-    readonly property color tooltipFg: Appearance.colors.onInverseSurface
+    // Tooltip uses inverse-surface tokens (light bg in dark themes, vice
+    // versa) so it pops against the panel.
+    readonly property color tooltipBg: foreground
+    readonly property color tooltipFg: background
 
     readonly property color buttonDisabled:      elevated
     readonly property color buttonDisabledHover: Qt.rgba(0.95, 0.95, 0.95, 0.25)
@@ -54,34 +59,34 @@ Singleton {
     readonly property color accentHover:   Qt.lighter(accent, 1.10)
     readonly property color accentPressed: Qt.lighter(accent, 1.18)
 
-    // M3 surface containers (delegated).
-    readonly property color surfaceContainerLowest:  Appearance.colors.surfaceContainerLowest
-    readonly property color surfaceContainerLow:     Appearance.colors.surfaceContainerLow
-    readonly property color surfaceContainer:        Appearance.colors.surfaceContainer
-    readonly property color surfaceContainerHigh:    Appearance.colors.surfaceContainerHigh
-    readonly property color surfaceContainerHighest: Appearance.colors.surfaceContainerHighest
+    // M3 surface containers (tonal elevation).
+    readonly property color surfaceContainerLowest:  Theme.surfaceContainerLowest
+    readonly property color surfaceContainerLow:     Theme.surfaceContainerLow
+    readonly property color surfaceContainer:        Theme.surfaceContainer
+    readonly property color surfaceContainerHigh:    Theme.surfaceContainerHigh
+    readonly property color surfaceContainerHighest: Theme.surfaceContainerHighest
 
     // M3 primary.
-    readonly property color m3onPrimary:          Appearance.colors.onPrimary
-    readonly property color primaryContainer:     Appearance.colors.primaryContainer
-    readonly property color m3onPrimaryContainer: Appearance.colors.onPrimaryContainer
+    readonly property color m3onPrimary:          Theme.m3onPrimary
+    readonly property color primaryContainer:     Theme.primaryContainer
+    readonly property color m3onPrimaryContainer: Theme.m3onPrimaryContainer
 
     // M3 secondary.
-    readonly property color secondaryContainer:     Appearance.colors.secondaryContainer
-    readonly property color m3onSecondaryContainer: Appearance.colors.onSecondaryContainer
+    readonly property color secondaryContainer:     Theme.secondaryContainer
+    readonly property color m3onSecondaryContainer: Theme.m3onSecondaryContainer
 
-    // Accent containers (legacy aliases — no strict M3 equivalent in palette).
+    // Accent containers.
     readonly property color accentContainer:     Theme.accentContainer
     readonly property color accentText:          Theme.accentText
     readonly property color accentContainerText: Theme.accentContainerText
 
     // M3 surface content.
-    readonly property color m3onSurface:         Appearance.colors.onSurface
-    readonly property color m3onSurfaceVariant:  Appearance.colors.onSurfaceVariant
+    readonly property color m3onSurface:         foreground
+    readonly property color m3onSurfaceVariant:  Theme.m3onSurfaceVariant
     readonly property color m3onSurfaceInactive: Qt.rgba(m3onSurfaceVariant.r, m3onSurfaceVariant.g, m3onSurfaceVariant.b, 0.55)
-    readonly property color m3outline:           Appearance.colors.outline
+    readonly property color m3outline:           Theme.m3outline
 
-    // ── ii-style layer/state aliases ──────────────────────────────────────
+    // ── ii-style layer/state aliases (used by ported QuickToggleTile/StyledSlider) ──
     function _mix(a, b, t) {
         return Qt.rgba(a.r * (1 - t) + b.r * t,
                        a.g * (1 - t) + b.g * t,
