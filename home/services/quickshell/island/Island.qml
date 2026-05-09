@@ -15,14 +15,10 @@ Scope {
     required property var launcher
 
     // State sources
-    readonly property var topNotif: NotificationState.popupNotifs[0] ?? null
     readonly property MprisPlayer player: MprisState.player
     readonly property bool mediaActive: player !== null
 
     readonly property bool launcherOpen: launcher?.open ?? false
-
-    property bool _notifActive: false
-    property var _lastNotif: null
 
     // OSD payload
     property bool _osdActive: false
@@ -43,7 +39,7 @@ Scope {
     property bool _lastCharging: false
     property bool _seededCharging: false
 
-    // Auto-peek: short force-expand window after fresh notif/battery event
+    // Auto-peek: short force-expand window after fresh battery event
     property bool peeking: false
 
     // Hide entirely when any window on the active workspace is fullscreen
@@ -52,35 +48,13 @@ Scope {
     readonly property bool fullscreenActive: WorkspaceAppData.windowList.some(w =>
         (w.fullscreen ?? 0) > 0 && (w.workspace?.id ?? -2) === _activeWsId)
 
-    // Resolved priority: launcher > osd > battery > notif > media > home (idle)
+    // Resolved priority: launcher > osd > battery > media > home (idle)
     readonly property string mode: {
-        if (launcherOpen)             return "launcher";
-        if (_osdActive)               return "osd";
-        if (_batteryActive)           return "battery";
-        if (_notifActive && topNotif) return "notif";
-        if (mediaActive)              return "media";
+        if (launcherOpen)   return "launcher";
+        if (_osdActive)     return "osd";
+        if (_batteryActive) return "battery";
+        if (mediaActive)    return "media";
         return "home";
-    }
-
-    // Notif timing
-    onTopNotifChanged: {
-        if (topNotif && topNotif !== _lastNotif) {
-            _lastNotif = topNotif;
-            _notifActive = true;
-            notifTimer.restart();
-            scope.peeking = true;
-            peekTimer.restart();
-        } else if (!topNotif) {
-            _notifActive = false;
-            notifTimer.stop();
-        }
-    }
-
-    Timer {
-        id: notifTimer
-        interval: Config.notifications.expireTimeout
-        repeat: false
-        onTriggered: scope._notifActive = false
     }
 
     Timer {
@@ -305,7 +279,7 @@ Scope {
                     _displayMode === "launcher" ? false :
                     Config.island.hoverIdleExpand
                         ? (_displayMode !== "osd")
-                        : (_displayMode === "media" || _displayMode === "notif" || _displayMode === "battery")
+                        : (_displayMode === "media" || _displayMode === "battery")
 
                 readonly property bool expanded:
                     _displayMode === "launcher" ? true :
@@ -320,14 +294,12 @@ Scope {
                     if (expanded) {
                         switch (_displayMode) {
                             case "media":   return Config.island.expandedWidthMedia;
-                            case "notif":   return Config.island.expandedWidthNotif;
                             case "battery": return Config.island.expandedWidthBattery;
                             case "home":    return Config.island.expandedWidthHome;
                         }
                     }
                     switch (_displayMode) {
                         case "osd":     return Config.island.compactWidthOsd;
-                        case "notif":   return Config.island.compactWidthNotif;
                         case "battery": return Config.island.compactWidthBattery;
                         case "media":   return Config.island.compactWidthMedia;
                         case "home":    return Config.island.notchClosedWidth;
@@ -346,7 +318,6 @@ Scope {
                     }
                     switch (_displayMode) {
                         case "media":   return Config.island.expandedHeightMedia;
-                        case "notif":   return Config.island.expandedHeightNotif;
                         case "battery": return Config.island.expandedHeightBattery;
                         case "home":    return Config.island.expandedHeightHome;
                     }
@@ -415,9 +386,7 @@ Scope {
                 enabled: !(pillState._displayMode === "media" && pillState.expanded)
                           && pillState._displayMode !== "launcher"
                 onClicked: e => {
-                    if (pillState._displayMode === "notif") {
-                        Config.showSidebar = true;
-                    } else if (pillState._displayMode === "media" && scope.player) {
+                    if (pillState._displayMode === "media" && scope.player) {
                         if (e.button === Qt.MiddleButton && scope.player.canGoNext) scope.player.next();
                         else if (scope.player.canTogglePlaying) scope.player.togglePlaying();
                     }
@@ -435,31 +404,6 @@ Scope {
                 opacity: pillState._displayMode === "osd" ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            }
-
-            IslandNotifCompact {
-                anchors.fill: notch
-                anchors.leftMargin: notch.topRadius + 4
-                anchors.rightMargin: notch.topRadius + 4
-                notif: scope.topNotif
-                opacity: pillState._displayMode === "notif" && !pillState.expanded ? 1 : 0
-                visible: opacity > 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            }
-
-            IslandNotifExpanded {
-                anchors.fill: notch
-                anchors.leftMargin: notch.topRadius
-                anchors.rightMargin: notch.topRadius
-                notif: scope.topNotif
-                opacity: pillState._displayMode === "notif" && pillState.expanded ? 1 : 0
-                visible: opacity > 0
-                Behavior on opacity {
-                    SequentialAnimation {
-                        PauseAnimation { duration: 90 }
-                        NumberAnimation { duration: M3Easing.durationShort4; easing.type: Easing.OutCubic }
-                    }
-                }
             }
 
             IslandBattery {

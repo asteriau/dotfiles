@@ -6,6 +6,7 @@ import qs.background
 import qs.bar
 import qs.island
 import qs.launcher
+import qs.notifications.popup
 import qs.screenshot
 import qs.settings
 import qs.sidebar
@@ -22,6 +23,7 @@ ShellRoot {
     Bar {}
     Launcher { id: launcher }
     Island { launcher: launcher }
+    NotificationPopups {}
     Sidebar {}
     WallpaperPicker {}
     RegionSelector {}
