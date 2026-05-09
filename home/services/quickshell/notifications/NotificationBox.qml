@@ -58,7 +58,7 @@ Item {
 
     Timer {
         interval: 30000
-        running: true
+        running: root.visible
         repeat: true
         onTriggered: root.timeString = NotificationUtils.getFriendlyNotifTimeString(root.n?.time)
     }
