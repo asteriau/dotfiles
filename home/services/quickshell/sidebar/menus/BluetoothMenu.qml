@@ -6,69 +6,49 @@ import qs.components.surfaces
 import qs.services
 import qs.utils
 
-SidebarPopup {
+WindowDialog {
     id: root
-    active: UiState.sidebarMenu === "bluetooth"
-    onDismissed: UiState.sidebarMenu = "none"
+    backgroundHeight: 600
+    show: UiState.sidebarMenu === "bluetooth"
+    onDismiss: UiState.sidebarMenu = "none"
 
-    Component.onCompleted: BluetoothState.subscribe()
-    Component.onDestruction: BluetoothState.unsubscribe()
+    onShowChanged: show ? BluetoothState.subscribe() : BluetoothState.unsubscribe()
 
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: Config.layout.gapSm
+    DialogTitle { text: "Bluetooth devices" }
 
-        MenuHeader {
-            title: "Bluetooth devices"
-            onBack: UiState.sidebarMenu = "none"
+    DialogSeparator { visible: !BluetoothState.discovering }
+    DialogProgressBar {
+        active: BluetoothState.discovering
+        Layout.topMargin: -8
+        Layout.bottomMargin: -8
+        Layout.leftMargin: -Config.layout.radiusLg
+        Layout.rightMargin: -Config.layout.radiusLg
+    }
+
+    ListView {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.topMargin: -15
+        Layout.bottomMargin: -16
+        Layout.leftMargin: -Config.layout.radiusLg
+        Layout.rightMargin: -Config.layout.radiusLg
+        clip: true
+        spacing: 0
+        model: BluetoothState.devices
+        ScrollBar.vertical: ScrollBar {}
+        delegate: BluetoothDeviceRow {
+            width: ListView.view.width
         }
+    }
 
-        MenuIndeterminateBar {
-            Layout.fillWidth: true
-            active: BluetoothState.discovering
-        }
+    DialogSeparator {}
 
-        ListView {
-            id: list
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            visible: BluetoothState.enabled && BluetoothState.devices.length > 0
-            clip: true
-            spacing: Config.layout.gapSm
-            model: BluetoothState.devices
-            ScrollBar.vertical: ScrollBar {}
+    DialogButtonRow {
+        Item { Layout.fillWidth: true }
 
-            delegate: BluetoothDeviceRow {
-                width: list.width
-            }
-        }
-
-        Item {
-            visible: BluetoothState.enabled && BluetoothState.devices.length === 0
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            MenuEmptyState {
-                anchors.centerIn: parent
-                width: parent.width
-                iconName: "bluetooth_disabled"
-                title: "No devices found"
-                detail: "Make sure the device is in pairing mode"
-            }
-        }
-
-        Item {
-            visible: !BluetoothState.enabled
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            MenuEmptyState {
-                anchors.centerIn: parent
-                width: parent.width
-                iconName: "bluetooth_disabled"
-                title: "Bluetooth is off"
-                detail: "Enable it from the toggle"
-            }
+        DialogButton {
+            text: "Done"
+            onClicked: root.dismiss()
         }
     }
 }

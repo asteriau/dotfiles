@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import qs.components.controls
 import qs.utils
 
-MenuRow {
+DialogListItem {
     id: row
     required property var modelData
     required property bool isDefault
@@ -15,11 +15,36 @@ MenuRow {
         return node.nickname || node.description || node.name || "Unknown";
     }
 
-    iconName: isDefault ? "radio_button_checked" : "radio_button_unchecked"
-    iconColor: isDefault ? Colors.colPrimary : Colors.m3onSurfaceVariant
-    iconSize: 18
-    primaryText: row.label
     active: row.isDefault
-
+    contentHeight: layout.implicitHeight + row.verticalPadding * 2
     onClicked: row.selected(row.node)
+
+    RowLayout {
+        id: layout
+        anchors {
+            fill: parent
+            topMargin: row.verticalPadding
+            bottomMargin: row.verticalPadding
+            leftMargin: row.horizontalPadding
+            rightMargin: row.horizontalPadding
+        }
+        spacing: 10
+
+        Text {
+            text: row.isDefault ? "radio_button_checked" : "radio_button_unchecked"
+            color: row.isDefault ? Colors.colPrimary : Colors.m3onSurfaceVariant
+            font.family: Config.typography.iconFamily
+            font.pixelSize: Config.typography.larger
+        }
+
+        Text {
+            Layout.fillWidth: true
+            text: row.label
+            color: Colors.m3onSurfaceVariant
+            font.family: Config.typography.family
+            font.pixelSize: Config.typography.small
+            font.weight: row.isDefault ? Config.typography.weightMedium : Config.typography.weightNormal
+            elide: Text.ElideRight
+        }
+    }
 }

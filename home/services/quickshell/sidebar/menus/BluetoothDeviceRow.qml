@@ -4,20 +4,21 @@ import qs.components.controls
 import qs.services
 import qs.utils
 
-Item {
+DialogListItem {
     id: row
     required property var modelData
     property bool expanded: false
 
-    Layout.fillWidth: true
-    implicitHeight: column.implicitHeight
-
-    readonly property string deviceName: modelData?.name || "(unknown)"
+    readonly property string deviceName: modelData?.name || "Unknown device"
     readonly property bool   connected:  modelData?.connected ?? false
     readonly property bool   paired:     modelData?.paired ?? false
     readonly property bool   batAvail:   modelData?.batteryAvailable ?? false
     readonly property real   battery:    modelData?.battery ?? 0
     readonly property string iconHint:   modelData?.icon ?? ""
+
+    active: connected
+    contentHeight: column.implicitHeight + row.verticalPadding * 2
+    onClicked: row.expanded = !row.expanded
 
     function _materialIcon(hint) {
         const h = (hint || "").toLowerCase();
@@ -37,72 +38,92 @@ Item {
         return parts.join(" • ");
     }
 
-    Component {
-        id: chevronC
-        Text {
-            text: "keyboard_arrow_down"
-            color: Colors.m3onSurfaceVariant
-            font.family: Config.typography.iconFamily
-            font.pixelSize: 18
-            rotation: row.expanded ? 180 : 0
-            Behavior on rotation { Motion.Spatial {} }
-        }
-    }
-
     ColumnLayout {
         id: column
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors {
+            fill: parent
+            topMargin: row.verticalPadding
+            bottomMargin: row.verticalPadding
+            leftMargin: row.horizontalPadding
+            rightMargin: row.horizontalPadding
+        }
         spacing: 0
 
-        MenuRow {
-            primaryText: row.deviceName
-            secondaryText: row._meta
-            iconName: row._materialIcon(row.iconHint)
-            iconColor: row.connected ? Colors.colPrimary : Colors.m3onSurface
-            active: row.connected
-            trailing: chevronC
-            expanded: row.expanded
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 10
 
-            onClicked: row.expanded = !row.expanded
+            Text {
+                text: row._materialIcon(row.iconHint)
+                color: Colors.m3onSurfaceVariant
+                font.family: Config.typography.iconFamily
+                font.pixelSize: Config.typography.larger
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: 2
+
+                Text {
+                    Layout.fillWidth: true
+                    text: row.deviceName
+                    color: Colors.m3onSurfaceVariant
+                    font.family: Config.typography.family
+                    font.pixelSize: Config.typography.small
+                    elide: Text.ElideRight
+                }
+
+                Text {
+                    Layout.fillWidth: true
+                    visible: row._meta.length > 0
+                    text: row._meta
+                    color: Colors.comment
+                    font.family: Config.typography.family
+                    font.pixelSize: Config.typography.smaller
+                    elide: Text.ElideRight
+                }
+            }
+
+            Text {
+                text: "keyboard_arrow_down"
+                color: Colors.m3onSurface
+                font.family: Config.typography.iconFamily
+                font.pixelSize: Config.typography.larger
+                rotation: row.expanded ? 180 : 0
+                Behavior on rotation { Motion.ElementFast {} }
+            }
         }
 
-        // Action row, semantic by intent.
         RowLayout {
             visible: row.expanded
+            Layout.topMargin: 8
             Layout.fillWidth: true
-            Layout.leftMargin: Config.layout.gapMd
-            Layout.rightMargin: Config.layout.gapMd
-            Layout.topMargin: Config.layout.gapXs
-            Layout.bottomMargin: Config.layout.gapMd
-            spacing: Config.layout.gapSm
+            spacing: 4
 
-            // Pair (when not paired).
-            MenuActionButton {
+            Item { Layout.fillWidth: true }
+
+            DialogButton {
+                visible: row.paired
+                text: "Forget"
+                variant: DialogButton.Variant.Danger
+                onClicked: BluetoothState.forget(row.modelData)
+            }
+
+            DialogButton {
                 visible: !row.paired
                 text: "Pair"
-                variant: MenuActionButton.Variant.Primary
+                variant: DialogButton.Variant.Default
                 onClicked: BluetoothState.pair(row.modelData)
             }
 
-            // Connect / Disconnect (paired only).
-            MenuActionButton {
+            DialogButton {
                 visible: row.paired
                 text: row.connected ? "Disconnect" : "Connect"
-                variant: row.connected ? MenuActionButton.Variant.Tonal
-                                       : MenuActionButton.Variant.Primary
+                variant: DialogButton.Variant.Primary
                 onClicked: {
                     if (row.connected) BluetoothState.disconnect(row.modelData);
                     else BluetoothState.connect(row.modelData);
                 }
-            }
-
-            // Forget (paired only, destructive).
-            MenuActionButton {
-                visible: row.paired
-                text: "Forget"
-                variant: MenuActionButton.Variant.Danger
-                onClicked: BluetoothState.forget(row.modelData)
             }
         }
     }

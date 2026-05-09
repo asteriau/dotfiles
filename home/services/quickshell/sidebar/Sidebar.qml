@@ -102,7 +102,6 @@ Scope {
             layer.enabled: true
 
             ColumnLayout {
-                id: contentCol
                 anchors.fill: parent
                 anchors.topMargin: Config.layout.gapXl + 4
                 anchors.bottomMargin: Config.layout.gapLg
@@ -131,7 +130,6 @@ Scope {
                 }
 
                 NotificationCenter {
-                    id: notifCenter
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.leftMargin: Config.layout.gapMd
@@ -144,54 +142,13 @@ Scope {
                 }
             }
 
-            // Scrim dims sidebar chrome while a context menu is open.
-            // Click anywhere outside the menu card dismisses.
-            Rectangle {
-                id: scrim
-                anchors.fill: parent
-                color: Qt.rgba(0, 0, 0, 0.5)
-                opacity: UiState.sidebarMenu !== "none" ? 1 : 0
-                visible: opacity > 0.001
-                z: 1
-
-                Behavior on opacity { Motion.Fade {} }
-
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-                    onClicked: UiState.sidebarMenu = "none"
-                    cursorShape: Qt.ArrowCursor
-                }
-            }
-
-            // Menu overlay sits above the scrim, sized to the slot
-            // NotificationCenter occupies so layout stays stable.
-            // notifCenter is inside contentCol so anchors cannot cross
-            // the layout boundary — bind geometry instead.
-            Loader {
-                id: menuLoader
-                x: contentCol.x + notifCenter.x
-                y: contentCol.y + notifCenter.y
-                width: notifCenter.width
-                height: notifCenter.height
-                visible: UiState.sidebarMenu !== "none"
-                active: visible
-                z: 2
-                sourceComponent: {
-                    switch (UiState.sidebarMenu) {
-                        case "wifi":      return wifiC;
-                        case "bluetooth": return btC;
-                        case "mic":       return micC;
-                        case "volume":    return volC;
-                    }
-                    return null;
-                }
-            }
-
-            Component { id: wifiC; WifiMenu {} }
-            Component { id: btC;   BluetoothMenu {} }
-            Component { id: micC;  MicMenu {} }
-            Component { id: volC;  VolumeMenu {} }
+            // Floating dialogs. Each paints its own scrim over the
+            // sidebar's interior when active. Multiple instances are
+            // mounted concurrently; only one shows at a time.
+            WifiMenu      { anchors.fill: parent }
+            BluetoothMenu { anchors.fill: parent }
+            MicMenu       { anchors.fill: parent }
+            VolumeMenu    { anchors.fill: parent }
         }
     }
 }

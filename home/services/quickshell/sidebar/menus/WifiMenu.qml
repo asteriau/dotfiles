@@ -6,73 +6,58 @@ import qs.components.surfaces
 import qs.services
 import qs.utils
 
-SidebarPopup {
+WindowDialog {
     id: root
-    active: UiState.sidebarMenu === "wifi"
-    onDismissed: UiState.sidebarMenu = "none"
+    backgroundHeight: 600
+    show: UiState.sidebarMenu === "wifi"
+    onDismiss: UiState.sidebarMenu = "none"
 
-    Component.onCompleted: { NetworkState.subscribe(); NetworkState.rescan(); }
-    Component.onDestruction: NetworkState.unsubscribe()
+    onShowChanged: {
+        if (show) { NetworkState.subscribe(); NetworkState.rescan(); }
+        else NetworkState.unsubscribe();
+    }
 
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: Config.layout.gapSm
+    DialogTitle { text: "Connect to Wi-Fi" }
 
-        MenuHeader {
-            title: "Wi-Fi networks"
-            trailingIcon: NetworkState.wifiEnabled ? "refresh" : ""
-            onBack: UiState.sidebarMenu = "none"
-            onTrailingClicked: NetworkState.rescan()
+    DialogSeparator { visible: !NetworkState.scanning }
+    DialogProgressBar {
+        active: NetworkState.scanning
+        Layout.topMargin: -8
+        Layout.bottomMargin: -8
+        Layout.leftMargin: -Config.layout.radiusLg
+        Layout.rightMargin: -Config.layout.radiusLg
+    }
+
+    ListView {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.topMargin: -15
+        Layout.bottomMargin: -16
+        Layout.leftMargin: -Config.layout.radiusLg
+        Layout.rightMargin: -Config.layout.radiusLg
+        clip: true
+        spacing: 0
+        model: NetworkState.wifiNetworks
+        ScrollBar.vertical: ScrollBar {}
+        delegate: WifiNetworkRow {
+            width: ListView.view.width
+        }
+    }
+
+    DialogSeparator {}
+
+    DialogButtonRow {
+        DialogButton {
+            text: "Rescan"
+            enabled: NetworkState.wifiEnabled && !NetworkState.scanning
+            onClicked: NetworkState.rescan()
         }
 
-        MenuIndeterminateBar {
-            Layout.fillWidth: true
-            active: NetworkState.scanning
-        }
+        Item { Layout.fillWidth: true }
 
-        ListView {
-            id: list
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            visible: NetworkState.wifiEnabled && NetworkState.wifiNetworks.length > 0
-            clip: true
-            spacing: Config.layout.gapSm
-            model: NetworkState.wifiNetworks
-            ScrollBar.vertical: ScrollBar {}
-
-            delegate: WifiNetworkRow {
-                width: list.width
-            }
-        }
-
-        Item {
-            visible: NetworkState.wifiEnabled
-                && !NetworkState.scanning
-                && NetworkState.wifiNetworks.length === 0
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            MenuEmptyState {
-                anchors.centerIn: parent
-                width: parent.width
-                iconName: "wifi_off"
-                title: "No networks found"
-                detail: "Pull refresh to scan again"
-            }
-        }
-
-        Item {
-            visible: !NetworkState.wifiEnabled
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            MenuEmptyState {
-                anchors.centerIn: parent
-                width: parent.width
-                iconName: "wifi_off"
-                title: "Wi-Fi is off"
-                detail: "Enable it from the toggle"
-            }
+        DialogButton {
+            text: "Done"
+            onClicked: root.dismiss()
         }
     }
 }

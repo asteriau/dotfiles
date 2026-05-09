@@ -5,21 +5,21 @@ import qs.components.controls
 import qs.services
 import qs.utils
 
-Item {
+DialogListItem {
     id: row
     required property var modelData
-    property bool expanded: false
     property bool errored: false
     property string errorMsg: ""
+    property bool asking: false
 
-    Layout.fillWidth: true
-    implicitHeight: column.implicitHeight
+    readonly property string ssid:      modelData?.ssid ?? ""
+    readonly property int    rssi:      modelData?.signal ?? 0
+    readonly property bool   secure:    (modelData?.security ?? "") !== ""
+    readonly property bool   isActive:  modelData?.active ?? false
+    readonly property bool   known:     modelData?.knownProfile ?? false
 
-    readonly property string ssid:    modelData?.ssid ?? ""
-    readonly property int    rssi:    modelData?.signal ?? 0
-    readonly property bool   secure:  (modelData?.security ?? "") !== ""
-    readonly property bool   active:  modelData?.active ?? false
-    readonly property bool   known:   modelData?.knownProfile ?? false
+    active: row.isActive || row.asking
+    contentHeight: column.implicitHeight + row.verticalPadding * 2
 
     function _signalIcon(s) {
         if (s > 80) return "signal_wifi_4_bar";
@@ -29,63 +29,73 @@ Item {
         return "signal_wifi_0_bar";
     }
 
-    Component {
-        id: trailingC
-        RowLayout {
-            spacing: Config.layout.gapSm
-
-            Text {
-                visible: row.active
-                text: "check"
-                color: Colors.colPrimary
-                font.family: Config.typography.iconFamily
-                font.pixelSize: 16
-            }
-
-            Text {
-                visible: row.secure
-                text: "lock"
-                color: row.active ? Colors.colPrimary : Colors.m3onSurfaceVariant
-                font.family: Config.typography.iconFamily
-                font.pixelSize: 14
-            }
+    onClicked: {
+        if (row.isActive) {
+            NetworkState.disconnect(row.ssid);
+        } else if (row.secure && !row.known) {
+            row.asking = !row.asking;
+        } else {
+            NetworkState.connect(row.ssid, "");
         }
     }
 
     ColumnLayout {
         id: column
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors {
+            fill: parent
+            topMargin: row.verticalPadding
+            bottomMargin: row.verticalPadding
+            leftMargin: row.horizontalPadding
+            rightMargin: row.horizontalPadding
+        }
         spacing: 0
 
-        MenuRow {
-            primaryText: row.ssid || "(hidden)"
-            secondaryText: row.errored ? row.errorMsg : ""
-            iconName: row._signalIcon(row.rssi)
-            iconColor: row.active ? Colors.colPrimary : Colors.m3onSurface
-            active: row.active
-            trailing: trailingC
+        RowLayout {
+            spacing: 10
 
-            onClicked: {
-                if (row.active) {
-                    NetworkState.disconnect(row.ssid);
-                } else if (row.secure && !row.known) {
-                    row.expanded = !row.expanded;
-                } else {
-                    NetworkState.connect(row.ssid, "");
-                }
+            Text {
+                text: row._signalIcon(row.rssi)
+                color: Colors.m3onSurfaceVariant
+                font.family: Config.typography.iconFamily
+                font.pixelSize: Config.typography.larger
+            }
+
+            Text {
+                Layout.fillWidth: true
+                text: row.ssid || "(hidden)"
+                color: Colors.m3onSurfaceVariant
+                font.family: Config.typography.family
+                font.pixelSize: Config.typography.small
+                font.weight: row.isActive ? Config.typography.weightMedium : Config.typography.weightNormal
+                elide: Text.ElideRight
+            }
+
+            Text {
+                visible: row.secure || row.isActive
+                text: row.isActive ? "check" : "lock"
+                color: Colors.m3onSurfaceVariant
+                font.family: Config.typography.iconFamily
+                font.pixelSize: Config.typography.larger
             }
         }
 
-        // Password row.
-        RowLayout {
-            visible: row.expanded
+        // Error caption.
+        Text {
             Layout.fillWidth: true
-            Layout.leftMargin: Config.layout.gapMd
-            Layout.rightMargin: Config.layout.gapMd
-            Layout.topMargin: Config.layout.gapXs
-            Layout.bottomMargin: Config.layout.gapMd
-            spacing: Config.layout.gapSm
+            visible: row.errored
+            text: row.errorMsg
+            color: Colors.red
+            font.family: Config.typography.family
+            font.pixelSize: Config.typography.smaller
+            elide: Text.ElideRight
+        }
+
+        // Password row.
+        ColumnLayout {
+            visible: row.asking
+            Layout.topMargin: 8
+            Layout.fillWidth: true
+            spacing: Config.layout.gapMd
 
             MaterialTextField {
                 id: pwField
@@ -96,18 +106,27 @@ Item {
                 onAccepted: connectBtn.trigger()
             }
 
-            MenuActionButton {
-                id: connectBtn
-                Layout.fillWidth: false
-                implicitWidth: Math.max(86, implicitWidth)
-                text: "Connect"
-                variant: MenuActionButton.Variant.Primary
-                enabled: pwField.text.length > 0
-                onClicked: trigger()
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 4
 
-                function trigger() {
-                    if (pwField.text.length === 0) return;
-                    NetworkState.connect(row.ssid, pwField.text);
+                Item { Layout.fillWidth: true }
+
+                DialogButton {
+                    text: "Cancel"
+                    onClicked: row.asking = false
+                }
+
+                DialogButton {
+                    id: connectBtn
+                    text: "Connect"
+                    variant: DialogButton.Variant.Primary
+                    enabled: pwField.text.length > 0
+                    onClicked: trigger()
+                    function trigger() {
+                        if (pwField.text.length === 0) return;
+                        NetworkState.connect(row.ssid, pwField.text);
+                    }
                 }
             }
         }
@@ -117,7 +136,7 @@ Item {
         target: NetworkState
         function onPasswordRequired(ssid) {
             if (ssid === row.ssid) {
-                row.expanded = true;
+                row.asking = true;
                 row.errored = true;
                 row.errorMsg = "Password required";
             }
@@ -130,7 +149,7 @@ Item {
         }
         function onConnected(ssid) {
             if (ssid === row.ssid) {
-                row.expanded = false;
+                row.asking = false;
                 row.errored = false;
                 row.errorMsg = "";
             }

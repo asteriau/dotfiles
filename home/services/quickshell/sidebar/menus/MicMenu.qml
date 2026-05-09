@@ -6,49 +6,45 @@ import qs.components.surfaces
 import qs.services
 import qs.utils
 
-SidebarPopup {
+WindowDialog {
     id: root
-    active: UiState.sidebarMenu === "mic"
-    onDismissed: UiState.sidebarMenu = "none"
+    backgroundHeight: 460
+    show: UiState.sidebarMenu === "mic"
+    onDismiss: UiState.sidebarMenu = "none"
 
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: Config.layout.gapSm
+    DialogTitle { text: "Audio input" }
 
-        MenuHeader {
-            title: "Microphone source"
-            onBack: UiState.sidebarMenu = "none"
+    DialogSeparator {
+        Layout.topMargin: -22
+        Layout.leftMargin: 0
+        Layout.rightMargin: 0
+    }
+
+    ListView {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.topMargin: -22
+        Layout.bottomMargin: -16
+        Layout.leftMargin: -Config.layout.radiusLg
+        Layout.rightMargin: -Config.layout.radiusLg
+        topMargin: 12
+        bottomMargin: 12
+        clip: true
+        spacing: 4
+        model: PipeWireState.sources
+        ScrollBar.vertical: ScrollBar {}
+        delegate: AudioDeviceRow {
+            width: ListView.view.width
+            isDefault: PipeWireState.defaultSource === modelData
+            onSelected: (node) => PipeWireState.setDefaultSource(node)
         }
+    }
 
-        ListView {
-            id: list
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            visible: PipeWireState.sources.length > 0
-            clip: true
-            spacing: Config.layout.gapSm
-            model: PipeWireState.sources
-            ScrollBar.vertical: ScrollBar {}
-
-            delegate: AudioDeviceRow {
-                width: list.width
-                isDefault: PipeWireState.defaultSource === modelData
-                onSelected: (node) => PipeWireState.setDefaultSource(node)
-            }
-        }
-
-        Item {
-            visible: PipeWireState.sources.length === 0
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            MenuEmptyState {
-                anchors.centerIn: parent
-                width: parent.width
-                iconName: "mic_off"
-                title: "No input devices"
-                detail: "Plug in a microphone or check Pipewire"
-            }
+    DialogButtonRow {
+        Item { Layout.fillWidth: true }
+        DialogButton {
+            text: "Done"
+            onClicked: root.dismiss()
         }
     }
 }

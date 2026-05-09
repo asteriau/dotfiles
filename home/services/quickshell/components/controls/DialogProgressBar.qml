@@ -2,22 +2,23 @@ import QtQuick
 import QtQuick.Layouts
 import qs.utils
 
-// Sliding-pill indeterminate progress bar used by Wi-Fi / Bluetooth scan.
-// When `active` is false, collapses to a static hairline.
+// Indeterminate progress bar for dialog scan / loading states.
+// Active: animates a primary-colored pill across the track.
+// Idle: renders a hairline divider in the same slot.
 Item {
     id: root
 
     property bool active: false
 
     Layout.fillWidth: true
-    implicitHeight: 2
+    implicitHeight: 4
 
     Rectangle {
         id: track
         anchors.fill: parent
-        radius: 1
-        color: Colors.outlineVariant
-        opacity: root.active ? 0.3 : 0.4
+        radius: 2
+        color: Colors.colSecondaryContainer
+        opacity: root.active ? 0.6 : 0.4
         clip: true
         Behavior on opacity { Motion.Fade {} }
 

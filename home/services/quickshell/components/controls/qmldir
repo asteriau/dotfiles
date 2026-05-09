@@ -17,8 +17,10 @@ AbstractCombinedProgressBar 1.0 AbstractCombinedProgressBar.qml
 StyledCombinedProgressBar 1.0 StyledCombinedProgressBar.qml
 MaterialTextField 1.0 MaterialTextField.qml
 StyledComboBox 1.0 StyledComboBox.qml
-MenuRow 1.0 MenuRow.qml
-MenuActionButton 1.0 MenuActionButton.qml
-MenuHeader 1.0 MenuHeader.qml
-MenuIndeterminateBar 1.0 MenuIndeterminateBar.qml
-MenuEmptyState 1.0 MenuEmptyState.qml
+DialogButton 1.0 DialogButton.qml
+DialogListItem 1.0 DialogListItem.qml
+DialogProgressBar 1.0 DialogProgressBar.qml
+DialogTitle 1.0 DialogTitle.qml
+DialogSectionHeader 1.0 DialogSectionHeader.qml
+DialogSeparator 1.0 DialogSeparator.qml
+DialogButtonRow 1.0 DialogButtonRow.qml
