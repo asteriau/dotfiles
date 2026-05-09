@@ -1,10 +1,12 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 import qs.components.surfaces
+import qs.sidebar.menus
 import qs.utils
 
 Scope {
@@ -12,15 +14,15 @@ Scope {
 
     IpcHandler {
         target: "sidebar"
-        function toggle(): void { Config.showSidebar = !Config.showSidebar; }
-        function open(): void { Config.showSidebar = true; }
-        function close(): void { Config.showSidebar = false; }
+        function toggle(): void { UiState.showSidebar = !UiState.showSidebar; }
+        function open(): void { UiState.showSidebar = true; }
+        function close(): void { UiState.showSidebar = false; }
     }
 
     PanelWindow {
         id: triggerWin
-        screen: Config.preferredMonitor
-        visible: !Config.showSidebar
+        screen: UiState.preferredMonitor
+        visible: !UiState.showSidebar
 
         anchors {
             right: true
@@ -37,14 +39,14 @@ Scope {
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            onEntered: Config.showSidebar = true
+            onEntered: UiState.showSidebar = true
         }
     }
 
     PanelWindow {
         id: sideWin
 
-        screen: Config.preferredMonitor
+        screen: UiState.preferredMonitor
         visible: true
 
         anchors {
@@ -55,12 +57,12 @@ Scope {
 
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "quickshell:sidebar"
-        WlrLayershell.keyboardFocus: Config.showSidebar ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+        WlrLayershell.keyboardFocus: UiState.showSidebar ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
         color: "transparent"
 
         implicitWidth: Config.sidebar.width
 
-        margins.right: Config.showSidebar ? 0 : -Config.sidebar.width
+        margins.right: UiState.showSidebar ? 0 : -Config.sidebar.width
 
         Behavior on margins.right {
             NumberAnimation {
@@ -72,13 +74,21 @@ Scope {
         HyprlandFocusGrab {
             id: grab
             windows: [sideWin]
-            active: Config.showSidebar
-            onCleared: Config.showSidebar = false
+            active: UiState.showSidebar
+            onCleared: {
+                UiState.showSidebar = false;
+                UiState.sidebarMenu = "none";
+            }
         }
 
         Keys.onPressed: (event) => {
-            if (event.key === Qt.Key_Escape)
-                Config.showSidebar = false;
+            if (event.key === Qt.Key_Escape) {
+                if (UiState.sidebarMenu !== "none") {
+                    UiState.sidebarMenu = "none";
+                } else {
+                    UiState.showSidebar = false;
+                }
+            }
         }
 
         Rectangle {
@@ -92,46 +102,78 @@ Scope {
             color: Colors.background
             layer.enabled: true
 
-            ColumnLayout {
+            // Chrome wrapped in a layer so we can blur it while a
+            // context menu is open. Blur amount animates with the
+            // dialog's emphasized motion duration.
+            Item {
+                id: chromeWrap
                 anchors.fill: parent
-                anchors.topMargin: Config.layout.gapXl + 4
-                anchors.bottomMargin: Config.layout.gapLg
-                anchors.leftMargin: 0
-                anchors.rightMargin: 0
-                spacing: Config.layout.gapLg
 
-                Header {
-                    Layout.leftMargin: Config.layout.gapXl + 4
-                    Layout.rightMargin: Config.layout.gapXl + 4
-                    Layout.bottomMargin: Config.layout.gapLg
+                property real blurAmt: UiState.sidebarMenu !== "none" ? 1.0 : 0.0
+                Behavior on blurAmt {
+                    NumberAnimation {
+                        duration: M3Easing.durationMedium3
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasized
+                    }
                 }
 
-                QuickToggles {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Config.layout.gapLg
-                    Layout.rightMargin: Config.layout.gapLg
-                    Layout.bottomMargin: Config.layout.gapLg
+                layer.enabled: chromeWrap.blurAmt > 0.001
+                layer.effect: MultiEffect {
+                    blurEnabled: true
+                    blurMax: 32
+                    blur: chromeWrap.blurAmt
                 }
 
-                QuickSliders {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Config.layout.gapLg
-                    Layout.rightMargin: Config.layout.gapLg
-                    Layout.bottomMargin: Config.layout.gapLg
-                }
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.topMargin: Config.layout.gapXl + 4
+                    anchors.bottomMargin: Config.layout.gapLg
+                    anchors.leftMargin: 0
+                    anchors.rightMargin: 0
+                    spacing: Config.layout.gapLg
 
-                NotificationCenter {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.leftMargin: Config.layout.gapMd
-                    Layout.rightMargin: Config.layout.gapMd
-                }
+                    Header {
+                        Layout.leftMargin: Config.layout.gapXl + 4
+                        Layout.rightMargin: Config.layout.gapXl + 4
+                        Layout.bottomMargin: Config.layout.gapLg
+                    }
 
-                NotificationToolbar {
-                    Layout.leftMargin: Config.layout.gapXl + 4
-                    Layout.rightMargin: Config.layout.gapXl + 4
+                    QuickToggles {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Config.layout.gapLg
+                        Layout.rightMargin: Config.layout.gapLg
+                        Layout.bottomMargin: Config.layout.gapLg
+                    }
+
+                    QuickSliders {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Config.layout.gapLg
+                        Layout.rightMargin: Config.layout.gapLg
+                        Layout.bottomMargin: Config.layout.gapLg
+                    }
+
+                    NotificationCenter {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.leftMargin: Config.layout.gapMd
+                        Layout.rightMargin: Config.layout.gapMd
+                    }
+
+                    NotificationToolbar {
+                        Layout.leftMargin: Config.layout.gapXl + 4
+                        Layout.rightMargin: Config.layout.gapXl + 4
+                    }
                 }
             }
+
+            // Floating dialogs. Each paints its own scrim over the
+            // sidebar's interior when active. Multiple instances are
+            // mounted concurrently; only one shows at a time.
+            WifiMenu      { anchors.fill: parent }
+            BluetoothMenu { anchors.fill: parent }
+            MicMenu       { anchors.fill: parent }
+            VolumeMenu    { anchors.fill: parent }
         }
     }
 }

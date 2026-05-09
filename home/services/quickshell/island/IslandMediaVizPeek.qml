@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell.Services.Mpris
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Item {
     id: root

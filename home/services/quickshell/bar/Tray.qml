@@ -96,12 +96,8 @@ Rectangle {
             clip: true
             opacity: root.iconsVisible ? 1 : 0
 
-            Behavior on implicitHeight {
-                NumberAnimation { duration: M3Easing.spatialDuration; easing.bezierCurve: M3Easing.emphasized }
-            }
-            Behavior on opacity {
-                NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
-            }
+            Behavior on implicitHeight { Motion.SpatialEmph {} }
+            Behavior on opacity { Motion.Fade {} }
 
             ColumnLayout {
                 id: iconsCol
@@ -140,12 +136,8 @@ Rectangle {
                 color: root.iconsVisible ? Colors.accent : Colors.foreground
                 rotation: root.iconsVisible ? 180 : 0
 
-                Behavior on rotation {
-                    NumberAnimation { duration: M3Easing.spatialDuration; easing.bezierCurve: M3Easing.emphasized }
-                }
-                Behavior on color {
-                    ColorAnimation { duration: M3Easing.effectsDuration }
-                }
+                Behavior on rotation { Motion.SpatialEmph {} }
+                Behavior on color { Motion.ColorFadeQuick {} }
             }
         }
     }
@@ -163,9 +155,7 @@ Rectangle {
             implicitHeight: Config.iconSize
             clip: true
 
-            Behavior on implicitWidth {
-                NumberAnimation { duration: M3Easing.spatialDuration; easing.bezierCurve: M3Easing.emphasized }
-            }
+            Behavior on implicitWidth { Motion.SpatialEmph {} }
 
             Row {
                 id: iconsRow
@@ -203,9 +193,7 @@ Rectangle {
                 pixelSize: 14
                 color: root.iconsVisible ? Colors.accent : Colors.foreground
 
-                Behavior on color {
-                    ColorAnimation { duration: M3Easing.effectsDuration }
-                }
+                Behavior on color { Motion.ColorFadeQuick {} }
             }
         }
     }

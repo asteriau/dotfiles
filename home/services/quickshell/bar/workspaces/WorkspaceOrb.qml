@@ -45,19 +45,9 @@ Rectangle {
     color: Colors.wsOrbFill
     opacity: occupiedVisible ? 1 : 0
 
-    Behavior on opacity {
-        NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
-    }
-    Behavior on topLeftRadius {
-        NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
-    }
-    Behavior on bottomRightRadius {
-        NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
-    }
-    Behavior on topRightRadius {
-        NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
-    }
-    Behavior on bottomLeftRadius {
-        NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized }
-    }
+    Behavior on opacity { Motion.Fade {} }
+    Behavior on topLeftRadius { Motion.SpatialEmph {} }
+    Behavior on bottomRightRadius { Motion.SpatialEmph {} }
+    Behavior on topRightRadius { Motion.SpatialEmph {} }
+    Behavior on bottomLeftRadius { Motion.SpatialEmph {} }
 }

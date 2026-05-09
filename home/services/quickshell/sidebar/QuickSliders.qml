@@ -2,7 +2,7 @@ import QtQuick
 import Quickshell.Services.Pipewire
 import qs.sidebar.controls
 import qs.utils
-import qs.utils.state
+import qs.services
 
 // Single container holding all three sliders (brightness/night-light, volume,
 // mic), modeled after ii's QuickSliders.qml. The implicit gap between sliders
@@ -77,6 +77,7 @@ Rectangle {
                 const a = PipeWireState.defaultSink?.audio;
                 if (a) a.volume = value;
             }
+            onRightClicked: UiState.sidebarMenu = "volume"
         }
 
         QuickSlider {

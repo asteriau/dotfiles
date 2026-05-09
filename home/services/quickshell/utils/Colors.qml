@@ -11,7 +11,8 @@ import qs.utils
 // palette — they do not belong in preset JSON files.
 //
 // This singleton is the stable public API: call sites stay unchanged when
-// swapping the underlying theme source.
+// swapping the underlying theme source. New code may also read the strict M3
+// surface at `Appearance.colors.*` directly.
 Singleton {
     id: root
 

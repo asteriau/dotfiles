@@ -6,7 +6,7 @@ import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Item {
     id: root

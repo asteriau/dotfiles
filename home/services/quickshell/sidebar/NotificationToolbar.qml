@@ -5,7 +5,7 @@ import Quickshell.Services.Notifications
 import qs.components.text
 import qs.sidebar.controls
 import qs.utils
-import qs.utils.state
+import qs.services
 
 RowLayout {
     id: root

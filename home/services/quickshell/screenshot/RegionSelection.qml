@@ -6,7 +6,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.utils
-import qs.utils.state
+import qs.services
 import qs.components.text
 import qs.components.surfaces
 
@@ -240,12 +240,8 @@ PanelWindow {
                     regionSelectionControls.opacity = 1;
                 }
             }
-            Behavior on opacity {
-                NumberAnimation { duration: 200 }
-            }
-            Behavior on anchors.bottomMargin {
-                NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
-            }
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on anchors.bottomMargin { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
             spacing: 6
 
             OptionsToolbar {

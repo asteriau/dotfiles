@@ -7,6 +7,13 @@ import Quickshell.Io
 Singleton {
     id: root
 
+    // Ref-counted subscribers — Timer ticks only while at least one consumer
+    // is mounted. Consumers call subscribe()/unsubscribe() in
+    // Component.onCompleted / onDestruction.
+    property int subscribers: 0
+    function subscribe(): void { root.subscribers += 1 }
+    function unsubscribe(): void { root.subscribers = Math.max(0, root.subscribers - 1) }
+
     property real memoryTotal: 1
     property real memoryFree: 0
     readonly property real memoryUsed: memoryTotal - memoryFree
@@ -35,7 +42,7 @@ Singleton {
 
     Timer {
         interval: 2000
-        running: true
+        running: root.subscribers > 0
         repeat: true
         triggeredOnStart: true
         onTriggered: {

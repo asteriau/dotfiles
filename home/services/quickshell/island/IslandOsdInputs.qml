@@ -1,0 +1,97 @@
+import QtQuick
+import qs.utils
+import qs.services
+
+// Owns OSD payload (volume / brightness / mic) and the auto-hide timer.
+// Island.qml reads `active`, `icon`, `label`, `progress`.
+Item {
+    id: root
+
+    property string icon: "volume_up"
+    property string label: ""
+    property real   progress: 0
+    property bool   active: false
+
+    // Seeded change-detection — upstream services emit spurious refreshes on
+    // session start; ignore the first event of each source.
+    property real _lastSinkVol: -1
+    property bool _lastSinkMuted: false
+    property bool _seededSink: false
+    property real _lastSourceVol: -1
+    property bool _lastSourceMuted: false
+    property bool _seededSource: false
+
+    Timer {
+        id: hideTimer
+        interval: Config.osd.timeoutMs
+        onTriggered: root.active = false
+    }
+
+    Connections {
+        target: PipeWireState.defaultSink ? PipeWireState.defaultSink.audio : null
+        function update() {
+            const muted = PipeWireState.defaultSink?.audio.muted ?? false;
+            const vol   = PipeWireState.defaultSink?.audio.volume ?? 0;
+            const changed = !root._seededSink
+                || muted !== root._lastSinkMuted
+                || Math.abs(vol - root._lastSinkVol) > 0.0005;
+            root._lastSinkVol   = vol;
+            root._lastSinkMuted = muted;
+            if (!root._seededSink) { root._seededSink = true; return; }
+            if (!changed) return;
+            root.icon = muted ? "volume_off"
+                : (vol < 0.01 ? "volume_mute"
+                : (vol < 0.5 ? "volume_down" : "volume_up"));
+            root.label = "Volume";
+            root.progress = vol;
+            root.active = true;
+            hideTimer.restart();
+        }
+        function onVolumeChanged() { update() }
+        function onMutedChanged()  { update() }
+    }
+
+    Connections {
+        target: PipeWireState.defaultSource ? PipeWireState.defaultSource.audio : null
+        function update() {
+            const muted = PipeWireState.defaultSource?.audio.muted ?? false;
+            const vol   = PipeWireState.defaultSource?.audio.volume ?? 0;
+            const changed = !root._seededSource
+                || muted !== root._lastSourceMuted
+                || Math.abs(vol - root._lastSourceVol) > 0.0005;
+            root._lastSourceVol   = vol;
+            root._lastSourceMuted = muted;
+            if (!root._seededSource) { root._seededSource = true; return; }
+            if (!changed) return;
+            root.icon = muted ? "mic_off" : "mic";
+            root.label = "Microphone";
+            root.progress = vol;
+            root.active = true;
+            hideTimer.restart();
+        }
+        function onVolumeChanged() { update() }
+        function onMutedChanged()  { update() }
+    }
+
+    Connections {
+        target: BrightnessState
+        function onBrightnessChanged() {
+            root.icon = "brightness_medium";
+            root.label = "Brightness";
+            root.progress = BrightnessState.brightness ?? 0;
+            root.active = true;
+            hideTimer.restart();
+        }
+    }
+
+    Connections {
+        target: OsdState
+        function onShow(icon, label, progress) {
+            root.icon = icon;
+            root.label = label;
+            root.progress = progress;
+            root.active = true;
+            hideTimer.restart();
+        }
+    }
+}

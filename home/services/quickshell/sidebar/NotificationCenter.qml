@@ -10,7 +10,7 @@ import qs.components.shape
 import qs.components.text
 import qs.notifications
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Item {
     id: root
@@ -77,9 +77,7 @@ Item {
                 visible: localModel.count === 0
                 opacity: visible ? 0.9 : 0
 
-                Behavior on opacity {
-                    NumberAnimation { duration: M3Easing.durationMedium1 }
-                }
+                Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium1 } }
 
                 Item { Layout.fillHeight: true }
 
@@ -193,19 +191,11 @@ Item {
 
                     Behavior on height {
                         enabled: delegate.dying
-                        NumberAnimation {
-                            duration: M3Easing.durationMedium1
-                            easing.type: Easing.BezierSpline
-                            easing.bezierCurve: M3Easing.emphasizedAccel
-                        }
+                        Motion.EmphAccel {}
                     }
 
                     Behavior on opacity {
-                        NumberAnimation {
-                            duration: M3Easing.effectsDuration
-                            easing.type: Easing.BezierSpline
-                            easing.bezierCurve: M3Easing.emphasizedAccel
-                        }
+                        Motion.EmphAccel { duration: M3Easing.effectsDuration }
                     }
 
                     transform: Translate {
@@ -213,10 +203,7 @@ Item {
                         x: delegate.dying ? delegate.width : 0
 
                         Behavior on x {
-                            NumberAnimation {
-                                duration: M3Easing.durationMedium1
-                                easing.type: Easing.BezierSpline
-                                easing.bezierCurve: M3Easing.emphasizedAccel
+                            Motion.EmphAccel {
                                 onRunningChanged: {
                                     if (!running && delegate.dying) {
                                         root.removeDying(delegate.notifRef);
