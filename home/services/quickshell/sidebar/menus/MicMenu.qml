@@ -1,33 +1,32 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import qs.components.controls
 import qs.components.surfaces
 import qs.services
 import qs.utils
 
 SidebarPopup {
     id: root
-    title: "Microphone source"
     active: UiState.sidebarMenu === "mic"
     onDismissed: UiState.sidebarMenu = "none"
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 8
+        spacing: Config.layout.gapSm
 
-        Rectangle {
-            Layout.fillWidth: true
-            implicitHeight: 1
-            color: Colors.outlineVariant
-            opacity: 0.4
+        MenuHeader {
+            title: "Microphone source"
+            onBack: UiState.sidebarMenu = "none"
         }
 
         ListView {
             id: list
             Layout.fillWidth: true
             Layout.fillHeight: true
+            visible: PipeWireState.sources.length > 0
             clip: true
-            spacing: 0
+            spacing: Config.layout.gapSm
             model: PipeWireState.sources
             ScrollBar.vertical: ScrollBar {}
 
@@ -38,14 +37,18 @@ SidebarPopup {
             }
         }
 
-        Text {
+        Item {
             visible: PipeWireState.sources.length === 0
             Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            text: "No input devices found"
-            color: Colors.m3onSurfaceInactive
-            font.family: "Inter"
-            font.pixelSize: 12
+            Layout.fillHeight: true
+
+            MenuEmptyState {
+                anchors.centerIn: parent
+                width: parent.width
+                iconName: "mic_off"
+                title: "No input devices"
+                detail: "Plug in a microphone or check Pipewire"
+            }
         }
     }
 }

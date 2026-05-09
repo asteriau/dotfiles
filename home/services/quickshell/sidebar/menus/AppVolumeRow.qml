@@ -4,13 +4,14 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.Pipewire
 import qs.components.controls
+import qs.components.text
 import qs.utils
 
 Item {
     id: row
     required property PwNode modelData
     Layout.fillWidth: true
-    implicitHeight: column.implicitHeight + 10
+    implicitHeight: column.implicitHeight + Config.layout.gapSm * 2
 
     PwObjectTracker { objects: row.modelData ? [row.modelData] : [] }
 
@@ -35,20 +36,27 @@ Item {
         : ""
     readonly property bool muted: node?.audio?.muted ?? false
 
+    Rectangle {
+        anchors.fill: parent
+        radius: Config.layout.radiusSm
+        color: "transparent"
+        border.width: 0
+    }
+
     ColumnLayout {
         id: column
         anchors {
             left: parent.left
             right: parent.right
             verticalCenter: parent.verticalCenter
-            leftMargin: 6
-            rightMargin: 6
+            leftMargin: Config.layout.gapMd
+            rightMargin: Config.layout.gapMd
         }
-        spacing: 4
+        spacing: Config.layout.gapSm
 
         RowLayout {
             Layout.fillWidth: true
-            spacing: 10
+            spacing: Config.layout.gapMd
 
             IconImage {
                 implicitSize: 22
@@ -57,15 +65,14 @@ Item {
                 Behavior on opacity { Motion.Fade {} }
             }
 
-            Text {
+            StyledText {
                 Layout.fillWidth: true
+                variant: StyledText.Variant.Caption
                 text: row.mediaName.length > 0
                     ? (row.appName + " • " + row.mediaName)
                     : row.appName
                 color: row.muted ? Colors.m3onSurfaceInactive : Colors.m3onSurface
-                font.family: "Inter"
-                font.pixelSize: 12
-                font.weight: Font.Medium
+                font.weight: Config.typography.weightMedium
                 elide: Text.ElideRight
             }
 
@@ -76,15 +83,15 @@ Item {
                 Rectangle {
                     anchors.fill: parent
                     radius: width / 2
-                    color: muteMa.containsMouse ? Colors.colLayer3 : "transparent"
+                    color: muteMa.containsMouse ? Colors.colLayer2Hover : "transparent"
                     Behavior on color { Motion.ColorFade {} }
                 }
 
                 Text {
                     anchors.centerIn: parent
                     text: row.muted ? "volume_off" : "volume_up"
-                    color: row.muted ? Qt.rgba(0.92, 0.45, 0.45, 1) : Colors.m3onSurface
-                    font.family: "Material Symbols Rounded"
+                    color: row.muted ? Colors.red : Colors.m3onSurface
+                    font.family: Config.typography.iconFamily
                     font.pixelSize: 16
                 }
 

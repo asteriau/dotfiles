@@ -1,13 +1,13 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import qs.components.controls
 import qs.components.surfaces
 import qs.services
 import qs.utils
 
 SidebarPopup {
     id: root
-    title: "Wi-Fi networks"
     active: UiState.sidebarMenu === "wifi"
     onDismissed: UiState.sidebarMenu = "none"
 
@@ -16,39 +16,27 @@ SidebarPopup {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 8
+        spacing: Config.layout.gapSm
 
-        Rectangle {
-            id: scanBar
+        MenuHeader {
+            title: "Wi-Fi networks"
+            trailingIcon: NetworkState.wifiEnabled ? "refresh" : ""
+            onBack: UiState.sidebarMenu = "none"
+            onTrailingClicked: NetworkState.rescan()
+        }
+
+        MenuIndeterminateBar {
             Layout.fillWidth: true
-            implicitHeight: 3
-            radius: 1.5
-            color: NetworkState.scanning ? "transparent" : Colors.outlineVariant
-            opacity: NetworkState.scanning ? 1 : 0.4
-            clip: true
-
-            Rectangle {
-                visible: NetworkState.scanning
-                width: parent.width * 0.3
-                height: parent.height
-                radius: parent.radius
-                color: Colors.colPrimary
-                NumberAnimation on x {
-                    running: scanBar.visible
-                    loops: Animation.Infinite
-                    from: -width
-                    to: scanBar.width
-                    duration: 1100
-                }
-            }
+            active: NetworkState.scanning
         }
 
         ListView {
             id: list
             Layout.fillWidth: true
             Layout.fillHeight: true
+            visible: NetworkState.wifiEnabled && NetworkState.wifiNetworks.length > 0
             clip: true
-            spacing: 0
+            spacing: Config.layout.gapSm
             model: NetworkState.wifiNetworks
             ScrollBar.vertical: ScrollBar {}
 
@@ -57,26 +45,34 @@ SidebarPopup {
             }
         }
 
-        Text {
-            visible: !NetworkState.scanning
-                && NetworkState.wifiEnabled
+        Item {
+            visible: NetworkState.wifiEnabled
+                && !NetworkState.scanning
                 && NetworkState.wifiNetworks.length === 0
             Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            text: "No networks found"
-            color: Colors.m3onSurfaceInactive
-            font.family: "Inter"
-            font.pixelSize: 12
+            Layout.fillHeight: true
+
+            MenuEmptyState {
+                anchors.centerIn: parent
+                width: parent.width
+                iconName: "wifi_off"
+                title: "No networks found"
+                detail: "Pull refresh to scan again"
+            }
         }
 
-        Text {
+        Item {
             visible: !NetworkState.wifiEnabled
             Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            text: "Wi-Fi is off — enable it from the toggle"
-            color: Colors.m3onSurfaceInactive
-            font.family: "Inter"
-            font.pixelSize: 12
+            Layout.fillHeight: true
+
+            MenuEmptyState {
+                anchors.centerIn: parent
+                width: parent.width
+                iconName: "wifi_off"
+                title: "Wi-Fi is off"
+                detail: "Enable it from the toggle"
+            }
         }
     }
 }

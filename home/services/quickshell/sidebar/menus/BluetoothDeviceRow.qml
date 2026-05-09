@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import qs.components.controls
 import qs.services
 import qs.utils
 
@@ -28,149 +29,80 @@ Item {
         return "bluetooth";
     }
 
+    readonly property string _meta: {
+        if (!connected && !paired) return "";
+        const parts = [];
+        parts.push(connected ? "Connected" : "Paired");
+        if (batAvail) parts.push(Math.round(battery * 100) + "%");
+        return parts.join(" • ");
+    }
+
+    Component {
+        id: chevronC
+        Text {
+            text: "keyboard_arrow_down"
+            color: Colors.m3onSurfaceVariant
+            font.family: Config.typography.iconFamily
+            font.pixelSize: 18
+            rotation: row.expanded ? 180 : 0
+            Behavior on rotation { Motion.Spatial {} }
+        }
+    }
+
     ColumnLayout {
         id: column
         anchors.left: parent.left
         anchors.right: parent.right
         spacing: 0
 
-        Rectangle {
-            id: header
-            Layout.fillWidth: true
-            implicitHeight: 48
-            radius: Config.layout.radiusSm
-            color: headerMa.containsMouse ? Colors.colLayer3 : "transparent"
-            Behavior on color { Motion.ColorFade {} }
+        MenuRow {
+            primaryText: row.deviceName
+            secondaryText: row._meta
+            iconName: row._materialIcon(row.iconHint)
+            iconColor: row.connected ? Colors.colPrimary : Colors.m3onSurface
+            active: row.connected
+            trailing: chevronC
+            expanded: row.expanded
 
-            RowLayout {
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    verticalCenter: parent.verticalCenter
-                    leftMargin: 10
-                    rightMargin: 10
-                }
-                spacing: 10
-
-                Text {
-                    text: row._materialIcon(row.iconHint)
-                    color: row.connected ? Colors.colPrimary : Colors.m3onSurface
-                    font.family: "Material Symbols Rounded"
-                    font.pixelSize: 20
-                }
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: 0
-
-                    Text {
-                        Layout.fillWidth: true
-                        text: row.deviceName
-                        color: Colors.m3onSurface
-                        font.family: "Inter"
-                        font.pixelSize: 13
-                        font.weight: row.connected ? Font.Medium : Font.Normal
-                        elide: Text.ElideRight
-                    }
-
-                    Text {
-                        Layout.fillWidth: true
-                        visible: row.connected || row.paired
-                        text: {
-                            const parts = [];
-                            parts.push(row.connected ? "Connected" : "Paired");
-                            if (row.batAvail) parts.push(Math.round(row.battery * 100) + "%");
-                            return parts.join(" • ");
-                        }
-                        color: Colors.m3onSurfaceVariant
-                        font.family: "Inter"
-                        font.pixelSize: 11
-                        elide: Text.ElideRight
-                    }
-                }
-
-                Text {
-                    text: "keyboard_arrow_down"
-                    color: Colors.m3onSurfaceVariant
-                    font.family: "Material Symbols Rounded"
-                    font.pixelSize: 18
-                    rotation: row.expanded ? 180 : 0
-                    Behavior on rotation { Motion.Spatial {} }
-                }
-            }
-
-            MouseArea {
-                id: headerMa
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: row.expanded = !row.expanded
-            }
+            onClicked: row.expanded = !row.expanded
         }
 
+        // Action row, semantic by intent.
         RowLayout {
             visible: row.expanded
             Layout.fillWidth: true
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
-            Layout.topMargin: 4
-            Layout.bottomMargin: 8
-            spacing: 8
+            Layout.leftMargin: Config.layout.gapMd
+            Layout.rightMargin: Config.layout.gapMd
+            Layout.topMargin: Config.layout.gapXs
+            Layout.bottomMargin: Config.layout.gapMd
+            spacing: Config.layout.gapSm
 
-            Rectangle {
-                implicitHeight: 30
-                Layout.fillWidth: true
-                radius: Config.layout.radiusSm
-                color: pairMa.containsMouse ? Colors.colLayer3 : Colors.colLayer2
-                border.width: 1
-                border.color: Colors.outlineVariant
+            // Pair (when not paired).
+            MenuActionButton {
+                visible: !row.paired
+                text: "Pair"
+                variant: MenuActionButton.Variant.Primary
+                onClicked: BluetoothState.pair(row.modelData)
+            }
 
-                Text {
-                    anchors.centerIn: parent
-                    text: row.paired ? "Forget" : "Pair"
-                    color: Colors.m3onSurface
-                    font.family: "Inter"
-                    font.pixelSize: 12
-                    font.weight: Font.Medium
-                }
-
-                MouseArea {
-                    id: pairMa
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if (row.paired) BluetoothState.forget(row.modelData);
-                        else BluetoothState.pair(row.modelData);
-                    }
+            // Connect / Disconnect (paired only).
+            MenuActionButton {
+                visible: row.paired
+                text: row.connected ? "Disconnect" : "Connect"
+                variant: row.connected ? MenuActionButton.Variant.Tonal
+                                       : MenuActionButton.Variant.Primary
+                onClicked: {
+                    if (row.connected) BluetoothState.disconnect(row.modelData);
+                    else BluetoothState.connect(row.modelData);
                 }
             }
 
-            Rectangle {
-                implicitHeight: 30
-                Layout.fillWidth: true
-                radius: Config.layout.radiusSm
-                color: connectMa.containsMouse ? Colors.accentHover : Colors.accent
-
-                Text {
-                    anchors.centerIn: parent
-                    text: row.connected ? "Disconnect" : "Connect"
-                    color: Colors.background
-                    font.family: "Inter"
-                    font.pixelSize: 12
-                    font.weight: Font.Medium
-                }
-
-                MouseArea {
-                    id: connectMa
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if (row.connected) BluetoothState.disconnect(row.modelData);
-                        else BluetoothState.connect(row.modelData);
-                    }
-                }
+            // Forget (paired only, destructive).
+            MenuActionButton {
+                visible: row.paired
+                text: "Forget"
+                variant: MenuActionButton.Variant.Danger
+                onClicked: BluetoothState.forget(row.modelData)
             }
         }
     }

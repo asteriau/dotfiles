@@ -3,32 +3,31 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import qs.components.controls
 import qs.components.surfaces
+import qs.components.text
 import qs.services
 import qs.utils
 
 SidebarPopup {
     id: root
-    title: "Volume mixer"
     active: UiState.sidebarMenu === "volume"
     onDismissed: UiState.sidebarMenu = "none"
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 10
+        spacing: Config.layout.gapSm
 
-        Rectangle {
-            Layout.fillWidth: true
-            implicitHeight: 1
-            color: Colors.outlineVariant
-            opacity: 0.4
+        MenuHeader {
+            title: "Volume mixer"
+            onBack: UiState.sidebarMenu = "none"
         }
 
         ListView {
             id: streamList
             Layout.fillWidth: true
             Layout.fillHeight: true
+            visible: PipeWireState.sinkStreams.length > 0
             clip: true
-            spacing: 8
+            spacing: Config.layout.gapSm
             model: PipeWireState.sinkStreams
             ScrollBar.vertical: ScrollBar {}
 
@@ -37,18 +36,23 @@ SidebarPopup {
             }
         }
 
-        Text {
+        Item {
             visible: PipeWireState.sinkStreams.length === 0
             Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            text: "Nothing is playing"
-            color: Colors.m3onSurfaceInactive
-            font.family: "Inter"
-            font.pixelSize: 12
+            Layout.fillHeight: true
+
+            MenuEmptyState {
+                anchors.centerIn: parent
+                width: parent.width
+                iconName: "music_off"
+                title: "Nothing is playing"
+                detail: "Apps will show up here when they output audio"
+            }
         }
 
         Rectangle {
             Layout.fillWidth: true
+            Layout.topMargin: Config.layout.gapXs
             implicitHeight: 1
             color: Colors.outlineVariant
             opacity: 0.4
@@ -56,15 +60,12 @@ SidebarPopup {
 
         ColumnLayout {
             Layout.fillWidth: true
-            spacing: 4
+            spacing: Config.layout.gapSm
 
-            Text {
+            StyledText {
                 Layout.fillWidth: true
-                text: "Output device"
-                color: Colors.m3onSurfaceVariant
-                font.family: "Inter"
-                font.pixelSize: 11
-                font.weight: Font.Medium
+                variant: StyledText.Variant.Label
+                text: "OUTPUT DEVICE"
             }
 
             StyledComboBox {

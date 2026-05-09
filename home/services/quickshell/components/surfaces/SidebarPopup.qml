@@ -7,13 +7,14 @@ import qs.utils
 // drives the scale/opacity transition).
 //
 // Lives inside the sidebar PanelWindow rather than a separate PopupWindow
-// so the sidebar's HyprlandFocusGrab doesn't dismiss it on hover.
+// so the sidebar's HyprlandFocusGrab doesn't dismiss it on hover. Menus
+// own their own header (see MenuHeader) — this surface only paints the
+// card and content slot.
 Item {
     id: root
 
     property bool active: false
-    property real padding: 14
-    property string title: ""
+    property real padding: 12
     signal dismissed
 
     default property alias content: inner.data
@@ -72,61 +73,10 @@ Item {
             propagateComposedEvents: true
         }
 
-        ColumnLayout {
+        Item {
+            id: inner
             anchors.fill: parent
             anchors.margins: root.padding
-            spacing: Config.layout.gapSm
-
-            // Header (title + close button) — only shown when title is set.
-            RowLayout {
-                Layout.fillWidth: true
-                visible: root.title.length > 0
-                spacing: Config.layout.gapSm
-
-                Text {
-                    Layout.fillWidth: true
-                    text: root.title
-                    color: Colors.colOnLayer2
-                    font.family: "Inter"
-                    font.pixelSize: 16
-                    font.weight: Font.Medium
-                }
-
-                Item {
-                    implicitWidth: 28
-                    implicitHeight: 28
-
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: width / 2
-                        color: closeMa.containsMouse ? Colors.colLayer2Hover : "transparent"
-                        Behavior on color { Motion.ColorFade {} }
-                    }
-
-                    Text {
-                        anchors.centerIn: parent
-                        text: "close"
-                        color: Colors.colOnLayer2
-                        font.family: "Material Symbols Rounded"
-                        font.pixelSize: 18
-                    }
-
-                    MouseArea {
-                        id: closeMa
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: root.dismissed()
-                    }
-                }
-            }
-
-            // Content slot — populated by the menu via the default property.
-            Item {
-                id: inner
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
         }
     }
 }

@@ -17,3 +17,8 @@ AbstractCombinedProgressBar 1.0 AbstractCombinedProgressBar.qml
 StyledCombinedProgressBar 1.0 StyledCombinedProgressBar.qml
 MaterialTextField 1.0 MaterialTextField.qml
 StyledComboBox 1.0 StyledComboBox.qml
+MenuRow 1.0 MenuRow.qml
+MenuActionButton 1.0 MenuActionButton.qml
+MenuHeader 1.0 MenuHeader.qml
+MenuIndeterminateBar 1.0 MenuIndeterminateBar.qml
+MenuEmptyState 1.0 MenuEmptyState.qml
