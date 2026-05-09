@@ -102,6 +102,7 @@ Scope {
             layer.enabled: true
 
             ColumnLayout {
+                id: contentCol
                 anchors.fill: parent
                 anchors.topMargin: Config.layout.gapXl + 4
                 anchors.bottomMargin: Config.layout.gapLg
@@ -163,14 +164,16 @@ Scope {
                 }
             }
 
-            // Menu overlay sits above the scrim, anchored to the slot
+            // Menu overlay sits above the scrim, sized to the slot
             // NotificationCenter occupies so layout stays stable.
+            // notifCenter is inside contentCol so anchors cannot cross
+            // the layout boundary — bind geometry instead.
             Loader {
                 id: menuLoader
-                anchors.left: notifCenter.left
-                anchors.right: notifCenter.right
-                anchors.top: notifCenter.top
-                anchors.bottom: notifCenter.bottom
+                x: contentCol.x + notifCenter.x
+                y: contentCol.y + notifCenter.y
+                width: notifCenter.width
+                height: notifCenter.height
                 visible: UiState.sidebarMenu !== "none"
                 active: visible
                 z: 2
