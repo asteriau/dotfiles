@@ -5,7 +5,7 @@ import Quickshell
 import Quickshell.Services.Notifications
 import qs.notifications
 import qs.utils
-import qs.utils.state
+import qs.services
 
 // Per-popup wrapper around NotificationBox. Adds auto-dismiss timer with
 // hover-pause; critical urgency is sticky.

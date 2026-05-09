@@ -6,7 +6,7 @@ import Quickshell
 import Quickshell.Wayland
 import qs.notifications
 import qs.utils
-import qs.utils.state
+import qs.services
 
 // Top-level floating notification popups. Mirrors bar position so popups
 // land in the screen corner opposite the bar (so they never overlap it).

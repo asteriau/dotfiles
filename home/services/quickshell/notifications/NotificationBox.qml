@@ -8,7 +8,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Item {
     id: root

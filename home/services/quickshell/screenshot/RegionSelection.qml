@@ -6,7 +6,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.utils
-import qs.utils.state
+import qs.services
 import qs.components.text
 import qs.components.surfaces
 

@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import qs.components.text
 import qs.utils
-import qs.utils.state
+import qs.services
 
 StyledText {
     id: root
