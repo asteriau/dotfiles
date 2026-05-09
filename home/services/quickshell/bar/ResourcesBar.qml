@@ -5,10 +5,13 @@ import qs.components.effects
 import qs.components.surfaces
 import qs.components.text
 import qs.utils
-import qs.utils.state
+import qs.services
 
 PressablePill {
     id: root
+
+    Component.onCompleted: ResourcesState.subscribe()
+    Component.onDestruction: ResourcesState.unsubscribe()
 
     implicitWidth:  Config.bar.width - Config.layout.gapSm * 2
     implicitHeight: col.implicitHeight + 8

@@ -4,9 +4,12 @@ import qs.components.content
 import qs.components.text
 import qs.settings
 import qs.utils
-import qs.utils.state
+import qs.services
 
 ContentPage {
+    Component.onCompleted: SystemInfoState.subscribe()
+    Component.onDestruction: SystemInfoState.unsubscribe()
+
     ColumnLayout {
         Layout.fillWidth: true
         Layout.leftMargin: 4

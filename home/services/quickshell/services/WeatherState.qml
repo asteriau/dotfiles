@@ -8,6 +8,10 @@ import qs.utils
 Singleton {
     id: root
 
+    property int subscribers: 0
+    function subscribe(): void { root.subscribers += 1 }
+    function unsubscribe(): void { root.subscribers = Math.max(0, root.subscribers - 1) }
+
     property real temp: 0
     property real feelsLike: 0
     property real tempMin: 0
@@ -109,7 +113,7 @@ Singleton {
 
     Timer {
         interval: 600000
-        running: true
+        running: root.subscribers > 0
         repeat: true
         triggeredOnStart: true
         onTriggered: fetcher.running = true

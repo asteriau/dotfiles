@@ -6,7 +6,7 @@ import Quickshell.Bluetooth
 import Quickshell.Networking
 import Quickshell.Services.Pipewire
 import qs.utils
-import qs.utils.state
+import qs.services
 
 // Four separate circular pill toggles (Wi-Fi, Bluetooth, DND, Mic) inside an
 // M3 surface container, sized to wrap the pills (not full-width).

@@ -3,12 +3,15 @@ import QtQuick.Layouts
 import qs.components.surfaces
 import qs.components.text
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Item {
     id: root
     Layout.fillWidth: true
     implicitHeight: row.implicitHeight
+
+    Component.onCompleted: WeatherState.subscribe()
+    Component.onDestruction: WeatherState.unsubscribe()
 
     property date now: new Date()
     readonly property string longDateLabel: {

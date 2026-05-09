@@ -7,6 +7,10 @@ import Quickshell.Io
 Singleton {
     id: root
 
+    property int subscribers: 0
+    function subscribe(): void { root.subscribers += 1 }
+    function unsubscribe(): void { root.subscribers = Math.max(0, root.subscribers - 1) }
+
     property string distro: ""
     property string kernel: ""
     property string hostname: ""
@@ -46,7 +50,7 @@ Singleton {
     Timer {
         interval: 60000
         repeat: true
-        running: true
+        running: root.subscribers > 0
         onTriggered: uptimeProc.running = true
     }
 }

@@ -3,10 +3,13 @@ import QtQuick.Layouts
 import qs.components.controls
 import qs.components.text
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Item {
     id: root
+
+    Component.onCompleted: ResourcesState.subscribe()
+    Component.onDestruction: ResourcesState.unsubscribe()
 
     property real padding: 16
 

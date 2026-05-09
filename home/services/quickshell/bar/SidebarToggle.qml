@@ -2,7 +2,7 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import qs.components.surfaces
 import qs.utils
-import qs.utils.state
+import qs.services
 
 PressablePill {
     id: root

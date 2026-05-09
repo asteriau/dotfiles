@@ -10,7 +10,7 @@ import qs.components.shape
 import qs.components.text
 import qs.notifications
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Item {
     id: root

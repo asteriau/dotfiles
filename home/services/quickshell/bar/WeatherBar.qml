@@ -1,10 +1,13 @@
 import QtQuick
 import qs.components.text
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Item {
     id: root
+
+    Component.onCompleted: WeatherState.subscribe()
+    Component.onDestruction: WeatherState.unsubscribe()
 
     visible: WeatherState.ready
 
