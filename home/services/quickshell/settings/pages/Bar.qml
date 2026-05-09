@@ -2,35 +2,104 @@ import QtQuick
 import QtQuick.Layouts
 import qs.components.content
 import qs.components.controls
+import qs.components.text
 import qs.settings
 import qs.utils
 
 ContentPage {
     ContentSection {
         title: "Position"
-        icon: "dock_to_left"
 
-        ContentSubsection {
-            title: "Bar position"
+        Rectangle {
+            objectName: "bar-position"
+            Layout.fillWidth: true
+            implicitHeight: 56
+            color: Colors.transparent
 
-            SegmentedControl {
-                currentValue: Config.bar.position
-                onSelectedValue: v => Config.bar.position = v
-                options: [
-                    { label: "Left",   icon: "arrow_back",     value: "left"   },
-                    { label: "Right",  icon: "arrow_forward",  value: "right"  },
-                    { label: "Top",    icon: "arrow_upward",   value: "top"    },
-                    { label: "Bottom", icon: "arrow_downward", value: "bottom" }
-                ]
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 16
+                anchors.rightMargin: 16
+                anchors.topMargin: 8
+                anchors.bottomMargin: 8
+                spacing: 14
+
+                Rectangle {
+                    Layout.preferredWidth: 36
+                    Layout.preferredHeight: 36
+                    Layout.alignment: Qt.AlignVCenter
+                    radius: 18
+                    color: Colors.colLayer2
+
+                    MaterialIcon {
+                        anchors.centerIn: parent
+                        text: "dock_to_left"
+                        font.pointSize: Config.typography.large
+                        color: Colors.m3onSurfaceVariant
+                    }
+                }
+
+                StyledText {
+                    Layout.fillWidth: true
+                    text: "Position"
+                    color: Colors.foreground
+                    font.pixelSize: Config.typography.small
+                    font.weight: Font.Medium
+                }
+
+                Row {
+                    Layout.alignment: Qt.AlignVCenter
+                    spacing: 2
+
+                    component PosBtn: Rectangle {
+                        required property string value
+                        required property string icon
+                        property bool isFirst: false
+                        property bool isLast: false
+                        readonly property bool active: Config.bar.position === value
+                        width: 40
+                        height: 36
+                        topLeftRadius: isFirst ? 18 : 6
+                        bottomLeftRadius: isFirst ? 18 : 6
+                        topRightRadius: isLast ? 18 : 6
+                        bottomRightRadius: isLast ? 18 : 6
+                        color: active
+                            ? Colors.primaryContainer
+                            : (ma.containsMouse ? Colors.colLayer4 : Colors.colLayer3)
+                        Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+
+                        MaterialIcon {
+                            anchors.centerIn: parent
+                            text: parent.icon
+                            font.pointSize: Config.typography.normal
+                            fill: parent.active ? 1 : 0
+                            color: parent.active ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
+                            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                        }
+
+                        MouseArea {
+                            id: ma
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: Config.bar.position = parent.value
+                        }
+                    }
+
+                    PosBtn { value: "left";   icon: "arrow_back";     isFirst: true }
+                    PosBtn { value: "top";    icon: "arrow_upward" }
+                    PosBtn { value: "bottom"; icon: "arrow_downward" }
+                    PosBtn { value: "right";  icon: "arrow_forward";  isLast: true }
+                }
             }
         }
     }
 
     ContentSection {
         title: "Appearance"
-        icon: "palette"
 
         SwitchRow {
+            objectName: "bar-rounding"
             text: "Rounding"
             icon: "rounded_corner"
             checked: Config.bar.rounding
@@ -40,12 +109,12 @@ ContentPage {
 
     ContentSection {
         title: "Dimensions"
-        icon: "straighten"
 
         ContentSubsection {
             title: "Sidebar width"
 
             SliderRow {
+                objectName: "bar-sidebarWidth"
                 icon: "view_sidebar"
                 from: 300; to: 600; value: Config.sidebar.width; stepSize: 10
                 suffix: "px"
@@ -56,12 +125,12 @@ ContentPage {
 
     ContentSection {
         title: "Workspaces"
-        icon: "grid_view"
 
         ContentSubsection {
             title: "Workspaces shown"
 
             SliderRow {
+                objectName: "bar-wsShown"
                 icon: "grid_4x4"
                 from: 4; to: 20; value: Config.workspaces.shown; stepSize: 1
                 onMoved: v => Config.workspaces.shown = v
@@ -69,6 +138,7 @@ ContentPage {
         }
 
         SwitchRow {
+            objectName: "bar-wsAppIcons"
             text: "Show app icons"
             icon: "apps"
             checked: Config.workspaces.showAppIcons
@@ -76,6 +146,7 @@ ContentPage {
         }
 
         SwitchRow {
+            objectName: "bar-wsNumbers"
             text: "Always show numbers"
             icon: "format_list_numbered"
             checked: Config.workspaces.alwaysShowNumbers
@@ -83,6 +154,7 @@ ContentPage {
         }
 
         SwitchRow {
+            objectName: "bar-wsMonochrome"
             text: "Monochrome icons"
             icon: "filter_b_and_w"
             checked: Config.workspaces.monochromeIcons
@@ -90,6 +162,7 @@ ContentPage {
         }
 
         SwitchRow {
+            objectName: "bar-wsTinted"
             text: "Tinted icons"
             icon: "colorize"
             checked: Config.workspaces.tintedIcons

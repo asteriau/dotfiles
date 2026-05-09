@@ -11,21 +11,25 @@ ColumnLayout {
     default property alias contentData: sectionContent.data
 
     Layout.fillWidth: true
-    Layout.topMargin: Config.layout.rowGap
-    spacing: Config.layout.subsectionGap
+    Layout.topMargin: 4
+    spacing: 4
 
     RowLayout {
         Layout.fillWidth: true
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
+        Layout.topMargin: 10
+        Layout.bottomMargin: 4
         visible: root.title.length > 0 || root.tooltip.length > 0
         spacing: Config.layout.rowGap
 
         Text {
             visible: root.title.length > 0
             text: root.title
-            color: Colors.comment
+            color: Colors.m3onSurfaceVariant
             font.family: Config.typography.family
-            font.pixelSize: Config.typography.smallie
-            Layout.leftMargin: 2
+            font.pixelSize: Config.typography.smaller
+            font.weight: Font.Medium
         }
 
         HoverTooltip {
@@ -44,6 +48,7 @@ ColumnLayout {
     ColumnLayout {
         id: sectionContent
         Layout.fillWidth: true
+        Layout.bottomMargin: 4
         spacing: Config.layout.subsectionGap
     }
 }

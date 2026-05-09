@@ -9,6 +9,8 @@ import qs.utils.state
 ContentPage {
     ColumnLayout {
         Layout.fillWidth: true
+        Layout.leftMargin: 4
+        Layout.bottomMargin: 8
         spacing: 4
 
         StyledText {
@@ -21,10 +23,13 @@ ContentPage {
 
         StyledText {
             text: "A shell that's slightly fast"
-            color: Colors.comment
+            color: Colors.m3onSurfaceVariant
             font.pixelSize: Config.typography.small
-            Layout.bottomMargin: 6
         }
+    }
+
+    ContentSection {
+        title: "System"
 
         InfoRow { label: "Distro";   value: SystemInfoState.distro }
         InfoRow { label: "Kernel";   value: SystemInfoState.kernel }

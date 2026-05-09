@@ -27,45 +27,47 @@ Item {
         implicitHeight: root.expanded ? 56 : 64
 
         Rectangle {
+            id: bg
             anchors.verticalCenter: parent.verticalCenter
             x: root.expanded ? 0 : (parent.width - width) / 2
             width:  root.expanded ? parent.width : 56
-            height: root.expanded ? 36 : 52
-            radius: 16
+            height: root.expanded ? 40 : 52
+            radius: Config.layout.radiusXl
+            color: Colors.transparent
 
-            color: item.selected
-                ? (ma.containsMouse ? Colors.accentHover : Colors.accent)
-                : (ma.containsMouse ? Colors.hover : Colors.transparent)
+            Behavior on width  { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.OutCubic } }
+            Behavior on x      { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.OutCubic } }
 
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-            Behavior on width { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.OutCubic } }
-            Behavior on x     { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.OutCubic } }
+            // Hover overlay (only when not selected)
+            Rectangle {
+                anchors.fill: parent
+                radius: parent.radius
+                color: Colors.hover
+                opacity: !item.selected && ma.containsMouse ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+            }
+
+            // Selected fill
+            Rectangle {
+                anchors.fill: parent
+                radius: parent.radius
+                color: ma.containsMouse ? Qt.lighter(Colors.primaryContainer, 1.05) : Colors.primaryContainer
+                opacity: item.selected ? 1 : 0
+                Behavior on color   { ColorAnimation  { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+            }
         }
 
-        // Collapsed: icon above label
-        ColumnLayout {
+        // Collapsed: icon only (centered)
+        MaterialIcon {
             visible: !root.expanded
             anchors.centerIn: parent
-            spacing: 2
-
-            MaterialIcon {
-                Layout.alignment: Qt.AlignHCenter
-                text: item.icon
-                font.pointSize: Config.typography.huge
-                fill: item.selected ? 1 : 0
-                color: item.selected ? Colors.accentText : Colors.m3onSurfaceVariant
-                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-            }
-
-            Text {
-                Layout.alignment: Qt.AlignHCenter
-                text: item.label
-                font.family: Config.typography.family
-                font.pixelSize: Config.typography.smaller
-                font.weight: item.selected ? Font.Medium : Font.Normal
-                color: item.selected ? Colors.accentText : Colors.m3onSurfaceVariant
-                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-            }
+            text: item.icon
+            font.pointSize: Config.typography.huge
+            fill: item.selected ? 1 : 0
+            color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
+            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+            Behavior on fill  { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
         }
 
         // Expanded: icon + label row
@@ -82,8 +84,9 @@ Item {
                 text: item.icon
                 font.pointSize: Config.typography.huge
                 fill: item.selected ? 1 : 0
-                color: item.selected ? Colors.accentText : Colors.m3onSurfaceVariant
+                color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
                 Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                Behavior on fill  { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
             }
 
             Text {
@@ -92,7 +95,7 @@ Item {
                 font.family: Config.typography.family
                 font.pixelSize: Config.typography.small
                 font.weight: item.selected ? Font.Medium : Font.Normal
-                color: item.selected ? Colors.accentText : Colors.m3onSurfaceVariant
+                color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
                 Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
             }
         }
@@ -108,7 +111,7 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 10
+        spacing: 4
 
         // Expand/collapse chevron
         Item {

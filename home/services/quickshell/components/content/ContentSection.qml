@@ -7,40 +7,62 @@ ColumnLayout {
     id: root
 
     property string title
-    property string icon: ""
 
     default property alias contentData: sectionContent.data
 
     Layout.fillWidth: true
-    spacing: 6
+    spacing: 12
 
     RowLayout {
         Layout.fillWidth: true
-        visible: root.title.length > 0 || root.icon.length > 0
-        spacing: Config.layout.rowSpacing
-
-        MaterialIcon {
-            visible: root.icon.length > 0
-            text: root.icon
-            font.pointSize: Config.typography.hugeass
-            fill: 1
-            color: Colors.accent
-        }
+        Layout.leftMargin: 4
+        Layout.bottomMargin: 2
+        visible: root.title.length > 0
+        spacing: 6
 
         Text {
             text: root.title
-            color: Colors.foreground
+            color: Colors.m3onSurfaceVariant
             font.family: Config.typography.titleFamily
-            font.pixelSize: Config.typography.larger
+            font.pixelSize: Config.typography.small
             font.weight: Font.Medium
         }
 
         Item { Layout.fillWidth: true }
     }
 
-    ColumnLayout {
-        id: sectionContent
+    Rectangle {
         Layout.fillWidth: true
-        spacing: Config.layout.sectionInner
+        implicitHeight: sectionContent.implicitHeight + Config.layout.gapLg
+        color: Colors.colLayer2
+        radius: 20
+        clip: true
+
+        ColumnLayout {
+            id: sectionContent
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: 6
+            spacing: 0
+        }
+
+        Repeater {
+            model: sectionContent.children.length
+            Rectangle {
+                required property int index
+                readonly property var child: sectionContent.children[index]
+                visible: index > 0 && child !== null && child.y > 0
+                x: 16
+                Binding on y {
+                    value: sectionContent.y + (child ? child.y : 0)
+                    delayed: true
+                }
+                width: sectionContent.width - 32
+                height: 1
+                color: Colors.outlineVariant
+                opacity: 0.4
+            }
+        }
     }
 }

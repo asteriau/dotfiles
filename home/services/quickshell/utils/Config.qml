@@ -374,7 +374,7 @@ Singleton {
 
         // Settings/content
         readonly property int pageMargin:      20
-        readonly property int sectionGap:      30
+        readonly property int sectionGap:      20
         readonly property int sectionInner:     8
         readonly property int subsectionGap:    2
         readonly property int rowGap:           4

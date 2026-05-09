@@ -51,18 +51,29 @@ ContentPage {
     // ─────────────────────────────────────────────────────────────────────
     ContentSection {
         title: "Source"
-        icon: "palette"
 
         ContentSubsection {
             title: "Theme source"
 
-            SegmentedControl {
-                currentValue: Config.theme.mode
-                onSelectedValue: v => Config.theme.mode = v
-                options: [
-                    { label: "Preset",  icon: "style",    value: "preset"  },
-                    { label: "Matugen", icon: "colorize", value: "matugen" }
-                ]
+            Item {
+                Layout.fillWidth: true
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+                Layout.bottomMargin: 6
+                implicitHeight: srcSeg.implicitHeight
+
+                SegmentedControl {
+                    id: srcSeg
+                    objectName: "theme-source"
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    currentValue: Config.theme.mode
+                    onSelectedValue: v => Config.theme.mode = v
+                    options: [
+                        { label: "Preset",  icon: "style",    value: "preset"  },
+                        { label: "Matugen", icon: "colorize", value: "matugen" }
+                    ]
+                }
             }
         }
     }
@@ -70,14 +81,16 @@ ContentPage {
     // ── Wallpaper ─────────────────────────────────────────────────────────
     ContentSection {
         title: "Wallpaper"
-        icon: "wallpaper"
 
         ContentSubsection {
             title: "Wallpaper"
 
             Item {
                 id: previewItem
+                objectName: "theme-wallpaper"
                 Layout.fillWidth: true
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
                 Layout.preferredHeight: 200
 
                 Rectangle {
@@ -100,10 +113,10 @@ ContentPage {
                     id: wpPreview
                     anchors.fill: parent
                     visible: Config.theme.matugen.wallpaper.length > 0
-                    source: visible ? "file://" + Config.theme.matugen.wallpaper : ""
+                    source: Config.theme.matugen.wallpaper.length > 0 ? "file://" + Config.theme.matugen.wallpaper : ""
                     fillMode: Image.PreserveAspectCrop
                     asynchronous: true
-                    cache: false
+                    cache: true
                     sourceSize.width: previewItem.width
                     sourceSize.height: previewItem.height
                     opacity: status === Image.Ready ? 1 : 0
@@ -126,6 +139,9 @@ ContentPage {
 
             Rectangle {
                 Layout.fillWidth: true
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+                Layout.bottomMargin: 8
                 Layout.preferredHeight: 40
                 radius: Config.layout.radiusMd
                 color: chooseMa.containsMouse ? Colors.surfaceContainerHighest : Colors.surfaceContainerHigh
@@ -163,25 +179,38 @@ ContentPage {
     ContentSection {
         visible: !page.isMatugen
         title: "Preset"
-        icon: "style"
 
         ContentSubsection {
             title: "Choose a preset"
 
-            SegmentedControl {
-                visible: page.presetOptions.length > 0
-                currentValue: Config.theme.preset
-                options: page.presetOptions
-                onSelectedValue: v => Config.theme.preset = v
-            }
-
-            StyledText {
-                visible: page.presetOptions.length === 0
-                text: "No presets found in " + page.shellDir + "/themes/"
-                color: Colors.comment
-                font.pixelSize: Config.typography.smallie
-                wrapMode: Text.WordWrap
+            Item {
                 Layout.fillWidth: true
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+                Layout.bottomMargin: 8
+                implicitHeight: presetSeg.visible ? presetSeg.implicitHeight : presetEmpty.implicitHeight
+
+                SegmentedControl {
+                    id: presetSeg
+                    objectName: "theme-presetPicker"
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    visible: page.presetOptions.length > 0
+                    currentValue: Config.theme.preset
+                    options: page.presetOptions
+                    onSelectedValue: v => Config.theme.preset = v
+                }
+
+                StyledText {
+                    id: presetEmpty
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    visible: page.presetOptions.length === 0
+                    text: "No presets found in " + page.shellDir + "/themes/"
+                    color: Colors.m3onSurfaceVariant
+                    font.pixelSize: Config.typography.smallie
+                    wrapMode: Text.WordWrap
+                }
             }
         }
 
@@ -190,6 +219,7 @@ ContentPage {
             tooltip: "Basename (without .json) of a file in <shellDir>/themes/"
 
             TextFieldRow {
+                objectName: "theme-presetName"
                 text: Config.theme.preset
                 onEdited: v => Config.theme.preset = v
             }
@@ -200,14 +230,24 @@ ContentPage {
     ContentSection {
         visible: page.isMatugen
         title: "Matugen"
-        icon: "colorize"
 
         ContentSubsection {
             title: "Color scheme"
 
-            SegmentedControl {
-                currentValue: Config.theme.matugen.scheme
-                options: [
+            Item {
+                Layout.fillWidth: true
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+                Layout.bottomMargin: 6
+                implicitHeight: schemeSeg.implicitHeight
+
+                SegmentedControl {
+                    id: schemeSeg
+                    objectName: "theme-matugenScheme"
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    currentValue: Config.theme.matugen.scheme
+                    options: [
                     { label: "Tonal Spot",  value: "scheme-tonal-spot"  },
                     { label: "Vibrant",     value: "scheme-vibrant"     },
                     { label: "Expressive",  value: "scheme-expressive"  },
@@ -217,8 +257,9 @@ ContentPage {
                     { label: "Monochrome",  value: "scheme-monochrome"  },
                     { label: "Content",     value: "scheme-content"     },
                     { label: "Fidelity",    value: "scheme-fidelity"    }
-                ]
-                onSelectedValue: v => Config.theme.matugen.scheme = v
+                    ]
+                    onSelectedValue: v => Config.theme.matugen.scheme = v
+                }
             }
         }
 
@@ -226,19 +267,23 @@ ContentPage {
             title: "Contrast"
 
             ColumnLayout {
-                spacing: Config.layout.gapMd
+                Layout.fillWidth: true
+                spacing: 0
 
                 SliderRow {
+                    objectName: "theme-matugenContrast"
                     icon: "contrast"
                     from: -1.0
                     to: 1.0
                     stepSize: 0.1
                     decimals: 1
+                    stopIndicators: []
                     value: Config.theme.matugen.contrast
                     onMoved: v => Config.theme.matugen.contrast = v
                 }
 
                 SwitchRow {
+                    objectName: "theme-matugenDark"
                     text: "Dark mode"
                     icon: "dark_mode"
                     checked: Config.theme.matugen.dark

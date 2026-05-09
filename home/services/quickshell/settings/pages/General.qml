@@ -6,26 +6,13 @@ import qs.utils
 
 ContentPage {
     ContentSection {
-        title: "Behaviour"
-        icon: "tune"
-
-        SwitchRow {
-            text: "Do not disturb"
-            caption: "Silence toasts; history still captured"
-            icon: "do_not_disturb_on"
-            checked: Config.doNotDisturb
-            onToggled: v => Config.doNotDisturb = v
-        }
-    }
-
-    ContentSection {
         title: "Font"
-        icon: "text_fields"
 
         ContentSubsection {
             title: "Font family"
 
             TextFieldRow {
+                objectName: "gen-fontFamily"
                 text: Config.fontFamily
                 onEdited: v => Config.fontFamily = v
             }
@@ -36,6 +23,7 @@ ContentPage {
             tooltip: "Material Symbols base size"
 
             SliderRow {
+                objectName: "gen-iconSize"
                 icon: "format_size"
                 from: 10; to: 24; value: Config.iconSize; stepSize: 1
                 suffix: "px"
@@ -46,12 +34,12 @@ ContentPage {
 
     ContentSection {
         title: "OSD"
-        icon: "volume_up"
 
         ContentSubsection {
             title: "Width"
 
             SliderRow {
+                objectName: "gen-osdWidth"
                 icon: "straighten"
                 from: 100; to: 400; value: Config.osd.width; stepSize: 10
                 suffix: "px"
@@ -63,6 +51,7 @@ ContentPage {
             title: "Timeout"
 
             SliderRow {
+                objectName: "gen-osdTimeout"
                 icon: "timer"
                 from: 500; to: 5000; value: Config.osd.timeoutMs; stepSize: 100
                 suffix: "ms"

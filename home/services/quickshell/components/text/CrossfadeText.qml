@@ -35,6 +35,7 @@ Item {
         color: root.color
         elide: root.elide
         horizontalAlignment: root.horizontalAlignment
+        verticalAlignment: Text.AlignVCenter
         opacity: root._aActive ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
     }
@@ -47,6 +48,7 @@ Item {
         color: root.color
         elide: root.elide
         horizontalAlignment: root.horizontalAlignment
+        verticalAlignment: Text.AlignVCenter
         opacity: root._aActive ? 0 : 1
         Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
     }

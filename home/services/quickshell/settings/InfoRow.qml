@@ -4,32 +4,49 @@ import Quickshell
 import qs.components.text
 import qs.utils
 
-RowLayout {
+Rectangle {
     id: root
     property string label: ""
     property string value: ""
-    Layout.fillWidth: true
-    spacing: 8
 
-    StyledText {
-        text: root.label
-        color: Colors.comment
-        font.pixelSize: Config.typography.smallie
-        Layout.preferredWidth: 96
+    Layout.fillWidth: true
+    implicitHeight: 48
+    color: ma.containsMouse ? Colors.hover : Colors.transparent
+    radius: 0
+    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+
+    RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+        anchors.topMargin: 8
+        anchors.bottomMargin: 8
+        spacing: 12
+
+        StyledText {
+            text: root.label
+            color: Colors.m3onSurfaceVariant
+            font.pixelSize: Config.typography.small
+            Layout.preferredWidth: 100
+        }
+
+        StyledText {
+            text: root.value
+            color: Colors.foreground
+            font.pixelSize: Config.typography.small
+            font.weight: Font.Medium
+            elide: Text.ElideRight
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignRight
+        }
     }
 
-    StyledText {
-        text: root.value
-        color: Colors.foreground
-        font.pixelSize: Config.typography.smallie
-        elide: Text.ElideRight
-        Layout.fillWidth: true
-
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.RightButton
-            cursorShape: Qt.IBeamCursor
-            onClicked: Quickshell.clipboardText = root.value
-        }
+    MouseArea {
+        id: ma
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.RightButton
+        cursorShape: Qt.IBeamCursor
+        onClicked: Quickshell.clipboardText = root.value
     }
 }

@@ -2,29 +2,36 @@ import QtQuick
 import QtQuick.Layouts
 import qs.utils
 
-Rectangle {
+Item {
     id: root
 
     property string text: ""
     signal edited(string newValue)
 
     Layout.fillWidth: true
-    Layout.preferredWidth: 240
-    Layout.topMargin: 2
-    implicitHeight: 36
-    radius: Config.layout.radiusMd
-    color: Colors.background
+    implicitHeight: 56
 
-    TextInput {
+    Rectangle {
         anchors.fill: parent
-        anchors.leftMargin: 12
-        anchors.rightMargin: 12
-        verticalAlignment: TextInput.AlignVCenter
-        text: root.text
-        color: Colors.foreground
-        font.family: Config.typography.family
-        font.pixelSize: Config.typography.smallie
-        selectByMouse: true
-        onEditingFinished: root.edited(text)
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+        anchors.topMargin: 8
+        anchors.bottomMargin: 8
+        radius: Config.layout.radiusMd
+        color: Colors.colLayer3
+
+        TextInput {
+            id: input
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.rightMargin: 16
+            verticalAlignment: TextInput.AlignVCenter
+            text: root.text
+            color: Colors.foreground
+            font.family: Config.typography.family
+            font.pixelSize: Config.typography.small
+            selectByMouse: true
+            onEditingFinished: root.edited(text)
+        }
     }
 }

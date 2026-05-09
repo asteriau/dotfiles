@@ -4,10 +4,8 @@ import qs.components.controls
 import qs.components.text
 import qs.utils
 
-RowLayout {
+Rectangle {
     id: root
-    Layout.fillWidth: true
-    spacing: 12
 
     property string icon: ""
     property string text: ""
@@ -17,49 +15,89 @@ RowLayout {
     property real stepSize: 1
     property string suffix: ""
     property int    decimals: 0
+    property list<real> stopIndicators: [1]
 
     signal moved(real newValue)
 
-    MaterialIcon {
-        visible: root.icon.length > 0
-        text: root.icon
-        font.pointSize: Config.typography.huge
-        color: Colors.m3onSurfaceVariant
-        Layout.preferredWidth: 24
-        horizontalAlignment: Text.AlignHCenter
-    }
+    function flash() { flashAnim.restart(); }
 
-    StyledText {
-        visible: root.text.length > 0
-        text: root.text
-        color: Colors.foreground
-        font.pixelSize: Config.typography.small
-        Layout.preferredWidth: 120
-        elide: Text.ElideRight
-    }
+    Layout.fillWidth: true
+    implicitHeight: Math.max(56, row.implicitHeight + 16)
+    color: Colors.transparent
+    radius: 0
 
-    StyledSlider {
-        id: slider
-        Layout.fillWidth: true
-        from: root.from
-        to: root.to
-        stepSize: root.stepSize
-        value: root.value
-        configuration: StyledSlider.Configuration.S
-
-        onMoved: {
-            root.value = value;
-            root.moved(value);
+    Rectangle {
+        id: flashRect
+        anchors.fill: parent
+        color: Colors.accent
+        opacity: 0
+        SequentialAnimation {
+            id: flashAnim
+            NumberAnimation { target: flashRect; property: "opacity"; from: 0; to: 0.22; duration: 180; easing.type: Easing.OutCubic }
+            PauseAnimation  { duration: 280 }
+            NumberAnimation { target: flashRect; property: "opacity"; to: 0; duration: 520; easing.type: Easing.OutCubic }
         }
     }
 
-    StyledText {
-        text: (root.decimals > 0 ? root.value.toFixed(root.decimals)
-                                 : String(Math.round(root.value))) + root.suffix
-        color: Colors.m3onSurfaceVariant
-        font.pixelSize: Config.typography.smallie
-        font.weight: Font.Medium
-        Layout.preferredWidth: 48
-        horizontalAlignment: Text.AlignRight
+    RowLayout {
+        id: row
+        anchors.fill: parent
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+        anchors.topMargin: 8
+        anchors.bottomMargin: 8
+        spacing: Config.layout.gapLg
+
+        Rectangle {
+            Layout.preferredWidth: 36
+            Layout.preferredHeight: 36
+            Layout.alignment: Qt.AlignVCenter
+            radius: 18
+            color: Colors.secondaryContainer
+            opacity: root.icon.length > 0 ? 1 : 0
+
+            MaterialIcon {
+                anchors.centerIn: parent
+                text: root.icon
+                font.pointSize: Config.typography.large
+                color: Colors.m3onSecondaryContainer
+            }
+        }
+
+        StyledText {
+            visible: root.text.length > 0
+            text: root.text
+            color: Colors.foreground
+            font.pixelSize: Config.typography.small
+            font.weight: Font.Medium
+            Layout.preferredWidth: 120
+            elide: Text.ElideRight
+        }
+
+        StyledSlider {
+            id: slider
+            Layout.fillWidth: true
+            from: root.from
+            to: root.to
+            stepSize: root.stepSize
+            value: root.value
+            configuration: StyledSlider.Configuration.S
+            stopIndicatorValues: root.stopIndicators
+
+            onMoved: {
+                root.value = value;
+                root.moved(value);
+            }
+        }
+
+        StyledText {
+            text: (root.decimals > 0 ? root.value.toFixed(root.decimals)
+                                     : String(Math.round(root.value))) + root.suffix
+            color: Colors.m3onSurfaceVariant
+            font.pixelSize: Config.typography.smallie
+            font.weight: Font.Medium
+            Layout.preferredWidth: 48
+            horizontalAlignment: Text.AlignRight
+        }
     }
 }
