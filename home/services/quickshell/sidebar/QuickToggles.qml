@@ -1,10 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Io
-import Quickshell.Bluetooth
-import Quickshell.Networking
-import Quickshell.Services.Pipewire
 import qs.utils
 import qs.services
 
@@ -15,39 +10,14 @@ Item {
     Layout.fillWidth: true
     implicitHeight: card.implicitHeight
 
-    readonly property bool wifiOn: Networking.wifiEnabled
-    property bool ethernetConnected: false
-    readonly property var btAdapter: Bluetooth.defaultAdapter
-    readonly property bool btOn: btAdapter?.state === BluetoothAdapterState.Enabled
+    readonly property bool wifiOn: NetworkState.wifiEnabled
+    readonly property bool ethernetConnected: NetworkState.ethernetConnected
+    readonly property bool btOn: BluetoothState.enabled
     readonly property bool micMuted: PipeWireState.defaultSource?.audio?.muted ?? false
     readonly property bool dnd: Config.doNotDisturb
 
-    Process { id: wifiProc }
-    Process { id: btProc }
-
-    // Poll ethernet connectivity via nmcli — Networking.devices type strings
-    // aren't reliable across Quickshell versions.
-    Process {
-        id: ethProc
-        command: ["nmcli", "-t", "-f", "TYPE,STATE", "device"]
-        running: false
-        stdout: StdioCollector {
-            onStreamFinished: {
-                root.ethernetConnected = text.split("\n").some(l => {
-                    const [type, state] = l.split(":");
-                    return type === "ethernet" && state === "connected";
-                });
-            }
-        }
-    }
-
-    Timer {
-        interval: 3000
-        running: UiState.showSidebar
-        repeat: true
-        triggeredOnStart: true
-        onTriggered: ethProc.running = true
-    }
+    Component.onCompleted: NetworkState.subscribe()
+    Component.onDestruction: NetworkState.unsubscribe()
 
     Rectangle {
         id: card
@@ -70,17 +40,15 @@ Item {
                 enabled: !root.ethernetConnected
                 onActivated: {
                     if (root.ethernetConnected) return;
-                    wifiProc.command = ["nmcli", "radio", "wifi", root.wifiOn ? "off" : "on"];
-                    wifiProc.running = true;
+                    NetworkState.setWifiEnabled(!root.wifiOn);
                 }
+                onRightActivated: UiState.sidebarMenu = "wifi"
             }
             ToggleButton {
                 icon: root.btOn ? "bluetooth" : "bluetooth_disabled"
                 active: root.btOn
-                onActivated: {
-                    btProc.command = ["bluetoothctl", "power", root.btOn ? "off" : "on"];
-                    btProc.running = true;
-                }
+                onActivated: BluetoothState.setEnabled(!root.btOn)
+                onRightActivated: UiState.sidebarMenu = "bluetooth"
             }
             ToggleButton {
                 icon: root.dnd ? "do_not_disturb_on" : "do_not_disturb_off"
@@ -95,6 +63,7 @@ Item {
                     if (src?.audio)
                         src.audio.muted = !src.audio.muted;
                 }
+                onRightActivated: UiState.sidebarMenu = "mic"
             }
         }
     }
@@ -105,6 +74,7 @@ Item {
         property bool active
         readonly property int toggleSize: Config.layout.pillSize
         signal activated
+        signal rightActivated
 
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredWidth: btn.toggleSize
@@ -138,7 +108,11 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: btn.activated()
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            onClicked: (mouse) => {
+                if (mouse.button === Qt.RightButton) btn.rightActivated();
+                else btn.activated();
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 import qs.components.surfaces
+import qs.sidebar.menus
 import qs.utils
 
 Scope {
@@ -73,12 +74,20 @@ Scope {
             id: grab
             windows: [sideWin]
             active: UiState.showSidebar
-            onCleared: UiState.showSidebar = false
+            onCleared: {
+                UiState.showSidebar = false;
+                UiState.sidebarMenu = "none";
+            }
         }
 
         Keys.onPressed: (event) => {
-            if (event.key === Qt.Key_Escape)
-                UiState.showSidebar = false;
+            if (event.key === Qt.Key_Escape) {
+                if (UiState.sidebarMenu !== "none") {
+                    UiState.sidebarMenu = "none";
+                } else {
+                    UiState.showSidebar = false;
+                }
+            }
         }
 
         Rectangle {
@@ -125,11 +134,36 @@ Scope {
                     Layout.fillHeight: true
                     Layout.leftMargin: Config.layout.gapMd
                     Layout.rightMargin: Config.layout.gapMd
+                    visible: UiState.sidebarMenu === "none"
                 }
+
+                Loader {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.leftMargin: Config.layout.gapMd
+                    Layout.rightMargin: Config.layout.gapMd
+                    visible: UiState.sidebarMenu !== "none"
+                    active: visible
+                    sourceComponent: {
+                        switch (UiState.sidebarMenu) {
+                            case "wifi":      return wifiC;
+                            case "bluetooth": return btC;
+                            case "mic":       return micC;
+                            case "volume":    return volC;
+                        }
+                        return null;
+                    }
+                }
+
+                Component { id: wifiC; WifiMenu {} }
+                Component { id: btC;   BluetoothMenu {} }
+                Component { id: micC;  MicMenu {} }
+                Component { id: volC;  VolumeMenu {} }
 
                 NotificationToolbar {
                     Layout.leftMargin: Config.layout.gapXl + 4
                     Layout.rightMargin: Config.layout.gapXl + 4
+                    visible: UiState.sidebarMenu === "none"
                 }
             }
         }

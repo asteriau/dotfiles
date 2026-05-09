@@ -13,9 +13,16 @@ StyledSlider {
     property string secondaryMaterialSymbol: ""
     property real iconLocation: 0.3
 
+    signal rightClicked
+
     configuration: StyledSlider.Configuration.M
     stopIndicatorValues: []
     dividerValues: secondaryMaterialSymbol.length > 0 ? [iconLocation] : []
+
+    TapHandler {
+        acceptedButtons: Qt.RightButton
+        onTapped: quickSlider.rightClicked()
+    }
 
     Text {
         id: icon

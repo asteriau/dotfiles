@@ -77,6 +77,7 @@ Rectangle {
                 const a = PipeWireState.defaultSink?.audio;
                 if (a) a.volume = value;
             }
+            onRightClicked: UiState.sidebarMenu = "volume"
         }
 
         QuickSlider {

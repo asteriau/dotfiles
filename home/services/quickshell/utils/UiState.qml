@@ -18,6 +18,10 @@ Singleton {
     property bool showWorkspaceNumbers: false
     property bool showWallpaperPicker:  false
 
+    // Active sidebar context menu — one of "none" | "wifi" | "bluetooth" |
+    // "mic" | "volume". Single string keeps menus mutually exclusive.
+    property string sidebarMenu:        "none"
+
     // Preview switches for screenshots / contributors who don't have the
     // matching hardware in their session (no laptop battery / no Wi-Fi).
     property bool previewBattery:       false
