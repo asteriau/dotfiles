@@ -1,4 +1,4 @@
-module qs.utils.state
+module qs.services
 singleton BatteryState 1.0 BatteryState.qml
 singleton HyprlandWindowsState 1.0 HyprlandWindowsState.qml
 singleton ScreenshotState 1.0 ScreenshotState.qml
