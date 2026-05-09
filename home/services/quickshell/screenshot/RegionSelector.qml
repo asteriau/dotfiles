@@ -4,7 +4,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Hyprland
 import qs.utils
-import qs.utils.state
+import qs.services
 
 Scope {
     id: root
@@ -42,12 +42,12 @@ Scope {
 
     Variants {
         model: Quickshell.screens
-        delegate: Loader {
+        delegate: LazyLoader {
             id: regionSelectorLoader
             required property var modelData
             active: ScreenshotState.regionSelectorOpen
 
-            sourceComponent: RegionSelection {
+            component: RegionSelection {
                 screen: regionSelectorLoader.modelData
                 onDismiss: root.dismiss()
                 action: root.action

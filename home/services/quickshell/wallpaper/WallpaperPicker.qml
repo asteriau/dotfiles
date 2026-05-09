@@ -3,10 +3,10 @@ import Quickshell
 import Quickshell.Wayland
 import qs.utils
 
-Loader {
+LazyLoader {
     active: UiState.showWallpaperPicker
 
-    sourceComponent: PanelWindow {
+    component: PanelWindow {
         id: picker
 
         screen: UiState.preferredMonitor
