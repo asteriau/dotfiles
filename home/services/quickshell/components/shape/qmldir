@@ -1,0 +1,5 @@
+module qs.components.shape
+MaterialShape 1.0 MaterialShape.qml
+WavyLine 1.0 WavyLine.qml
+StormBolt 1.0 StormBolt.qml
+ParallaxHost 1.0 ParallaxHost.qml
