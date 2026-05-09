@@ -37,9 +37,7 @@ RowLayout {
                 ? MaterialShape.Shape.Gem
                 : (root.query === "" ? MaterialShape.Shape.Cookie7Sided : MaterialShape.Shape.Clover4Leaf)
 
-            Behavior on color {
-                ColorAnimation { duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized }
-            }
+            Behavior on color { ColorAnimation { duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized } }
         }
 
         MaterialIcon {
@@ -60,9 +58,7 @@ RowLayout {
         implicitWidth: root.query === "" ? collapsedWidth : expandedWidth
         implicitHeight: 40
 
-        Behavior on implicitWidth {
-            NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized }
-        }
+        Behavior on implicitWidth { Motion.Emph {} }
 
         TextField {
             id: input
@@ -99,9 +95,7 @@ RowLayout {
             font: input.font
             elide: Text.ElideRight
             opacity: input.text === "" ? 1 : 0
-            Behavior on opacity {
-                NumberAnimation { duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized }
-            }
+            Behavior on opacity { Motion.SpatialEmph {} }
         }
     }
 }

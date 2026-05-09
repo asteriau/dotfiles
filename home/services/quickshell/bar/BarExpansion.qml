@@ -20,30 +20,11 @@ Item {
     visible: width > 0 && height > 0
     clip: true
 
-    Behavior on offsetScale {
-        NumberAnimation {
-            duration: M3Easing.elementMoveDuration
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: M3Easing.expressiveDefaultSpatial
-        }
-    }
-
-    Behavior on x {
-        NumberAnimation {
-            duration: M3Easing.elementMoveDuration
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: M3Easing.expressiveDefaultSpatial
-        }
-    }
-
+    Behavior on offsetScale { Motion.Element {} }
+    Behavior on x { Motion.Element {} }
     Behavior on y {
         enabled: !root.vertical
-
-        NumberAnimation {
-            duration: M3Easing.elementMoveDuration
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: M3Easing.expressiveDefaultSpatial
-        }
+        Motion.Element {}
     }
 
     Item {
@@ -69,22 +50,12 @@ Item {
 
         Behavior on width {
             enabled: false
-
-            NumberAnimation {
-                duration: M3Easing.elementMoveDuration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveDefaultSpatial
-            }
+            Motion.Element {}
         }
 
         Behavior on height {
             enabled: false
-
-            NumberAnimation {
-                duration: M3Easing.elementMoveDuration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveDefaultSpatial
-            }
+            Motion.Element {}
         }
 
         Rectangle {
@@ -92,12 +63,7 @@ Item {
             color: Colors.background
             radius: root.outerRadius
 
-            Behavior on color {
-                ColorAnimation {
-                    duration: M3Easing.effectsDuration
-                    easing.type: Easing.OutCubic
-                }
-            }
+            Behavior on color { Motion.ColorFade {} }
         }
 
         Rectangle {

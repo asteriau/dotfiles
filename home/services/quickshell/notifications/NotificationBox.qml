@@ -46,11 +46,7 @@ Item {
     }
 
     Behavior on actionsProgress {
-        NumberAnimation {
-            duration: M3Easing.durationMedium2
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: root.expanded ? M3Easing.emphasizedDecel : M3Easing.emphasizedAccel
-        }
+        Motion.EmphDecel { easing.bezierCurve: root.expanded ? M3Easing.emphasizedDecel : M3Easing.emphasizedAccel }
     }
 
     Component.onCompleted: actionsProgress = expanded ? 1 : 0
@@ -89,20 +85,11 @@ Item {
             ? (row.implicitHeight + root.padding * 2)
             : Math.min(root.collapsedMaxHeight, row.implicitHeight + root.padding * 2)
 
-        Behavior on implicitHeight {
-            NumberAnimation {
-                duration: M3Easing.durationMedium2
-                easing.type: Easing.OutCubic
-            }
-        }
+        Behavior on implicitHeight { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
 
         Behavior on x {
             enabled: !dragHandler.active
-            NumberAnimation {
-                duration: M3Easing.durationMedium1
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.emphasizedDecel
-            }
+            Motion.EmphDecel { duration: M3Easing.durationMedium1 }
         }
 
         MouseArea {

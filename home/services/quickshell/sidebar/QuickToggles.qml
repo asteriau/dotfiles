@@ -119,18 +119,8 @@ Item {
             color: btn.active ? Colors.accent : Colors.surfaceContainerHighest
             scale: ma.pressed ? 0.92 : 1.0
 
-            Behavior on color {
-                ColorAnimation {
-                    duration: 180
-                    easing.type: Easing.OutCubic
-                }
-            }
-            Behavior on scale {
-                NumberAnimation {
-                    duration: 120
-                    easing.type: Easing.OutQuad
-                }
-            }
+            Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
+            Behavior on scale { NumberAnimation { duration: 120; easing.type: Easing.OutQuad } }
         }
 
         Text {
@@ -140,11 +130,7 @@ Item {
             font.pixelSize: Math.round(btn.toggleSize * 0.4)
             color: btn.active ? Colors.background : Colors.foreground
 
-            Behavior on color {
-                ColorAnimation {
-                    duration: 180
-                }
-            }
+            Behavior on color { ColorAnimation { duration: 180 } }
         }
 
         MouseArea {

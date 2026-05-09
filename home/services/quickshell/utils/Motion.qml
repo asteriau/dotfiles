@@ -32,6 +32,12 @@ QtObject {
         easing.type: Easing.OutCubic
     }
 
+    component SpatialEmph: NumberAnimation {
+        duration: M3Easing.spatialDuration
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: M3Easing.emphasized
+    }
+
     component Emph: NumberAnimation {
         duration: M3Easing.durationLong1
         easing.type: Easing.BezierSpline
@@ -48,5 +54,29 @@ QtObject {
         duration: M3Easing.durationMedium2
         easing.type: Easing.BezierSpline
         easing.bezierCurve: M3Easing.emphasizedDecel
+    }
+
+    component Element: NumberAnimation {
+        duration: M3Easing.elementMoveDuration
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: M3Easing.expressiveDefaultSpatial
+    }
+
+    component ElementColor: ColorAnimation {
+        duration: M3Easing.elementMoveDuration
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: M3Easing.expressiveDefaultSpatial
+    }
+
+    component ElementFast: NumberAnimation {
+        duration: M3Easing.elementMoveFastDuration
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: M3Easing.expressiveEffects
+    }
+
+    component ElementFastColor: ColorAnimation {
+        duration: M3Easing.elementMoveFastDuration
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: M3Easing.expressiveEffects
     }
 }

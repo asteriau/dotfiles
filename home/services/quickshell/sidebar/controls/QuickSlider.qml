@@ -38,20 +38,8 @@ StyledSlider {
         color: nearFull ? Colors.colOnPrimary : Colors.colOnSecondaryContainer
         text: quickSlider.materialSymbol
 
-        Behavior on color {
-            ColorAnimation {
-                duration: M3Easing.elementMoveFastDuration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveEffects
-            }
-        }
-        Behavior on anchors.rightMargin {
-            NumberAnimation {
-                duration: M3Easing.elementMoveFastDuration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveEffects
-            }
-        }
+        Behavior on color { Motion.ElementFastColor {} }
+        Behavior on anchors.rightMargin { Motion.ElementFast {} }
     }
 
     Text {
@@ -82,12 +70,6 @@ StyledSlider {
             : Colors.colOnSecondaryContainer
         text: quickSlider.secondaryMaterialSymbol
 
-        Behavior on color {
-            ColorAnimation {
-                duration: M3Easing.elementMoveFastDuration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveEffects
-            }
-        }
+        Behavior on color { Motion.ElementFastColor {} }
     }
 }

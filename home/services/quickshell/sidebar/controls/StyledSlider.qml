@@ -56,13 +56,7 @@ Slider {
         SmoothedAnimation { velocity: M3Easing.elementMoveFastVelocity }
     }
 
-    Behavior on handleMargins {
-        NumberAnimation {
-            duration: M3Easing.elementMoveFastDuration
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: M3Easing.expressiveEffects
-        }
-    }
+    Behavior on handleMargins { Motion.ElementFast {} }
 
     component TrackDot: Rectangle {
         required property real value
@@ -74,13 +68,7 @@ Slider {
         radius: 9999
         color: normalizedValue > root.visualPosition ? root.dotColor : root.dotColorHighlighted
 
-        Behavior on color {
-            ColorAnimation {
-                duration: M3Easing.elementMoveFastDuration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveEffects
-            }
-        }
+        Behavior on color { Motion.ElementFastColor {} }
     }
 
     MouseArea {
@@ -163,12 +151,6 @@ Slider {
         radius: 9999
         color: root.handleColor
 
-        Behavior on implicitWidth {
-            NumberAnimation {
-                duration: M3Easing.elementMoveFastDuration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveEffects
-            }
-        }
+        Behavior on implicitWidth { Motion.ElementFast {} }
     }
 }
