@@ -19,6 +19,7 @@ Item {
             _displayResults = results;
             _displayQuery = query;
         }
+        selectedIndex = 0;
     }
     onOpacityChanged: {
         if (opacity === 0) {
@@ -48,8 +49,6 @@ Item {
         var entry = results[selectedIndex];
         if (entry) root.activated(entry);
     }
-
-    onResultsChanged: selectedIndex = 0
 
     ColumnLayout {
         anchors.fill: parent
