@@ -6,7 +6,7 @@ import Quickshell.Services.Mpris
 import Quickshell.Hyprland
 import qs.launcher
 import qs.utils
-import qs.utils.state
+import qs.services
 
 
 Scope {
@@ -20,27 +20,11 @@ Scope {
 
     readonly property bool launcherOpen: launcher?.open ?? false
 
-    // OSD payload
-    property bool _osdActive: false
-    property string osdIcon: "volume_up"
-    property string osdLabel: ""
-    property real osdProgress: 0
+    // OSD + battery state owned by extracted child items.
+    IslandOsdInputs       { id: osdInputs }
+    IslandBatteryWatcher  { id: batteryWatcher }
 
-    // OSD change-detection (avoid spurious triggers from upstream property refreshes)
-    property real _lastSinkVol: -1
-    property bool _lastSinkMuted: false
-    property bool _seededSink: false
-    property real _lastSourceVol: -1
-    property bool _lastSourceMuted: false
-    property bool _seededSource: false
-
-    // Battery peek state
-    property bool _batteryActive: false
-    property bool _lastCharging: false
-    property bool _seededCharging: false
-
-    // Auto-peek: short force-expand window after fresh battery event
-    property bool peeking: false
+    readonly property bool peeking: batteryWatcher.peeking
 
     // Hide entirely when any window on the active workspace is fullscreen
     readonly property HyprlandMonitor _hMonitor: Hyprland.monitorFor(win.screen)
@@ -50,115 +34,11 @@ Scope {
 
     // Resolved priority: launcher > osd > battery > media > home (idle)
     readonly property string mode: {
-        if (launcherOpen)   return "launcher";
-        if (_osdActive)     return "osd";
-        if (_batteryActive) return "battery";
-        if (mediaActive)    return "media";
+        if (launcherOpen)             return "launcher";
+        if (osdInputs.active)         return "osd";
+        if (batteryWatcher.active)    return "battery";
+        if (mediaActive)              return "media";
         return "home";
-    }
-
-    Timer {
-        id: peekTimer
-        interval: Config.island.peekDurationMs
-        repeat: false
-        onTriggered: scope.peeking = false
-    }
-
-    // OSD inputs
-    Connections {
-        target: PipeWireState.defaultSink ? PipeWireState.defaultSink.audio : null
-        function update() {
-            const muted = PipeWireState.defaultSink?.audio.muted ?? false;
-            const vol = PipeWireState.defaultSink?.audio.volume ?? 0;
-            const changed = !scope._seededSink
-                || muted !== scope._lastSinkMuted
-                || Math.abs(vol - scope._lastSinkVol) > 0.0005;
-            scope._lastSinkVol = vol;
-            scope._lastSinkMuted = muted;
-            if (!scope._seededSink) { scope._seededSink = true; return; }
-            if (!changed) return;
-            scope.osdIcon = muted ? "volume_off" : (vol < 0.01 ? "volume_mute" : (vol < 0.5 ? "volume_down" : "volume_up"));
-            scope.osdLabel = "Volume";
-            scope.osdProgress = vol;
-            scope._osdActive = true;
-            osdHide.restart();
-        }
-        function onVolumeChanged() { update() }
-        function onMutedChanged()  { update() }
-    }
-
-    Connections {
-        target: PipeWireState.defaultSource ? PipeWireState.defaultSource.audio : null
-        function update() {
-            const muted = PipeWireState.defaultSource?.audio.muted ?? false;
-            const vol = PipeWireState.defaultSource?.audio.volume ?? 0;
-            const changed = !scope._seededSource
-                || muted !== scope._lastSourceMuted
-                || Math.abs(vol - scope._lastSourceVol) > 0.0005;
-            scope._lastSourceVol = vol;
-            scope._lastSourceMuted = muted;
-            if (!scope._seededSource) { scope._seededSource = true; return; }
-            if (!changed) return;
-            scope.osdIcon = muted ? "mic_off" : "mic";
-            scope.osdLabel = "Microphone";
-            scope.osdProgress = vol;
-            scope._osdActive = true;
-            osdHide.restart();
-        }
-        function onVolumeChanged() { update() }
-        function onMutedChanged()  { update() }
-    }
-
-    Connections {
-        target: BrightnessState
-        function onBrightnessChanged() {
-            scope.osdIcon = "brightness_medium";
-            scope.osdLabel = "Brightness";
-            scope.osdProgress = BrightnessState.brightness ?? 0;
-            scope._osdActive = true;
-            osdHide.restart();
-        }
-    }
-
-    Connections {
-        target: OsdState
-        function onShow(icon, label, progress) {
-            scope.osdIcon = icon;
-            scope.osdLabel = label;
-            scope.osdProgress = progress;
-            scope._osdActive = true;
-            osdHide.restart();
-        }
-    }
-
-    Timer {
-        id: osdHide
-        interval: Config.osd.timeoutMs
-        onTriggered: scope._osdActive = false
-    }
-
-    // Battery transitions
-    Connections {
-        target: BatteryState
-        function onChargingChanged() {
-            if (!scope._seededCharging) {
-                scope._lastCharging = BatteryState.charging;
-                scope._seededCharging = true;
-                return;
-            }
-            if (BatteryState.charging !== scope._lastCharging) {
-                scope._lastCharging = BatteryState.charging;
-                scope._batteryActive = true;
-                scope.peeking = true;
-                peekTimer.restart();
-                batteryHide.restart();
-            }
-        }
-    }
-    Timer {
-        id: batteryHide
-        interval: Config.island.batteryPeekMs
-        onTriggered: scope._batteryActive = false
     }
 
     // Window
@@ -358,7 +238,7 @@ Scope {
                 bodyHeight: notch.bodyHeight
                 topRadius: notch.topRadius
                 bottomRadius: notch.bottomRadius
-                tint: mediaTint
+                tint: container.mediaTint
                 tintAmount: pillState._displayMode === "media" ? 1 : 0
                 shadowOpacity: pillState.expanded ? 0.65 : 0.35
             }
@@ -398,9 +278,9 @@ Scope {
                 anchors.fill: notch
                 anchors.leftMargin: notch.topRadius
                 anchors.rightMargin: notch.topRadius
-                icon: scope.osdIcon
-                label: scope.osdLabel
-                progress: scope.osdProgress
+                icon: osdInputs.icon
+                label: osdInputs.label
+                progress: osdInputs.progress
                 opacity: pillState._displayMode === "osd" ? 1 : 0
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }

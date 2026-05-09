@@ -8,7 +8,7 @@ import Quickshell.Io
 import Quickshell.Services.Mpris
 import qs.components.text
 import qs.utils
-import qs.utils.state
+import qs.services
 
 // Expanded media card for the island. Targets ~440x112. Art-themed surface via
 // MediaArtBackdrop + AdaptedMaterialScheme. Lifts art-download / quantizer
