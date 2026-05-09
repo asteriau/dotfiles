@@ -2,6 +2,7 @@ pragma Singleton
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import Quickshell.Services.Pipewire
 
 Singleton {
@@ -14,12 +15,24 @@ Singleton {
     readonly property var sinkStreams: Pipewire.nodes.values.filter(n => n && n.isStream && n.isSink === true && n.audio)
 
     function setDefaultSink(node): void {
-        if (node) Pipewire.preferredDefaultAudioSink = node;
+        if (!node) return;
+        Pipewire.preferredDefaultAudioSink = node;
+        _wpctlSet(node.id);
     }
 
     function setDefaultSource(node): void {
-        if (node) Pipewire.preferredDefaultAudioSource = node;
+        if (!node) return;
+        Pipewire.preferredDefaultAudioSource = node;
+        _wpctlSet(node.id);
     }
+
+    function _wpctlSet(id): void {
+        if (id === undefined || id === null) return;
+        wpctl.command = ["sh", "-c", `wpctl set-default ${id}`];
+        wpctl.running = true;
+    }
+
+    Process { id: wpctl }
 
     PwObjectTracker {
         objects: {

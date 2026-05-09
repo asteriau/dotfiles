@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
@@ -101,44 +102,68 @@ Scope {
             color: Colors.background
             layer.enabled: true
 
-            ColumnLayout {
+            // Chrome wrapped in a layer so we can blur it while a
+            // context menu is open. Blur amount animates with the
+            // dialog's emphasized motion duration.
+            Item {
+                id: chromeWrap
                 anchors.fill: parent
-                anchors.topMargin: Config.layout.gapXl + 4
-                anchors.bottomMargin: Config.layout.gapLg
-                anchors.leftMargin: 0
-                anchors.rightMargin: 0
-                spacing: Config.layout.gapLg
 
-                Header {
-                    Layout.leftMargin: Config.layout.gapXl + 4
-                    Layout.rightMargin: Config.layout.gapXl + 4
-                    Layout.bottomMargin: Config.layout.gapLg
+                property real blurAmt: UiState.sidebarMenu !== "none" ? 1.0 : 0.0
+                Behavior on blurAmt {
+                    NumberAnimation {
+                        duration: M3Easing.durationMedium3
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasized
+                    }
                 }
 
-                QuickToggles {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Config.layout.gapLg
-                    Layout.rightMargin: Config.layout.gapLg
-                    Layout.bottomMargin: Config.layout.gapLg
+                layer.enabled: chromeWrap.blurAmt > 0.001
+                layer.effect: MultiEffect {
+                    blurEnabled: true
+                    blurMax: 32
+                    blur: chromeWrap.blurAmt
                 }
 
-                QuickSliders {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Config.layout.gapLg
-                    Layout.rightMargin: Config.layout.gapLg
-                    Layout.bottomMargin: Config.layout.gapLg
-                }
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.topMargin: Config.layout.gapXl + 4
+                    anchors.bottomMargin: Config.layout.gapLg
+                    anchors.leftMargin: 0
+                    anchors.rightMargin: 0
+                    spacing: Config.layout.gapLg
 
-                NotificationCenter {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.leftMargin: Config.layout.gapMd
-                    Layout.rightMargin: Config.layout.gapMd
-                }
+                    Header {
+                        Layout.leftMargin: Config.layout.gapXl + 4
+                        Layout.rightMargin: Config.layout.gapXl + 4
+                        Layout.bottomMargin: Config.layout.gapLg
+                    }
 
-                NotificationToolbar {
-                    Layout.leftMargin: Config.layout.gapXl + 4
-                    Layout.rightMargin: Config.layout.gapXl + 4
+                    QuickToggles {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Config.layout.gapLg
+                        Layout.rightMargin: Config.layout.gapLg
+                        Layout.bottomMargin: Config.layout.gapLg
+                    }
+
+                    QuickSliders {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Config.layout.gapLg
+                        Layout.rightMargin: Config.layout.gapLg
+                        Layout.bottomMargin: Config.layout.gapLg
+                    }
+
+                    NotificationCenter {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.leftMargin: Config.layout.gapMd
+                        Layout.rightMargin: Config.layout.gapMd
+                    }
+
+                    NotificationToolbar {
+                        Layout.leftMargin: Config.layout.gapXl + 4
+                        Layout.rightMargin: Config.layout.gapXl + 4
+                    }
                 }
             }
 

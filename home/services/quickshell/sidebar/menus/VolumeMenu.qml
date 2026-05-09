@@ -29,8 +29,6 @@ WindowDialog {
         Layout.rightMargin: -Config.layout.radiusLg
         topMargin: 12
         bottomMargin: 12
-        leftMargin: 20
-        rightMargin: 20
         clip: true
         spacing: 4
         model: PipeWireState.sinkStreams
@@ -40,20 +38,22 @@ WindowDialog {
         }
     }
 
-    StyledComboBox {
-        id: sinkBox
+    DialogSeparator {}
+
+    // Output device picker — matches mic menu's row list, no combobox.
+    ColumnLayout {
         Layout.fillWidth: true
-        Layout.bottomMargin: 6
-        model: PipeWireState.sinks
-        displayRole: "description"
-        currentIndex: {
-            const def = PipeWireState.defaultSink;
-            if (!def) return -1;
-            return PipeWireState.sinks.findIndex(n => n === def);
-        }
-        onActivated: (idx) => {
-            const node = PipeWireState.sinks[idx];
-            if (node) PipeWireState.setDefaultSink(node);
+        Layout.leftMargin: -Config.layout.radiusLg
+        Layout.rightMargin: -Config.layout.radiusLg
+        spacing: 0
+
+        Repeater {
+            model: PipeWireState.sinks
+            delegate: AudioDeviceRow {
+                isDefault: PipeWireState.defaultSink && modelData
+                    && PipeWireState.defaultSink.id === modelData.id
+                onSelected: (node) => PipeWireState.setDefaultSink(node)
+            }
         }
     }
 

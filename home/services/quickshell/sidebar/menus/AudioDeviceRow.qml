@@ -12,7 +12,7 @@ DialogListItem {
     readonly property var node: modelData
     readonly property string label: {
         if (!node) return "Unknown";
-        return node.nickname || node.description || node.name || "Unknown";
+        return node.description || node.nickname || node.name || "Unknown";
     }
 
     active: row.isDefault

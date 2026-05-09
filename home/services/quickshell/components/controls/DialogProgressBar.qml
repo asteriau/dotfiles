@@ -12,15 +12,15 @@ Item {
 
     Layout.fillWidth: true
     implicitHeight: 4
+    visible: active
 
     Rectangle {
         id: track
         anchors.fill: parent
         radius: 2
         color: Colors.colSecondaryContainer
-        opacity: root.active ? 0.6 : 0.4
+        opacity: 0.6
         clip: true
-        Behavior on opacity { Motion.Fade {} }
 
         Rectangle {
             visible: root.active

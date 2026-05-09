@@ -2,12 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import qs.utils
 
-// Floating dialog with scrim. Card is horizontally centered, slides
-// down `movement` pixels into place when shown. Card height is fixed
-// (`backgroundHeight`) so child ListViews can use Layout.fillHeight.
-//
-// Children added via the default property go inside the card's
-// ColumnLayout (16px spacing, padding = card radius).
+// Floating dialog with scrim. Card slides + scales + fades in to match
+// the island's M3 emphasized show/hide motion. Children added via the
+// default property go inside the card's ColumnLayout (16px spacing,
+// padding = card radius).
 Rectangle {
     id: root
 
@@ -20,9 +18,15 @@ Rectangle {
 
     default property alias contentData: contentColumn.data
 
-    color: root.show ? Qt.rgba(0, 0, 0, 0.45) : Qt.rgba(0, 0, 0, 0)
-    Behavior on color { Motion.ColorFade {} }
-    visible: card.implicitHeight > 0
+    color: root.show ? Qt.rgba(0, 0, 0, 0.25) : Qt.rgba(0, 0, 0, 0)
+    Behavior on color {
+        ColorAnimation {
+            duration: M3Easing.durationMedium3
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: M3Easing.emphasized
+        }
+    }
+    visible: card.opacity > 0.001 || root.show
     radius: Config.layout.cardRadius
     clip: true
 
@@ -42,27 +46,52 @@ Rectangle {
         color: Colors.surfaceContainerHigh
 
         readonly property real _cappedH: Math.min(root.backgroundHeight, root.height - Config.layout.gapLg * 2)
-        readonly property real targetY: (root.height - _cappedH) / 2
+        y: (root.height - _cappedH) / 2
 
-        y: root.show ? targetY : (targetY - root.movement)
         implicitWidth: Math.min(root.backgroundWidth, root.width - Config.layout.gapMd * 2)
-        implicitHeight: root.show ? _cappedH : 0
+        implicitHeight: _cappedH
 
-        Behavior on implicitHeight {
+        opacity: root.show ? 1 : 0
+        Behavior on opacity {
             NumberAnimation {
-                id: hAnim
-                duration: M3Easing.elementMoveFastDuration
+                duration: M3Easing.durationMedium3
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: root.show ? M3Easing.emphasizedDecel : M3Easing.emphasizedAccel
+                easing.bezierCurve: M3Easing.emphasized
             }
         }
-        Behavior on y {
-            NumberAnimation {
-                duration: hAnim.duration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: root.show ? M3Easing.emphasizedDecel : M3Easing.emphasizedAccel
+
+        transform: [
+            Scale {
+                origin.x: card.width / 2
+                origin.y: 0
+                xScale: root.show ? 1 : 0.92
+                yScale: root.show ? 1 : 0.92
+                Behavior on xScale {
+                    NumberAnimation {
+                        duration: M3Easing.durationLong1
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasized
+                    }
+                }
+                Behavior on yScale {
+                    NumberAnimation {
+                        duration: M3Easing.durationLong1
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasized
+                    }
+                }
+            },
+            Translate {
+                y: root.show ? 0 : -root.movement
+                Behavior on y {
+                    NumberAnimation {
+                        duration: M3Easing.durationLong1
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: M3Easing.emphasized
+                    }
+                }
             }
-        }
+        ]
 
         // Eat clicks inside the card so the scrim MouseArea below
         // doesn't dismiss when the user interacts with rows.
@@ -77,8 +106,6 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: card.radius
             spacing: 16
-            opacity: root.show ? 1 : 0
-            Behavior on opacity { Motion.Fade {} }
         }
     }
 }

@@ -9,7 +9,7 @@ import qs.utils
 Item {
     id: root
 
-    property real horizontalPadding: 20
+    property real horizontalPadding: 16
     property real verticalPadding: 12
     property bool active: false
     property bool enabled: true
@@ -25,7 +25,9 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: ma.containsMouse ? Colors.colLayer3Hover : "transparent"
+        color: ma.containsMouse
+            ? Qt.rgba(Colors.m3onSurface.r, Colors.m3onSurface.g, Colors.m3onSurface.b, 0.05)
+            : "transparent"
         Behavior on color { Motion.ColorFade {} }
     }
 

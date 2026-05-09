@@ -10,7 +10,7 @@ Item {
     id: row
     required property PwNode modelData
     Layout.fillWidth: true
-    implicitHeight: rowLayout.implicitHeight
+    implicitHeight: rowLayout.implicitHeight + 12
 
     PwObjectTracker { objects: row.modelData ? [row.modelData] : [] }
 
@@ -23,22 +23,24 @@ Item {
             || "Unknown";
     }
     readonly property string mediaName: node?.properties["media.name"] ?? ""
-    readonly property string iconHint: {
+    readonly property string iconSource: {
         if (!node) return "";
-        return node.properties["application.icon-name"]
-            || node.properties["application.name"]
-            || node.properties["node.name"]
-            || "";
+        const hint = node.properties["application.icon-name"];
+        if (hint && hint.length > 0) {
+            const guess = WorkspaceIconSearch.guessIcon(hint);
+            if (WorkspaceIconSearch.iconExists(guess)) return Quickshell.iconPath(guess, "image-missing");
+        }
+        const fromName = WorkspaceIconSearch.guessIcon(node.properties["node.name"] ?? "");
+        return Quickshell.iconPath(fromName, "image-missing");
     }
-    readonly property string iconSource: iconHint.length > 0
-        ? Quickshell.iconPath(WorkspaceIconSearch.guessIcon(iconHint), "image-missing")
-        : ""
     readonly property bool muted: node?.audio?.muted ?? false
 
     RowLayout {
         id: rowLayout
         anchors.fill: parent
-        spacing: 6
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+        spacing: 8
 
         Item {
             Layout.alignment: Qt.AlignVCenter
@@ -74,7 +76,7 @@ Item {
 
         ColumnLayout {
             Layout.fillWidth: true
-            spacing: -4
+            spacing: 6
 
             Text {
                 Layout.fillWidth: true
