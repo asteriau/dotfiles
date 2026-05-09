@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick
+import qs.utils
 
 QtObject {
     id: root
@@ -77,6 +78,59 @@ QtObject {
         readonly property real focus:   0.10
         readonly property real pressed: 0.10
         readonly property real dragged: 0.16
+    }
+
+    // Strict M3 color roles, sourced from the active palette in Theme.
+    // Adds the M3-spec naming surface alongside the legacy `Colors.*` API.
+    // Roles missing from the current palette (secondary/tertiary/error
+    // containers) are derived from existing entries to avoid touching every
+    // preset JSON in this commit.
+    readonly property QtObject colors: QtObject {
+        // Primary
+        readonly property color primary:                 Theme.accent
+        readonly property color onPrimary:               Theme.m3onPrimary
+        readonly property color primaryContainer:        Theme.primaryContainer
+        readonly property color onPrimaryContainer:      Theme.m3onPrimaryContainer
+
+        // Secondary
+        readonly property color secondary:               Theme.m3onSurfaceVariant
+        readonly property color onSecondary:             Theme.background
+        readonly property color secondaryContainer:      Theme.secondaryContainer
+        readonly property color onSecondaryContainer:    Theme.m3onSecondaryContainer
+
+        // Tertiary
+        readonly property color tertiary:                Theme.mpris
+        readonly property color onTertiary:              Theme.background
+        readonly property color tertiaryContainer:       Theme.surfaceContainerHigh
+        readonly property color onTertiaryContainer:     Theme.foreground
+
+        // Error
+        readonly property color error:                   Theme.red
+        readonly property color onError:                 Theme.background
+        readonly property color errorContainer:          Qt.rgba(Theme.red.r, Theme.red.g, Theme.red.b, 0.18)
+        readonly property color onErrorContainer:        Theme.red
+
+        // Surfaces
+        readonly property color surface:                 Theme.background
+        readonly property color onSurface:               Theme.foreground
+        readonly property color surfaceVariant:          Theme.elevated
+        readonly property color onSurfaceVariant:        Theme.m3onSurfaceVariant
+        readonly property color surfaceContainerLowest:  Theme.surfaceContainerLowest
+        readonly property color surfaceContainerLow:     Theme.surfaceContainerLow
+        readonly property color surfaceContainer:        Theme.surfaceContainer
+        readonly property color surfaceContainerHigh:    Theme.surfaceContainerHigh
+        readonly property color surfaceContainerHighest: Theme.surfaceContainerHighest
+
+        // Outlines / overlays
+        readonly property color outline:                 Theme.m3outline
+        readonly property color outlineVariant:          Theme.border
+        readonly property color scrim:                   Qt.rgba(0, 0, 0, 0.22)
+        readonly property color shadow:                  Qt.rgba(0, 0, 0, 0.20)
+
+        // Inverse
+        readonly property color inverseSurface:          Theme.foreground
+        readonly property color onInverseSurface:        Theme.background
+        readonly property color inversePrimary:          Qt.lighter(Theme.accent, 1.4)
     }
 
     // ─────────────────────────────────────────────────────────────────────
