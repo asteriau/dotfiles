@@ -1,34 +1,57 @@
 import QtQuick
+import QtQuick.Shapes
 import qs.utils
 
-Canvas {
+Item {
     id: root
+
     property real amplitudeMultiplier: 0.5
     property real frequency: 6
     property color color: Colors.colPrimary ?? "#685496"
     property real lineWidth: 4
     property real fullLength: width
 
-    onPaint: {
-        var ctx = getContext("2d");
-        ctx.clearRect(0, 0, width, height);
+    // No-op back-compat with the old Canvas API: StyledSlider calls
+    // requestPaint() on value/visibility changes; Shape redraws reactively.
+    function requestPaint(): void {}
 
-        var amplitude = root.lineWidth * root.amplitudeMultiplier;
-        var frequency = root.frequency;
-        var phase = Date.now() / 400.0;
-        var centerY = height / 2;
+    // Animated phase. NumberAnimation drives Shape geometry on the render
+    // thread instead of the QML JS thread the old Canvas onPaint ran on.
+    property real phase: 0
+    NumberAnimation on phase {
+        from: 0
+        to: 2 * Math.PI
+        duration: 2500
+        loops: Animation.Infinite
+        running: root.visible
+    }
 
-        ctx.strokeStyle = root.color;
-        ctx.lineWidth = root.lineWidth;
-        ctx.lineCap = "round";
-        ctx.beginPath();
-        for (var x = ctx.lineWidth / 2; x <= root.width - ctx.lineWidth / 2; x += 1) {
-            var waveY = centerY + amplitude * Math.sin(frequency * 2 * Math.PI * x / root.fullLength + phase);
-            if (x === 0)
-                ctx.moveTo(x, waveY);
-            else
-                ctx.lineTo(x, waveY);
+    Shape {
+        anchors.fill: parent
+        preferredRendererType: Shape.CurveRenderer
+
+        ShapePath {
+            strokeColor: root.color
+            strokeWidth: root.lineWidth
+            fillColor: "transparent"
+            capStyle: ShapePath.RoundCap
+            joinStyle: ShapePath.RoundJoin
+
+            PathPolyline {
+                path: {
+                    const w = root.width;
+                    const h = root.height;
+                    const amp = root.lineWidth * root.amplitudeMultiplier;
+                    const cy = h / 2;
+                    const len = root.fullLength;
+                    const pts = [];
+                    const step = 1;
+                    const half = root.lineWidth / 2;
+                    for (let x = half; x <= w - half; x += step)
+                        pts.push(Qt.point(x, cy + amp * Math.sin(root.frequency * 2 * Math.PI * x / len + root.phase)));
+                    return pts;
+                }
+            }
         }
-        ctx.stroke();
     }
 }
