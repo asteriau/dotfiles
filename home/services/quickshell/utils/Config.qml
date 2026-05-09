@@ -71,11 +71,13 @@ Singleton {
             id: opts
 
             property JsonObject bar: JsonObject {
+                id: barOpts
                 property string position: "left"
                 property bool   rounding: true
             }
 
             property JsonObject workspaces: JsonObject {
+                id: workspacesOpts
                 property int  shown:             10
                 property bool showAppIcons:      true
                 property bool alwaysShowNumbers: false
@@ -84,29 +86,35 @@ Singleton {
             }
 
             property JsonObject sidebar: JsonObject {
+                id: sidebarOpts
                 property int width: 420
             }
 
             property JsonObject osd: JsonObject {
+                id: osdOpts
                 property int width:     200
                 property int timeoutMs: 1000
             }
 
             property JsonObject notifications: JsonObject {
+                id: notificationsOpts
                 property bool doNotDisturb: false
             }
 
             property JsonObject weather: JsonObject {
+                id: weatherOpts
                 property real   lat:  44.4268
                 property real   lon:  26.1025
                 property string city: "Bucharest"
             }
 
             property JsonObject theme: JsonObject {
+                id: themeOpts
                 property string mode:   "preset"
                 property string preset: "default-dark"
 
                 property JsonObject matugen: JsonObject {
+                    id: matugenOpts
                     property string scheme:    "scheme-tonal-spot"
                     property bool   dark:      true
                     property real   contrast:  0.0
@@ -115,15 +123,18 @@ Singleton {
             }
 
             property JsonObject typography: JsonObject {
+                id: typographyOpts
                 property string family:   "Google Sans Flex"
                 property int    iconSize: 14
             }
 
             property JsonObject screenshot: JsonObject {
+                id: screenshotOpts
                 property string savePath:      ""
                 property string recordingPath: ""
 
                 property JsonObject regionCircle: JsonObject {
+                    id: regionCircleOpts
                     property int  strokeWidth: 3
                     property int  padding:     4
                     property bool aimLines:    true
@@ -141,8 +152,8 @@ Singleton {
     // ── Public grouped wrappers (preserve API shape) ──────────────────────
 
     readonly property QtObject bar: QtObject {
-        property alias position: opts.bar.position
-        property alias rounding: opts.bar.rounding
+        property alias position: barOpts.position
+        property alias rounding: barOpts.rounding
 
         readonly property int  height:       40
         readonly property int  width:        46
@@ -152,20 +163,20 @@ Singleton {
     }
 
     readonly property QtObject sidebar: QtObject {
-        property alias width: opts.sidebar.width
+        property alias width: sidebarOpts.width
     }
 
     readonly property QtObject workspaces: QtObject {
-        property alias shown:             opts.workspaces.shown
-        property alias showAppIcons:      opts.workspaces.showAppIcons
-        property alias alwaysShowNumbers: opts.workspaces.alwaysShowNumbers
-        property alias monochromeIcons:   opts.workspaces.monochromeIcons
-        property alias tintedIcons:       opts.workspaces.tintedIcons
+        property alias shown:             workspacesOpts.shown
+        property alias showAppIcons:      workspacesOpts.showAppIcons
+        property alias alwaysShowNumbers: workspacesOpts.alwaysShowNumbers
+        property alias monochromeIcons:   workspacesOpts.monochromeIcons
+        property alias tintedIcons:       workspacesOpts.tintedIcons
     }
 
     readonly property QtObject osd: QtObject {
-        property alias width:     opts.osd.width
-        property alias timeoutMs: opts.osd.timeoutMs
+        property alias width:     osdOpts.width
+        property alias timeoutMs: osdOpts.timeoutMs
     }
 
     readonly property QtObject island: QtObject {
@@ -220,27 +231,27 @@ Singleton {
     }
 
     readonly property QtObject notifications: QtObject {
-        property alias doNotDisturb: opts.notifications.doNotDisturb
+        property alias doNotDisturb: notificationsOpts.doNotDisturb
         readonly property int expireTimeout: 5000
         readonly property int iconSize:      48
         readonly property int width:         360
     }
 
     readonly property QtObject weather: QtObject {
-        property alias lat:  opts.weather.lat
-        property alias lon:  opts.weather.lon
-        property alias city: opts.weather.city
+        property alias lat:  weatherOpts.lat
+        property alias lon:  weatherOpts.lon
+        property alias city: weatherOpts.city
     }
 
     readonly property QtObject theme: QtObject {
-        property alias mode:   opts.theme.mode
-        property alias preset: opts.theme.preset
+        property alias mode:   themeOpts.mode
+        property alias preset: themeOpts.preset
 
         readonly property QtObject matugen: QtObject {
-            property alias scheme:    opts.theme.matugen.scheme
-            property alias dark:      opts.theme.matugen.dark
-            property alias contrast:  opts.theme.matugen.contrast
-            property alias wallpaper: opts.theme.matugen.wallpaper
+            property alias scheme:    matugenOpts.scheme
+            property alias dark:      matugenOpts.dark
+            property alias contrast:  matugenOpts.contrast
+            property alias wallpaper: matugenOpts.wallpaper
         }
     }
 
@@ -252,7 +263,7 @@ Singleton {
     }
 
     readonly property QtObject typography: QtObject {
-        property alias family: opts.typography.family
+        property alias family: typographyOpts.family
         readonly property string titleFamily: family
         readonly property string iconFamily:  "Material Symbols Rounded"
 
@@ -332,12 +343,31 @@ Singleton {
     }
 
     // ── Flat top-level aliases (back-compat for direct readers) ───────────
-    property alias doNotDisturb:            opts.notifications.doNotDisturb
-    property alias fontFamily:              opts.typography.family
-    property alias iconSize:                opts.typography.iconSize
-    property alias screenshotSavePath:      opts.screenshot.savePath
-    property alias recordingSavePath:       opts.screenshot.recordingPath
-    property alias regionCircleStrokeWidth: opts.screenshot.regionCircle.strokeWidth
-    property alias regionCirclePadding:     opts.screenshot.regionCircle.padding
-    property alias regionCircleAimLines:    opts.screenshot.regionCircle.aimLines
+    property alias barPosition:                  barOpts.position
+    property alias barRounding:                  barOpts.rounding
+    property alias workspacesShown:              workspacesOpts.shown
+    property alias workspaceShowAppIcons:        workspacesOpts.showAppIcons
+    property alias workspaceAlwaysShowNumbers:   workspacesOpts.alwaysShowNumbers
+    property alias workspaceMonochromeIcons:     workspacesOpts.monochromeIcons
+    property alias workspaceTintedIcons:         workspacesOpts.tintedIcons
+    property alias sidebarWidth:                 sidebarOpts.width
+    property alias osdWidth:                     osdOpts.width
+    property alias osdTimeoutMs:                 osdOpts.timeoutMs
+    property alias doNotDisturb:                 notificationsOpts.doNotDisturb
+    property alias weatherLat:                   weatherOpts.lat
+    property alias weatherLon:                   weatherOpts.lon
+    property alias weatherCity:                  weatherOpts.city
+    property alias themeMode:                    themeOpts.mode
+    property alias themePreset:                  themeOpts.preset
+    property alias themeMatugenScheme:           matugenOpts.scheme
+    property alias themeMatugenDark:             matugenOpts.dark
+    property alias themeMatugenContrast:         matugenOpts.contrast
+    property alias themeMatugenWallpaper:        matugenOpts.wallpaper
+    property alias fontFamily:                   typographyOpts.family
+    property alias iconSize:                     typographyOpts.iconSize
+    property alias screenshotSavePath:           screenshotOpts.savePath
+    property alias recordingSavePath:            screenshotOpts.recordingPath
+    property alias regionCircleStrokeWidth:      regionCircleOpts.strokeWidth
+    property alias regionCirclePadding:          regionCircleOpts.padding
+    property alias regionCircleAimLines:         regionCircleOpts.aimLines
 }
