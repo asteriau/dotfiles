@@ -43,7 +43,7 @@ Item {
 
     Timer {
         interval: 3000
-        running: true
+        running: UiState.showSidebar
         repeat: true
         triggeredOnStart: true
         onTriggered: ethProc.running = true
