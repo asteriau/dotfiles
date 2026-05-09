@@ -19,11 +19,6 @@ StyledSlider {
     stopIndicatorValues: []
     dividerValues: secondaryMaterialSymbol.length > 0 ? [iconLocation] : []
 
-    TapHandler {
-        acceptedButtons: Qt.RightButton
-        onTapped: quickSlider.rightClicked()
-    }
-
     Text {
         id: icon
         property bool nearFull: quickSlider.value >= 0.9
@@ -78,5 +73,17 @@ StyledSlider {
         text: quickSlider.secondaryMaterialSymbol
 
         Behavior on color { Motion.ElementFastColor {} }
+    }
+
+    // Eat right-click before Slider's internal grab so the handle
+    // doesn't jump on context-menu open.
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton
+        preventStealing: true
+        onPressed: (mouse) => {
+            mouse.accepted = true;
+            quickSlider.rightClicked();
+        }
     }
 }

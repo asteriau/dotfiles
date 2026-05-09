@@ -130,42 +130,65 @@ Scope {
                 }
 
                 NotificationCenter {
+                    id: notifCenter
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.leftMargin: Config.layout.gapMd
                     Layout.rightMargin: Config.layout.gapMd
-                    visible: UiState.sidebarMenu === "none"
                 }
-
-                Loader {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.leftMargin: Config.layout.gapMd
-                    Layout.rightMargin: Config.layout.gapMd
-                    visible: UiState.sidebarMenu !== "none"
-                    active: visible
-                    sourceComponent: {
-                        switch (UiState.sidebarMenu) {
-                            case "wifi":      return wifiC;
-                            case "bluetooth": return btC;
-                            case "mic":       return micC;
-                            case "volume":    return volC;
-                        }
-                        return null;
-                    }
-                }
-
-                Component { id: wifiC; WifiMenu {} }
-                Component { id: btC;   BluetoothMenu {} }
-                Component { id: micC;  MicMenu {} }
-                Component { id: volC;  VolumeMenu {} }
 
                 NotificationToolbar {
                     Layout.leftMargin: Config.layout.gapXl + 4
                     Layout.rightMargin: Config.layout.gapXl + 4
-                    visible: UiState.sidebarMenu === "none"
                 }
             }
+
+            // Scrim dims sidebar chrome while a context menu is open.
+            // Click anywhere outside the menu card dismisses.
+            Rectangle {
+                id: scrim
+                anchors.fill: parent
+                color: Qt.rgba(0, 0, 0, 0.5)
+                opacity: UiState.sidebarMenu !== "none" ? 1 : 0
+                visible: opacity > 0.001
+                z: 1
+
+                Behavior on opacity { Motion.Fade {} }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    onClicked: UiState.sidebarMenu = "none"
+                    cursorShape: Qt.ArrowCursor
+                }
+            }
+
+            // Menu overlay sits above the scrim, anchored to the slot
+            // NotificationCenter occupies so layout stays stable.
+            Loader {
+                id: menuLoader
+                anchors.left: notifCenter.left
+                anchors.right: notifCenter.right
+                anchors.top: notifCenter.top
+                anchors.bottom: notifCenter.bottom
+                visible: UiState.sidebarMenu !== "none"
+                active: visible
+                z: 2
+                sourceComponent: {
+                    switch (UiState.sidebarMenu) {
+                        case "wifi":      return wifiC;
+                        case "bluetooth": return btC;
+                        case "mic":       return micC;
+                        case "volume":    return volC;
+                    }
+                    return null;
+                }
+            }
+
+            Component { id: wifiC; WifiMenu {} }
+            Component { id: btC;   BluetoothMenu {} }
+            Component { id: micC;  MicMenu {} }
+            Component { id: volC;  VolumeMenu {} }
         }
     }
 }
