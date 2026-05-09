@@ -8,7 +8,7 @@ import qs.utils
 PanelWindow {
     id: barWindow
     WlrLayershell.namespace: "quickshell:bar"
-    screen: Config.preferredMonitor
+    screen: UiState.preferredMonitor
 
     anchors {
         top:    Config.bar.vertical || !Config.bar.onEnd

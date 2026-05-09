@@ -169,7 +169,7 @@ ContentPage {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: Config.showWallpaperPicker = true
+                    onClicked: UiState.showWallpaperPicker = true
                 }
             }
         }

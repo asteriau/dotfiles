@@ -164,7 +164,7 @@ Scope {
     // Window
     PanelWindow {
         id: win
-        screen: Config.preferredMonitor
+        screen: UiState.preferredMonitor
         visible: true
 
         WlrLayershell.layer: WlrLayer.Overlay

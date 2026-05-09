@@ -40,7 +40,7 @@ Scope {
 
     PanelWindow {
         id: win
-        screen: Config.preferredMonitor
+        screen: UiState.preferredMonitor
         visible: scope.notifs.length > 0
 
         WlrLayershell.layer: WlrLayer.Overlay

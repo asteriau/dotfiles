@@ -77,7 +77,7 @@ Singleton {
             allNotifs = [dup, ...allNotifs.filter(e => e !== dup)];
             if (!popupNotifs.includes(dup))
                 popupNotifs = [dup, ...popupNotifs];
-            if (!Config.showSidebar)
+            if (!UiState.showSidebar)
                 notifOverlayOpen = true;
             try { notif.dismiss(); } catch (e) {}
             return;
@@ -97,7 +97,7 @@ Singleton {
 
         popupNotifs = [entry, ...popupNotifs];
 
-        if (!Config.showSidebar)
+        if (!UiState.showSidebar)
             notifOverlayOpen = true;
 
         notif.closed.connect(() => {

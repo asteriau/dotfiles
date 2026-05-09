@@ -33,7 +33,7 @@ Item {
     readonly property real activeWorkspaceMargin: 2
     readonly property int  verticalPadding: 4
 
-    readonly property bool showNumbers: Config.showWorkspaceNumbers
+    readonly property bool showNumbers: UiState.showWorkspaceNumbers
 
     implicitWidth:  vertical ? Config.bar.width : (workspaceButtonWidth * workspacesShown)
     implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Config.bar.height

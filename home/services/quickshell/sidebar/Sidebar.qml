@@ -12,15 +12,15 @@ Scope {
 
     IpcHandler {
         target: "sidebar"
-        function toggle(): void { Config.showSidebar = !Config.showSidebar; }
-        function open(): void { Config.showSidebar = true; }
-        function close(): void { Config.showSidebar = false; }
+        function toggle(): void { UiState.showSidebar = !UiState.showSidebar; }
+        function open(): void { UiState.showSidebar = true; }
+        function close(): void { UiState.showSidebar = false; }
     }
 
     PanelWindow {
         id: triggerWin
-        screen: Config.preferredMonitor
-        visible: !Config.showSidebar
+        screen: UiState.preferredMonitor
+        visible: !UiState.showSidebar
 
         anchors {
             right: true
@@ -37,14 +37,14 @@ Scope {
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            onEntered: Config.showSidebar = true
+            onEntered: UiState.showSidebar = true
         }
     }
 
     PanelWindow {
         id: sideWin
 
-        screen: Config.preferredMonitor
+        screen: UiState.preferredMonitor
         visible: true
 
         anchors {
@@ -55,12 +55,12 @@ Scope {
 
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "quickshell:sidebar"
-        WlrLayershell.keyboardFocus: Config.showSidebar ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+        WlrLayershell.keyboardFocus: UiState.showSidebar ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
         color: "transparent"
 
         implicitWidth: Config.sidebar.width
 
-        margins.right: Config.showSidebar ? 0 : -Config.sidebar.width
+        margins.right: UiState.showSidebar ? 0 : -Config.sidebar.width
 
         Behavior on margins.right {
             NumberAnimation {
@@ -72,13 +72,13 @@ Scope {
         HyprlandFocusGrab {
             id: grab
             windows: [sideWin]
-            active: Config.showSidebar
-            onCleared: Config.showSidebar = false
+            active: UiState.showSidebar
+            onCleared: UiState.showSidebar = false
         }
 
         Keys.onPressed: (event) => {
             if (event.key === Qt.Key_Escape)
-                Config.showSidebar = false;
+                UiState.showSidebar = false;
         }
 
         Rectangle {

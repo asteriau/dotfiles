@@ -55,7 +55,7 @@ ShellRoot {
         id: showNumbersTimer
         interval: 100
         repeat: false
-        onTriggered: Config.showWorkspaceNumbers = true
+        onTriggered: UiState.showWorkspaceNumbers = true
     }
 
     GlobalShortcut {
@@ -67,7 +67,7 @@ ShellRoot {
         }
         onReleased: {
             showNumbersTimer.stop()
-            Config.showWorkspaceNumbers = false
+            UiState.showWorkspaceNumbers = false
         }
     }
 }

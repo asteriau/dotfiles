@@ -8,6 +8,7 @@ singleton Directories 1.0 Directories.qml
 singleton M3Easing 1.0 M3Easing.qml
 singleton MatugenState 1.0 MatugenState.qml
 singleton ScreenshotAction 1.0 ScreenshotAction.qml
+singleton UiState 1.0 UiState.qml
 singleton StringUtils 1.0 StringUtils.qml
 singleton Theme 1.0 Theme.qml
 singleton Utils 1.0 Utils.qml

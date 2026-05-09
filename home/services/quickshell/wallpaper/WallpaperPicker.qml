@@ -4,12 +4,12 @@ import Quickshell.Wayland
 import qs.utils
 
 Loader {
-    active: Config.showWallpaperPicker
+    active: UiState.showWallpaperPicker
 
     sourceComponent: PanelWindow {
         id: picker
 
-        screen: Config.preferredMonitor
+        screen: UiState.preferredMonitor
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.namespace: "quickshell:wallpaperPicker"
@@ -30,7 +30,7 @@ Loader {
         // Dismiss on click outside content
         MouseArea {
             anchors.fill: parent
-            onClicked: Config.showWallpaperPicker = false
+            onClicked: UiState.showWallpaperPicker = false
         }
 
         WallpaperPickerContent {
@@ -39,9 +39,9 @@ Loader {
 
             onWallpaperSelected: path => {
                 Config.theme.matugen.wallpaper = path;
-                Config.showWallpaperPicker = false;
+                UiState.showWallpaperPicker = false;
             }
-            onClosed: Config.showWallpaperPicker = false
+            onClosed: UiState.showWallpaperPicker = false
         }
     }
 }

@@ -26,14 +26,6 @@ Singleton {
     readonly property string legacyPath: root.shellDir + "/state/settings.json"
     readonly property int    writeDelay: 250
 
-    // Ephemera (runtime, not persisted).
-    property var  preferredMonitor: [...Quickshell.screens].sort().reverse()[0]
-    property bool showSidebar:          false
-    property bool showWorkspaceNumbers: false
-    property bool showWallpaperPicker:  false
-    property bool previewBattery:       false
-    property bool previewConnectivity:  false
-
     // Cross-cutting tokens (flat, top-level).
     readonly property string userName: "Laura"
     readonly property int    hoverTimeoutMs: 500
