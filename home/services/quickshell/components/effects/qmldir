@@ -1,9 +1,0 @@
-module qs.components.effects
-AbstractChoreographable 1.0 AbstractChoreographable.qml
-AnimatedTabPair 1.0 AnimatedTabPair.qml
-ChoreographerGridLayout 1.0 ChoreographerGridLayout.qml
-ChoreographerLoader 1.0 ChoreographerLoader.qml
-FadeLoader 1.0 FadeLoader.qml
-FlyFadeEnterChoreographable 1.0 FlyFadeEnterChoreographable.qml
-HoverTooltip 1.0 HoverTooltip.qml
-TextTooltip 1.0 TextTooltip.qml

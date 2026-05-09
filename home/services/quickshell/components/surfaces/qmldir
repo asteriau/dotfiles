@@ -1,6 +1,0 @@
-module qs.components.surfaces
-PressablePill 1.0 PressablePill.qml
-StateLayer 1.0 StateLayer.qml
-IconButton 1.0 IconButton.qml
-Divider 1.0 Divider.qml
-AtmosphereLayer 1.0 AtmosphereLayer.qml

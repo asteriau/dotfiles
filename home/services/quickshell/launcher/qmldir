@@ -1,7 +1,0 @@
-module qs.launcher
-singleton AppSearch 1.0 AppSearch.qml
-singleton Cliphist 1.0 Cliphist.qml
-singleton LauncherSearch 1.0 LauncherSearch.qml
-Launcher 1.0 Launcher.qml
-SearchBar 1.0 SearchBar.qml
-SearchItem 1.0 SearchItem.qml
