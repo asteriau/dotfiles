@@ -17,9 +17,9 @@
       prettier = {
         enable = true;
         excludes = [
-          ".js"
-          ".md"
-          ".ts"
+          "*.js"
+          "*.md"
+          "*.ts"
         ];
       };
     };
