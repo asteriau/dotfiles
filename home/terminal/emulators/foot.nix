@@ -90,10 +90,8 @@ in
   # Manage foot.ini directly so we can append an `include` directive at the
   # bottom — Quickshell writes `state/foot.ini` in matugen mode to override
   # [colors]; in preset mode it clears the file so static colors above win.
-  home.file.".config/foot/foot.ini".text =
-    lib.generators.toINI { } settings
-    + ''
+  home.file.".config/foot/foot.ini".text = lib.generators.toINI { } settings + ''
 
-      include = ${config.home.homeDirectory}/.config/quickshell/state/foot.ini
-    '';
+    include = ${config.home.homeDirectory}/.config/quickshell/state/foot.ini
+  '';
 }

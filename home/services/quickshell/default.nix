@@ -46,7 +46,8 @@ in
 {
   home.packages = [ quickshell ];
 
-  home.file.".config/quickshell".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/Code/dotfiles/home/services/quickshell";
+  home.file.".config/quickshell".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/Code/dotfiles/home/services/quickshell";
 
   home.sessionVariables.QML2_IMPORT_PATH = QML2_IMPORT_PATH;
 
