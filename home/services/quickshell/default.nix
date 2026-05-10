@@ -21,7 +21,6 @@ let
     curl
     ddcutil
     foot
-    gawk
     gnugrep
     grim
     hyprsunset
@@ -31,9 +30,7 @@ let
     playerctl
     procps
     pulseaudio
-    ripgrep
     slurp
-    util-linux
     wf-recorder
     wireplumber
     wl-clipboard
