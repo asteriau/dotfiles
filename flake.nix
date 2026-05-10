@@ -25,6 +25,11 @@
             packages = [
               pkgs.git
               config.packages.repl
+              pkgs.statix
+              pkgs.deadnix
+              pkgs.nil
+              pkgs.treefmt
+              pkgs.qt6.qtdeclarative
             ];
             name = "dots";
             env.DIRENV_LOG_FORMAT = "";
