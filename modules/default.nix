@@ -1,5 +1,3 @@
 {
-  flake.modules = {
-    theme = import ./theme;
-  };
+  flake.modules = { };
 }
