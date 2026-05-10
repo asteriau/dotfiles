@@ -29,7 +29,6 @@
           "${mod}/programs/games.nix"
 
           "${mod}/network/spotify.nix"
-          "${mod}/network/syncthing.nix"
 
           "${mod}/services/gnome-services.nix"
 
