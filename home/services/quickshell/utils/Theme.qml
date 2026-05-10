@@ -182,4 +182,30 @@ Singleton {
             root.palette = root.defaults;
         }
     }
+
+    // Clear foot's matugen overlay when leaving matugen mode so foot falls
+    // back to its declarative (foot.nix) palette. Empty file = no [colors]
+    // section to override main config; SIGUSR1 makes running foots re-read.
+    function _clearFootOverlay(): void {
+        footClear.command = [
+            "bash", "-c",
+            ': > "$1" && pkill -SIGUSR1 foot 2>/dev/null || true',
+            "--",
+            root.shellDir + "/state/foot.ini"
+        ];
+        footClear.running = true;
+    }
+
+    Process { id: footClear; running: false }
+
+    Connections {
+        target: Config
+        function onThemeModeChanged() {
+            if (Config.theme.mode === "preset") root._clearFootOverlay();
+        }
+    }
+
+    Component.onCompleted: {
+        if (Config._loaded && Config.theme.mode === "preset") root._clearFootOverlay();
+    }
 }
