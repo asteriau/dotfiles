@@ -26,7 +26,6 @@ in
     exec-once = [
       # set cursor for HL itself
       "hyprctl setcursor ${cursorName} ${toString 16}"
-      "hyprlock"
     ];
 
     general = {

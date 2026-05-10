@@ -53,10 +53,6 @@ in
       "$mod, Return, exec, uwsm app -- foot"
       # logout menu
       "$mod, Escape, exec, ${toggle "wlogout"} -p layer-shell"
-      # lock screen
-      "$mod, L, exec, loginctl lock-session"
-      # lock screen, to be used with the special key Fn+F10 on my keyboard
-      "$mod, I, exec, loginctl lock-session"
       # select area to perform OCR on
       "$mod, O, exec, ${runOnce "wl-ocr"}"
       ", XF86Favorites, exec, ${runOnce "wl-ocr"}"
