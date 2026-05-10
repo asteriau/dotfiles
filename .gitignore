@@ -6,3 +6,6 @@ CLAUDE.md
 
 # Runtime state (matugen palette output, etc.)
 home/services/quickshell/state/
+
+# Per-user secrets (openweathermap.key, etc.)
+home/services/quickshell/secrets/
