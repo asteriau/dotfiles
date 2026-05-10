@@ -1,7 +1,6 @@
 {
   imports = [
     # editors
-    ../../editors/helix
     ../../editors/vscode
 
     # programs

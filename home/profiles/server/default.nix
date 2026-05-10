@@ -1,5 +1,3 @@
 {
-  imports = [
-    ../../editors/helix
-  ];
+  imports = [ ];
 }

@@ -59,7 +59,7 @@ let
     {
       "application/pdf" = [ "org.pwmt.zathura-pdf-mupdf" ];
       "text/html" = browser;
-      "text/plain" = [ "Helix" ];
+      "text/plain" = [ "code" ];
       "inode/directory" = [ "yazi" ];
       "x-scheme-handler/magnet" = [ "transmission-gtk" ];
       # Full entry is org.telegram.desktop.desktop

@@ -66,8 +66,6 @@
       };
     };
 
-    helix.url = "github:helix-editor/helix";
-
     hm = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
