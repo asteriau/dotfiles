@@ -16,6 +16,12 @@
     grim
     slurp
 
+    # recording (also invoked from hyprland direct-exec record.sh binds)
+    jq
+    libnotify
+    pulseaudio
+    wf-recorder
+
     # utils
     self.packages.${pkgs.stdenv.hostPlatform.system}.wl-ocr
     wl-clipboard
