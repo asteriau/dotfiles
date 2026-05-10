@@ -7,24 +7,41 @@
 let
   quickshell = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-  dependencies = with pkgs; [
+  dependencies = [
+    inputs.matugen.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
+  ]
+  ++ (with pkgs; [
     bash
+    bluez
     brightnessctl
-    curl
+    cliphist
     coreutils
+    curl
     ddcutil
+    foot
     gawk
+    gnugrep
+    grim
     hyprsunset
+    jq
+    libnotify
     networkmanager
-    ripgrep
+    playerctl
     procps
+    pulseaudio
+    ripgrep
+    slurp
     util-linux
+    wf-recorder
     wireplumber
-  ];
+    wl-clipboard
+  ]);
 
   QML2_IMPORT_PATH = lib.concatStringsSep ":" [
     "${quickshell}/lib/qt-6/qml"
     "${pkgs.kdePackages.qtdeclarative}/lib/qt-6/qml"
+    "${pkgs.kdePackages.qt5compat}/lib/qt-6/qml"
     "${pkgs.kdePackages.kirigami.unwrapped}/lib/qt-6/qml"
   ];
 in
