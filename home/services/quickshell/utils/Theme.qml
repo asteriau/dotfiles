@@ -5,49 +5,33 @@ import Quickshell
 import Quickshell.Io
 import qs.utils
 
-// Theme singleton.
-//
-// Source of truth for the base palette. Reads JSON from either:
-//   - a preset file at  <shellDir>/themes/<preset>.json
-//   - the matugen output at <shellDir>/state/colors.json
-//
-// selected by `Config.theme.mode`. `<shellDir>` is resolved at runtime from
-// the on-disk location of this QML file, so everything Just Works whether
-// the shell lives at ~/.config/quickshell/ (symlink) or is launched with
-// `--config /path/to/quickshell` from anywhere else.
-//
-// Falls back to the bundled defaults when the file is missing or malformed
-// (warns once per failure mode).
-//
-// Colors.qml consumes these props and adds derived tokens on top — the 61
-// existing call sites keep using the `Colors.*` API unchanged.
 Singleton {
     id: root
 
-    // ── Defaults (current dark palette — also the "default-dark" preset) ──
+    // Defaults (reads from default-dark.json unless corrupt, which is why they're also defined here.)
     readonly property var defaults: ({
         "background":              "#151515",
         "foreground":              "#E8E3E3",
         "elevated":                "#1E1E1E",
-        "border":                  "#252525",
+        "border":                  "#2A2A2A",
         "accent":                  "#8DA3B9",
         "red":                     "#B66467",
         "mpris":                   "#8C977D",
-        "surfaceContainerLowest":  "#0F1012",
-        "surfaceContainerLow":     "#1A1D21",
-        "surfaceContainer":        "#1E2226",
-        "surfaceContainerHigh":    "#282D32",
-        "surfaceContainerHighest": "#333940",
-        "primaryContainer":        "#253240",
-        "m3onPrimary":             "#1A2530",
-        "m3onPrimaryContainer":    "#B5C8D8",
-        "secondaryContainer":      "#3A4249",
-        "m3onSecondaryContainer":  "#DAE2EA",
-        "accentContainer":         "#263545",
-        "accentText":              "#151520",
+        "surfaceContainerLowest":  "#0E0E0E",
+        "surfaceContainerLow":     "#1C1C1C",
+        "surfaceContainer":        "#1F1F1F",
+        "surfaceContainerHigh":    "#2D2D2D",
+        "surfaceContainerHighest": "#383838",
+        "primaryContainer":        "#2C3A48",
+        "m3onPrimary":             "#131C26",
+        "m3onPrimaryContainer":    "#C0D2E2",
+        "secondaryContainer":      "#3A3A3A",
+        "m3onSecondaryContainer":  "#E0E0E0",
+        "accentContainer":         "#2C3A48",
+        "accentText":              "#0F0F0F",
         "accentContainerText":     "#C8D6E3",
-        "m3onSurfaceVariant":      "#B0B8C0",
-        "m3outline":               "#7A8590"
+        "m3onSurfaceVariant":      "#ADADAD",
+        "m3outline":               "#6E6E6E"
     })
 
     property var palette: defaults
@@ -73,7 +57,7 @@ Singleton {
         return defaults[key];
     }
 
-    // ── Exposed palette (consumed by Colors.qml) ──────────────────────────
+    // Exposed palette (consumed by Colors.qml)
     readonly property color background:              _val("background")
     readonly property color foreground:              _val("foreground")
     readonly property color elevated:                _val("elevated")
@@ -118,7 +102,7 @@ Singleton {
         }
     }
 
-    // ── Loader ────────────────────────────────────────────────────────────
+    // Loader
 
     // Translate the full M3 snake_case palette (as produced by ii-compatible
     // matugen template) into the internal camelCase palette structure.

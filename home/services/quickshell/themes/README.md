@@ -4,7 +4,7 @@ Hand-authored color presets that the shell can load at runtime.
 
 Each file in this directory is a flat JSON object whose keys map 1:1 to the
 base palette consumed by `utils/Colors.qml` (via `utils/Theme.qml`). Derived
-tokens — hover overlays, shadows, accent variants, workspace glow, etc. —
+tokens — hover overlays, shadows, accent variants, etc. —
 are computed from these base values inside `Colors.qml` and must not appear
 in presets.
 
