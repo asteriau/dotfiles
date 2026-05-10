@@ -28,6 +28,10 @@ Singleton {
             '[templates.quickshell]\n' +
             'input_path  = "$SHELL_DIR/matugen/template.json"\n' +
             'output_path = "$SHELL_DIR/state/colors.json"\n' +
+            '\n' +
+            '[templates.foot]\n' +
+            'input_path  = "$SHELL_DIR/matugen/foot.ini"\n' +
+            'output_path = "$SHELL_DIR/state/foot.ini"\n' +
             'EOF\n' +
             'exec matugen image "$WALLPAPER" ' +
                 '-m "$MODE" -t "$SCHEME" ' +
@@ -70,6 +74,7 @@ Singleton {
             } else if (_started) {
                 _started = false;
                 Theme.reload();
+                Quickshell.execDetached(["pkill", "-SIGUSR1", "foot"]);
             }
         }
         stderr: StdioCollector {
