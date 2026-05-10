@@ -7,7 +7,6 @@
 # Wayland config
 {
   imports = [
-    ./hyprlock.nix
     ./wlogout.nix
   ];
 
