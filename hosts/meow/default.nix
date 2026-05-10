@@ -51,21 +51,6 @@
     # for SSD/NVME
     fstrim.enable = true;
 
-    howdy = {
-      enable = true;
-      control = "sufficient";
-      settings = {
-        core = {
-          no_confirmation = true;
-          abort_if_ssh = true;
-        };
-        video.dark_threshold = 90;
-      };
-    };
-
     flatpak.enable = true;
-
   };
-
-  security.pam.services."sshd".howdy.enable = false;
 }
