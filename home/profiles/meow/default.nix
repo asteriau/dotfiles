@@ -23,9 +23,6 @@
     ../../services/system/tailray.nix
     ../../services/system/udiskie.nix
 
-    # wayland-specific
-    ../../services/wayland/hyprpaper.nix
-
     # terminal emulators
     ../../terminal/emulators/foot.nix
     ../../terminal/emulators/wezterm.nix
