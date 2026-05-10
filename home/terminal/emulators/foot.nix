@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   colors = {
@@ -41,46 +46,54 @@ let
     # Opacity
     alpha = 1.0;
   };
+
+  settings = {
+    main = {
+      font = "JetBrains Mono Nerd Font:size=14";
+      horizontal-letter-offset = 0;
+      vertical-letter-offset = 0;
+      pad = "4x4 center";
+      selection-target = "clipboard";
+    };
+
+    bell = {
+      urgent = "yes";
+      notify = "yes";
+    };
+
+    desktop-notifications = {
+      command = "${lib.getExe pkgs.libnotify} -a \${app-id} -i \${app-id} \${title} \${body}";
+    };
+
+    scrollback = {
+      lines = 10000;
+      multiplier = 3;
+      indicator-position = "relative";
+      indicator-format = "line";
+    };
+
+    url = {
+      launch = "${pkgs.xdg-utils}/bin/xdg-open \${url}";
+    };
+
+    cursor = {
+      style = "beam";
+      beam-thickness = 1;
+    };
+
+    colors = colors;
+  };
 in
 {
-  programs.foot = {
-    enable = true;
+  home.packages = [ pkgs.foot ];
 
-    settings = {
-      main = {
-        font = "JetBrains Mono Nerd Font:size=14";
-        horizontal-letter-offset = 0;
-        vertical-letter-offset = 0;
-        pad = "4x4 center";
-        selection-target = "clipboard";
-      };
+  # Manage foot.ini directly so we can append an `include` directive at the
+  # bottom — Quickshell writes `state/foot.ini` in matugen mode to override
+  # [colors]; in preset mode it clears the file so static colors above win.
+  home.file.".config/foot/foot.ini".text =
+    lib.generators.toINI { } settings
+    + ''
 
-      bell = {
-        urgent = "yes";
-        notify = "yes";
-      };
-
-      desktop-notifications = {
-        command = "${lib.getExe pkgs.libnotify} -a \${app-id} -i \${app-id} \${title} \${body}";
-      };
-
-      scrollback = {
-        lines = 10000;
-        multiplier = 3;
-        indicator-position = "relative";
-        indicator-format = "line";
-      };
-
-      url = {
-        launch = "${pkgs.xdg-utils}/bin/xdg-open \${url}";
-      };
-
-      cursor = {
-        style = "beam";
-        beam-thickness = 1;
-      };
-
-      colors = colors;
-    };
-  };
+      include = ${config.home.homeDirectory}/.config/quickshell/state/foot.ini
+    '';
 }
