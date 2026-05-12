@@ -35,7 +35,7 @@ ChoreographerLoader {
                     pixelSize: Config.typography.large
                     fontWeight: Font.Medium
                     elide: Text.ElideRight
-                    color: Colors.accent
+                    color: Appearance.colors.accent
                 }
 
                 RippleButton {
@@ -46,7 +46,7 @@ ChoreographerLoader {
                     contentItem: MaterialIcon {
                         text: "chevron_left"
                         pixelSize: 20
-                        color: Colors.foreground
+                        color: Appearance.colors.foreground
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }
@@ -60,7 +60,7 @@ ChoreographerLoader {
                     contentItem: MaterialIcon {
                         text: "chevron_right"
                         pixelSize: 20
-                        color: Colors.foreground
+                        color: Appearance.colors.foreground
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }
@@ -83,7 +83,7 @@ ChoreographerLoader {
                         id: dowText
                         anchors.centerIn: parent
                         font.pixelSize: Config.typography.smaller
-                        color: Colors.m3onSurfaceInactive
+                        color: Appearance.colors.m3onSurfaceInactive
                         text: model.shortName.substring(0, 2)
                     }
                 }
@@ -111,7 +111,7 @@ ChoreographerLoader {
                         text: model.day
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        color: dayButton.toggled ? Colors.accentText : (dayButton.enabled ? Colors.foreground : Colors.m3onSurfaceInactive)
+                        color: dayButton.toggled ? Appearance.colors.accentText : (dayButton.enabled ? Appearance.colors.foreground : Appearance.colors.m3onSurfaceInactive)
                         font.weight: dayButton.toggled ? Font.Bold : Font.Normal
                     }
                 }

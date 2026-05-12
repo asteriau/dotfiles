@@ -253,7 +253,7 @@ Scope {
                 bottomRadius: pillState.targetBottomR
                 fillColor:    (pillState._displayMode === "media" && pillState.expanded)
                                   ? mediaExpanded.backdropColor
-                                  : Colors.background
+                                  : Appearance.colors.background
                 layer.enabled: true
             }
 
@@ -304,8 +304,8 @@ Scope {
                 id: mediaExpanded
                 anchors.fill: notch
                 readonly property bool shouldShow: pillState._displayMode === "media" && pillState.expanded
-                readonly property color tintColor: card.blendedColors?.colPrimary ?? Colors.accent
-                readonly property color backdropColor: card.blendedColors?.colLayer0 ?? Colors.background
+                readonly property color tintColor: card.blendedColors?.colPrimary ?? Appearance.colors.accent
+                readonly property color backdropColor: card.blendedColors?.colLayer0 ?? Appearance.colors.background
                 opacity: 0
                 visible: shouldShow || opacity > 0
 

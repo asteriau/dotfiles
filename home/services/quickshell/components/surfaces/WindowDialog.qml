@@ -43,7 +43,7 @@ Rectangle {
         id: card
         anchors.horizontalCenter: parent.horizontalCenter
         radius: Config.layout.radiusLg
-        color: Colors.surfaceContainerHigh
+        color: Appearance.colors.surfaceContainerHigh
 
         readonly property real _cappedH: Math.min(root.backgroundHeight, root.height - Config.layout.gapLg * 2)
         y: (root.height - _cappedH) / 2

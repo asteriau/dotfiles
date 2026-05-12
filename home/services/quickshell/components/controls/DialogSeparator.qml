@@ -16,5 +16,5 @@ Rectangle {
     Layout.leftMargin: -bleed
     Layout.rightMargin: -bleed
     implicitHeight: 1
-    color: Colors.outlineVariant
+    color: Appearance.colors.outlineVariant
 }

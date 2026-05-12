@@ -32,7 +32,7 @@ HoverTooltip {
         value: root.fraction
         valueBarWidth:  root.vertical ? 20 : 38
         valueBarHeight: root.vertical ? 36 : 18
-        highlightColor: root.low ? Colors.red : Colors.m3onSecondaryContainer
+        highlightColor: root.low ? Appearance.colors.red : Appearance.colors.m3onSecondaryContainer
 
         Item {
             width:  bar.valueBarWidth

@@ -25,16 +25,16 @@ Item {
         anchors.leftMargin: 10
         anchors.rightMargin: 10
         radius: 14
-        color: ma.pressed ? Colors.colPrimaryActive
-            : root.selected ? Colors.primaryContainer
-            : ma.containsMouse ? Qt.rgba(Colors.primaryContainer.r, Colors.primaryContainer.g, Colors.primaryContainer.b, 0.6)
+        color: ma.pressed ? Appearance.colors.colPrimaryActive
+            : root.selected ? Appearance.colors.primaryContainer
+            : ma.containsMouse ? Qt.rgba(Appearance.colors.primaryContainer.r, Appearance.colors.primaryContainer.g, Appearance.colors.primaryContainer.b, 0.6)
             : "transparent"
         Behavior on color {
             ColorAnimation { duration: 120; easing.type: Easing.OutCubic }
         }
     }
 
-    readonly property color fgColor: root.selected || ma.containsMouse ? Colors.m3onPrimaryContainer : Colors.foreground
+    readonly property color fgColor: root.selected || ma.containsMouse ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.foreground
 
     function highlight(text, q) {
         if (!q || q.length === 0) return _escape(text);
@@ -42,7 +42,7 @@ Item {
         const ql = q.toLowerCase();
         let out = "";
         let qi = 0;
-        const tag = `<u><font color="${Colors.accent}">`;
+        const tag = `<u><font color="${Appearance.colors.accent}">`;
         for (let i = 0; i < text.length; i++) {
             const ch = _escape(text[i]);
             if (qi < ql.length && tl[i] === ql[qi]) {
@@ -116,7 +116,7 @@ Item {
             StyledText {
                 visible: root.entry?.type && root.entry.type !== "App"
                 variant: StyledText.Variant.Caption
-                color: root.selected ? Colors.m3onPrimaryContainer : Colors.comment
+                color: root.selected ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.comment
                 text: root.entry?.type ?? ""
             }
 
@@ -135,7 +135,7 @@ Item {
         StyledText {
             visible: root.selected || ma.containsMouse
             font.pixelSize: Config.typography.normal
-            color: Colors.m3onPrimaryContainer
+            color: Appearance.colors.m3onPrimaryContainer
             text: root.entry?.verb ?? ""
             Layout.alignment: Qt.AlignVCenter
         }

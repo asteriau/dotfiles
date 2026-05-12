@@ -14,16 +14,16 @@ PressablePill {
     property real iconFill:   active ? 1 : 0
     property int  iconWeight: active ? 500 : 400
     property int  iconGrade:  -25
-    property color colorIcon:       Colors.m3onSurfaceVariant
-    property color colorIconActive: Colors.m3onPrimary
+    property color colorIcon:       Appearance.colors.m3onSurfaceVariant
+    property color colorIconActive: Appearance.colors.m3onPrimary
     property bool danger: false
     property bool tintOnHover: false
 
-    colorIdle:        Colors.elevated
-    colorActive:      danger ? Colors.red : Colors.accent
-    colorActiveHover: danger ? Qt.lighter(Colors.red, 1.1) : Colors.accentHover
-    colorHover:   tintOnHover ? Colors.hover   : colorIdle
-    colorPressed: tintOnHover ? Colors.pressed : colorIdle
+    colorIdle:        Appearance.colors.elevated
+    colorActive:      danger ? Appearance.colors.red : Appearance.colors.accent
+    colorActiveHover: danger ? Qt.lighter(Appearance.colors.red, 1.1) : Appearance.colors.accentHover
+    colorHover:   tintOnHover ? Appearance.colors.hover   : colorIdle
+    colorPressed: tintOnHover ? Appearance.colors.pressed : colorIdle
 
     MaterialIcon {
         anchors.centerIn: parent

@@ -28,7 +28,7 @@ PanelWindow {
 
         Rectangle {
             anchors.fill: parent
-            color: Colors.background
+            color: Appearance.colors.background
             visible: !Config.bar.rounding
         }
 
@@ -39,7 +39,7 @@ PanelWindow {
             onEnd:        Config.bar.onEnd
             screenRadius: 0
             freeRadius:   Config.bar.cornerRadius
-            fillColor:    Colors.background
+            fillColor:    Appearance.colors.background
             visible:      Config.bar.rounding
         }
 
@@ -102,7 +102,7 @@ PanelWindow {
                 rowSpacing: Config.layout.gapMd
                 transparent: !battery.low
                 bgColor: battery.low
-                    ? ColorMix.mix(Colors.red, toneColor, 0.2)
+                    ? ColorMix.mix(Appearance.colors.red, toneColor, 0.2)
                     : toneColor
 
                 Battery { id: battery }

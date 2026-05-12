@@ -99,7 +99,7 @@ Scope {
                 bottomMargin: Config.bar.position === "bottom" ? Config.bar.height + 8 : 8
             }
             radius: Config.layout.cardRadius
-            color: Colors.background
+            color: Appearance.colors.background
             layer.enabled: true
 
             // Chrome wrapped in a layer so we can blur it while a

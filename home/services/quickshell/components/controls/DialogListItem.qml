@@ -26,7 +26,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: ma.containsMouse
-            ? Qt.rgba(Colors.m3onSurface.r, Colors.m3onSurface.g, Colors.m3onSurface.b, 0.05)
+            ? Qt.rgba(Appearance.colors.m3onSurface.r, Appearance.colors.m3onSurface.g, Appearance.colors.m3onSurface.b, 0.05)
             : "transparent"
         Behavior on color { Motion.ColorFade {} }
     }

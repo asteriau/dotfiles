@@ -51,7 +51,7 @@ Item {
 
             StyledText {
                 text: root.longDateLabel
-                color: Colors.foreground
+                color: Appearance.colors.foreground
                 font.pixelSize: Config.typography.small
                 font.weight: Font.Medium
             }
@@ -66,19 +66,19 @@ Item {
                     fill: 1
                     weight: 450
                     grade: 0
-                    color: Colors.m3onSurfaceVariant
+                    color: Appearance.colors.m3onSurfaceVariant
                 }
 
                 StyledText {
                     text: Math.round(WeatherState.temp) + "°"
-                    color: Colors.m3onSurfaceVariant
+                    color: Appearance.colors.m3onSurfaceVariant
                     font.pixelSize: Config.typography.smaller
                     font.weight: Font.Medium
                 }
 
                 StyledText {
                     text: "·"
-                    color: Colors.m3onSurfaceVariant
+                    color: Appearance.colors.m3onSurfaceVariant
                     font.pixelSize: Config.typography.smaller
                 }
 
@@ -87,7 +87,7 @@ Item {
                         const d = WeatherState.description || WeatherState.condition;
                         return d ? d.charAt(0).toUpperCase() + d.slice(1) : "";
                     }
-                    color: Colors.m3onSurfaceVariant
+                    color: Appearance.colors.m3onSurfaceVariant
                     font.pixelSize: Config.typography.smaller
                 }
             }

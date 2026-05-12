@@ -55,7 +55,7 @@ DialogListItem {
 
             Text {
                 text: row._signalIcon(row.rssi)
-                color: Colors.m3onSurfaceVariant
+                color: Appearance.colors.m3onSurfaceVariant
                 font.family: Config.typography.iconFamily
                 font.pixelSize: Config.typography.larger
             }
@@ -63,7 +63,7 @@ DialogListItem {
             Text {
                 Layout.fillWidth: true
                 text: row.ssid || "(hidden)"
-                color: Colors.m3onSurfaceVariant
+                color: Appearance.colors.m3onSurfaceVariant
                 font.family: Config.typography.family
                 font.pixelSize: Config.typography.small
                 font.weight: row.isActive ? Config.typography.weightMedium : Config.typography.weightNormal
@@ -73,7 +73,7 @@ DialogListItem {
             Text {
                 visible: row.secure || row.isActive
                 text: row.isActive ? "check" : "lock"
-                color: Colors.m3onSurfaceVariant
+                color: Appearance.colors.m3onSurfaceVariant
                 font.family: Config.typography.iconFamily
                 font.pixelSize: Config.typography.larger
             }
@@ -84,7 +84,7 @@ DialogListItem {
             Layout.fillWidth: true
             visible: row.errored
             text: row.errorMsg
-            color: Colors.red
+            color: Appearance.colors.red
             font.family: Config.typography.family
             font.pixelSize: Config.typography.smaller
             elide: Text.ElideRight

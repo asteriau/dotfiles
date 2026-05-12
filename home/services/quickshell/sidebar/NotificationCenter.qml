@@ -89,7 +89,7 @@ Item {
                     MaterialShape {
                         anchors.fill: parent
                         shape: MaterialShape.Shape.Cookie12Sided
-                        color: Colors.elevated
+                        color: Appearance.colors.elevated
                         implicitSize: 80
                     }
 
@@ -100,7 +100,7 @@ Item {
                         fill: 0
                         weight: 400
                         grade: 0
-                        color: Colors.accent
+                        color: Appearance.colors.accent
                     }
                 }
 
@@ -108,7 +108,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.topMargin: 14
                     text: "Nothing here D:"
-                    color: Colors.comment
+                    color: Appearance.colors.comment
                     font.pixelSize: Config.typography.small
                     font.weight: Font.Medium
                     horizontalAlignment: Text.AlignHCenter

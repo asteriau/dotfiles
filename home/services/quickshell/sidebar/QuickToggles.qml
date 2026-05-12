@@ -23,7 +23,7 @@ Item {
         id: card
         anchors.horizontalCenter: parent.horizontalCenter
         radius: height / 2
-        color: Colors.colLayer1
+        color: Appearance.colors.colLayer1
         antialiasing: true
         implicitWidth: row.implicitWidth + 24
         implicitHeight: row.implicitHeight + 12
@@ -86,7 +86,7 @@ Item {
             id: pill
             anchors.fill: parent
             radius: height / 2
-            color: btn.active ? Colors.accent : Colors.surfaceContainerHighest
+            color: btn.active ? Appearance.colors.accent : Appearance.colors.surfaceContainerHighest
             scale: ma.pressed ? 0.92 : 1.0
 
             Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
@@ -98,7 +98,7 @@ Item {
             text: btn.icon
             font.family: "Material Symbols Rounded"
             font.pixelSize: Math.round(btn.toggleSize * 0.4)
-            color: btn.active ? Colors.background : Colors.foreground
+            color: btn.active ? Appearance.colors.background : Appearance.colors.foreground
 
             Behavior on color { ColorAnimation { duration: 180 } }
         }

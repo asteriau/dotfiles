@@ -7,7 +7,7 @@ Item {
 
     property real amplitudeMultiplier: 0.5
     property real frequency: 6
-    property color color: Colors.colPrimary ?? "#685496"
+    property color color: Appearance.colors.colPrimary ?? "#685496"
     property real lineWidth: 4
     property real fullLength: width
 

@@ -26,7 +26,7 @@ ColumnLayout {
         Text {
             visible: root.title.length > 0
             text: root.title
-            color: Colors.m3onSurfaceVariant
+            color: Appearance.colors.m3onSurfaceVariant
             font.family: Config.typography.family
             font.pixelSize: Config.typography.smaller
             font.weight: Font.Medium
@@ -38,7 +38,7 @@ ColumnLayout {
             MaterialIcon {
                 text: "info"
                 font.pointSize: Config.typography.smaller
-                color: Colors.comment
+                color: Appearance.colors.comment
             }
         }
 

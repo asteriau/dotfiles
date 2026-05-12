@@ -17,12 +17,12 @@ T.Button {
     property var altAction
     property var middleClickAction
 
-    property color colBackground: ColorMix.transparentize(Colors.surfaceContainerHigh, 1)
-    property color colBackgroundHover: Colors.surfaceContainerHigh
-    property color colBackgroundToggled: Colors.accent
-    property color colBackgroundToggledHover: Qt.lighter(Colors.accent, 1.1)
-    property color colRipple: Qt.lighter(Colors.surfaceContainerHigh, 1.2)
-    property color colRippleToggled: Qt.lighter(Colors.accent, 1.2)
+    property color colBackground: ColorMix.transparentize(Appearance.colors.surfaceContainerHigh, 1)
+    property color colBackgroundHover: Appearance.colors.surfaceContainerHigh
+    property color colBackgroundToggled: Appearance.colors.accent
+    property color colBackgroundToggledHover: Qt.lighter(Appearance.colors.accent, 1.1)
+    property color colRipple: Qt.lighter(Appearance.colors.surfaceContainerHigh, 1.2)
+    property color colRippleToggled: Qt.lighter(Appearance.colors.accent, 1.2)
 
     opacity: root.enabled ? 1 : 0.4
     property color buttonColor: ColorMix.transparentize(root.toggled

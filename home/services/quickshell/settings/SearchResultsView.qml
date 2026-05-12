@@ -65,7 +65,7 @@ Item {
                     ? (root._displayQuery.length === 0 ? "" : "No results for “" + root._displayQuery + "”")
                     : root._displayResults.length + " result" + (root._displayResults.length === 1 ? "" : "s")
                       + " for “" + root._displayQuery + "”"
-                color: Colors.m3onSurfaceVariant
+                color: Appearance.colors.m3onSurfaceVariant
                 font.pixelSize: Config.typography.small
                 Layout.fillWidth: true
             }
@@ -89,12 +89,12 @@ Item {
                 width: ListView.view.width
                 implicitHeight: Math.max(64, rowCol.implicitHeight + 24)
                 radius: Config.layout.radiusLg
-                color: Colors.transparent
+                color: Appearance.colors.transparent
 
                 Rectangle {
                     anchors.fill: parent
                     radius: parent.radius
-                    color: index === root.selectedIndex ? Colors.secondaryContainer : Colors.hover
+                    color: index === root.selectedIndex ? Appearance.colors.secondaryContainer : Appearance.colors.hover
                     opacity: index === root.selectedIndex ? 1 : (ma.containsMouse ? 1 : 0)
                     Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
                 }
@@ -114,13 +114,13 @@ Item {
                         Layout.preferredHeight: 36
                         Layout.alignment: Qt.AlignVCenter
                         radius: 18
-                        color: Colors.colLayer2
+                        color: Appearance.colors.colLayer2
 
                         MaterialIcon {
                             anchors.centerIn: parent
                             text: root.pageIcons[delegateRoot.modelData.page] || "tune"
                             pixelSize: Config.typography.large
-                            color: Colors.m3onSurfaceVariant
+                            color: Appearance.colors.m3onSurfaceVariant
                         }
                     }
 
@@ -131,7 +131,7 @@ Item {
 
                         StyledText {
                             text: delegateRoot.modelData.label
-                            color: Colors.foreground
+                            color: Appearance.colors.foreground
                             font.pixelSize: Config.typography.small
                             font.weight: Font.Medium
                             Layout.fillWidth: true
@@ -141,7 +141,7 @@ Item {
                         StyledText {
                             visible: delegateRoot.modelData.caption.length > 0
                             text: delegateRoot.modelData.caption
-                            color: Colors.m3onSurfaceVariant
+                            color: Appearance.colors.m3onSurfaceVariant
                             font.pixelSize: Config.typography.smaller
                             Layout.fillWidth: true
                             elide: Text.ElideRight
@@ -155,18 +155,18 @@ Item {
 
                         StyledText {
                             text: delegateRoot.modelData.page
-                            color: Colors.m3onSurfaceVariant
+                            color: Appearance.colors.m3onSurfaceVariant
                             font.pixelSize: Config.typography.small
                             font.weight: Font.Medium
                         }
                         MaterialIcon {
                             text: "chevron_right"
                             pixelSize: Config.typography.small
-                            color: Colors.m3onSurfaceVariant
+                            color: Appearance.colors.m3onSurfaceVariant
                         }
                         StyledText {
                             text: delegateRoot.modelData.section
-                            color: Colors.m3onSurfaceVariant
+                            color: Appearance.colors.m3onSurfaceVariant
                             font.pixelSize: Config.typography.small
                         }
                     }

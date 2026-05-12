@@ -33,7 +33,7 @@ Item {
 
         MaterialShape {
             anchors.fill: parent
-            color: Colors.secondaryContainer
+            color: Appearance.colors.secondaryContainer
             implicitSize: Math.max(width, height)
             shape: input.text === ""
                 ? MaterialShape.Shape.Cookie7Sided
@@ -48,7 +48,7 @@ Item {
             anchors.centerIn: parent
             text: input.text === "" ? "search" : "manage_search"
             pixelSize: Config.typography.huge
-            color: Colors.m3onSecondaryContainer
+            color: Appearance.colors.m3onSecondaryContainer
         }
     }
 
@@ -63,7 +63,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             radius: 22
-            color: input.activeFocus ? Colors.surfaceContainerHigh : Colors.surfaceContainer
+            color: input.activeFocus ? Appearance.colors.surfaceContainerHigh : Appearance.colors.surfaceContainer
             Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
         }
 
@@ -74,11 +74,11 @@ Item {
             rightPadding: clearChip.visible ? 44 : 18
             font.family: Config.typography.family
             font.pixelSize: Config.typography.normal
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             placeholderText: ""
             selectByMouse: true
-            selectionColor: Colors.accent
-            selectedTextColor: Colors.accentText
+            selectionColor: Appearance.colors.accent
+            selectedTextColor: Appearance.colors.accentText
             verticalAlignment: TextInput.AlignVCenter
             background: null
 
@@ -97,7 +97,7 @@ Item {
             anchors.rightMargin: input.rightPadding
             anchors.verticalCenter: parent.verticalCenter
             text: root.placeholder
-            color: Colors.m3onSurfaceVariant
+            color: Appearance.colors.m3onSurfaceVariant
             font: input.font
             elide: Text.ElideRight
             opacity: input.text === "" ? 1 : 0
@@ -113,7 +113,7 @@ Item {
             width: 32
             height: 32
             radius: 16
-            color: clearMa.containsMouse ? Colors.hover : Colors.transparent
+            color: clearMa.containsMouse ? Appearance.colors.hover : Appearance.colors.transparent
             opacity: input.text.length > 0 ? 1 : 0
             visible: opacity > 0
             Behavior on color   { ColorAnimation  { duration: Appearance.motion.duration.effects } }
@@ -123,7 +123,7 @@ Item {
                 anchors.centerIn: parent
                 text: "close"
                 pixelSize: Config.typography.large
-                color: Colors.m3onSurfaceVariant
+                color: Appearance.colors.m3onSurfaceVariant
             }
 
             MouseArea {

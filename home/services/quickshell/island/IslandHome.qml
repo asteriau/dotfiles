@@ -45,12 +45,12 @@ Item {
                 variant: StyledText.Variant.Display
                 font.pixelSize: 56
                 font.weight: Font.Medium
-                color: Colors.foreground
+                color: Appearance.colors.foreground
                 text: root.timeText
             }
             StyledText {
                 variant: StyledText.Variant.Caption
-                color: Colors.foreground
+                color: Appearance.colors.foreground
                 opacity: 0.65
                 text: root.dateText
                 Layout.topMargin: -6
@@ -74,12 +74,12 @@ Item {
                     text: root.player?.isPlaying ? "music_note" : "pause"
                     fill: 1
                     pixelSize: 18
-                    color: Colors.accent
+                    color: Appearance.colors.accent
                 }
                 StyledText {
                     Layout.fillWidth: true
                     variant: StyledText.Variant.Body
-                    color: Colors.foreground
+                    color: Appearance.colors.foreground
                     elide: Text.ElideRight
                     text: {
                         const t = root.player?.trackTitle ?? "";
@@ -99,12 +99,12 @@ Item {
                     fill: 1
                     pixelSize: 18
                     color: BatteryState.low ? "#e0c060"
-                          : (BatteryState.charging ? Colors.accent : Colors.foreground)
+                          : (BatteryState.charging ? Appearance.colors.accent : Appearance.colors.foreground)
                 }
                 StyledText {
                     Layout.fillWidth: true
                     variant: StyledText.Variant.Body
-                    color: Colors.foreground
+                    color: Appearance.colors.foreground
                     text: Math.round(BatteryState.level * 100) + "%"
                           + (BatteryState.charging ? " · Charging" : "")
                 }

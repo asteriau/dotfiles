@@ -60,7 +60,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: Config.layout.radiusContainer
-        color: Colors.surfaceContainerLow
+        color: Appearance.colors.surfaceContainerLow
         opacity: root.currentTitle.length > 0 ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
     }
@@ -100,7 +100,7 @@ Item {
             Layout.maximumWidth: root.width - root.hPadding * 2 - root.iconSize - root.iconGap
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: Config.typography.small
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             elide: Text.ElideRight
             text: root._a.title
         }
@@ -124,7 +124,7 @@ Item {
             Layout.maximumWidth: root.width - root.hPadding * 2 - root.iconSize - root.iconGap
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: Config.typography.small
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             elide: Text.ElideRight
             text: root._b.title
         }

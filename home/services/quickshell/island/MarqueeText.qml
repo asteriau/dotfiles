@@ -9,7 +9,7 @@ Item {
 
     property string text: ""
     property font font
-    property color color: Colors.foreground
+    property color color: Appearance.colors.foreground
     property int gap: 32
     property int pauseAtStart: 800
     property real pixelsPerSecond: 40

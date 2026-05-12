@@ -54,7 +54,7 @@ Item {
         bottomRightRadius: bottomLeftRadius
         topRightRadius: bottomLeftRadius
 
-        color: Colors.accent
+        color: Appearance.colors.accent
 
         Behavior on topLeftRadius {
             animation: Appearance.animation.elementMoveSmall.numberAnimation.createObject(this)
@@ -75,7 +75,7 @@ Item {
             MaterialIcon {
                 anchors.verticalCenter: parent.verticalCenter
                 pixelSize: 22
-                color: Colors.m3onPrimary
+                color: Appearance.colors.m3onPrimary
                 text: root.materialSymbol
             }
 
@@ -84,7 +84,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 shown: root.showDescription
                 sourceComponent: StyledText {
-                    color: Colors.m3onPrimary
+                    color: Appearance.colors.m3onPrimary
                     text: root.description
                     anchors.right: parent.right
                     anchors.rightMargin: 6

@@ -14,7 +14,7 @@ ClippingRectangle {
     readonly property string resolvedArt: artUrl ? MprisState.resolveArtSource(artUrl) : ""
 
     radius: width / 2
-    color: Colors.surfaceContainerHighest
+    color: Appearance.colors.surfaceContainerHighest
     antialiasing: true
 
     property string _aSrc: ""
@@ -54,6 +54,6 @@ ClippingRectangle {
         text: "music_note"
         fill: 1
         pixelSize: Math.max(10, root.width * 0.55)
-        color: Colors.foreground
+        color: Appearance.colors.foreground
     }
 }

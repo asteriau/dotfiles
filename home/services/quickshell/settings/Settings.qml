@@ -14,7 +14,7 @@ Window {
     minimumWidth: 760
     minimumHeight: 520
     title: "Settings"
-    color: Colors.background
+    color: Appearance.colors.background
 
     readonly property string _base: Qt.resolvedUrl(".")
     readonly property real contentPadding: Config.layout.pageMargin / 2
@@ -170,7 +170,7 @@ Window {
                 id: contentCard
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                color: Colors.transparent
+                color: Appearance.colors.transparent
                 radius: 24 - settingsWindow.contentPadding
                 clip: true
 

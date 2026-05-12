@@ -12,11 +12,11 @@ HoverTooltip {
 
     Rectangle {
         radius: Config.layout.cardRadius
-        color: root.containsMouse ? Colors.buttonDisabledHover : Colors.buttonDisabled
+        color: root.containsMouse ? Appearance.colors.buttonDisabledHover : Appearance.colors.buttonDisabled
         implicitHeight: text.height + 2 * Config.padding
         implicitWidth: parent.width || text.width + 2 * Config.padding
         border {
-            color: Colors.border
+            color: Appearance.colors.border
             width: 1
         }
 

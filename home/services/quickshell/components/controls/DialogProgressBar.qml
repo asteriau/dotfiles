@@ -18,7 +18,7 @@ Item {
         id: track
         anchors.fill: parent
         radius: 2
-        color: Colors.colSecondaryContainer
+        color: Appearance.colors.colSecondaryContainer
         opacity: 0.6
         clip: true
 
@@ -27,7 +27,7 @@ Item {
             width: parent.width * 0.3
             height: parent.height
             radius: parent.radius
-            color: Colors.colPrimary
+            color: Appearance.colors.colPrimary
 
             NumberAnimation on x {
                 running: root.active && root.visible

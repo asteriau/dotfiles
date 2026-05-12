@@ -23,26 +23,26 @@ Item {
 
     readonly property color _bg: {
         switch (variant) {
-        case DialogButton.Variant.Primary: return Colors.accent;
-        case DialogButton.Variant.Danger:  return Colors.red;
-        case DialogButton.Variant.Layer4:  return Colors.colLayer4;
-        case DialogButton.Variant.Default: return Qt.rgba(Colors.colLayer3.r, Colors.colLayer3.g, Colors.colLayer3.b, 0);
+        case DialogButton.Variant.Primary: return Appearance.colors.accent;
+        case DialogButton.Variant.Danger:  return Appearance.colors.red;
+        case DialogButton.Variant.Layer4:  return Appearance.colors.colLayer4;
+        case DialogButton.Variant.Default: return Qt.rgba(Appearance.colors.colLayer3.r, Appearance.colors.colLayer3.g, Appearance.colors.colLayer3.b, 0);
         }
     }
     readonly property color _bgHover: {
         switch (variant) {
-        case DialogButton.Variant.Primary: return Colors.accentHover;
-        case DialogButton.Variant.Danger:  return Qt.lighter(Colors.red, 1.10);
-        case DialogButton.Variant.Layer4:  return Qt.lighter(Colors.colLayer4, 1.10);
-        case DialogButton.Variant.Default: return Colors.colLayer3Hover;
+        case DialogButton.Variant.Primary: return Appearance.colors.accentHover;
+        case DialogButton.Variant.Danger:  return Qt.lighter(Appearance.colors.red, 1.10);
+        case DialogButton.Variant.Layer4:  return Qt.lighter(Appearance.colors.colLayer4, 1.10);
+        case DialogButton.Variant.Default: return Appearance.colors.colLayer3Hover;
         }
     }
     readonly property color _fg: {
         switch (variant) {
-        case DialogButton.Variant.Primary: return Colors.background;
-        case DialogButton.Variant.Danger:  return Colors.background;
-        case DialogButton.Variant.Layer4:  return Colors.colOnLayer4;
-        case DialogButton.Variant.Default: return Colors.accent;
+        case DialogButton.Variant.Primary: return Appearance.colors.background;
+        case DialogButton.Variant.Danger:  return Appearance.colors.background;
+        case DialogButton.Variant.Layer4:  return Appearance.colors.colOnLayer4;
+        case DialogButton.Variant.Default: return Appearance.colors.accent;
         }
     }
 

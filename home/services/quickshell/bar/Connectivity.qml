@@ -85,7 +85,7 @@ HoverTooltip {
             value: root.wifiValue
             valueBarWidth:  root.vertical ? 20 : 20
             valueBarHeight: root.vertical ? 20 : 18
-            highlightColor: Colors.m3onSecondaryContainer
+            highlightColor: Appearance.colors.m3onSecondaryContainer
 
             Item {
                 width: 20; height: root.vertical ? 20 : 18
@@ -106,8 +106,8 @@ HoverTooltip {
             value: root.btValue
             valueBarWidth:  root.vertical ? 20 : 20
             valueBarHeight: root.vertical ? 20 : 18
-            highlightColor: root.btConnected.length > 0 ? Colors.m3onSecondaryContainer
-                : Qt.rgba(Colors.m3onSecondaryContainer.r, Colors.m3onSecondaryContainer.g, Colors.m3onSecondaryContainer.b, 0.7)
+            highlightColor: root.btConnected.length > 0 ? Appearance.colors.m3onSecondaryContainer
+                : Qt.rgba(Appearance.colors.m3onSecondaryContainer.r, Appearance.colors.m3onSecondaryContainer.g, Appearance.colors.m3onSecondaryContainer.b, 0.7)
 
             Item {
                 width: 20; height: root.vertical ? 20 : 18

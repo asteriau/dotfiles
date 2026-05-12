@@ -18,7 +18,7 @@ Item {
     readonly property color tint: critical
         ? "#ff5454"
         : (low ? "#e0c060"
-              : (charging ? Colors.accent : Colors.foreground))
+              : (charging ? Appearance.colors.accent : Appearance.colors.foreground))
 
     readonly property string icon: {
         if (charging) return "battery_charging_full";
@@ -53,7 +53,7 @@ Item {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             variant: StyledText.Variant.Body
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             font.weight: Font.Medium
             text: Math.round(root.level * 100) + "%" + (root.charging ? " · Charging" : "")
             elide: Text.ElideRight
@@ -91,18 +91,18 @@ Item {
             StyledText {
                 variant: StyledText.Variant.Label
                 text: root.charging ? "Charging" : (root.low ? "Low battery" : "On battery")
-                color: Colors.foreground
+                color: Appearance.colors.foreground
                 font.weight: Font.DemiBold
             }
             StyledText {
                 variant: StyledText.Variant.Subtitle
                 text: Math.round(root.level * 100) + "%"
-                color: Colors.foreground
+                color: Appearance.colors.foreground
             }
             StyledText {
                 variant: StyledText.Variant.BodySm
                 text: BatteryState.status
-                color: Colors.foreground
+                color: Appearance.colors.foreground
                 opacity: 0.7
             }
             Item { Layout.fillHeight: true }

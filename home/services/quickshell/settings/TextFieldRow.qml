@@ -18,7 +18,7 @@ Item {
         anchors.topMargin: 8
         anchors.bottomMargin: 8
         radius: Config.layout.radiusMd
-        color: Colors.colLayer3
+        color: Appearance.colors.colLayer3
 
         TextInput {
             id: input
@@ -27,7 +27,7 @@ Item {
             anchors.rightMargin: 16
             verticalAlignment: TextInput.AlignVCenter
             text: root.text
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             font.family: Config.typography.family
             font.pixelSize: Config.typography.small
             selectByMouse: true

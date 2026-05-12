@@ -13,7 +13,7 @@ Row {
         text: root.icon
         pixelSize: Config.typography.large
         weight: Font.DemiBold
-        color: Colors.m3onSurfaceVariant
+        color: Appearance.colors.m3onSurfaceVariant
     }
 
     Text {
@@ -22,6 +22,6 @@ Row {
         font.family: Config.fontFamily
         font.pixelSize: Config.typography.normal
         font.weight: Font.DemiBold
-        color: Colors.m3onSurfaceVariant
+        color: Appearance.colors.m3onSurfaceVariant
     }
 }

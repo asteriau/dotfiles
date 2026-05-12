@@ -58,7 +58,7 @@ WindowDialog {
             Text {
                 Layout.alignment: Qt.AlignHCenter
                 text: "wifi_off"
-                color: Colors.m3onSurfaceInactive
+                color: Appearance.colors.m3onSurfaceInactive
                 font.family: Config.typography.iconFamily
                 font.pixelSize: 32
             }
@@ -67,7 +67,7 @@ WindowDialog {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
                 text: !NetworkState.wifiEnabled ? "Wi-Fi is off" : "No networks found"
-                color: Colors.m3onSurface
+                color: Appearance.colors.m3onSurface
                 font.family: Config.typography.family
                 font.pixelSize: Config.typography.smallie
                 wrapMode: Text.Wrap
@@ -79,7 +79,7 @@ WindowDialog {
                 text: !NetworkState.wifiEnabled
                     ? "Enable it from the toggle, or check your adapter"
                     : "Press Rescan to search again"
-                color: Colors.m3onSurfaceInactive
+                color: Appearance.colors.m3onSurfaceInactive
                 font.family: Config.typography.family
                 font.pixelSize: Config.typography.smaller
                 wrapMode: Text.Wrap

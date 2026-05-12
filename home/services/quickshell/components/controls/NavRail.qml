@@ -33,7 +33,7 @@ Item {
             width:  root.expanded ? parent.width : 56
             height: root.expanded ? 40 : 52
             radius: Config.layout.radiusXl
-            color: Colors.transparent
+            color: Appearance.colors.transparent
 
             Behavior on width  { NumberAnimation { duration: Appearance.motion.duration.spatial; easing.type: Easing.OutCubic } }
             Behavior on x      { NumberAnimation { duration: Appearance.motion.duration.spatial; easing.type: Easing.OutCubic } }
@@ -42,7 +42,7 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: parent.radius
-                color: Colors.hover
+                color: Appearance.colors.hover
                 opacity: !item.selected && ma.containsMouse ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             }
@@ -51,7 +51,7 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: parent.radius
-                color: ma.containsMouse ? Qt.lighter(Colors.primaryContainer, 1.05) : Colors.primaryContainer
+                color: ma.containsMouse ? Qt.lighter(Appearance.colors.primaryContainer, 1.05) : Appearance.colors.primaryContainer
                 opacity: item.selected ? 1 : 0
                 Behavior on color   { ColorAnimation  { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
                 Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
@@ -65,7 +65,7 @@ Item {
             text: item.icon
             font.pointSize: Config.typography.huge
             fill: item.selected ? 1 : 0
-            color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
+            color: item.selected ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.m3onSurfaceVariant
             Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
             Behavior on fill  { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
         }
@@ -84,7 +84,7 @@ Item {
                 text: item.icon
                 font.pointSize: Config.typography.huge
                 fill: item.selected ? 1 : 0
-                color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
+                color: item.selected ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.m3onSurfaceVariant
                 Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                 Behavior on fill  { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             }
@@ -95,7 +95,7 @@ Item {
                 font.family: Config.typography.family
                 font.pixelSize: Config.typography.small
                 font.weight: item.selected ? Font.Medium : Font.Normal
-                color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
+                color: item.selected ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.m3onSurfaceVariant
                 Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
             }
         }
@@ -122,14 +122,14 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: width / 2
-                color: chevronMa.containsMouse ? Colors.hover : Colors.transparent
+                color: chevronMa.containsMouse ? Appearance.colors.hover : Appearance.colors.transparent
                 Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                 MaterialIcon {
                     anchors.centerIn: parent
                     text: root.expanded ? "menu_open" : "menu"
                     font.pointSize: Config.typography.huge
-                    color: Colors.m3onSurfaceVariant
+                    color: Appearance.colors.m3onSurfaceVariant
                 }
 
                 MouseArea {

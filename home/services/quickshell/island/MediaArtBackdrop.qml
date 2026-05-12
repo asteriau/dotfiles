@@ -28,7 +28,7 @@ Item {
         blur: 18
         offset: Qt.vector2d(0, Config.shadow.verticalOffset)
         spread: 1
-        color: Colors.windowShadow
+        color: Appearance.colors.windowShadow
         cached: true
     }
 
@@ -36,7 +36,7 @@ Item {
         id: background
         anchors.fill: parent
         anchors.margins: root.showShadow ? 4 : 0
-        color: root.colors ? ColorMix.applyAlpha(root.colors.colLayer0, 1) : Colors.elevated
+        color: root.colors ? ColorMix.applyAlpha(root.colors.colLayer0, 1) : Appearance.colors.elevated
         radius: root.maskSource ? 0 : root.radius
 
         layer.enabled: true

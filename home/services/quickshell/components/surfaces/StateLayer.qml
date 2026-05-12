@@ -7,7 +7,7 @@ Item {
     id: root
 
     property real radius: Config.layout.radiusInteractive
-    property color tone: Colors.m3onSurface
+    property color tone: Appearance.colors.m3onSurface
     property bool hovered: false
     property bool pressed: false
     property bool focused: false

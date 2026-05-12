@@ -8,10 +8,10 @@ TextField {
 
     property bool hasError: false
 
-    color: Colors.colOnLayer2
-    placeholderTextColor: Colors.m3onSurfaceInactive
-    selectionColor: Colors.colPrimary
-    selectedTextColor: Colors.colOnPrimary
+    color: Appearance.colors.colOnLayer2
+    placeholderTextColor: Appearance.colors.m3onSurfaceInactive
+    selectionColor: Appearance.colors.colPrimary
+    selectedTextColor: Appearance.colors.colOnPrimary
     font.family: "Inter"
     font.pixelSize: 13
     leftPadding: 10
@@ -22,11 +22,11 @@ TextField {
 
     background: Rectangle {
         radius: Config.layout.radiusSm
-        color: Colors.colLayer3
+        color: Appearance.colors.colLayer3
         border.width: 1
         border.color: root.hasError
             ? Qt.rgba(0.92, 0.45, 0.45, 1)
-            : (root.activeFocus ? Colors.colPrimary : Colors.outlineVariant)
+            : (root.activeFocus ? Appearance.colors.colPrimary : Appearance.colors.outlineVariant)
 
         Behavior on border.color { ColorAnimation { duration: 120 } }
     }

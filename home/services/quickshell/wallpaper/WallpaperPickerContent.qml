@@ -159,7 +159,7 @@ MouseArea {
         blur: 24
         offset: Qt.vector2d(0, Config.shadow.verticalOffset)
         spread: 1
-        color: Colors.windowShadow
+        color: Appearance.colors.windowShadow
         cached: true
     }
 
@@ -168,9 +168,9 @@ MouseArea {
         id: card
         anchors.fill: parent
         radius: Config.layout.radiusXxl
-        color: Colors.surfaceContainerLow
+        color: Appearance.colors.surfaceContainerLow
         border.width: 1
-        border.color: Colors.border
+        border.color: Appearance.colors.border
         clip: true
 
         RowLayout {
@@ -182,7 +182,7 @@ MouseArea {
                 Layout.fillHeight: true
                 Layout.margins: 4
                 Layout.preferredWidth: 148
-                color: Colors.surfaceContainer
+                color: Appearance.colors.surfaceContainer
                 radius: card.radius - Layout.margins
 
                 ColumnLayout {
@@ -194,7 +194,7 @@ MouseArea {
                         text: "Pick a wallpaper"
                         font.pixelSize: Config.typography.normal
                         font.weight: Font.Medium
-                        color: Colors.foreground
+                        color: Appearance.colors.foreground
                     }
 
                     ListView {
@@ -222,9 +222,9 @@ MouseArea {
                             buttonRadius: height / 2
                             enabled: root.homeDir.length > 0
                             toggled: root.currentDir === quickDirBtn.modelData.path
-                            colBackgroundToggled: Colors.secondaryContainer
-                            colBackgroundToggledHover: Qt.lighter(Colors.secondaryContainer, 1.06)
-                            colRippleToggled: Colors.hoverStrong
+                            colBackgroundToggled: Appearance.colors.secondaryContainer
+                            colBackgroundToggledHover: Qt.lighter(Appearance.colors.secondaryContainer, 1.06)
+                            colRippleToggled: Appearance.colors.hoverStrong
                             onClicked: root.navigateTo(quickDirBtn.modelData.path)
 
                             contentItem: RowLayout {
@@ -238,8 +238,8 @@ MouseArea {
                                     pixelSize: Config.typography.larger
                                     fill: quickDirBtn.toggled ? 1 : 0
                                     color: quickDirBtn.toggled
-                                        ? Colors.m3onSecondaryContainer
-                                        : Colors.m3onSurfaceVariant
+                                        ? Appearance.colors.m3onSecondaryContainer
+                                        : Appearance.colors.m3onSurfaceVariant
                                 }
                                 StyledText {
                                     Layout.fillWidth: true
@@ -247,8 +247,8 @@ MouseArea {
                                     horizontalAlignment: Text.AlignLeft
                                     font.pixelSize: Config.typography.small
                                     color: quickDirBtn.toggled
-                                        ? Colors.m3onSecondaryContainer
-                                        : Colors.m3onSurfaceVariant
+                                        ? Appearance.colors.m3onSecondaryContainer
+                                        : Appearance.colors.m3onSurfaceVariant
                                 }
                             }
                         }
@@ -268,7 +268,7 @@ MouseArea {
                     Layout.margins: 4
                     Layout.preferredHeight: 44
                     radius: height / 2
-                    color: Colors.surfaceContainer
+                    color: Appearance.colors.surfaceContainer
 
                     RowLayout {
                         anchors.fill: parent
@@ -285,7 +285,7 @@ MouseArea {
                             contentItem: MaterialIcon {
                                 text: "drive_folder_upload"
                                 pixelSize: Config.typography.larger
-                                color: Colors.foreground
+                                color: Appearance.colors.foreground
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                             }
@@ -300,7 +300,7 @@ MouseArea {
                                 visible: !root.showBreadcrumb
                                 anchors.fill: parent
                                 radius: height / 2
-                                color: Colors.surfaceContainerLow
+                                color: Appearance.colors.surfaceContainerLow
 
                                 TextInput {
                                     id: pathInput
@@ -309,8 +309,8 @@ MouseArea {
                                     anchors.rightMargin: 12
                                     verticalAlignment: TextInput.AlignVCenter
                                     text: root.currentDir
-                                    color: Colors.foreground
-                                    selectionColor: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.4)
+                                    color: Appearance.colors.foreground
+                                    selectionColor: Qt.rgba(Appearance.colors.accent.r, Appearance.colors.accent.g, Appearance.colors.accent.b, 0.4)
                                     font.pixelSize: Config.typography.smallie
                                     font.family: Config.typography.family
                                     clip: true
@@ -364,8 +364,8 @@ MouseArea {
                                     height: breadcrumb.height
 
                                     color: isCurrent
-                                        ? Colors.secondaryContainer
-                                        : (segMa.containsMouse ? Colors.colLayer2Hover : "transparent")
+                                        ? Appearance.colors.secondaryContainer
+                                        : (segMa.containsMouse ? Appearance.colors.colLayer2Hover : "transparent")
                                     Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                                     topLeftRadius:     leftmost  ? bigR : (isCurrent ? bigR : smallR)
@@ -379,8 +379,8 @@ MouseArea {
                                         text: seg.modelData.label
                                         font.pixelSize: Config.typography.smaller
                                         color: seg.isCurrent
-                                            ? Colors.m3onSecondaryContainer
-                                            : Colors.m3onSurfaceVariant
+                                            ? Appearance.colors.m3onSecondaryContainer
+                                            : Appearance.colors.m3onSurfaceVariant
                                     }
 
                                     MouseArea {
@@ -401,8 +401,8 @@ MouseArea {
                             implicitHeight: 32
                             buttonRadius: height / 2
                             toggled: !root.showBreadcrumb
-                            colBackgroundToggled: Colors.accent
-                            colRippleToggled: Colors.accentHover
+                            colBackgroundToggled: Appearance.colors.accent
+                            colRippleToggled: Appearance.colors.accentHover
                             onClicked: {
                                 root.showBreadcrumb = !root.showBreadcrumb;
                                 if (!root.showBreadcrumb) {
@@ -415,7 +415,7 @@ MouseArea {
                             contentItem: MaterialIcon {
                                 text: "edit"
                                 pixelSize: Config.typography.larger
-                                color: editBtn.toggled ? Colors.m3onPrimary : Colors.foreground
+                                color: editBtn.toggled ? Appearance.colors.m3onPrimary : Appearance.colors.foreground
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                             }
@@ -439,13 +439,13 @@ MouseArea {
                         MaterialIcon {
                             text: root.searchQuery.length > 0 ? "search_off" : "folder_open"
                             pixelSize: 48
-                            color: Colors.comment
+                            color: Appearance.colors.comment
                             Layout.alignment: Qt.AlignHCenter
                         }
                         StyledText {
                             text: root.searchQuery.length > 0 ? "No matches" : "No images found"
                             font.pixelSize: Config.typography.small
-                            color: Colors.comment
+                            color: Appearance.colors.comment
                             Layout.alignment: Qt.AlignHCenter
                         }
                     }
@@ -487,7 +487,7 @@ MouseArea {
                             contentItem: Rectangle {
                                 implicitWidth: 4
                                 radius: 2
-                                color: Colors.border
+                                color: Appearance.colors.border
                             }
                         }
 
@@ -520,10 +520,10 @@ MouseArea {
                                 anchors.margins: 4
                                 radius: Config.layout.radiusMd
                                 color: cell.isCurrent
-                                    ? Colors.accent
+                                    ? Appearance.colors.accent
                                     : cell.isWallpaper
-                                        ? Colors.secondaryContainer
-                                        : Qt.rgba(Colors.primaryContainer.r, Colors.primaryContainer.g, Colors.primaryContainer.b, 0.35)
+                                        ? Appearance.colors.secondaryContainer
+                                        : Qt.rgba(Appearance.colors.primaryContainer.r, Appearance.colors.primaryContainer.g, Appearance.colors.primaryContainer.b, 0.35)
                                 Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                                 ColumnLayout {
@@ -565,7 +565,7 @@ MouseArea {
                                             text: "folder"
                                             pixelSize: 32
                                             fill: 1
-                                            color: cell.isCurrent ? Colors.m3onPrimary : Colors.accent
+                                            color: cell.isCurrent ? Appearance.colors.m3onPrimary : Appearance.colors.accent
                                         }
 
                                         MaterialIcon {
@@ -573,7 +573,7 @@ MouseArea {
                                             anchors.centerIn: parent
                                             text: "image"
                                             pixelSize: 28
-                                            color: Colors.comment
+                                            color: Appearance.colors.comment
                                         }
                                     }
 
@@ -582,10 +582,10 @@ MouseArea {
                                         text: cell.modelData.fileName
                                         font.pixelSize: Config.typography.smaller
                                         color: cell.isCurrent
-                                            ? Colors.m3onPrimary
+                                            ? Appearance.colors.m3onPrimary
                                             : cell.isWallpaper
-                                                ? Colors.m3onSecondaryContainer
-                                                : Colors.foreground
+                                                ? Appearance.colors.m3onSecondaryContainer
+                                                : Appearance.colors.foreground
                                         elide: Text.ElideRight
                                         horizontalAlignment: Text.AlignHCenter
                                     }
@@ -620,9 +620,9 @@ MouseArea {
                             Layout.preferredHeight: 44
                             implicitWidth: toolbarRow.implicitWidth + 12
                             radius: height / 2
-                            color: Colors.surfaceContainer
+                            color: Appearance.colors.surfaceContainer
                             border.width: 1
-                            border.color: Colors.cardBorder
+                            border.color: Appearance.colors.cardBorder
 
                             RowLayout {
                                 id: toolbarRow
@@ -646,7 +646,7 @@ MouseArea {
                                     contentItem: MaterialIcon {
                                         text: "shuffle"
                                         pixelSize: Config.typography.larger
-                                        color: Colors.foreground
+                                        color: Appearance.colors.foreground
                                         horizontalAlignment: Text.AlignHCenter
                                         verticalAlignment: Text.AlignVCenter
                                     }
@@ -662,7 +662,7 @@ MouseArea {
                                     contentItem: MaterialIcon {
                                         text: root.useDarkMode ? "dark_mode" : "light_mode"
                                         pixelSize: Config.typography.larger
-                                        color: Colors.foreground
+                                        color: Appearance.colors.foreground
                                         horizontalAlignment: Text.AlignHCenter
                                         verticalAlignment: Text.AlignVCenter
                                     }
@@ -673,10 +673,10 @@ MouseArea {
                                     Layout.preferredWidth: 200
                                     Layout.alignment: Qt.AlignVCenter
                                     placeholderText: activeFocus ? "Search wallpapers" : "Hit \"/\" to search"
-                                    color: Colors.foreground
-                                    placeholderTextColor: Colors.m3onSurfaceInactive
-                                    selectionColor: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.4)
-                                    selectedTextColor: Colors.foreground
+                                    color: Appearance.colors.foreground
+                                    placeholderTextColor: Appearance.colors.m3onSurfaceInactive
+                                    selectionColor: Qt.rgba(Appearance.colors.accent.r, Appearance.colors.accent.g, Appearance.colors.accent.b, 0.4)
+                                    selectedTextColor: Appearance.colors.foreground
                                     font.family: Config.typography.family
                                     font.pixelSize: Config.typography.small
                                     leftPadding: 10
@@ -699,14 +699,14 @@ MouseArea {
                             Layout.preferredWidth: 44
                             Layout.preferredHeight: 44
                             buttonRadius: height / 2
-                            colBackground: Colors.accent
-                            colBackgroundHover: Colors.accentHover
-                            colRipple: Colors.accentPressed
+                            colBackground: Appearance.colors.accent
+                            colBackgroundHover: Appearance.colors.accentHover
+                            colRipple: Appearance.colors.accentPressed
                             onClicked: root.closed()
                             contentItem: MaterialIcon {
                                 text: "close"
                                 pixelSize: Config.typography.larger
-                                color: Colors.m3onPrimary
+                                color: Appearance.colors.m3onPrimary
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                             }

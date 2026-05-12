@@ -10,8 +10,8 @@ Item {
     property string icon:     "volume_up"
     property string label:    ""
     property real   progress: 0
-    property color  fillColor:  Colors.accent
-    property color  trackColor: Colors.surfaceContainerHigh
+    property color  fillColor:  Appearance.colors.accent
+    property color  trackColor: Appearance.colors.surfaceContainerHigh
 
     readonly property real barHeight: 4
     readonly property real clamped: Math.max(0, Math.min(1, progress))
@@ -26,7 +26,7 @@ Item {
             text: root.icon
             fill: 1
             pixelSize: 26
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             Layout.alignment: Qt.AlignVCenter
         }
 

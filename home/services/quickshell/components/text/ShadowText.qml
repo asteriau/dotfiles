@@ -34,7 +34,7 @@ Item {
 
         anchors.fill: parent
         renderType: Text.NativeRendering
-        color: Colors.foreground
+        color: Appearance.colors.foreground
         font.family: Config.typography.family
         font.pixelSize: 14
     }

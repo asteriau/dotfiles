@@ -37,7 +37,7 @@ PopupWindow {
     Rectangle {
         id: bg
         anchors.fill: parent
-        color: Colors.tooltipBg
+        color: Appearance.colors.tooltipBg
         radius: Config.layout.radiusSm
         opacity: root.shown ? 1 : 0
         scale:   root.shown ? 1 : 0.92
@@ -61,7 +61,7 @@ PopupWindow {
             font.family: Config.fontFamily
             font.pixelSize: Config.typography.smaller
             font.hintingPreference: Font.PreferNoHinting
-            color: Colors.tooltipFg
+            color: Appearance.colors.tooltipFg
         }
     }
 }

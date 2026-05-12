@@ -55,7 +55,7 @@ DialogListItem {
 
             Text {
                 text: row._materialIcon(row.iconHint)
-                color: Colors.m3onSurfaceVariant
+                color: Appearance.colors.m3onSurfaceVariant
                 font.family: Config.typography.iconFamily
                 font.pixelSize: Config.typography.larger
             }
@@ -67,7 +67,7 @@ DialogListItem {
                 Text {
                     Layout.fillWidth: true
                     text: row.deviceName
-                    color: Colors.m3onSurfaceVariant
+                    color: Appearance.colors.m3onSurfaceVariant
                     font.family: Config.typography.family
                     font.pixelSize: Config.typography.small
                     elide: Text.ElideRight
@@ -77,7 +77,7 @@ DialogListItem {
                     Layout.fillWidth: true
                     visible: row._meta.length > 0
                     text: row._meta
-                    color: Colors.comment
+                    color: Appearance.colors.comment
                     font.family: Config.typography.family
                     font.pixelSize: Config.typography.smaller
                     elide: Text.ElideRight
@@ -86,7 +86,7 @@ DialogListItem {
 
             Text {
                 text: "keyboard_arrow_down"
-                color: Colors.m3onSurface
+                color: Appearance.colors.m3onSurface
                 font.family: Config.typography.iconFamily
                 font.pixelSize: Config.typography.larger
                 rotation: row.expanded ? 180 : 0

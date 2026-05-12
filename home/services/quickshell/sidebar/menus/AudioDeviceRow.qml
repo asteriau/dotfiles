@@ -32,7 +32,7 @@ DialogListItem {
 
         Text {
             text: row.isDefault ? "radio_button_checked" : "radio_button_unchecked"
-            color: row.isDefault ? Colors.colPrimary : Colors.m3onSurfaceVariant
+            color: row.isDefault ? Appearance.colors.colPrimary : Appearance.colors.m3onSurfaceVariant
             font.family: Config.typography.iconFamily
             font.pixelSize: Config.typography.larger
         }
@@ -40,7 +40,7 @@ DialogListItem {
         Text {
             Layout.fillWidth: true
             text: row.label
-            color: Colors.m3onSurfaceVariant
+            color: Appearance.colors.m3onSurfaceVariant
             font.family: Config.typography.family
             font.pixelSize: Config.typography.small
             font.weight: row.isDefault ? Config.typography.weightMedium : Config.typography.weightNormal

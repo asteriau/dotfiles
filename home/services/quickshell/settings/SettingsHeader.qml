@@ -36,7 +36,7 @@ Item {
 
         StyledText {
             text: "Settings"
-            color: Colors.m3onSurfaceVariant
+            color: Appearance.colors.m3onSurfaceVariant
             font.pixelSize: Config.typography.larger
             font.weight: Font.Medium
             font.family: Config.typography.titleFamily
@@ -45,7 +45,7 @@ Item {
         MaterialIcon {
             text: "chevron_right"
             font.pointSize: Config.typography.huge
-            color: Colors.m3onSurfaceVariant
+            color: Appearance.colors.m3onSurfaceVariant
             opacity: 0.7
         }
 
@@ -56,7 +56,7 @@ Item {
             text: root.pageName
             pixelSize: Config.typography.larger
             fontWeight: Font.Medium
-            color: Colors.accent
+            color: Appearance.colors.accent
         }
     }
 

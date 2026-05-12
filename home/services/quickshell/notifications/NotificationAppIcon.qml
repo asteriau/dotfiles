@@ -25,8 +25,8 @@ Item {
     readonly property real appIconSize: implicitSize * appIconScale
     readonly property real smallAppIconSize: implicitSize * smallAppIconScale
 
-    readonly property color tileBg: isUrgent ? Qt.rgba(Colors.red.r, Colors.red.g, Colors.red.b, 0.28) : Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.22)
-    readonly property color tileFg: isUrgent ? Colors.red : Colors.accent
+    readonly property color tileBg: isUrgent ? Qt.rgba(Appearance.colors.red.r, Appearance.colors.red.g, Appearance.colors.red.b, 0.28) : Qt.rgba(Appearance.colors.accent.r, Appearance.colors.accent.g, Appearance.colors.accent.b, 0.22)
+    readonly property color tileFg: isUrgent ? Appearance.colors.red : Appearance.colors.accent
 
     implicitWidth: implicitSize
     implicitHeight: implicitSize

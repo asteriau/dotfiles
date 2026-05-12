@@ -6,6 +6,6 @@ import qs.utils
 StyledText {
     Layout.fillWidth: true
     variant: StyledText.Variant.Subtitle
-    color: Colors.m3onSurface
+    color: Appearance.colors.m3onSurface
     wrapMode: Text.Wrap
 }

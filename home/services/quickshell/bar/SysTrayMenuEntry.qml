@@ -21,8 +21,8 @@ RippleButton {
     signal dismiss
     signal openSubmenu(handle: QsMenuHandle)
 
-    colBackground: ColorMix.transparentize(Colors.surfaceContainerHigh, 1)
-    colBackgroundHover: Colors.surfaceContainerHigh
+    colBackground: ColorMix.transparentize(Appearance.colors.surfaceContainerHigh, 1)
+    colBackgroundHover: Appearance.colors.surfaceContainerHigh
     enabled: !menuEntry.isSeparator
     visible: !menuEntry.isSeparator
 
@@ -69,14 +69,14 @@ RippleButton {
                     radius: 8
                     color: "transparent"
                     border.width: 2
-                    border.color: root.menuEntry.checkState === Qt.Checked ? Colors.accent : Colors.m3onSurfaceVariant
+                    border.color: root.menuEntry.checkState === Qt.Checked ? Appearance.colors.accent : Appearance.colors.m3onSurfaceVariant
 
                     Rectangle {
                         anchors.centerIn: parent
                         implicitWidth: 8
                         implicitHeight: 8
                         radius: 4
-                        color: Colors.accent
+                        color: Appearance.colors.accent
                         visible: root.menuEntry.checkState === Qt.Checked
                     }
                 }
@@ -89,7 +89,7 @@ RippleButton {
                 sourceComponent: MaterialIcon {
                     text: root.menuEntry.checkState === Qt.PartiallyChecked ? "check_indeterminate_small" : "check"
                     pixelSize: 20
-                    color: Colors.foreground
+                    color: Appearance.colors.foreground
                 }
             }
         }
@@ -116,7 +116,7 @@ RippleButton {
             text: root.menuEntry.text
             font.family: Config.fontFamily
             font.pixelSize: Config.typography.smallie
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             verticalAlignment: Text.AlignVCenter
             Layout.fillWidth: true
         }
@@ -127,7 +127,7 @@ RippleButton {
             sourceComponent: MaterialIcon {
                 text: "chevron_right"
                 pixelSize: 20
-                color: Colors.m3onSurfaceVariant
+                color: Appearance.colors.m3onSurfaceVariant
             }
         }
     }

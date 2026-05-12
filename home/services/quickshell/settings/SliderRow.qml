@@ -23,13 +23,13 @@ Rectangle {
 
     Layout.fillWidth: true
     implicitHeight: Math.max(56, row.implicitHeight + 16)
-    color: Colors.transparent
+    color: Appearance.colors.transparent
     radius: 0
 
     Rectangle {
         id: flashRect
         anchors.fill: parent
-        color: Colors.accent
+        color: Appearance.colors.accent
         opacity: 0
         SequentialAnimation {
             id: flashAnim
@@ -53,21 +53,21 @@ Rectangle {
             Layout.preferredHeight: 36
             Layout.alignment: Qt.AlignVCenter
             radius: 18
-            color: Colors.secondaryContainer
+            color: Appearance.colors.secondaryContainer
             opacity: root.icon.length > 0 ? 1 : 0
 
             MaterialIcon {
                 anchors.centerIn: parent
                 text: root.icon
                 font.pointSize: Config.typography.large
-                color: Colors.m3onSecondaryContainer
+                color: Appearance.colors.m3onSecondaryContainer
             }
         }
 
         StyledText {
             visible: root.text.length > 0
             text: root.text
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             font.pixelSize: Config.typography.small
             font.weight: Font.Medium
             Layout.preferredWidth: 120
@@ -93,7 +93,7 @@ Rectangle {
         StyledText {
             text: (root.decimals > 0 ? root.value.toFixed(root.decimals)
                                      : String(Math.round(root.value))) + root.suffix
-            color: Colors.m3onSurfaceVariant
+            color: Appearance.colors.m3onSurfaceVariant
             font.pixelSize: Config.typography.smallie
             font.weight: Font.Medium
             Layout.preferredWidth: 48

@@ -14,9 +14,9 @@ Item {
         id: track
         anchors.fill: parent
         radius: height / 2
-        color: root.checked ? Colors.accent : Colors.surfaceContainerHighest
+        color: root.checked ? Appearance.colors.accent : Appearance.colors.surfaceContainerHighest
         border.width: root.checked ? 0 : 2
-        border.color: Colors.m3outline
+        border.color: Appearance.colors.m3outline
 
         Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
@@ -26,7 +26,7 @@ Item {
             width: ma.pressed ? 30 : targetSize
             height: width
             radius: width / 2
-            color: root.checked ? Colors.m3onPrimary : Colors.m3onSurfaceVariant
+            color: root.checked ? Appearance.colors.m3onPrimary : Appearance.colors.m3onSurfaceVariant
             anchors.verticalCenter: parent.verticalCenter
             x: root.checked ? parent.width - width - 2 : 2
 

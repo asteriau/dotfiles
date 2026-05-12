@@ -9,7 +9,7 @@ Item {
 
     property MprisPlayer player: MprisState.player
     readonly property bool playing: player?.isPlaying ?? false
-    property color accentColor: Colors.accent
+    property color accentColor: Appearance.colors.accent
 
     Row {
         anchors.centerIn: parent

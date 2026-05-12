@@ -9,8 +9,8 @@ ProgressBar {
     property real valueBarWidth: 120
     property real valueBarHeight: 4
     property real valueBarGap: 4
-    property color highlightColor: Colors.colPrimary
-    property color trackColor: Colors.colSecondaryContainer
+    property color highlightColor: Appearance.colors.colPrimary
+    property color trackColor: Appearance.colors.colSecondaryContainer
     property bool wavy: false
     property bool animateWave: true
     property real waveAmplitudeMultiplier: wavy ? 0.5 : 0

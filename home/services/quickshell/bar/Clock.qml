@@ -20,7 +20,7 @@ PressablePill {
     implicitHeight: horizontal ? Config.bar.height - Config.layout.gapSm * 2 : col.implicitHeight + 8
 
     radius: Config.layout.radiusContainer
-    colorIdle: horizontal ? Colors.surfaceContainerLow : Colors.transparent
+    colorIdle: horizontal ? Appearance.colors.surfaceContainerLow : Appearance.colors.transparent
     useStateLayer: true
     pressScale: 0.98
 
@@ -42,7 +42,7 @@ PressablePill {
                 text: root.hh
                 pixelSize: Config.typography.large
                 family: Config.typography.family
-                color: Colors.foreground
+                color: Appearance.colors.foreground
             }
 
             RollingText {
@@ -50,7 +50,7 @@ PressablePill {
                 text: root.mm
                 pixelSize: Config.typography.large
                 family: Config.typography.family
-                color: Colors.foreground
+                color: Appearance.colors.foreground
             }
         }
 
@@ -58,7 +58,7 @@ PressablePill {
             Layout.alignment: Qt.AlignHCenter
             implicitWidth: 20
             implicitHeight: 1
-            color: Colors.divider
+            color: Appearance.colors.divider
         }
 
         StyledText {
@@ -66,7 +66,7 @@ PressablePill {
             text: root.ddmm
             font.pixelSize: Config.typography.smallest
             font.family: Config.typography.family
-            color: Colors.m3onSurfaceInactive
+            color: Appearance.colors.m3onSurfaceInactive
             horizontalAlignment: Text.AlignHCenter
         }
     }
@@ -82,20 +82,20 @@ PressablePill {
             text: root.hhmm
             pixelSize: Config.typography.large
             family: Config.typography.family
-            color: Colors.foreground
+            color: Appearance.colors.foreground
         }
 
         StyledText {
             text: "/"
             font.pixelSize: Config.typography.small
-            color: Colors.m3onSurfaceInactive
+            color: Appearance.colors.m3onSurfaceInactive
         }
 
         StyledText {
             text: root.ddmm
             font.pixelSize: Config.typography.small
             font.family: Config.typography.family
-            color: Colors.m3onSurfaceInactive
+            color: Appearance.colors.m3onSurfaceInactive
         }
     }
 

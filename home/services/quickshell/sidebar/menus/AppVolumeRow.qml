@@ -59,7 +59,7 @@ Item {
                 anchors.centerIn: parent
                 visible: row.muted
                 text: "volume_off"
-                color: Colors.m3onSurface
+                color: Appearance.colors.m3onSurface
                 font.family: Config.typography.iconFamily
                 font.pixelSize: 22
             }
@@ -83,7 +83,7 @@ Item {
                 text: row.mediaName.length > 0
                     ? (row.appName + " • " + row.mediaName)
                     : row.appName
-                color: Colors.comment
+                color: Appearance.colors.comment
                 font.family: Config.typography.family
                 font.pixelSize: Config.typography.small
                 elide: Text.ElideRight

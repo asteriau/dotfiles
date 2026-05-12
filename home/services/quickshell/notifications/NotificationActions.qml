@@ -30,9 +30,9 @@ Item {
 
         implicitHeight: 32
         radius: height / 2
-        color: abtnMouse.pressed        ? Colors.pressedStrong
-             : abtnMouse.containsMouse  ? Colors.hoverStrongest
-             :                            Colors.hover
+        color: abtnMouse.pressed        ? Appearance.colors.pressedStrong
+             : abtnMouse.containsMouse  ? Appearance.colors.hoverStrongest
+             :                            Appearance.colors.hover
         antialiasing: true
 
         Behavior on color {
@@ -43,7 +43,7 @@ Item {
             anchors.centerIn: parent
             visible: abtn.iconGlyph === ""
             text: abtn.buttonText
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             font.pixelSize: Config.typography.small
             font.weight: Font.Medium
             elide: Text.ElideRight
@@ -55,7 +55,7 @@ Item {
             anchors.centerIn: parent
             visible: abtn.iconGlyph !== ""
             text: abtn.iconGlyph
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             pixelSize: Config.typography.large
         }
 

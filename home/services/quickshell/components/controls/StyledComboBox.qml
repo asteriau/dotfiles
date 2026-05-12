@@ -22,9 +22,9 @@ ComboBox {
 
     background: Rectangle {
         radius: Config.layout.radiusSm
-        color: root.hovered ? Colors.colLayer3 : Colors.colLayer2
+        color: root.hovered ? Appearance.colors.colLayer3 : Appearance.colors.colLayer2
         border.width: 1
-        border.color: root.activeFocus ? Colors.colPrimary : Colors.outlineVariant
+        border.color: root.activeFocus ? Appearance.colors.colPrimary : Appearance.colors.outlineVariant
 
         Behavior on color { ColorAnimation { duration: 120 } }
     }
@@ -32,7 +32,7 @@ ComboBox {
     contentItem: Text {
         text: root._displayOf(root.currentValue !== undefined ? root.currentValue
             : (root.currentIndex >= 0 && root.model ? root.model[root.currentIndex] : ""))
-        color: Colors.colOnLayer2
+        color: Appearance.colors.colOnLayer2
         font: root.font
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -45,7 +45,7 @@ ComboBox {
         text: "expand_more"
         font.family: "Material Symbols Rounded"
         font.pixelSize: 16
-        color: Colors.colOnLayer2
+        color: Appearance.colors.colOnLayer2
     }
 
     delegate: ItemDelegate {
@@ -60,14 +60,14 @@ ComboBox {
 
         contentItem: Text {
             text: root._displayOf(delegateRoot.modelData)
-            color: Colors.colOnLayer2
+            color: Appearance.colors.colOnLayer2
             font: root.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
         }
 
         background: Rectangle {
-            color: delegateRoot.hovered ? Colors.colLayer3 : "transparent"
+            color: delegateRoot.hovered ? Appearance.colors.colLayer3 : "transparent"
         }
     }
 
@@ -76,10 +76,10 @@ ComboBox {
         width: root.width
         padding: 4
         background: Rectangle {
-            color: Colors.surfaceContainerHigh
+            color: Appearance.colors.surfaceContainerHigh
             radius: Config.layout.radiusSm
             border.width: 1
-            border.color: Colors.outlineVariant
+            border.color: Appearance.colors.outlineVariant
         }
         contentItem: ListView {
             clip: true

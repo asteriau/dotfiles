@@ -30,9 +30,9 @@ Item {
         sourceComponent: StyledSlider {
             configuration: StyledSlider.Configuration.Wavy
             stopIndicatorValues: []
-            highlightColor: root.colors?.colPrimary ?? Colors.accent
-            trackColor: root.colors?.colSecondaryContainer ?? Colors.secondaryContainer
-            handleColor: root.colors?.colPrimary ?? Colors.accent
+            highlightColor: root.colors?.colPrimary ?? Appearance.colors.accent
+            trackColor: root.colors?.colSecondaryContainer ?? Appearance.colors.secondaryContainer
+            handleColor: root.colors?.colPrimary ?? Appearance.colors.accent
             value: root.length > 0 ? (root.position / root.length) : 0
             onMoved: root.seekRequested(value * root.length)
         }
@@ -48,8 +48,8 @@ Item {
         active: !(root.player?.canSeek ?? false)
         sourceComponent: StyledProgressBar {
             wavy: root.animating
-            highlightColor: root.colors?.colPrimary ?? Colors.accent
-            trackColor: root.colors?.colSecondaryContainer ?? Colors.secondaryContainer
+            highlightColor: root.colors?.colPrimary ?? Appearance.colors.accent
+            trackColor: root.colors?.colSecondaryContainer ?? Appearance.colors.secondaryContainer
             value: root.length > 0 ? (root.position / root.length) : 0
         }
     }

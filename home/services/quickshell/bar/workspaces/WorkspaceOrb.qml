@@ -42,7 +42,7 @@ Rectangle {
     topRightRadius:    (vertical ? prevOccupied : nextOccupied) ? 0 : rFull
     bottomLeftRadius:  (vertical ? nextOccupied : prevOccupied) ? 0 : rFull
 
-    color: Colors.wsOrbFill
+    color: Appearance.colors.wsOrbFill
     opacity: occupiedVisible ? 1 : 0
 
     Behavior on opacity { Motion.Fade {} }

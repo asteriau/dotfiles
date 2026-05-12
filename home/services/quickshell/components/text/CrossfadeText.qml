@@ -8,7 +8,7 @@ Item {
     property string text: ""
     property real pixelSize: Config.typography.medium
     property int fontWeight: Font.Normal
-    property color color: Colors.foreground
+    property color color: Appearance.colors.foreground
     property int elide: Text.ElideNone
     property int horizontalAlignment: Text.AlignLeft
 

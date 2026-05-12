@@ -27,7 +27,7 @@ Item {
         StyledText {
             Layout.fillWidth: true
             text: root.summary
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             font.pixelSize: Config.typography.small
             font.weight: Font.DemiBold
             elide: Text.ElideRight
@@ -52,9 +52,9 @@ Item {
         implicitHeight: Config.typography.smaller + 8
         implicitWidth: Math.max(30, pillRow.implicitWidth + 10)
         radius: height / 2
-        color: pillMouse.pressed ? Colors.pressedStrong
-             : hovered           ? Colors.hoverStrongest
-             :                     Colors.hover
+        color: pillMouse.pressed ? Appearance.colors.pressedStrong
+             : hovered           ? Appearance.colors.hoverStrongest
+             :                     Appearance.colors.hover
         antialiasing: true
 
         Behavior on color {
@@ -70,14 +70,14 @@ Item {
                 visible: root.count > 1
                 text: root.count
                 font.pixelSize: Config.typography.smaller
-                color: Colors.foreground
+                color: Appearance.colors.foreground
                 anchors.verticalCenter: parent.verticalCenter
             }
 
             MaterialIcon {
                 id: chevron
                 text: "keyboard_arrow_down"
-                color: Colors.foreground
+                color: Appearance.colors.foreground
                 pixelSize: Config.typography.normal
                 rotation: root.expanded ? 180 : 0
 

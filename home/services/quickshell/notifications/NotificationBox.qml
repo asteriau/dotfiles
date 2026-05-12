@@ -75,7 +75,7 @@ Item {
 
         x: 0
         width: parent.width
-        color: root.isPopup ? Colors.popupBackground : Colors.elevated
+        color: root.isPopup ? Appearance.colors.popupBackground : Appearance.colors.elevated
         radius: root.isPopup ? Config.layout.notificationRadius : Config.layout.notificationCollapsedR
         antialiasing: true
         clip: true

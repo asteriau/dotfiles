@@ -22,7 +22,7 @@ RowLayout {
         text: root.notifCount > 0
             ? (root.notifCount + " notification" + (root.notifCount === 1 ? "" : "s"))
             : "No notifications"
-        color: root.notifCount > 0 ? Colors.foreground : Colors.comment
+        color: root.notifCount > 0 ? Appearance.colors.foreground : Appearance.colors.comment
         font.pixelSize: Config.typography.smallie
         font.weight: Font.Medium
 

@@ -10,7 +10,7 @@ Item {
     property real topRadius: 6
     property real bottomRadius: 14
 
-    property color tint: Colors.windowShadow
+    property color tint: Appearance.colors.windowShadow
     property real tintAmount: 0
     property real shadowOpacity: 0.55
     property int blurAmount: 24
@@ -18,11 +18,11 @@ Item {
 
     readonly property color _color: tintAmount > 0
         ? Qt.rgba(
-            Colors.windowShadow.r * (1 - tintAmount) + tint.r * tintAmount,
-            Colors.windowShadow.g * (1 - tintAmount) + tint.g * tintAmount,
-            Colors.windowShadow.b * (1 - tintAmount) + tint.b * tintAmount,
+            Appearance.colors.windowShadow.r * (1 - tintAmount) + tint.r * tintAmount,
+            Appearance.colors.windowShadow.g * (1 - tintAmount) + tint.g * tintAmount,
+            Appearance.colors.windowShadow.b * (1 - tintAmount) + tint.b * tintAmount,
             1)
-        : Colors.windowShadow
+        : Appearance.colors.windowShadow
 
     NotchShape {
         id: shadowShape

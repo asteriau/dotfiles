@@ -15,7 +15,7 @@ PressablePill {
     implicitHeight: col.implicitHeight + 8
 
     radius: Config.layout.radiusContainer
-    colorIdle: Colors.transparent
+    colorIdle: Appearance.colors.transparent
     useStateLayer: true
     pressScale: 0.98
 
@@ -30,7 +30,7 @@ PressablePill {
             implicitSize: 20
             lineWidth: 2
             value: ResourcesState.memoryUsedPercentage
-            color: Colors.m3onSecondaryContainer
+            color: Appearance.colors.m3onSecondaryContainer
             enableAnimation: true
 
             Item {
@@ -40,7 +40,7 @@ PressablePill {
                     anchors.centerIn: parent
                     text: "memory"
                     pixelSize: Config.typography.normal
-                    color: Colors.m3onSecondaryContainer
+                    color: Appearance.colors.m3onSecondaryContainer
                 }
             }
         }
@@ -50,7 +50,7 @@ PressablePill {
             lineWidth: 2
             visible: ResourcesState.swapTotal > 0
             value: ResourcesState.swapUsedPercentage
-            color: Colors.m3onSecondaryContainer
+            color: Appearance.colors.m3onSecondaryContainer
             enableAnimation: true
 
             Item {
@@ -60,7 +60,7 @@ PressablePill {
                     anchors.centerIn: parent
                     text: "swap_horiz"
                     pixelSize: Config.typography.normal
-                    color: Colors.m3onSecondaryContainer
+                    color: Appearance.colors.m3onSecondaryContainer
                 }
             }
         }
@@ -69,7 +69,7 @@ PressablePill {
             implicitSize: 20
             lineWidth: 2
             value: ResourcesState.cpuUsage
-            color: Colors.m3onSecondaryContainer
+            color: Appearance.colors.m3onSecondaryContainer
             enableAnimation: true
 
             Item {
@@ -79,7 +79,7 @@ PressablePill {
                     anchors.centerIn: parent
                     text: "planner_review"
                     pixelSize: Config.typography.normal
-                    color: Colors.m3onSecondaryContainer
+                    color: Appearance.colors.m3onSecondaryContainer
                 }
             }
         }

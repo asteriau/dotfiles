@@ -37,7 +37,7 @@ Item {
 
     MaterialShape {
         anchors.fill: parent
-        color: Colors.accent
+        color: Appearance.colors.accent
 
         // Stretchy aspect-ratio morphing helps the shape transition nicely
         // across workspaces as bounding width/height expands dynamically.

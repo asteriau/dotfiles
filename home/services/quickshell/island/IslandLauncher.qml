@@ -87,7 +87,7 @@ Item {
             StyledText {
                 anchors.centerIn: parent
                 text: qsTr("Nothing here D:")
-                color: Colors.comment
+                color: Appearance.colors.comment
                 font.pixelSize: Config.typography.small
             }
         }

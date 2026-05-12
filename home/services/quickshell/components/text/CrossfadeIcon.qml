@@ -8,7 +8,7 @@ Item {
     property string text: ""
     property real pointSize: Config.typography.huge
     property real pixelSize: 0                 // when > 0, overrides pointSize
-    property color color: Colors.foreground
+    property color color: Appearance.colors.foreground
     property real fill: 0
     property int  weight: 400
     property int  grade: -25

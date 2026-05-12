@@ -15,7 +15,7 @@ Item {
     Rectangle {
         id: bg
         anchors.fill: parent
-        color: Colors.surfaceContainer
+        color: Appearance.colors.surfaceContainer
         radius: height / 2
         implicitHeight: 56
         implicitWidth: rowItem.implicitWidth + 16
@@ -41,7 +41,7 @@ Item {
                     Layout.preferredWidth: tabRow.implicitWidth + 20
                     radius: height / 2
                     color: root.selectionMode === modelData.mode
-                        ? Colors.secondaryContainer
+                        ? Appearance.colors.secondaryContainer
                         : "transparent"
 
                     Behavior on color {
@@ -56,12 +56,12 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
                             text: tab.modelData.icon
                             pixelSize: 22
-                            color: Colors.m3onSurface
+                            color: Appearance.colors.m3onSurface
                         }
                         StyledText {
                             anchors.verticalCenter: parent.verticalCenter
                             text: tab.modelData.name
-                            color: Colors.m3onSurface
+                            color: Appearance.colors.m3onSurface
                         }
                     }
 

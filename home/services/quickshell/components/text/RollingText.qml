@@ -11,7 +11,7 @@ Item {
     property int    pixelSize: Config.typography.large
     property string family: Config.typography.family
     property int    weight: Font.Normal
-    property color  color: Colors.foreground
+    property color  color: Appearance.colors.foreground
     property int    horizontalAlignment: Text.AlignHCenter
     property int    duration: Appearance.motion.duration.medium1
 

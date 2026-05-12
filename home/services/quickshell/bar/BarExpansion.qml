@@ -60,7 +60,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            color: Colors.background
+            color: Appearance.colors.background
             radius: root.outerRadius
 
             Behavior on color { Motion.ColorFade {} }
@@ -73,7 +73,7 @@ Item {
             anchors.left: root.onEnd ? undefined : parent.left
             anchors.right: root.onEnd ? parent.right : undefined
             width: root.outerRadius
-            color: Colors.background
+            color: Appearance.colors.background
         }
 
         Rectangle {
@@ -83,7 +83,7 @@ Item {
             anchors.top: root.onEnd ? undefined : parent.top
             anchors.bottom: root.onEnd ? parent.bottom : undefined
             height: root.outerRadius
-            color: Colors.background
+            color: Appearance.colors.background
         }
 
         Item {

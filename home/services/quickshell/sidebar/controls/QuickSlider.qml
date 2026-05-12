@@ -37,7 +37,7 @@ StyledSlider {
         })
         font.hintingPreference: Font.PreferNoHinting
         renderType: Text.NativeRendering
-        color: nearFull ? Colors.colOnPrimary : Colors.colOnSecondaryContainer
+        color: nearFull ? Appearance.colors.colOnPrimary : Appearance.colors.colOnSecondaryContainer
         text: quickSlider.materialSymbol
 
         Behavior on color { Motion.ElementFastColor {} }
@@ -68,8 +68,8 @@ StyledSlider {
         font.hintingPreference: Font.PreferNoHinting
         renderType: Text.NativeRendering
         color: quickSlider.value >= iconLocation - 0.1
-            ? Colors.colOnPrimary
-            : Colors.colOnSecondaryContainer
+            ? Appearance.colors.colOnPrimary
+            : Appearance.colors.colOnSecondaryContainer
         text: quickSlider.secondaryMaterialSymbol
 
         Behavior on color { Motion.ElementFastColor {} }

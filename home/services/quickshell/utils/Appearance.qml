@@ -95,40 +95,74 @@ QtObject {
         readonly property real dragged: 0.16
     }
 
-    // Strict M3 color roles, sourced from the active palette in Theme.
-    // Adds the M3-spec naming surface alongside the legacy `Colors.*` API.
-    // Roles missing from the current palette (secondary/tertiary/error
-    // containers) are derived from existing entries to avoid touching every
-    // preset JSON in this commit.
     readonly property QtObject colors: QtObject {
-        // Primary
-        readonly property color primary:                 Theme.accent
+        id: c
+
+        function _mix(a, b, t) {
+            return Qt.rgba(a.r * (1 - t) + b.r * t,
+                           a.g * (1 - t) + b.g * t,
+                           a.b * (1 - t) + b.b * t,
+                           a.a * (1 - t) + b.a * t);
+        }
+
+        readonly property color background: Theme.background
+        readonly property color foreground: Theme.foreground
+        readonly property color elevated:   Theme.elevated
+        readonly property color border:     Theme.border
+        readonly property color accent:     Theme.accent
+        readonly property color red:        Theme.red
+        readonly property color mpris:      Theme.mpris
+
+        readonly property color comment:        Qt.rgba(c.foreground.r, c.foreground.g, c.foreground.b, 0.5)
+        readonly property color transparent:    Qt.rgba(0, 0, 0, 0)
+        readonly property color hoverFaint:     Qt.rgba(1, 1, 1, 0.04)
+        readonly property color hover:          Qt.rgba(1, 1, 1, 0.06)
+        readonly property color hoverStrong:    Qt.rgba(1, 1, 1, 0.08)
+        readonly property color hoverStrongest: Qt.rgba(1, 1, 1, 0.12)
+        readonly property color pressed:        Qt.rgba(1, 1, 1, 0.10)
+        readonly property color pressedStrong:  Qt.rgba(1, 1, 1, 0.18)
+        readonly property color scrim:          Qt.rgba(0, 0, 0, 0.22)
+        readonly property color overlay:        Qt.hsla(0, 0, 0.95, 0.7)
+        readonly property color windowShadow:   Qt.rgba(0, 0, 0, 0.20)
+        readonly property color shadow:         Qt.rgba(0, 0, 0, 0.20)
+        readonly property color popupBackground: c.elevated
+        readonly property color cardBorder:     Qt.rgba(1, 1, 1, 0.04)
+
+        readonly property color tooltipBg: c.foreground
+        readonly property color tooltipFg: c.background
+
+        readonly property color buttonDisabled:      c.elevated
+        readonly property color buttonDisabledHover: Qt.rgba(0.95, 0.95, 0.95, 0.25)
+
+        readonly property color accentHover:   Qt.lighter(c.accent, 1.10)
+        readonly property color accentPressed: Qt.lighter(c.accent, 1.18)
+
+        readonly property color primary:                 c.accent
         readonly property color onPrimary:               Theme.m3onPrimary
         readonly property color primaryContainer:        Theme.primaryContainer
         readonly property color onPrimaryContainer:      Theme.m3onPrimaryContainer
+        readonly property color m3onPrimary:             Theme.m3onPrimary
+        readonly property color m3onPrimaryContainer:    Theme.m3onPrimaryContainer
 
-        // Secondary
         readonly property color secondary:               Theme.m3onSurfaceVariant
-        readonly property color onSecondary:             Theme.background
+        readonly property color onSecondary:             c.background
         readonly property color secondaryContainer:      Theme.secondaryContainer
         readonly property color onSecondaryContainer:    Theme.m3onSecondaryContainer
+        readonly property color m3onSecondaryContainer:  Theme.m3onSecondaryContainer
 
-        // Tertiary
-        readonly property color tertiary:                Theme.mpris
-        readonly property color onTertiary:              Theme.background
-        readonly property color tertiaryContainer:       Theme.surfaceContainerHigh
-        readonly property color onTertiaryContainer:     Theme.foreground
+        readonly property color tertiary:                c.mpris
+        readonly property color onTertiary:              c.background
+        readonly property color tertiaryContainer:       c.surfaceContainerHigh
+        readonly property color onTertiaryContainer:     c.foreground
 
-        // Error
-        readonly property color error:                   Theme.red
-        readonly property color onError:                 Theme.background
-        readonly property color errorContainer:          Qt.rgba(Theme.red.r, Theme.red.g, Theme.red.b, 0.18)
-        readonly property color onErrorContainer:        Theme.red
+        readonly property color error:                   c.red
+        readonly property color onError:                 c.background
+        readonly property color errorContainer:          Qt.rgba(c.red.r, c.red.g, c.red.b, 0.18)
+        readonly property color onErrorContainer:        c.red
 
-        // Surfaces
-        readonly property color surface:                 Theme.background
-        readonly property color onSurface:               Theme.foreground
-        readonly property color surfaceVariant:          Theme.elevated
+        readonly property color surface:                 c.background
+        readonly property color onSurface:               c.foreground
+        readonly property color surfaceVariant:          c.elevated
         readonly property color onSurfaceVariant:        Theme.m3onSurfaceVariant
         readonly property color surfaceContainerLowest:  Theme.surfaceContainerLowest
         readonly property color surfaceContainerLow:     Theme.surfaceContainerLow
@@ -136,16 +170,55 @@ QtObject {
         readonly property color surfaceContainerHigh:    Theme.surfaceContainerHigh
         readonly property color surfaceContainerHighest: Theme.surfaceContainerHighest
 
-        // Outlines / overlays
-        readonly property color outline:                 Theme.m3outline
-        readonly property color outlineVariant:          Theme.border
-        readonly property color scrim:                   Qt.rgba(0, 0, 0, 0.22)
-        readonly property color shadow:                  Qt.rgba(0, 0, 0, 0.20)
+        readonly property color m3onSurface:         c.foreground
+        readonly property color m3onSurfaceVariant:  Theme.m3onSurfaceVariant
+        readonly property color m3onSurfaceInactive: Qt.rgba(c.m3onSurfaceVariant.r, c.m3onSurfaceVariant.g, c.m3onSurfaceVariant.b, 0.55)
+        readonly property color m3outline:           Theme.m3outline
 
-        // Inverse
-        readonly property color inverseSurface:          Theme.foreground
-        readonly property color onInverseSurface:        Theme.background
-        readonly property color inversePrimary:          Qt.lighter(Theme.accent, 1.4)
+        readonly property color accentContainer:     Theme.accentContainer
+        readonly property color accentText:          Theme.accentText
+        readonly property color accentContainerText: Theme.accentContainerText
+
+        readonly property color outline:        Theme.m3outline
+        readonly property color outlineVariant: Qt.rgba(c.foreground.r, c.foreground.g, c.foreground.b, 0.15)
+        readonly property color divider:        c.outlineVariant
+
+        readonly property color inverseSurface:  c.foreground
+        readonly property color onInverseSurface: c.background
+        readonly property color inversePrimary:  Qt.lighter(c.accent, 1.4)
+
+        readonly property color colLayer0:   c.background
+        readonly property color colOnLayer0: c.foreground
+        readonly property color colLayer1:   c.surfaceContainerLow
+        readonly property color colOnLayer1: c.m3onSurfaceVariant
+        readonly property color colLayer2:   c.surfaceContainer
+        readonly property color colOnLayer2: c.m3onSurface
+        readonly property color colLayer3:   c.surfaceContainerHigh
+        readonly property color colOnLayer3: c.m3onSurface
+        readonly property color colLayer4:   c.surfaceContainerHighest
+        readonly property color colOnLayer4: c.m3onSurface
+
+        readonly property color colLayer1Hover:  c._mix(c.colLayer1, c.colOnLayer1, 0.08)
+        readonly property color colLayer1Active: c._mix(c.colLayer1, c.colOnLayer1, 0.15)
+        readonly property color colLayer2Hover:  c._mix(c.colLayer2, c.colOnLayer2, 0.08)
+        readonly property color colLayer2Active: c._mix(c.colLayer2, c.colOnLayer2, 0.15)
+        readonly property color colLayer3Hover:  c._mix(c.colLayer3, c.colOnLayer3, 0.08)
+        readonly property color colLayer3Active: c._mix(c.colLayer3, c.colOnLayer3, 0.15)
+
+        readonly property color colPrimary:       c.accent
+        readonly property color colOnPrimary:     c.m3onPrimary
+        readonly property color colPrimaryHover:  c._mix(c.accent, c.colLayer1Hover, 0.13)
+        readonly property color colPrimaryActive: c._mix(c.accent, c.colLayer1Active, 0.30)
+
+        readonly property color colSecondaryContainer:   c.secondaryContainer
+        readonly property color colOnSecondaryContainer: c.m3onSecondaryContainer
+        readonly property color colSecondary:            c.m3onSurfaceVariant
+        readonly property color colOutlineVariant:       c.outlineVariant
+
+        readonly property color wsOrbFill:     Qt.rgba(c.secondaryContainer.r, c.secondaryContainer.g, c.secondaryContainer.b, 0.7)
+        readonly property color wsRingStroke:  Qt.rgba(c.m3onSurfaceVariant.r, c.m3onSurfaceVariant.g, c.m3onSurfaceVariant.b, 0.3)
+        readonly property color wsCapsuleFill: Qt.lighter(c.elevated, 1.05)
+        readonly property color wsCapsuleEdge: Qt.darker(c.elevated, 1.1)
     }
 
     // ─────────────────────────────────────────────────────────────────────

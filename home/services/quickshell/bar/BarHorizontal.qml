@@ -4,7 +4,7 @@ import qs.utils
 
 Rectangle {
     id: root
-    color: Colors.background
+    color: Appearance.colors.background
     radius: Config.bar.rounding ? Config.layout.radiusBar : 0
 
     Rectangle {
@@ -13,7 +13,7 @@ Rectangle {
         anchors.top:    Config.bar.onEnd ? undefined : parent.top
         anchors.bottom: Config.bar.onEnd ? parent.bottom : undefined
         anchors.left: parent.left
-        color: Colors.background
+        color: Appearance.colors.background
     }
     Rectangle {
         visible: Config.bar.rounding
@@ -21,7 +21,7 @@ Rectangle {
         anchors.top:    Config.bar.onEnd ? undefined : parent.top
         anchors.bottom: Config.bar.onEnd ? parent.bottom : undefined
         anchors.right: parent.right
-        color: Colors.background
+        color: Appearance.colors.background
     }
 
     // ── Nav ──────────────────────────────────────────────────────────────

@@ -11,8 +11,8 @@ AbstractCombinedProgressBar {
     property real valueBarInnerRadius: 2
     implicitWidth: valueBarWidth
     implicitHeight: valueBarHeight
-    valueHighlights: [Colors.accent, Colors.mpris]
-    valueTroughs: [Colors.secondaryContainer, Qt.rgba(Colors.mpris.r, Colors.mpris.g, Colors.mpris.b, 0.3)]
+    valueHighlights: [Appearance.colors.accent, Appearance.colors.mpris]
+    valueTroughs: [Appearance.colors.secondaryContainer, Qt.rgba(Appearance.colors.mpris.r, Appearance.colors.mpris.g, Appearance.colors.mpris.b, 0.3)]
 
     background: Item {
         implicitWidth: root.valueBarWidth

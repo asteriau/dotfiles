@@ -54,7 +54,7 @@ WindowDialog {
             Text {
                 Layout.alignment: Qt.AlignHCenter
                 text: BluetoothState.adapter ? "bluetooth_searching" : "bluetooth_disabled"
-                color: Colors.m3onSurfaceInactive
+                color: Appearance.colors.m3onSurfaceInactive
                 font.family: Config.typography.iconFamily
                 font.pixelSize: 32
             }
@@ -65,7 +65,7 @@ WindowDialog {
                 text: !BluetoothState.adapter
                     ? "No Bluetooth controller"
                     : (!BluetoothState.enabled ? "Bluetooth is off" : "No devices found")
-                color: Colors.m3onSurface
+                color: Appearance.colors.m3onSurface
                 font.family: Config.typography.family
                 font.pixelSize: Config.typography.smallie
                 wrapMode: Text.Wrap
@@ -78,7 +78,7 @@ WindowDialog {
                 text: !BluetoothState.adapter
                     ? "Plug in or enable a Bluetooth adapter"
                     : (!BluetoothState.enabled ? "Enable it from the toggle" : "Make sure the device is in pairing mode")
-                color: Colors.m3onSurfaceInactive
+                color: Appearance.colors.m3onSurfaceInactive
                 font.family: Config.typography.family
                 font.pixelSize: Config.typography.smaller
                 wrapMode: Text.Wrap

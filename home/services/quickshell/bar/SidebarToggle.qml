@@ -8,7 +8,7 @@ PressablePill {
     id: root
 
     radius: width / 2
-    colorIdle:    Colors.transparent
+    colorIdle:    Appearance.colors.transparent
     useStateLayer: true
     stateLayerTone: iconColor
     pressScale: 0.9
@@ -17,7 +17,7 @@ PressablePill {
     implicitWidth: 32
     implicitHeight: 32
 
-    readonly property color iconColor: Colors.accent
+    readonly property color iconColor: Appearance.colors.accent
 
     Image {
         id: sparkIcon

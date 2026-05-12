@@ -38,16 +38,16 @@ Item {
         implicitWidth: 24
         implicitHeight: 24
         property string iconName
-        colBackground: ColorMix.transparentize(root.colors?.colSecondaryContainer ?? Colors.secondaryContainer, 1)
-        colBackgroundHover: root.colors?.colSecondaryContainerHover ?? Colors.secondaryContainer
-        colRipple: root.colors?.colSecondaryContainerActive ?? Colors.accent
+        colBackground: ColorMix.transparentize(root.colors?.colSecondaryContainer ?? Appearance.colors.secondaryContainer, 1)
+        colBackgroundHover: root.colors?.colSecondaryContainerHover ?? Appearance.colors.secondaryContainer
+        colRipple: root.colors?.colSecondaryContainerActive ?? Appearance.colors.accent
         buttonRadius: 999
 
         contentItem: MaterialIcon {
             text: iconName
             fill: 1
             font.pointSize: 14
-            color: root.colors?.colOnSecondaryContainer ?? Colors.foreground
+            color: root.colors?.colOnSecondaryContainer ?? Appearance.colors.foreground
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
@@ -60,7 +60,7 @@ Item {
         anchors.bottomMargin: 5
         anchors.left: parent.left
         font.pixelSize: 11
-        color: root.colors?.colSubtext ?? Colors.m3onSurfaceVariant
+        color: root.colors?.colSubtext ?? Appearance.colors.m3onSurfaceVariant
         elide: Text.ElideRight
         text: `${root.formatTime(root.position)} / ${root.formatTime(root.length)}`
     }
@@ -102,14 +102,14 @@ Item {
 
         buttonRadius: root.player?.isPlaying ? 12 : root.playPauseSize / 2
         colBackground: root.player?.isPlaying
-            ? (root.colors?.colPrimary ?? Colors.accent)
-            : (root.colors?.colSecondaryContainer ?? Colors.secondaryContainer)
+            ? (root.colors?.colPrimary ?? Appearance.colors.accent)
+            : (root.colors?.colSecondaryContainer ?? Appearance.colors.secondaryContainer)
         colBackgroundHover: root.player?.isPlaying
-            ? (root.colors?.colPrimaryHover ?? Colors.accent)
-            : (root.colors?.colSecondaryContainerHover ?? Colors.secondaryContainer)
+            ? (root.colors?.colPrimaryHover ?? Appearance.colors.accent)
+            : (root.colors?.colSecondaryContainerHover ?? Appearance.colors.secondaryContainer)
         colRipple: root.player?.isPlaying
-            ? (root.colors?.colPrimaryActive ?? Colors.accent)
-            : (root.colors?.colSecondaryContainerActive ?? Colors.accent)
+            ? (root.colors?.colPrimaryActive ?? Appearance.colors.accent)
+            : (root.colors?.colSecondaryContainerActive ?? Appearance.colors.accent)
 
         contentItem: MaterialIcon {
             text: root.player?.isPlaying ? "pause" : "play_arrow"
@@ -118,8 +118,8 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: root.player?.isPlaying
-                ? (root.colors?.colOnPrimary ?? Colors.foreground)
-                : (root.colors?.colOnSecondaryContainer ?? Colors.foreground)
+                ? (root.colors?.colOnPrimary ?? Appearance.colors.foreground)
+                : (root.colors?.colOnSecondaryContainer ?? Appearance.colors.foreground)
             Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
         }
     }

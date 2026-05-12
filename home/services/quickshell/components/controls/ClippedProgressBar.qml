@@ -11,9 +11,9 @@ Item {
     property real  value:          0
     property real  valueBarWidth:  30
     property real  valueBarHeight: 18
-    property color highlightColor: Colors.m3onSecondaryContainer
+    property color highlightColor: Appearance.colors.m3onSecondaryContainer
     property color trackColor:     Qt.rgba(highlightColor.r, highlightColor.g, highlightColor.b, 0.35)
-    property color textColor:      Colors.background
+    property color textColor:      Appearance.colors.background
     default property Item textMask: Item {
         width:  root.valueBarWidth
         height: root.valueBarHeight

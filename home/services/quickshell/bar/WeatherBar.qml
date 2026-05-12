@@ -19,7 +19,7 @@ Item {
         anchors.topMargin: 4
         anchors.bottomMargin: 4
         radius: Config.layout.radiusMd
-        color: Colors.surfaceContainerLow
+        color: Appearance.colors.surfaceContainerLow
     }
 
     Row {
@@ -30,7 +30,7 @@ Item {
         MaterialIcon {
             text: WeatherState.glyph
             pixelSize: Config.typography.normal
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -38,7 +38,7 @@ Item {
             text: Math.round(WeatherState.temp) + "°"
             font.family: Config.fontFamily
             font.pixelSize: Config.typography.small
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             anchors.verticalCenter: parent.verticalCenter
         }
     }

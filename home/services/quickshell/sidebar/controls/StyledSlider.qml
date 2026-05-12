@@ -26,11 +26,11 @@ Slider {
 
     property real handleDefaultWidth: 3
     property real handlePressedWidth: 1.5
-    property color highlightColor: Colors.accent
-    property color trackColor: Colors.colSecondaryContainer
-    property color handleColor: Colors.accent
-    property color dotColor: Colors.colOnSecondaryContainer
-    property color dotColorHighlighted: Colors.m3onPrimary
+    property color highlightColor: Appearance.colors.accent
+    property color trackColor: Appearance.colors.colSecondaryContainer
+    property color handleColor: Appearance.colors.accent
+    property color dotColor: Appearance.colors.colOnSecondaryContainer
+    property color dotColorHighlighted: Appearance.colors.m3onPrimary
     property real unsharpenRadius: 2
     property real trackWidth: configuration
     property real trackRadius: trackWidth >= StyledSlider.Configuration.XL ? 21

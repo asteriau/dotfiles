@@ -14,7 +14,7 @@ ContentPage {
             objectName: "bar-position"
             Layout.fillWidth: true
             implicitHeight: 56
-            color: Colors.transparent
+            color: Appearance.colors.transparent
 
             RowLayout {
                 anchors.fill: parent
@@ -29,20 +29,20 @@ ContentPage {
                     Layout.preferredHeight: 36
                     Layout.alignment: Qt.AlignVCenter
                     radius: 18
-                    color: Colors.colLayer2
+                    color: Appearance.colors.colLayer2
 
                     MaterialIcon {
                         anchors.centerIn: parent
                         text: "dock_to_left"
                         font.pointSize: Config.typography.large
-                        color: Colors.m3onSurfaceVariant
+                        color: Appearance.colors.m3onSurfaceVariant
                     }
                 }
 
                 StyledText {
                     Layout.fillWidth: true
                     text: "Position"
-                    color: Colors.foreground
+                    color: Appearance.colors.foreground
                     font.pixelSize: Config.typography.small
                     font.weight: Font.Medium
                 }
@@ -64,8 +64,8 @@ ContentPage {
                         topRightRadius: isLast ? 18 : 6
                         bottomRightRadius: isLast ? 18 : 6
                         color: active
-                            ? Colors.primaryContainer
-                            : (ma.containsMouse ? Colors.colLayer4 : Colors.colLayer3)
+                            ? Appearance.colors.primaryContainer
+                            : (ma.containsMouse ? Appearance.colors.colLayer4 : Appearance.colors.colLayer3)
                         Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                         MaterialIcon {
@@ -73,7 +73,7 @@ ContentPage {
                             text: parent.icon
                             font.pointSize: Config.typography.normal
                             fill: parent.active ? 1 : 0
-                            color: parent.active ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
+                            color: parent.active ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.m3onSurfaceVariant
                             Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                         }
 

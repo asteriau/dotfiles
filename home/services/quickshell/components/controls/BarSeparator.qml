@@ -15,6 +15,6 @@ Item {
         anchors.centerIn: parent
         width:  vertical ? parent.width : 1
         height: vertical ? 1 : length
-        color: Colors.outlineVariant
+        color: Appearance.colors.outlineVariant
     }
 }

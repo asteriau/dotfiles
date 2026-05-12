@@ -10,11 +10,11 @@ Item {
     id: root
 
     property real radius: Config.layout.radiusXl
-    property color colorIdle:    Colors.elevated
+    property color colorIdle:    Appearance.colors.elevated
     property color colorHover:   colorIdle           // no-op by default
     property color colorPressed: colorIdle           // no-op by default
-    property color colorActive:  Colors.accent
-    property color colorActiveHover: Colors.accentHover
+    property color colorActive:  Appearance.colors.accent
+    property color colorActiveHover: Appearance.colors.accentHover
 
     property bool active: false
     property bool enableScale: true
@@ -24,7 +24,7 @@ Item {
     // MD3 state-layer overlay (opt-in). When true, hover/press color blending is
     // suppressed and a StateLayer overlay handles visual feedback.
     property bool useStateLayer: false
-    property color stateLayerTone: Colors.m3onSurface
+    property color stateLayerTone: Appearance.colors.m3onSurface
 
     readonly property alias hovered: ma.containsMouse
     readonly property alias pressed: ma.pressed

@@ -57,8 +57,8 @@ Item {
         Rectangle {
             anchors.fill: parent
             color: btn.isSelected
-                ? (ma.containsMouse ? Colors.accentHover : Colors.accent)
-                : (ma.containsMouse ? Qt.lighter(Colors.background, 1.2) : Colors.background)
+                ? (ma.containsMouse ? Appearance.colors.accentHover : Appearance.colors.accent)
+                : (ma.containsMouse ? Qt.lighter(Appearance.colors.background, 1.2) : Appearance.colors.background)
             topLeftRadius:     btn.isFirst ? btn._bigRadius : btn._smallRadius
             bottomLeftRadius:  btn.isFirst ? btn._bigRadius : btn._smallRadius
             topRightRadius:    btn.isLast  ? btn._bigRadius : btn._smallRadius
@@ -75,14 +75,14 @@ Item {
                     text: btn.icon
                     font.pointSize: Config.typography.normal
                     fill: btn.isSelected ? 1 : 0
-                    color: btn.isSelected ? Colors.accentText : Colors.m3onSurfaceVariant
+                    color: btn.isSelected ? Appearance.colors.accentText : Appearance.colors.m3onSurfaceVariant
                     Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                 }
 
                 Text {
                     visible: btn.label.length > 0
                     text: btn.label
-                    color: btn.isSelected ? Colors.accentText : Colors.m3onSurfaceVariant
+                    color: btn.isSelected ? Appearance.colors.accentText : Appearance.colors.m3onSurfaceVariant
                     font.family: Config.typography.family
                     font.pixelSize: Config.typography.smallie
                     font.weight: btn.isSelected ? Font.Medium : Font.Normal

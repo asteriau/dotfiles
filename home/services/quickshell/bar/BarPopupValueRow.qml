@@ -16,7 +16,7 @@ RowLayout {
         Layout.alignment: Qt.AlignVCenter
         text: root.icon
         pixelSize: Config.typography.normal
-        color: Colors.m3onSurfaceVariant
+        color: Appearance.colors.m3onSurfaceVariant
     }
 
     Text {
@@ -24,7 +24,7 @@ RowLayout {
         text: root.label
         font.family: Config.fontFamily
         font.pixelSize: Config.typography.normal
-        color: Colors.m3onSurfaceVariant
+        color: Appearance.colors.m3onSurfaceVariant
     }
 
     Text {
@@ -35,6 +35,6 @@ RowLayout {
         font.family: Config.fontFamily
         font.pixelSize: Config.typography.normal
         font.weight: Font.Medium
-        color: Colors.m3onSurfaceVariant
+        color: Appearance.colors.m3onSurfaceVariant
     }
 }

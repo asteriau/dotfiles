@@ -32,7 +32,7 @@ Item {
         anchors.leftMargin:   root.vertical ? Config.layout.gapSm : 0
         anchors.rightMargin:  root.vertical ? Config.layout.gapSm : 0
         radius: Config.layout.radiusContainer
-        color: Colors.surfaceContainerLow
+        color: Appearance.colors.surfaceContainerLow
 
         Behavior on color {
             ColorAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic }
@@ -145,7 +145,7 @@ Item {
             implicitWidth: root.toggleSize
             implicitHeight: root.toggleSize
             radius: root.toggleSize / 2
-            colorIdle: Colors.transparent
+            colorIdle: Appearance.colors.transparent
             useStateLayer: true
             pressScale: 0.94
             onClicked: root.iconsVisible = !root.iconsVisible
@@ -154,7 +154,7 @@ Item {
                 anchors.centerIn: parent
                 text: "expand_more"
                 pixelSize: 18
-                color: root.iconsVisible ? Colors.accent : Colors.m3onSurfaceVariant
+                color: root.iconsVisible ? Appearance.colors.accent : Appearance.colors.m3onSurfaceVariant
                 rotation: root.iconsVisible ? 180 : 0
                 renderType: Text.QtRendering
 
@@ -198,7 +198,7 @@ Item {
             implicitWidth: root.toggleSize
             implicitHeight: root.toggleSize
             radius: root.toggleSize / 2
-            colorIdle: Colors.transparent
+            colorIdle: Appearance.colors.transparent
             useStateLayer: true
             pressScale: 0.94
             onClicked: root.iconsVisible = !root.iconsVisible
@@ -207,7 +207,7 @@ Item {
                 anchors.centerIn: parent
                 text: "chevron_right"
                 pixelSize: 18
-                color: root.iconsVisible ? Colors.accent : Colors.m3onSurfaceVariant
+                color: root.iconsVisible ? Appearance.colors.accent : Appearance.colors.m3onSurfaceVariant
                 // Rotated 180° → looks like chevron_left when collapsed.
                 rotation: root.iconsVisible ? 0 : 180
 

@@ -11,7 +11,7 @@ Item {
     property int   implicitSize: 20
     property int   lineWidth: 2
     property real  value: 0
-    property color color: Colors.m3onSecondaryContainer
+    property color color: Appearance.colors.m3onSecondaryContainer
     property bool  enableAnimation: false
     default property Item textMask: Item {
         width: root.implicitSize

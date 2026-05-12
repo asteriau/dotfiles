@@ -18,7 +18,7 @@ Item {
         id: iconItem
         anchors.fill: parent
         isMask: root.isMask
-        color: Colors.foreground
+        color: Appearance.colors.foreground
     }
 
     MultiEffect {

@@ -8,7 +8,7 @@ IconButton {
     radius: width / 2
     iconPixelSize: 22
     iconGrade: 0
-    colorIdle: Colors.surfaceContainerHighest
+    colorIdle: Appearance.colors.surfaceContainerHighest
     colorActiveHover: colorActive   // preserve original: no accent-lightening on hover
 
     Layout.preferredWidth:  Config.layout.pillSize - 8

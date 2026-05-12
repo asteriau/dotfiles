@@ -87,8 +87,8 @@ Item {
             font.family: Config.typography.family
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            color: root.isActive ? Colors.m3onPrimary :
-                   root.isOccupied ? Colors.m3onSecondaryContainer : Colors.m3onSurfaceInactive
+            color: root.isActive ? Appearance.colors.m3onPrimary :
+                   root.isOccupied ? Appearance.colors.m3onSecondaryContainer : Appearance.colors.m3onSurfaceInactive
 
             Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             Behavior on color   { ColorAnimation   { duration: Appearance.motion.duration.effects } }
@@ -105,8 +105,8 @@ Item {
             width:  root.buttonWidth * 0.15
             height: width
             radius: width / 2
-            color: root.isActive ? Colors.m3onPrimary :
-                   root.isOccupied ? Colors.m3onSecondaryContainer : Colors.m3onSurfaceInactive
+            color: root.isActive ? Appearance.colors.m3onPrimary :
+                   root.isOccupied ? Appearance.colors.m3onSecondaryContainer : Appearance.colors.m3onSurfaceInactive
 
             Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             Behavior on color   { ColorAnimation   { duration: Appearance.motion.duration.effects } }
@@ -167,7 +167,7 @@ Item {
                     ColorOverlay {
                         anchors.fill: desatIcon
                         source: desatIcon
-                        readonly property color tintColor: root.isActive ? Colors.m3onPrimary : Colors.m3onSecondaryContainer
+                        readonly property color tintColor: root.isActive ? Appearance.colors.m3onPrimary : Appearance.colors.m3onSecondaryContainer
                         color: Qt.rgba(tintColor.r, tintColor.g, tintColor.b, 0.9)
                     }
                 }
@@ -189,7 +189,7 @@ Item {
                     ColorOverlay {
                         anchors.fill: desatTinted
                         source: desatTinted
-                        color: Qt.rgba(Colors.accent.r, Colors.accent.g, Colors.accent.b, 0.1)
+                        color: Qt.rgba(Appearance.colors.accent.r, Appearance.colors.accent.g, Appearance.colors.accent.b, 0.1)
                     }
                 }
             }

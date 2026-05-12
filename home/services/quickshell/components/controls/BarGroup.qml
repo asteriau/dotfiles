@@ -15,10 +15,10 @@ Item {
     // Tonal elevation level. "low" matches surfaceContainerLow (default),
     // "lowest" demotes (recedes), "container" promotes.
     property string tone: "low"
-    readonly property color toneColor: tone === "lowest"    ? Colors.surfaceContainerLowest
-                                     : tone === "container" ? Colors.surfaceContainer
-                                     : tone === "high"      ? Colors.surfaceContainerHigh
-                                                            : Colors.surfaceContainerLow
+    readonly property color toneColor: tone === "lowest"    ? Appearance.colors.surfaceContainerLowest
+                                     : tone === "container" ? Appearance.colors.surfaceContainer
+                                     : tone === "high"      ? Appearance.colors.surfaceContainerHigh
+                                                            : Appearance.colors.surfaceContainerLow
     property color bgColor: toneColor
     property int  radius: Config.layout.radiusContainer
 

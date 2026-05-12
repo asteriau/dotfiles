@@ -97,15 +97,15 @@ ContentPage {
                     anchors.fill: parent
                     visible: Config.theme.matugen.wallpaper.length === 0
                     radius: Config.layout.radiusMd
-                    color: Colors.surfaceContainerHigh
+                    color: Appearance.colors.surfaceContainerHigh
                     border.width: 1
-                    border.color: Colors.border
+                    border.color: Appearance.colors.border
 
                     MaterialIcon {
                         anchors.centerIn: parent
                         text: "image"
                         pixelSize: 28
-                        color: Colors.comment
+                        color: Appearance.colors.comment
                     }
                 }
 
@@ -144,7 +144,7 @@ ContentPage {
                 Layout.bottomMargin: 8
                 Layout.preferredHeight: 40
                 radius: Config.layout.radiusMd
-                color: chooseMa.containsMouse ? Colors.surfaceContainerHighest : Colors.surfaceContainerHigh
+                color: chooseMa.containsMouse ? Appearance.colors.surfaceContainerHighest : Appearance.colors.surfaceContainerHigh
                 Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                 RowLayout {
@@ -154,11 +154,11 @@ ContentPage {
                     MaterialIcon {
                         text: "wallpaper"
                         pixelSize: 16
-                        color: Colors.foreground
+                        color: Appearance.colors.foreground
                     }
                     StyledText {
                         text: "Choose file"
-                        color: Colors.foreground
+                        color: Appearance.colors.foreground
                         font.pixelSize: Config.typography.small
                         font.weight: Font.Medium
                     }
@@ -207,7 +207,7 @@ ContentPage {
                     anchors.right: parent.right
                     visible: page.presetOptions.length === 0
                     text: "No presets found in " + page.shellDir + "/themes/"
-                    color: Colors.m3onSurfaceVariant
+                    color: Appearance.colors.m3onSurfaceVariant
                     font.pixelSize: Config.typography.smallie
                     wrapMode: Text.WordWrap
                 }

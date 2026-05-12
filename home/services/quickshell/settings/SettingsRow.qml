@@ -23,7 +23,7 @@ RowLayout {
         visible: root.icon.length > 0
         text: root.icon
         font.pointSize: Config.typography.huge
-        color: Colors.m3onSurfaceVariant
+        color: Appearance.colors.m3onSurfaceVariant
         Layout.preferredWidth: 24
         Layout.alignment: Qt.AlignVCenter
         horizontalAlignment: Text.AlignHCenter

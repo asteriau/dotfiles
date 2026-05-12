@@ -20,7 +20,7 @@ ColumnLayout {
         text: "Resources"
         font.pixelSize: Config.typography.large
         font.weight: Font.Medium
-        color: Colors.accent
+        color: Appearance.colors.accent
     }
 
     ColumnLayout {
@@ -35,27 +35,27 @@ ColumnLayout {
                 Layout.alignment: Qt.AlignVCenter
                 text: "memory"
                 pixelSize: 22
-                color: Colors.foreground
+                color: Appearance.colors.foreground
             }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
                 text: (ResourcesState.memUsedStr || "0").split(" ")[0]
                 font.pixelSize: Config.typography.larger
                 font.weight: Font.Medium
-                color: Colors.foreground
+                color: Appearance.colors.foreground
             }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
                 text: "/ " + (ResourcesState.memTotalStr || "0")
                 font.pixelSize: Config.typography.small
-                color: Colors.m3onSurfaceInactive
+                color: Appearance.colors.m3onSurfaceInactive
             }
             Item { Layout.fillWidth: true }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
                 text: "Memory"
                 font.pixelSize: Config.typography.small
-                color: Colors.m3onSurfaceInactive
+                color: Appearance.colors.m3onSurfaceInactive
             }
         }
 
@@ -78,27 +78,27 @@ ColumnLayout {
                 Layout.alignment: Qt.AlignVCenter
                 text: "developer_board"
                 pixelSize: 22
-                color: Colors.foreground
+                color: Appearance.colors.foreground
             }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
                 text: Math.round(ResourcesState.cpuUsage * 100)
                 font.pixelSize: Config.typography.larger
                 font.weight: Font.Medium
-                color: Colors.foreground
+                color: Appearance.colors.foreground
             }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
                 text: "%"
                 font.pixelSize: Config.typography.small
-                color: Colors.m3onSurfaceInactive
+                color: Appearance.colors.m3onSurfaceInactive
             }
             Item { Layout.fillWidth: true }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
                 text: "CPU"
                 font.pixelSize: Config.typography.small
-                color: Colors.m3onSurfaceInactive
+                color: Appearance.colors.m3onSurfaceInactive
             }
         }
 

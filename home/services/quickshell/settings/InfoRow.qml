@@ -11,7 +11,7 @@ Rectangle {
 
     Layout.fillWidth: true
     implicitHeight: 48
-    color: ma.containsMouse ? Colors.hover : Colors.transparent
+    color: ma.containsMouse ? Appearance.colors.hover : Appearance.colors.transparent
     radius: 0
     Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
@@ -25,14 +25,14 @@ Rectangle {
 
         StyledText {
             text: root.label
-            color: Colors.m3onSurfaceVariant
+            color: Appearance.colors.m3onSurfaceVariant
             font.pixelSize: Config.typography.small
             Layout.preferredWidth: 100
         }
 
         StyledText {
             text: root.value
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             font.pixelSize: Config.typography.small
             font.weight: Font.Medium
             elide: Text.ElideRight

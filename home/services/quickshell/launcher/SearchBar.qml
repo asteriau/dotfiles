@@ -31,7 +31,7 @@ RowLayout {
 
         MaterialShape {
             anchors.fill: parent
-            color: Colors.secondaryContainer
+            color: Appearance.colors.secondaryContainer
             implicitSize: Math.max(width, height)
             shape: root.isClipboard
                 ? MaterialShape.Shape.Gem
@@ -44,7 +44,7 @@ RowLayout {
             anchors.centerIn: parent
             text: root.isClipboard ? "content_paste_search" : (root.query === "" ? "search" : "apps")
             pixelSize: Config.typography.huge
-            color: Colors.m3onSecondaryContainer
+            color: Appearance.colors.m3onSecondaryContainer
         }
     }
 
@@ -67,14 +67,14 @@ RowLayout {
             rightPadding: 14
             font.family: Config.typography.family
             font.pixelSize: Config.typography.small
-            color: Colors.foreground
+            color: Appearance.colors.foreground
             placeholderText: ""
             selectByMouse: true
             verticalAlignment: TextInput.AlignVCenter
 
             background: Rectangle {
                 radius: 20
-                color: Colors.surfaceContainer
+                color: Appearance.colors.surfaceContainer
             }
 
             onTextChanged: LauncherSearch.query = text
@@ -91,7 +91,7 @@ RowLayout {
             anchors.rightMargin: input.rightPadding
             anchors.verticalCenter: parent.verticalCenter
             text: qsTr("Search apps, # for clipboard")
-            color: Colors.comment
+            color: Appearance.colors.comment
             font: input.font
             elide: Text.ElideRight
             opacity: input.text === "" ? 1 : 0

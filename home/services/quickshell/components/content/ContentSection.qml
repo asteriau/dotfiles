@@ -22,7 +22,7 @@ ColumnLayout {
 
         Text {
             text: root.title
-            color: Colors.m3onSurfaceVariant
+            color: Appearance.colors.m3onSurfaceVariant
             font.family: Config.typography.titleFamily
             font.pixelSize: Config.typography.small
             font.weight: Font.Medium
@@ -34,7 +34,7 @@ ColumnLayout {
     Rectangle {
         Layout.fillWidth: true
         implicitHeight: sectionContent.implicitHeight + Config.layout.gapLg
-        color: Colors.colLayer2
+        color: Appearance.colors.colLayer2
         radius: 20
         clip: true
 
@@ -60,7 +60,7 @@ ColumnLayout {
                 }
                 width: sectionContent.width - 32
                 height: 1
-                color: Colors.outlineVariant
+                color: Appearance.colors.outlineVariant
                 opacity: 0.4
             }
         }

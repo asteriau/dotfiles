@@ -67,10 +67,10 @@ PopupWindow {
             anchors.fill: parent
             anchors.margins: root.popupPadding
 
-            color: Colors.popupBackground
+            color: Appearance.colors.popupBackground
             radius: Config.layout.radiusContainer
             border.width: 1
-            border.color: Colors.cardBorder
+            border.color: Appearance.colors.cardBorder
             clip: true
 
             opacity: 0
@@ -142,8 +142,8 @@ PopupWindow {
             sourceComponent: RippleButton {
                 id: backButton
                 buttonRadius: popupBackground.radius - root.popupInnerPadding
-                colBackground: ColorMix.transparentize(Colors.surfaceContainerHigh, 1)
-                colBackgroundHover: Colors.surfaceContainerHigh
+                colBackground: ColorMix.transparentize(Appearance.colors.surfaceContainerHigh, 1)
+                colBackgroundHover: Appearance.colors.surfaceContainerHigh
                 implicitWidth: backContent.implicitWidth + 24
                 implicitHeight: 36
 
@@ -163,7 +163,7 @@ PopupWindow {
                     MaterialIcon {
                         text: "chevron_left"
                         pixelSize: 20
-                        color: Colors.m3onSurfaceVariant
+                        color: Appearance.colors.m3onSurfaceVariant
                     }
 
                     Text {
@@ -171,7 +171,7 @@ PopupWindow {
                         text: "Back"
                         font.family: Config.fontFamily
                         font.pixelSize: Config.typography.smallie
-                        color: Colors.foreground
+                        color: Appearance.colors.foreground
                         verticalAlignment: Text.AlignVCenter
                     }
                 }
@@ -182,7 +182,7 @@ PopupWindow {
             Layout.fillWidth: true
             visible: submenu.isSubMenu
             implicitHeight: 1
-            color: Colors.m3outline
+            color: Appearance.colors.m3outline
             Layout.topMargin: 4
             Layout.bottomMargin: 4
         }
