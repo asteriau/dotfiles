@@ -16,7 +16,7 @@ Rectangle {
     property real horizontalPadding: 12
 
     implicitHeight: contentItem.implicitHeight + root.verticalPadding * 2
-    radius: Config.layout.radiusLg
+    radius: Appearance.layout.radiusLg
     color: Appearance.colors.colLayer1
     antialiasing: true
 

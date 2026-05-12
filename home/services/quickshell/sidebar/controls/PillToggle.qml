@@ -11,8 +11,8 @@ IconButton {
     colorIdle: Appearance.colors.surfaceContainerHighest
     colorActiveHover: colorActive   // preserve original: no accent-lightening on hover
 
-    Layout.preferredWidth:  Config.layout.pillSize - 8
-    Layout.preferredHeight: Config.layout.pillSize - 8
-    implicitWidth:  Config.layout.pillSize - 8
-    implicitHeight: Config.layout.pillSize - 8
+    Layout.preferredWidth:  Appearance.layout.pillSize - 8
+    Layout.preferredHeight: Appearance.layout.pillSize - 8
+    implicitWidth:  Appearance.layout.pillSize - 8
+    implicitHeight: Appearance.layout.pillSize - 8
 }

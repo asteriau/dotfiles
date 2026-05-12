@@ -12,7 +12,7 @@ Text {
         Caption,   // 12 / Normal   / comment
         Label,     // 10 / Medium   / m3onSurfaceVariant
         Subtitle,  // 17 / DemiBold / foreground
-        Title,     // 22 / Medium   / foreground (matches Config.typography.title)
+        Title,     // 22 / Medium   / foreground (matches Appearance.typography.title)
         Display,   // 22 / Medium   / foreground
         Numeric    // 15 / Medium   / foreground
     }
@@ -21,14 +21,14 @@ Text {
 
     readonly property var _spec: {
         switch (variant) {
-        case StyledText.Variant.BodySm:   return { size: Config.typography.smallie,  weight: Font.Normal,   color: Appearance.colors.comment }
-        case StyledText.Variant.Caption:  return { size: Config.typography.smaller,  weight: Font.Normal,   color: Appearance.colors.comment }
-        case StyledText.Variant.Label:    return { size: Config.typography.smallest, weight: Font.Medium,   color: Appearance.colors.m3onSurfaceVariant }
-        case StyledText.Variant.Subtitle: return { size: Config.typography.large,    weight: Font.DemiBold, color: Appearance.colors.foreground }
-        case StyledText.Variant.Title:    return { size: Config.typography.title,    weight: Font.Medium,   color: Appearance.colors.foreground }
-        case StyledText.Variant.Display:  return { size: Config.typography.huge,     weight: Font.Medium,   color: Appearance.colors.foreground }
-        case StyledText.Variant.Numeric:  return { size: Config.typography.small,    weight: Font.Medium,   color: Appearance.colors.foreground }
-        default:                          return { size: Config.typography.small,    weight: Font.Normal,   color: Appearance.colors.foreground }
+        case StyledText.Variant.BodySm:   return { size: Appearance.typography.smallie,  weight: Font.Normal,   color: Appearance.colors.comment }
+        case StyledText.Variant.Caption:  return { size: Appearance.typography.smaller,  weight: Font.Normal,   color: Appearance.colors.comment }
+        case StyledText.Variant.Label:    return { size: Appearance.typography.smallest, weight: Font.Medium,   color: Appearance.colors.m3onSurfaceVariant }
+        case StyledText.Variant.Subtitle: return { size: Appearance.typography.large,    weight: Font.DemiBold, color: Appearance.colors.foreground }
+        case StyledText.Variant.Title:    return { size: Appearance.typography.title,    weight: Font.Medium,   color: Appearance.colors.foreground }
+        case StyledText.Variant.Display:  return { size: Appearance.typography.huge,     weight: Font.Medium,   color: Appearance.colors.foreground }
+        case StyledText.Variant.Numeric:  return { size: Appearance.typography.small,    weight: Font.Medium,   color: Appearance.colors.foreground }
+        default:                          return { size: Appearance.typography.small,    weight: Font.Normal,   color: Appearance.colors.foreground }
         }
     }
 

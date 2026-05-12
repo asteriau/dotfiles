@@ -19,7 +19,7 @@ ContentPage {
         StyledText {
             text: "Tachyon"
             color: Appearance.colors.accent
-            font.pixelSize: Config.typography.huge + 4
+            font.pixelSize: Appearance.typography.huge + 4
             font.weight: Font.Medium
             font.letterSpacing: -0.4
         }
@@ -27,7 +27,7 @@ ContentPage {
         StyledText {
             text: "A shell that's slightly fast"
             color: Appearance.colors.m3onSurfaceVariant
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
         }
     }
 

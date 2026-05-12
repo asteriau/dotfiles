@@ -11,8 +11,8 @@ Item {
     property alias color: iconItem.color
     property bool isMask: true
 
-    implicitWidth: Config.iconSize
-    implicitHeight: Config.iconSize
+    implicitWidth: Config.typography.iconSize
+    implicitHeight: Config.typography.iconSize
 
     Icon {
         id: iconItem
@@ -24,9 +24,9 @@ Item {
     MultiEffect {
         source: iconItem
         anchors.fill: iconItem
-        shadowEnabled: Config.shadow.enabled
-        shadowVerticalOffset: Config.shadow.verticalOffset
-        blurMax: Config.shadow.blur
-        opacity: Config.shadow.opacity
+        shadowEnabled: Appearance.shadow.enabled
+        shadowVerticalOffset: Appearance.shadow.verticalOffset
+        blurMax: Appearance.shadow.blur
+        opacity: Appearance.shadow.opacity
     }
 }

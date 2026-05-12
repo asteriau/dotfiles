@@ -8,7 +8,7 @@ import qs.utils
 RowLayout {
     id: root
     Layout.fillWidth: true
-    spacing: Config.layout.gapLg
+    spacing: Appearance.layout.gapLg
 
     property string icon: ""
     property string label: ""
@@ -22,7 +22,7 @@ RowLayout {
     MaterialIcon {
         visible: root.icon.length > 0
         text: root.icon
-        font.pointSize: Config.typography.huge
+        font.pointSize: Appearance.typography.huge
         color: Appearance.colors.m3onSurfaceVariant
         Layout.preferredWidth: 24
         Layout.alignment: Qt.AlignVCenter

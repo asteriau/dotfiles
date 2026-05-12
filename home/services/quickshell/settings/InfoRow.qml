@@ -26,14 +26,14 @@ Rectangle {
         StyledText {
             text: root.label
             color: Appearance.colors.m3onSurfaceVariant
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             Layout.preferredWidth: 100
         }
 
         StyledText {
             text: root.value
             color: Appearance.colors.foreground
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             font.weight: Font.Medium
             elide: Text.ElideRight
             Layout.fillWidth: true

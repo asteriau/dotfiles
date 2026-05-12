@@ -114,8 +114,8 @@ RippleButton {
         Text {
             id: label
             text: root.menuEntry.text
-            font.family: Config.fontFamily
-            font.pixelSize: Config.typography.smallie
+            font.family: Config.typography.family
+            font.pixelSize: Appearance.typography.smallie
             color: Appearance.colors.foreground
             verticalAlignment: Text.AlignVCenter
             Layout.fillWidth: true

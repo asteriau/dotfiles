@@ -5,7 +5,7 @@ import qs.utils
 Flickable {
     id: root
 
-    property real baseWidth: Config.layout.contentMaxWidth
+    property real baseWidth: Appearance.layout.contentMaxWidth
     property bool forceWidth: true
     property real bottomContentPadding: 80
 
@@ -21,7 +21,7 @@ Flickable {
                                : Math.max(root.baseWidth, implicitWidth)
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.margins: Config.layout.pageMargin
-        spacing: Config.layout.sectionGap
+        anchors.margins: Appearance.layout.pageMargin
+        spacing: Appearance.layout.sectionGap
     }
 }

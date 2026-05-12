@@ -14,7 +14,7 @@ Item {
     readonly property bool ethernetConnected: NetworkState.ethernetConnected
     readonly property bool btOn: BluetoothState.enabled
     readonly property bool micMuted: PipeWireState.defaultSource?.audio?.muted ?? false
-    readonly property bool dnd: Config.doNotDisturb
+    readonly property bool dnd: Config.notifications.doNotDisturb
 
     Component.onCompleted: NetworkState.subscribe()
     Component.onDestruction: NetworkState.unsubscribe()
@@ -53,7 +53,7 @@ Item {
             ToggleButton {
                 icon: root.dnd ? "do_not_disturb_on" : "do_not_disturb_off"
                 active: root.dnd
-                onActivated: Config.doNotDisturb = !Config.doNotDisturb
+                onActivated: Config.notifications.doNotDisturb = !Config.notifications.doNotDisturb
             }
             ToggleButton {
                 icon: root.micMuted ? "mic_off" : "mic"
@@ -72,7 +72,7 @@ Item {
         id: btn
         property string icon
         property bool active
-        readonly property int toggleSize: Config.layout.pillSize
+        readonly property int toggleSize: Appearance.layout.pillSize
         signal activated
         signal rightActivated
 

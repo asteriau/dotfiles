@@ -5,7 +5,7 @@ import qs.utils
 WrapperMouseArea {
     id: root
 
-    property var rect: Qt.rect(root.width / 2, root.height + Config.padding * 2, 0, 0)
+    property var rect: Qt.rect(root.width / 2, root.height + Appearance.padding * 2, 0, 0)
     required property string text
     default property alias contentItem: contentItem.data
 

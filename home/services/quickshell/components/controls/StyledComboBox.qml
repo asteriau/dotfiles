@@ -21,7 +21,7 @@ ComboBox {
     valueRole: ""
 
     background: Rectangle {
-        radius: Config.layout.radiusSm
+        radius: Appearance.layout.radiusSm
         color: root.hovered ? Appearance.colors.colLayer3 : Appearance.colors.colLayer2
         border.width: 1
         border.color: root.activeFocus ? Appearance.colors.colPrimary : Appearance.colors.outlineVariant
@@ -77,7 +77,7 @@ ComboBox {
         padding: 4
         background: Rectangle {
             color: Appearance.colors.surfaceContainerHigh
-            radius: Config.layout.radiusSm
+            radius: Appearance.layout.radiusSm
             border.width: 1
             border.color: Appearance.colors.outlineVariant
         }

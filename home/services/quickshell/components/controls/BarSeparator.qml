@@ -9,7 +9,7 @@ Item {
     property int length: vertical ? 14 : 14
 
     implicitWidth:  vertical ? length : 1
-    implicitHeight: vertical ? 1 : Config.bar.height
+    implicitHeight: vertical ? 1 : Appearance.bar.height
 
     Rectangle {
         anchors.centerIn: parent

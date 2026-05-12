@@ -11,14 +11,14 @@ Item {
 
     visible: WeatherState.ready
 
-    implicitWidth:  row.implicitWidth + Config.layout.gapMd * 2
-    implicitHeight: Config.bar.height
+    implicitWidth:  row.implicitWidth + Appearance.layout.gapMd * 2
+    implicitHeight: Appearance.bar.height
 
     Rectangle {
         anchors.fill: parent
         anchors.topMargin: 4
         anchors.bottomMargin: 4
-        radius: Config.layout.radiusMd
+        radius: Appearance.layout.radiusMd
         color: Appearance.colors.surfaceContainerLow
     }
 
@@ -29,15 +29,15 @@ Item {
 
         MaterialIcon {
             text: WeatherState.glyph
-            pixelSize: Config.typography.normal
+            pixelSize: Appearance.typography.normal
             color: Appearance.colors.foreground
             anchors.verticalCenter: parent.verticalCenter
         }
 
         Text {
             text: Math.round(WeatherState.temp) + "°"
-            font.family: Config.fontFamily
-            font.pixelSize: Config.typography.small
+            font.family: Config.typography.family
+            font.pixelSize: Appearance.typography.small
             color: Appearance.colors.foreground
             anchors.verticalCenter: parent.verticalCenter
         }

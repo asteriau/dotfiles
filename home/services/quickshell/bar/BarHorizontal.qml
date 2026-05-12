@@ -5,7 +5,7 @@ import qs.utils
 Rectangle {
     id: root
     color: Appearance.colors.background
-    radius: Config.bar.rounding ? Config.layout.radiusBar : 0
+    radius: Config.bar.rounding ? Appearance.layout.radiusBar : 0
 
     Rectangle {
         visible: Config.bar.rounding
@@ -28,10 +28,10 @@ Rectangle {
     Row {
         anchors {
             left: parent.left
-            leftMargin: Config.layout.zonePaddingH
+            leftMargin: Appearance.layout.zonePaddingH
             verticalCenter: parent.verticalCenter
         }
-        spacing: Config.layout.barZoneGap
+        spacing: Appearance.layout.barZoneGap
 
         SidebarToggle { anchors.verticalCenter: parent.verticalCenter }
         Workspaces    { anchors.verticalCenter: parent.verticalCenter }
@@ -49,10 +49,10 @@ Rectangle {
     Row {
         anchors {
             right: parent.right
-            rightMargin: Config.layout.zonePaddingH
+            rightMargin: Appearance.layout.zonePaddingH
             verticalCenter: parent.verticalCenter
         }
-        spacing: Config.layout.barZoneGap
+        spacing: Appearance.layout.barZoneGap
 
         Tray       { vertical: false; anchors.verticalCenter: parent.verticalCenter }
         Battery    { vertical: false; anchors.verticalCenter: parent.verticalCenter }

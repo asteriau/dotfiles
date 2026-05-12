@@ -47,7 +47,7 @@ Item {
         MaterialIcon {
             anchors.centerIn: parent
             text: input.text === "" ? "search" : "manage_search"
-            pixelSize: Config.typography.huge
+            pixelSize: Appearance.typography.huge
             color: Appearance.colors.m3onSecondaryContainer
         }
     }
@@ -73,7 +73,7 @@ Item {
             leftPadding: 18
             rightPadding: clearChip.visible ? 44 : 18
             font.family: Config.typography.family
-            font.pixelSize: Config.typography.normal
+            font.pixelSize: Appearance.typography.normal
             color: Appearance.colors.foreground
             placeholderText: ""
             selectByMouse: true
@@ -122,7 +122,7 @@ Item {
             MaterialIcon {
                 anchors.centerIn: parent
                 text: "close"
-                pixelSize: Config.typography.large
+                pixelSize: Appearance.typography.large
                 color: Appearance.colors.m3onSurfaceVariant
             }
 

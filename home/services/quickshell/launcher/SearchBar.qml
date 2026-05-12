@@ -43,7 +43,7 @@ RowLayout {
         MaterialIcon {
             anchors.centerIn: parent
             text: root.isClipboard ? "content_paste_search" : (root.query === "" ? "search" : "apps")
-            pixelSize: Config.typography.huge
+            pixelSize: Appearance.typography.huge
             color: Appearance.colors.m3onSecondaryContainer
         }
     }
@@ -66,7 +66,7 @@ RowLayout {
             leftPadding: 14
             rightPadding: 14
             font.family: Config.typography.family
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             color: Appearance.colors.foreground
             placeholderText: ""
             selectByMouse: true

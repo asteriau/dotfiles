@@ -23,8 +23,8 @@ ColumnLayout {
         Text {
             text: root.title
             color: Appearance.colors.m3onSurfaceVariant
-            font.family: Config.typography.titleFamily
-            font.pixelSize: Config.typography.small
+            font.family: Appearance.typography.titleFamily
+            font.pixelSize: Appearance.typography.small
             font.weight: Font.Medium
         }
 
@@ -33,7 +33,7 @@ ColumnLayout {
 
     Rectangle {
         Layout.fillWidth: true
-        implicitHeight: sectionContent.implicitHeight + Config.layout.gapLg
+        implicitHeight: sectionContent.implicitHeight + Appearance.layout.gapLg
         color: Appearance.colors.colLayer2
         radius: 20
         clip: true

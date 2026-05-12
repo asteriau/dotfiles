@@ -32,12 +32,12 @@ Item {
     TextMetrics {
         id: titleMetrics
         text: root.currentTitle
-        font.pixelSize: Config.typography.small
+        font.pixelSize: Appearance.typography.small
         font.family: Config.typography.family
     }
     FontMetrics {
         id: titleFm
-        font.pixelSize: Config.typography.small
+        font.pixelSize: Appearance.typography.small
         font.family: Config.typography.family
     }
     readonly property int maxTextWidth: Math.round(titleFm.averageCharacterWidth * maxTitleChars)
@@ -47,7 +47,7 @@ Item {
     implicitWidth: currentTitle.length > 0
         ? contentTextWidth + iconSize + iconGap + hPadding * 2
         : 0
-    implicitHeight: Config.bar.height - Config.layout.gapSm * 2
+    implicitHeight: Appearance.bar.height - Appearance.layout.gapSm * 2
 
     Behavior on implicitWidth {
         NumberAnimation {
@@ -59,7 +59,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        radius: Config.layout.radiusContainer
+        radius: Appearance.layout.radiusContainer
         color: Appearance.colors.surfaceContainerLow
         opacity: root.currentTitle.length > 0 ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
@@ -99,7 +99,7 @@ Item {
         StyledText {
             Layout.maximumWidth: root.width - root.hPadding * 2 - root.iconSize - root.iconGap
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             color: Appearance.colors.foreground
             elide: Text.ElideRight
             text: root._a.title
@@ -123,7 +123,7 @@ Item {
         StyledText {
             Layout.maximumWidth: root.width - root.hPadding * 2 - root.iconSize - root.iconGap
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             color: Appearance.colors.foreground
             elide: Text.ElideRight
             text: root._b.title

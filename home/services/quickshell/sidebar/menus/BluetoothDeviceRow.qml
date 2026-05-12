@@ -56,8 +56,8 @@ DialogListItem {
             Text {
                 text: row._materialIcon(row.iconHint)
                 color: Appearance.colors.m3onSurfaceVariant
-                font.family: Config.typography.iconFamily
-                font.pixelSize: Config.typography.larger
+                font.family: Appearance.typography.iconFamily
+                font.pixelSize: Appearance.typography.larger
             }
 
             ColumnLayout {
@@ -69,7 +69,7 @@ DialogListItem {
                     text: row.deviceName
                     color: Appearance.colors.m3onSurfaceVariant
                     font.family: Config.typography.family
-                    font.pixelSize: Config.typography.small
+                    font.pixelSize: Appearance.typography.small
                     elide: Text.ElideRight
                 }
 
@@ -79,7 +79,7 @@ DialogListItem {
                     text: row._meta
                     color: Appearance.colors.comment
                     font.family: Config.typography.family
-                    font.pixelSize: Config.typography.smaller
+                    font.pixelSize: Appearance.typography.smaller
                     elide: Text.ElideRight
                 }
             }
@@ -87,8 +87,8 @@ DialogListItem {
             Text {
                 text: "keyboard_arrow_down"
                 color: Appearance.colors.m3onSurface
-                font.family: Config.typography.iconFamily
-                font.pixelSize: Config.typography.larger
+                font.family: Appearance.typography.iconFamily
+                font.pixelSize: Appearance.typography.larger
                 rotation: row.expanded ? 180 : 0
                 Behavior on rotation { Motion.ElementFast {} }
             }

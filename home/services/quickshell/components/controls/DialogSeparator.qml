@@ -4,11 +4,11 @@ import qs.utils
 
 // 1px hairline divider that bleeds past the dialog's content padding
 // to span the full card width. `bleed` defaults to the dialog card
-// radius (`Config.layout.radiusLg`) to match WindowDialog's padding.
+// radius (`Appearance.layout.radiusLg`) to match WindowDialog's padding.
 Rectangle {
     id: root
 
-    property real bleed: Config.layout.radiusLg
+    property real bleed: Appearance.layout.radiusLg
 
     Layout.fillWidth: true
     Layout.topMargin: -8

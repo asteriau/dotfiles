@@ -56,8 +56,8 @@ DialogListItem {
             Text {
                 text: row._signalIcon(row.rssi)
                 color: Appearance.colors.m3onSurfaceVariant
-                font.family: Config.typography.iconFamily
-                font.pixelSize: Config.typography.larger
+                font.family: Appearance.typography.iconFamily
+                font.pixelSize: Appearance.typography.larger
             }
 
             Text {
@@ -65,8 +65,8 @@ DialogListItem {
                 text: row.ssid || "(hidden)"
                 color: Appearance.colors.m3onSurfaceVariant
                 font.family: Config.typography.family
-                font.pixelSize: Config.typography.small
-                font.weight: row.isActive ? Config.typography.weightMedium : Config.typography.weightNormal
+                font.pixelSize: Appearance.typography.small
+                font.weight: row.isActive ? Appearance.typography.weightMedium : Appearance.typography.weightNormal
                 elide: Text.ElideRight
             }
 
@@ -74,8 +74,8 @@ DialogListItem {
                 visible: row.secure || row.isActive
                 text: row.isActive ? "check" : "lock"
                 color: Appearance.colors.m3onSurfaceVariant
-                font.family: Config.typography.iconFamily
-                font.pixelSize: Config.typography.larger
+                font.family: Appearance.typography.iconFamily
+                font.pixelSize: Appearance.typography.larger
             }
         }
 
@@ -86,7 +86,7 @@ DialogListItem {
             text: row.errorMsg
             color: Appearance.colors.red
             font.family: Config.typography.family
-            font.pixelSize: Config.typography.smaller
+            font.pixelSize: Appearance.typography.smaller
             elide: Text.ElideRight
         }
 
@@ -95,7 +95,7 @@ DialogListItem {
             visible: row.asking
             Layout.topMargin: 8
             Layout.fillWidth: true
-            spacing: Config.layout.gapMd
+            spacing: Appearance.layout.gapMd
 
             MaterialTextField {
                 id: pwField

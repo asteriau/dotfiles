@@ -34,7 +34,7 @@ ContentPage {
                     MaterialIcon {
                         anchors.centerIn: parent
                         text: "dock_to_left"
-                        font.pointSize: Config.typography.large
+                        font.pointSize: Appearance.typography.large
                         color: Appearance.colors.m3onSurfaceVariant
                     }
                 }
@@ -43,7 +43,7 @@ ContentPage {
                     Layout.fillWidth: true
                     text: "Position"
                     color: Appearance.colors.foreground
-                    font.pixelSize: Config.typography.small
+                    font.pixelSize: Appearance.typography.small
                     font.weight: Font.Medium
                 }
 
@@ -71,7 +71,7 @@ ContentPage {
                         MaterialIcon {
                             anchors.centerIn: parent
                             text: parent.icon
-                            font.pointSize: Config.typography.normal
+                            font.pointSize: Appearance.typography.normal
                             fill: parent.active ? 1 : 0
                             color: parent.active ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.m3onSurfaceVariant
                             Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }

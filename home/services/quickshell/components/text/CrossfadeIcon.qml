@@ -6,7 +6,7 @@ Item {
     id: root
 
     property string text: ""
-    property real pointSize: Config.typography.huge
+    property real pointSize: Appearance.typography.huge
     property real pixelSize: 0                 // when > 0, overrides pointSize
     property color color: Appearance.colors.foreground
     property real fill: 0

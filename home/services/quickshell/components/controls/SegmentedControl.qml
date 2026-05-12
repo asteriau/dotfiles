@@ -73,7 +73,7 @@ Item {
                 MaterialIcon {
                     visible: btn.icon.length > 0
                     text: btn.icon
-                    font.pointSize: Config.typography.normal
+                    font.pointSize: Appearance.typography.normal
                     fill: btn.isSelected ? 1 : 0
                     color: btn.isSelected ? Appearance.colors.accentText : Appearance.colors.m3onSurfaceVariant
                     Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
@@ -84,7 +84,7 @@ Item {
                     text: btn.label
                     color: btn.isSelected ? Appearance.colors.accentText : Appearance.colors.m3onSurfaceVariant
                     font.family: Config.typography.family
-                    font.pixelSize: Config.typography.smallie
+                    font.pixelSize: Appearance.typography.smallie
                     font.weight: btn.isSelected ? Font.Medium : Font.Normal
                     Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                 }

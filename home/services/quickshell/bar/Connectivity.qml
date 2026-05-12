@@ -77,7 +77,7 @@ HoverTooltip {
     Grid {
         id: chips
         columns: root.vertical ? 1 : -1
-        spacing: Config.layout.gapSm
+        spacing: Appearance.layout.gapSm
 
         ClippedProgressBar {
             visible: root.showWifi

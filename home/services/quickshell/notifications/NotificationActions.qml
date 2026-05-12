@@ -44,7 +44,7 @@ Item {
             visible: abtn.iconGlyph === ""
             text: abtn.buttonText
             color: Appearance.colors.foreground
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             font.weight: Font.Medium
             elide: Text.ElideRight
             width: parent.width - 18
@@ -56,7 +56,7 @@ Item {
             visible: abtn.iconGlyph !== ""
             text: abtn.iconGlyph
             color: Appearance.colors.foreground
-            pixelSize: Config.typography.large
+            pixelSize: Appearance.typography.large
         }
 
         MouseArea {

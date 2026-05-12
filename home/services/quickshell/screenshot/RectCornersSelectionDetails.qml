@@ -12,7 +12,7 @@ Item {
     required property real mouseY
     required property color color
     required property color overlayColor
-    property bool showAimLines: Config.regionCircleAimLines
+    property bool showAimLines: Config.screenshot.regionCircle.aimLines
     property bool breathingBorderOnly: false
 
     Rectangle {

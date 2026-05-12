@@ -95,10 +95,10 @@ Scope {
             anchors {
                 fill: parent
                 margins: 8
-                topMargin:    Config.bar.position === "top"    ? Config.bar.height + 8 : 8
-                bottomMargin: Config.bar.position === "bottom" ? Config.bar.height + 8 : 8
+                topMargin:    Config.bar.position === "top"    ? Appearance.bar.height + 8 : 8
+                bottomMargin: Config.bar.position === "bottom" ? Appearance.bar.height + 8 : 8
             }
-            radius: Config.layout.cardRadius
+            radius: Appearance.layout.cardRadius
             color: Appearance.colors.background
             layer.enabled: true
 
@@ -127,42 +127,42 @@ Scope {
 
                 ColumnLayout {
                     anchors.fill: parent
-                    anchors.topMargin: Config.layout.gapXl + 4
-                    anchors.bottomMargin: Config.layout.gapLg
+                    anchors.topMargin: Appearance.layout.gapXl + 4
+                    anchors.bottomMargin: Appearance.layout.gapLg
                     anchors.leftMargin: 0
                     anchors.rightMargin: 0
-                    spacing: Config.layout.gapLg
+                    spacing: Appearance.layout.gapLg
 
                     Header {
-                        Layout.leftMargin: Config.layout.gapXl + 4
-                        Layout.rightMargin: Config.layout.gapXl + 4
-                        Layout.bottomMargin: Config.layout.gapLg
+                        Layout.leftMargin: Appearance.layout.gapXl + 4
+                        Layout.rightMargin: Appearance.layout.gapXl + 4
+                        Layout.bottomMargin: Appearance.layout.gapLg
                     }
 
                     QuickToggles {
                         Layout.fillWidth: true
-                        Layout.leftMargin: Config.layout.gapLg
-                        Layout.rightMargin: Config.layout.gapLg
-                        Layout.bottomMargin: Config.layout.gapLg
+                        Layout.leftMargin: Appearance.layout.gapLg
+                        Layout.rightMargin: Appearance.layout.gapLg
+                        Layout.bottomMargin: Appearance.layout.gapLg
                     }
 
                     QuickSliders {
                         Layout.fillWidth: true
-                        Layout.leftMargin: Config.layout.gapLg
-                        Layout.rightMargin: Config.layout.gapLg
-                        Layout.bottomMargin: Config.layout.gapLg
+                        Layout.leftMargin: Appearance.layout.gapLg
+                        Layout.rightMargin: Appearance.layout.gapLg
+                        Layout.bottomMargin: Appearance.layout.gapLg
                     }
 
                     NotificationCenter {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.leftMargin: Config.layout.gapMd
-                        Layout.rightMargin: Config.layout.gapMd
+                        Layout.leftMargin: Appearance.layout.gapMd
+                        Layout.rightMargin: Appearance.layout.gapMd
                     }
 
                     NotificationToolbar {
-                        Layout.leftMargin: Config.layout.gapXl + 4
-                        Layout.rightMargin: Config.layout.gapXl + 4
+                        Layout.leftMargin: Appearance.layout.gapXl + 4
+                        Layout.rightMargin: Appearance.layout.gapXl + 4
                     }
                 }
             }

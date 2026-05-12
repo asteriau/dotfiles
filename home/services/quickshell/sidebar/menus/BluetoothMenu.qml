@@ -21,8 +21,8 @@ WindowDialog {
         active: BluetoothState.discovering
         Layout.topMargin: -8
         Layout.bottomMargin: -8
-        Layout.leftMargin: -Config.layout.radiusLg
-        Layout.rightMargin: -Config.layout.radiusLg
+        Layout.leftMargin: -Appearance.layout.radiusLg
+        Layout.rightMargin: -Appearance.layout.radiusLg
     }
 
     Item {
@@ -30,8 +30,8 @@ WindowDialog {
         Layout.fillHeight: true
         Layout.topMargin: -15
         Layout.bottomMargin: -16
-        Layout.leftMargin: -Config.layout.radiusLg
-        Layout.rightMargin: -Config.layout.radiusLg
+        Layout.leftMargin: -Appearance.layout.radiusLg
+        Layout.rightMargin: -Appearance.layout.radiusLg
 
         ListView {
             anchors.fill: parent
@@ -49,13 +49,13 @@ WindowDialog {
             anchors.centerIn: parent
             width: parent.width - 32
             visible: BluetoothState.devices.length === 0
-            spacing: Config.layout.gapSm
+            spacing: Appearance.layout.gapSm
 
             Text {
                 Layout.alignment: Qt.AlignHCenter
                 text: BluetoothState.adapter ? "bluetooth_searching" : "bluetooth_disabled"
                 color: Appearance.colors.m3onSurfaceInactive
-                font.family: Config.typography.iconFamily
+                font.family: Appearance.typography.iconFamily
                 font.pixelSize: 32
             }
 
@@ -67,7 +67,7 @@ WindowDialog {
                     : (!BluetoothState.enabled ? "Bluetooth is off" : "No devices found")
                 color: Appearance.colors.m3onSurface
                 font.family: Config.typography.family
-                font.pixelSize: Config.typography.smallie
+                font.pixelSize: Appearance.typography.smallie
                 wrapMode: Text.Wrap
             }
 
@@ -80,7 +80,7 @@ WindowDialog {
                     : (!BluetoothState.enabled ? "Enable it from the toggle" : "Make sure the device is in pairing mode")
                 color: Appearance.colors.m3onSurfaceInactive
                 font.family: Config.typography.family
-                font.pixelSize: Config.typography.smaller
+                font.pixelSize: Appearance.typography.smaller
                 wrapMode: Text.Wrap
             }
         }

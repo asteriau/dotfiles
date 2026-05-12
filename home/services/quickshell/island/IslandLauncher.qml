@@ -44,7 +44,7 @@ Item {
     readonly property real desiredHeight: {
         const head = searchBar.implicitHeight + 16; // top+bottom margins
         if (!showResults) return head;
-        const listMax = Config.island.launcherMaxHeight - head;
+        const listMax = Appearance.island.launcherMaxHeight - head;
         const listH = Math.min(listMax, listView.contentHeight + listView.topMargin + listView.bottomMargin);
         return head + Math.max(0, listH);
     }
@@ -88,7 +88,7 @@ Item {
                 anchors.centerIn: parent
                 text: qsTr("Nothing here D:")
                 color: Appearance.colors.comment
-                font.pixelSize: Config.typography.small
+                font.pixelSize: Appearance.typography.small
             }
         }
 

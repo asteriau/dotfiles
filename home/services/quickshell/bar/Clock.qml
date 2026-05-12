@@ -16,10 +16,10 @@ PressablePill {
     readonly property string hhmm:  Qt.formatDateTime(Utils.clock.date, "hh:mm")
     readonly property string ddmm:  Qt.formatDateTime(Utils.clock.date, "dd/MM")
 
-    implicitWidth:  horizontal ? hRow.implicitWidth + 16 : Config.bar.width - Config.layout.gapSm * 2
-    implicitHeight: horizontal ? Config.bar.height - Config.layout.gapSm * 2 : col.implicitHeight + 8
+    implicitWidth:  horizontal ? hRow.implicitWidth + 16 : Appearance.bar.width - Appearance.layout.gapSm * 2
+    implicitHeight: horizontal ? Appearance.bar.height - Appearance.layout.gapSm * 2 : col.implicitHeight + 8
 
-    radius: Config.layout.radiusContainer
+    radius: Appearance.layout.radiusContainer
     colorIdle: horizontal ? Appearance.colors.surfaceContainerLow : Appearance.colors.transparent
     useStateLayer: true
     pressScale: 0.98
@@ -40,7 +40,7 @@ PressablePill {
             RollingText {
                 Layout.alignment: Qt.AlignHCenter
                 text: root.hh
-                pixelSize: Config.typography.large
+                pixelSize: Appearance.typography.large
                 family: Config.typography.family
                 color: Appearance.colors.foreground
             }
@@ -48,7 +48,7 @@ PressablePill {
             RollingText {
                 Layout.alignment: Qt.AlignHCenter
                 text: root.mm
-                pixelSize: Config.typography.large
+                pixelSize: Appearance.typography.large
                 family: Config.typography.family
                 color: Appearance.colors.foreground
             }
@@ -64,7 +64,7 @@ PressablePill {
         StyledText {
             Layout.alignment: Qt.AlignHCenter
             text: root.ddmm
-            font.pixelSize: Config.typography.smallest
+            font.pixelSize: Appearance.typography.smallest
             font.family: Config.typography.family
             color: Appearance.colors.m3onSurfaceInactive
             horizontalAlignment: Text.AlignHCenter
@@ -80,20 +80,20 @@ PressablePill {
 
         RollingText {
             text: root.hhmm
-            pixelSize: Config.typography.large
+            pixelSize: Appearance.typography.large
             family: Config.typography.family
             color: Appearance.colors.foreground
         }
 
         StyledText {
             text: "/"
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             color: Appearance.colors.m3onSurfaceInactive
         }
 
         StyledText {
             text: root.ddmm
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             font.family: Config.typography.family
             color: Appearance.colors.m3onSurfaceInactive
         }

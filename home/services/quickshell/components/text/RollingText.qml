@@ -8,7 +8,7 @@ Item {
     id: root
 
     property string text: ""
-    property int    pixelSize: Config.typography.large
+    property int    pixelSize: Appearance.typography.large
     property string family: Config.typography.family
     property int    weight: Font.Normal
     property color  color: Appearance.colors.foreground

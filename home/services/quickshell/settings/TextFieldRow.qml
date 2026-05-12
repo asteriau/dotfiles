@@ -17,7 +17,7 @@ Item {
         anchors.rightMargin: 16
         anchors.topMargin: 8
         anchors.bottomMargin: 8
-        radius: Config.layout.radiusMd
+        radius: Appearance.layout.radiusMd
         color: Appearance.colors.colLayer3
 
         TextInput {
@@ -29,7 +29,7 @@ Item {
             text: root.text
             color: Appearance.colors.foreground
             font.family: Config.typography.family
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             selectByMouse: true
             onEditingFinished: root.edited(text)
         }

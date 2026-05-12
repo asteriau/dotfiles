@@ -11,10 +11,10 @@ HoverTooltip {
     acceptedButtons: Qt.LeftButton
 
     Rectangle {
-        radius: Config.layout.cardRadius
+        radius: Appearance.layout.cardRadius
         color: root.containsMouse ? Appearance.colors.buttonDisabledHover : Appearance.colors.buttonDisabled
-        implicitHeight: text.height + 2 * Config.padding
-        implicitWidth: parent.width || text.width + 2 * Config.padding
+        implicitHeight: text.height + 2 * Appearance.padding
+        implicitWidth: parent.width || text.width + 2 * Appearance.padding
         border {
             color: Appearance.colors.border
             width: 1

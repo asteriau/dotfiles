@@ -25,8 +25,8 @@ WindowDialog {
         Layout.fillHeight: true
         Layout.topMargin: -22
         Layout.bottomMargin: -16
-        Layout.leftMargin: -Config.layout.radiusLg
-        Layout.rightMargin: -Config.layout.radiusLg
+        Layout.leftMargin: -Appearance.layout.radiusLg
+        Layout.rightMargin: -Appearance.layout.radiusLg
         topMargin: 12
         bottomMargin: 12
         clip: true
@@ -43,8 +43,8 @@ WindowDialog {
     // Output device picker — matches mic menu's row list, no combobox.
     ColumnLayout {
         Layout.fillWidth: true
-        Layout.leftMargin: -Config.layout.radiusLg
-        Layout.rightMargin: -Config.layout.radiusLg
+        Layout.leftMargin: -Appearance.layout.radiusLg
+        Layout.rightMargin: -Appearance.layout.radiusLg
         spacing: 0
 
         Repeater {

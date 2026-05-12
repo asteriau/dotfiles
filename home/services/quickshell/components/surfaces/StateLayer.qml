@@ -6,7 +6,7 @@ import qs.utils
 Item {
     id: root
 
-    property real radius: Config.layout.radiusInteractive
+    property real radius: Appearance.layout.radiusInteractive
     property color tone: Appearance.colors.m3onSurface
     property bool hovered: false
     property bool pressed: false
@@ -18,10 +18,10 @@ Item {
         radius: root.radius
         antialiasing: true
         color: root.tone
-        opacity: root.dragged ? Config.layout.stateDrag
-               : root.pressed ? Config.layout.statePress
-               : root.focused ? Config.layout.stateFocus
-               : root.hovered ? Config.layout.stateHover
+        opacity: root.dragged ? Appearance.layout.stateDrag
+               : root.pressed ? Appearance.layout.statePress
+               : root.focused ? Appearance.layout.stateFocus
+               : root.hovered ? Appearance.layout.stateHover
                : 0
         Behavior on opacity {
             NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic }

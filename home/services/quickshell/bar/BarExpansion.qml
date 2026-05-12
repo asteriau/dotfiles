@@ -8,7 +8,7 @@ Item {
 
     readonly property bool vertical: Config.bar.vertical
     readonly property bool onEnd: Config.bar.onEnd
-    readonly property real outerRadius: Config.layout.radiusXl
+    readonly property real outerRadius: Appearance.layout.radiusXl
     readonly property real nonAnimWidth: content.currentWidth
     readonly property real nonAnimHeight: content.currentHeight
     property real offsetScale: expansionState.hasCurrent ? 0 : 1

@@ -11,7 +11,7 @@ Row {
     MaterialIcon {
         anchors.verticalCenter: parent.verticalCenter
         text: root.icon
-        pixelSize: Config.typography.large
+        pixelSize: Appearance.typography.large
         weight: Font.DemiBold
         color: Appearance.colors.m3onSurfaceVariant
     }
@@ -19,8 +19,8 @@ Row {
     Text {
         anchors.verticalCenter: parent.verticalCenter
         text: root.label
-        font.family: Config.fontFamily
-        font.pixelSize: Config.typography.normal
+        font.family: Config.typography.family
+        font.pixelSize: Appearance.typography.normal
         font.weight: Font.DemiBold
         color: Appearance.colors.m3onSurfaceVariant
     }

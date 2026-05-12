@@ -16,8 +16,8 @@ PanelWindow {
         left:   !Config.bar.vertical || !Config.bar.onEnd
         right:  !Config.bar.vertical || Config.bar.onEnd
     }
-    implicitWidth:  Config.bar.vertical ? Config.bar.width : 0
-    implicitHeight: Config.bar.vertical ? 0 : Config.bar.height
+    implicitWidth:  Config.bar.vertical ? Appearance.bar.width : 0
+    implicitHeight: Config.bar.vertical ? 0 : Appearance.bar.height
 
     color: "transparent"
 
@@ -38,7 +38,7 @@ PanelWindow {
             bodyHeight:   parent.height
             onEnd:        Config.bar.onEnd
             screenRadius: 0
-            freeRadius:   Config.bar.cornerRadius
+            freeRadius:   Appearance.bar.cornerRadius
             fillColor:    Appearance.colors.background
             visible:      Config.bar.rounding
         }
@@ -48,7 +48,7 @@ PanelWindow {
             id: navZone
             anchors {
                 top: parent.top
-                topMargin: Config.layout.zonePaddingV
+                topMargin: Appearance.layout.zonePaddingV
                 horizontalCenter: parent.horizontalCenter
             }
             implicitWidth: sidebarToggle.implicitWidth
@@ -64,7 +64,7 @@ PanelWindow {
                 verticalCenter: parent.verticalCenter
                 horizontalCenter: parent.horizontalCenter
             }
-            spacing: Config.layout.barZoneGap
+            spacing: Appearance.layout.barZoneGap
 
             BarGroup {
                 Layout.alignment: Qt.AlignHCenter
@@ -78,7 +78,7 @@ PanelWindow {
             BarGroup {
                 Layout.alignment: Qt.AlignHCenter
                 tone: "low"
-                rowSpacing: Config.layout.gapMd
+                rowSpacing: Appearance.layout.gapMd
                 padding: 0
 
                 Clock {}
@@ -90,16 +90,16 @@ PanelWindow {
             id: statusZone
             anchors {
                 bottom: parent.bottom
-                bottomMargin: Config.layout.zonePaddingV
+                bottomMargin: Appearance.layout.zonePaddingV
                 horizontalCenter: parent.horizontalCenter
             }
-            spacing: Config.layout.barZoneGap
+            spacing: Appearance.layout.barZoneGap
 
             BarGroup {
                 id: batteryGroup
                 Layout.alignment: Qt.AlignHCenter
                 tone: "low"
-                rowSpacing: Config.layout.gapMd
+                rowSpacing: Appearance.layout.gapMd
                 transparent: !battery.low
                 bgColor: battery.low
                     ? ColorUtils.mix(Appearance.colors.red, toneColor, 0.2)

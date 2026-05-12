@@ -52,7 +52,7 @@ Item {
             StyledText {
                 text: root.longDateLabel
                 color: Appearance.colors.foreground
-                font.pixelSize: Config.typography.small
+                font.pixelSize: Appearance.typography.small
                 font.weight: Font.Medium
             }
 
@@ -72,14 +72,14 @@ Item {
                 StyledText {
                     text: Math.round(WeatherState.temp) + "°"
                     color: Appearance.colors.m3onSurfaceVariant
-                    font.pixelSize: Config.typography.smaller
+                    font.pixelSize: Appearance.typography.smaller
                     font.weight: Font.Medium
                 }
 
                 StyledText {
                     text: "·"
                     color: Appearance.colors.m3onSurfaceVariant
-                    font.pixelSize: Config.typography.smaller
+                    font.pixelSize: Appearance.typography.smaller
                 }
 
                 StyledText {
@@ -88,7 +88,7 @@ Item {
                         return d ? d.charAt(0).toUpperCase() + d.slice(1) : "";
                     }
                     color: Appearance.colors.m3onSurfaceVariant
-                    font.pixelSize: Config.typography.smaller
+                    font.pixelSize: Appearance.typography.smaller
                 }
             }
         }

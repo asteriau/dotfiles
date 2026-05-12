@@ -109,7 +109,7 @@ Item {
                     Layout.topMargin: 14
                     text: "Nothing here D:"
                     color: Appearance.colors.comment
-                    font.pixelSize: Config.typography.small
+                    font.pixelSize: Appearance.typography.small
                     font.weight: Font.Medium
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -123,7 +123,7 @@ Item {
                 visible: false
                 layer.enabled: true
                 color: "white"
-                radius: Config.layout.cardRadius
+                radius: Appearance.layout.cardRadius
             }
 
             ListView {

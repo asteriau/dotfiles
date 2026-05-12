@@ -9,7 +9,7 @@ import qs.utils
 Item {
     id: root
 
-    property real radius: Config.layout.radiusXl
+    property real radius: Appearance.layout.radiusXl
     property color colorIdle:    Appearance.colors.elevated
     property color colorHover:   colorIdle           // no-op by default
     property color colorPressed: colorIdle           // no-op by default

@@ -68,7 +68,7 @@ PopupWindow {
             anchors.margins: root.popupPadding
 
             color: Appearance.colors.popupBackground
-            radius: Config.layout.radiusContainer
+            radius: Appearance.layout.radiusContainer
             border.width: 1
             border.color: Appearance.colors.cardBorder
             clip: true
@@ -169,8 +169,8 @@ PopupWindow {
                     Text {
                         Layout.fillWidth: true
                         text: "Back"
-                        font.family: Config.fontFamily
-                        font.pixelSize: Config.typography.smallie
+                        font.family: Config.typography.family
+                        font.pixelSize: Appearance.typography.smallie
                         color: Appearance.colors.foreground
                         verticalAlignment: Text.AlignVCenter
                     }

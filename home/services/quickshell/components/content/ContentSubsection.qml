@@ -21,14 +21,14 @@ ColumnLayout {
         Layout.topMargin: 10
         Layout.bottomMargin: 4
         visible: root.title.length > 0 || root.tooltip.length > 0
-        spacing: Config.layout.rowGap
+        spacing: Appearance.layout.rowGap
 
         Text {
             visible: root.title.length > 0
             text: root.title
             color: Appearance.colors.m3onSurfaceVariant
             font.family: Config.typography.family
-            font.pixelSize: Config.typography.smaller
+            font.pixelSize: Appearance.typography.smaller
             font.weight: Font.Medium
         }
 
@@ -37,7 +37,7 @@ ColumnLayout {
             text: root.tooltip
             MaterialIcon {
                 text: "info"
-                font.pointSize: Config.typography.smaller
+                font.pointSize: Appearance.typography.smaller
                 color: Appearance.colors.comment
             }
         }
@@ -49,6 +49,6 @@ ColumnLayout {
         id: sectionContent
         Layout.fillWidth: true
         Layout.bottomMargin: 4
-        spacing: Config.layout.subsectionGap
+        spacing: Appearance.layout.subsectionGap
     }
 }

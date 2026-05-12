@@ -18,8 +18,8 @@ Text {
     readonly property int targetSize:   pixelSize > 0 ? pixelSize : font.pointSize
     readonly property int targetWeight: font.weight
 
-    font.family: Config.typography.iconFamily
-    font.pointSize: pixelSize > 0 ? -1 : (Config.iconSize + 1)
+    font.family: Appearance.typography.iconFamily
+    font.pointSize: pixelSize > 0 ? -1 : (Config.typography.iconSize + 1)
     font.pixelSize: pixelSize > 0 ? pixelSize : -1
     font.weight: weight
     font.variableAxes: ({

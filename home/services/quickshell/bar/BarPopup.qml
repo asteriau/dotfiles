@@ -47,11 +47,11 @@ PopupWindow {
         item: root.targetItem
         rect: Qt.rect(
             Config.bar.vertical 
-                ? (root.targetItem.width / 2) + (Config.bar.onEnd ? -(Config.bar.width / 2 + 8) : (Config.bar.width / 2 + 8))
+                ? (root.targetItem.width / 2) + (Config.bar.onEnd ? -(Appearance.bar.width / 2 + 8) : (Appearance.bar.width / 2 + 8))
                 : root.targetItem.width / 2,
             Config.bar.vertical 
                 ? root.targetItem.height / 2 
-                : (root.targetItem.height / 2) + (Config.bar.onEnd ? -(Config.bar.height / 2 + 8) : (Config.bar.height / 2 + 8)),
+                : (root.targetItem.height / 2) + (Config.bar.onEnd ? -(Appearance.bar.height / 2 + 8) : (Appearance.bar.height / 2 + 8)),
             0, 0
         )
         gravity: Config.bar.vertical 
@@ -89,7 +89,7 @@ PopupWindow {
             anchors.fill: parent
             visible: !root.transparent
             color: Appearance.colors.surfaceContainer
-            radius: Config.layout.radiusSm
+            radius: Appearance.layout.radiusSm
             border.width: 1
             border.color: Appearance.colors.outlineVariant
         }

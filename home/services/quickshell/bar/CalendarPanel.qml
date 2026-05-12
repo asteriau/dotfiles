@@ -32,7 +32,7 @@ ChoreographerLoader {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
                     text: calendarView.title
-                    pixelSize: Config.typography.large
+                    pixelSize: Appearance.typography.large
                     fontWeight: Font.Medium
                     elide: Text.ElideRight
                     color: Appearance.colors.accent
@@ -82,7 +82,7 @@ ChoreographerLoader {
                     StyledText {
                         id: dowText
                         anchors.centerIn: parent
-                        font.pixelSize: Config.typography.smaller
+                        font.pixelSize: Appearance.typography.smaller
                         color: Appearance.colors.m3onSurfaceInactive
                         text: model.shortName.substring(0, 2)
                     }

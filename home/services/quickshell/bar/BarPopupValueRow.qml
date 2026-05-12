@@ -15,15 +15,15 @@ RowLayout {
     MaterialIcon {
         Layout.alignment: Qt.AlignVCenter
         text: root.icon
-        pixelSize: Config.typography.normal
+        pixelSize: Appearance.typography.normal
         color: Appearance.colors.m3onSurfaceVariant
     }
 
     Text {
         Layout.alignment: Qt.AlignVCenter
         text: root.label
-        font.family: Config.fontFamily
-        font.pixelSize: Config.typography.normal
+        font.family: Config.typography.family
+        font.pixelSize: Appearance.typography.normal
         color: Appearance.colors.m3onSurfaceVariant
     }
 
@@ -32,8 +32,8 @@ RowLayout {
         Layout.fillWidth: true
         horizontalAlignment: Text.AlignRight
         text: root.value
-        font.family: Config.fontFamily
-        font.pixelSize: Config.typography.normal
+        font.family: Config.typography.family
+        font.pixelSize: Appearance.typography.normal
         font.weight: Font.Medium
         color: Appearance.colors.m3onSurfaceVariant
     }

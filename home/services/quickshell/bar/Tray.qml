@@ -19,19 +19,19 @@ Item {
 
     Layout.alignment: Qt.AlignHCenter
 
-    implicitWidth:  vertical ? Config.bar.width
-                             : (hRow.implicitWidth + Config.layout.gapMd * 2)
-    implicitHeight: vertical ? (vCol.implicitHeight + Config.layout.gapMd)
-                             : Config.bar.height
+    implicitWidth:  vertical ? Appearance.bar.width
+                             : (hRow.implicitWidth + Appearance.layout.gapMd * 2)
+    implicitHeight: vertical ? (vCol.implicitHeight + Appearance.layout.gapMd)
+                             : Appearance.bar.height
 
     Rectangle {
         id: card
         anchors.fill: parent
-        anchors.topMargin:    root.vertical ? 0 : Config.layout.gapSm
-        anchors.bottomMargin: root.vertical ? 0 : Config.layout.gapSm
-        anchors.leftMargin:   root.vertical ? Config.layout.gapSm : 0
-        anchors.rightMargin:  root.vertical ? Config.layout.gapSm : 0
-        radius: Config.layout.radiusContainer
+        anchors.topMargin:    root.vertical ? 0 : Appearance.layout.gapSm
+        anchors.bottomMargin: root.vertical ? 0 : Appearance.layout.gapSm
+        anchors.leftMargin:   root.vertical ? Appearance.layout.gapSm : 0
+        anchors.rightMargin:  root.vertical ? Appearance.layout.gapSm : 0
+        radius: Appearance.layout.radiusContainer
         color: Appearance.colors.surfaceContainerLow
 
         Behavior on color {
@@ -57,10 +57,10 @@ Item {
         MultiEffect {
             source: trayIcon
             anchors.fill: trayIcon
-            shadowEnabled: Config.shadow.enabled
-            shadowVerticalOffset: Config.shadow.verticalOffset
-            blurMax: Config.shadow.blur
-            opacity: Config.shadow.opacity
+            shadowEnabled: Appearance.shadow.enabled
+            shadowVerticalOffset: Appearance.shadow.verticalOffset
+            blurMax: Appearance.shadow.blur
+            opacity: Appearance.shadow.opacity
         }
 
         MouseArea {
@@ -114,13 +114,13 @@ Item {
         id: vCol
         visible: root.vertical
         anchors.centerIn: parent
-        spacing: root.iconsVisible ? Config.layout.gapMd : 0
+        spacing: root.iconsVisible ? Appearance.layout.gapMd : 0
 
         Behavior on spacing { Motion.Spatial {} }
 
         Item {
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: root.entryIconSize + Config.layout.gapSm
+            Layout.preferredWidth: root.entryIconSize + Appearance.layout.gapSm
             implicitHeight: root.iconsVisible ? iconsCol.implicitHeight : 0
             clip: true
             opacity: root.iconsVisible ? 1 : 0
@@ -131,7 +131,7 @@ Item {
             ColumnLayout {
                 id: iconsCol
                 anchors.horizontalCenter: parent.horizontalCenter
-                spacing: Config.layout.gapMd
+                spacing: Appearance.layout.gapMd
 
                 Repeater {
                     model: SystemTray.items
@@ -169,7 +169,7 @@ Item {
         id: hRow
         visible: !root.vertical
         anchors.centerIn: parent
-        spacing: root.iconsVisible ? Config.layout.gapSm : 0
+        spacing: root.iconsVisible ? Appearance.layout.gapSm : 0
 
         Behavior on spacing { Motion.Spatial {} }
 
@@ -184,7 +184,7 @@ Item {
             Row {
                 id: iconsRow
                 anchors.verticalCenter: parent.verticalCenter
-                spacing: Config.layout.gapMd
+                spacing: Appearance.layout.gapMd
 
                 Repeater {
                     model: SystemTray.items

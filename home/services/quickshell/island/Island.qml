@@ -86,12 +86,12 @@ Scope {
             onActivated: scope.launcher?.hide()
         }
 
-        implicitWidth: Math.max(Config.island.maxWidth, Config.island.launcherWidth) + 80
-        implicitHeight: Math.max(Config.island.expandedHeightHome,
-                                 Config.island.expandedHeightMedia,
-                                 Config.island.expandedHeightNotif,
-                                 Config.island.expandedHeightBattery,
-                                 Config.island.launcherMaxHeight) + 80
+        implicitWidth: Math.max(Appearance.island.maxWidth, Appearance.island.launcherWidth) + 80
+        implicitHeight: Math.max(Appearance.island.expandedHeightHome,
+                                 Appearance.island.expandedHeightMedia,
+                                 Appearance.island.expandedHeightNotif,
+                                 Appearance.island.expandedHeightBattery,
+                                 Appearance.island.launcherMaxHeight) + 80
 
         Item {
             id: container
@@ -157,7 +157,7 @@ Scope {
 
                 readonly property bool hoverable:
                     _displayMode === "launcher" ? false :
-                    Config.island.hoverIdleExpand
+                    Appearance.island.hoverIdleExpand
                         ? (_displayMode !== "osd")
                         : (_displayMode === "media" || _displayMode === "battery")
 
@@ -168,51 +168,51 @@ Scope {
                 readonly property int targetW: {
                     if (_displayMode === "launcher") {
                         return LauncherSearch.query === ""
-                            ? Config.island.launcherCollapsedWidth
-                            : Config.island.launcherWidth;
+                            ? Appearance.island.launcherCollapsedWidth
+                            : Appearance.island.launcherWidth;
                     }
                     if (expanded) {
                         switch (_displayMode) {
-                            case "media":   return Config.island.expandedWidthMedia;
-                            case "battery": return Config.island.expandedWidthBattery;
-                            case "home":    return Config.island.expandedWidthHome;
+                            case "media":   return Appearance.island.expandedWidthMedia;
+                            case "battery": return Appearance.island.expandedWidthBattery;
+                            case "home":    return Appearance.island.expandedWidthHome;
                         }
                     }
                     switch (_displayMode) {
-                        case "osd":     return Config.island.compactWidthOsd;
-                        case "battery": return Config.island.compactWidthBattery;
-                        case "media":   return Config.island.compactWidthMedia;
-                        case "home":    return Config.island.notchClosedWidth;
+                        case "osd":     return Appearance.island.compactWidthOsd;
+                        case "battery": return Appearance.island.compactWidthBattery;
+                        case "media":   return Appearance.island.compactWidthMedia;
+                        case "home":    return Appearance.island.notchClosedWidth;
                     }
-                    return Config.island.notchClosedWidth;
+                    return Appearance.island.notchClosedWidth;
                 }
                 readonly property int targetH: {
                     if (_displayMode === "launcher") {
-                        return Math.max(Config.island.launcherMinHeight,
-                                        Math.min(Config.island.launcherMaxHeight,
+                        return Math.max(Appearance.island.launcherMinHeight,
+                                        Math.min(Appearance.island.launcherMaxHeight,
                                                  launcherView.desiredHeight));
                     }
                     if (!expanded) {
-                        if (_displayMode === "osd") return Config.island.osdHeight;
-                        return Config.island.notchClosedHeight;
+                        if (_displayMode === "osd") return Appearance.island.osdHeight;
+                        return Appearance.island.notchClosedHeight;
                     }
                     switch (_displayMode) {
-                        case "media":   return Config.island.expandedHeightMedia;
-                        case "battery": return Config.island.expandedHeightBattery;
-                        case "home":    return Config.island.expandedHeightHome;
+                        case "media":   return Appearance.island.expandedHeightMedia;
+                        case "battery": return Appearance.island.expandedHeightBattery;
+                        case "home":    return Appearance.island.expandedHeightHome;
                     }
-                    return Config.island.notchClosedHeight;
+                    return Appearance.island.notchClosedHeight;
                 }
                 readonly property real targetTopR:
-                    _displayMode === "launcher" ? Config.island.launcherTopRadius
-                    : _displayMode === "osd" ? Config.island.osdTopRadius
-                    : expanded ? Config.island.notchOpenTopRadius
-                    : Config.island.notchClosedTopRadius
+                    _displayMode === "launcher" ? Appearance.island.launcherTopRadius
+                    : _displayMode === "osd" ? Appearance.island.osdTopRadius
+                    : expanded ? Appearance.island.notchOpenTopRadius
+                    : Appearance.island.notchClosedTopRadius
                 readonly property real targetBottomR:
-                    _displayMode === "launcher" ? Config.island.launcherBottomRadius
-                    : _displayMode === "osd" ? Config.island.osdBottomRadius
-                    : expanded ? Config.island.notchOpenBottomRadius
-                    : Config.island.notchClosedBottomRadius
+                    _displayMode === "launcher" ? Appearance.island.launcherBottomRadius
+                    : _displayMode === "osd" ? Appearance.island.osdBottomRadius
+                    : expanded ? Appearance.island.notchOpenBottomRadius
+                    : Appearance.island.notchClosedBottomRadius
             }
 
             Connections {
@@ -224,7 +224,7 @@ Scope {
             }
             Timer {
                 id: modeStableTimer
-                interval: Config.island.swapDurationMs
+                interval: Appearance.island.swapDurationMs
                 onTriggered: {
                     pillState._displayMode = scope.mode;
                     pillState._modeStable = true;
@@ -338,10 +338,10 @@ Scope {
 
             IslandMediaArtPeek {
                 id: artPeek
-                width: Config.island.mediaArtPeekSize
-                height: Config.island.mediaArtPeekSize
+                width: Appearance.island.mediaArtPeekSize
+                height: Appearance.island.mediaArtPeekSize
                 anchors.left: notch.left
-                anchors.leftMargin: notch.topRadius + Config.island.mediaPeekGap
+                anchors.leftMargin: notch.topRadius + Appearance.island.mediaPeekGap
                 anchors.verticalCenter: notch.verticalCenter
                 opacity: container.mediaPeekVisible ? 1 : 0
                 visible: opacity > 0
@@ -369,10 +369,10 @@ Scope {
 
             IslandMediaVizPeek {
                 id: vizPeek
-                width: Config.island.mediaVizPeekWidth
-                height: Config.island.mediaArtPeekSize
+                width: Appearance.island.mediaVizPeekWidth
+                height: Appearance.island.mediaArtPeekSize
                 anchors.right: notch.right
-                anchors.rightMargin: notch.topRadius + Config.island.mediaPeekGap
+                anchors.rightMargin: notch.topRadius + Appearance.island.mediaPeekGap
                 anchors.verticalCenter: notch.verticalCenter
                 accentColor: container.mediaTint
                 opacity: container.mediaPeekVisible ? 1 : 0

@@ -35,8 +35,8 @@ Item {
 
     readonly property bool showNumbers: UiState.showWorkspaceNumbers
 
-    implicitWidth:  vertical ? Config.bar.width : (workspaceButtonWidth * workspacesShown)
-    implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Config.bar.height
+    implicitWidth:  vertical ? Appearance.bar.width : (workspaceButtonWidth * workspacesShown)
+    implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Appearance.bar.height
 
     // ── Occupancy tracking ────────────────────────────────────────────────
     function updateWorkspaceOccupied() {
@@ -78,7 +78,7 @@ Item {
             leftMargin:   root.vertical ? 4 : 0
             rightMargin:  root.vertical ? 4 : 0
         }
-        radius: Config.layout.radiusMd
+        radius: Appearance.layout.radiusMd
         color: Appearance.colors.surfaceContainerLow
     }
 

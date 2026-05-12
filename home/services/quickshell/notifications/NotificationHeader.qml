@@ -28,7 +28,7 @@ Item {
             Layout.fillWidth: true
             text: root.summary
             color: Appearance.colors.foreground
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             font.weight: Font.DemiBold
             elide: Text.ElideRight
             maximumLineCount: 1
@@ -49,7 +49,7 @@ Item {
 
         readonly property bool hovered: pillMouse.containsMouse
 
-        implicitHeight: Config.typography.smaller + 8
+        implicitHeight: Appearance.typography.smaller + 8
         implicitWidth: Math.max(30, pillRow.implicitWidth + 10)
         radius: height / 2
         color: pillMouse.pressed ? Appearance.colors.pressedStrong
@@ -69,7 +69,7 @@ Item {
             StyledText {
                 visible: root.count > 1
                 text: root.count
-                font.pixelSize: Config.typography.smaller
+                font.pixelSize: Appearance.typography.smaller
                 color: Appearance.colors.foreground
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -78,7 +78,7 @@ Item {
                 id: chevron
                 text: "keyboard_arrow_down"
                 color: Appearance.colors.foreground
-                pixelSize: Config.typography.normal
+                pixelSize: Appearance.typography.normal
                 rotation: root.expanded ? 180 : 0
 
                 Behavior on rotation {

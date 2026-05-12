@@ -216,8 +216,8 @@ Singleton {
     Process { id: hyprlandClear; running: false }
 
     Connections {
-        target: Config
-        function onThemeModeChanged() {
+        target: Config.theme
+        function onModeChanged() {
             if (Config.theme.mode === "preset") root._resetOverlays();
         }
     }

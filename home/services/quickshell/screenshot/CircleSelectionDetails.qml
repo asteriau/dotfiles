@@ -8,7 +8,7 @@ Item {
     required property color color
     required property color overlayColor
     required property list<point> points
-    property int strokeWidth: Config.regionCircleStrokeWidth
+    property int strokeWidth: Config.screenshot.regionCircle.strokeWidth
 
     Rectangle {
         id: darkenOverlay

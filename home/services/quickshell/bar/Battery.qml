@@ -47,7 +47,7 @@ HoverTooltip {
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: root.batteryIcon
                     fill: 1
-                    pixelSize: Config.typography.normal
+                    pixelSize: Appearance.typography.normal
                     weight: Font.DemiBold
                     color: "white"
                 }
@@ -55,7 +55,7 @@ HoverTooltip {
                     visible: root.percentage < 100
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: `${root.percentage}`
-                    font.family: Config.fontFamily
+                    font.family: Config.typography.family
                     font.pixelSize: 13
                     font.weight: Font.DemiBold
                     color: "white"
@@ -78,7 +78,7 @@ HoverTooltip {
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
                     text: `${root.percentage}`
-                    font.family: Config.fontFamily
+                    font.family: Config.typography.family
                     font.pixelSize: 13
                     font.weight: root.percentage < 100 ? Font.DemiBold : Font.Medium
                     color: "white"

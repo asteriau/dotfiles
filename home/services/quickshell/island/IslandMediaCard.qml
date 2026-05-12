@@ -17,7 +17,7 @@ Item {
     id: root
 
     property MprisPlayer player: MprisState.player
-    property real radius: Config.island.expandRadius
+    property real radius: Appearance.island.expandRadius
     property Item backdropMask: null
     property real contentSideInset: 0
 
@@ -175,7 +175,7 @@ Item {
                     text: (root.player?.trackTitle ?? "") || "Untitled"
                     color: root.blendedColors.colOnLayer0
                     font.family: Config.typography.family
-                    font.pixelSize: Config.typography.large
+                    font.pixelSize: Appearance.typography.large
                     font.weight: Font.DemiBold
                     pixelsPerSecond: 35
                 }

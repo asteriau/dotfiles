@@ -52,13 +52,13 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: Config.layout.pageMargin
-        spacing: Config.layout.gapMd
+        anchors.margins: Appearance.layout.pageMargin
+        spacing: Appearance.layout.gapMd
 
         // Header line
         RowLayout {
             Layout.fillWidth: true
-            spacing: Config.layout.gapMd
+            spacing: Appearance.layout.gapMd
 
             StyledText {
                 text: root._displayResults.length === 0
@@ -66,7 +66,7 @@ Item {
                     : root._displayResults.length + " result" + (root._displayResults.length === 1 ? "" : "s")
                       + " for “" + root._displayQuery + "”"
                 color: Appearance.colors.m3onSurfaceVariant
-                font.pixelSize: Config.typography.small
+                font.pixelSize: Appearance.typography.small
                 Layout.fillWidth: true
             }
         }
@@ -76,7 +76,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: root._displayResults
-            spacing: Config.layout.gapMd
+            spacing: Appearance.layout.gapMd
             clip: true
             boundsBehavior: Flickable.StopAtBounds
             currentIndex: root.selectedIndex
@@ -88,7 +88,7 @@ Item {
                 required property var modelData
                 width: ListView.view.width
                 implicitHeight: Math.max(64, rowCol.implicitHeight + 24)
-                radius: Config.layout.radiusLg
+                radius: Appearance.layout.radiusLg
                 color: Appearance.colors.transparent
 
                 Rectangle {
@@ -106,7 +106,7 @@ Item {
                     anchors.rightMargin: 16
                     anchors.topMargin: 12
                     anchors.bottomMargin: 12
-                    spacing: Config.layout.gapLg
+                    spacing: Appearance.layout.gapLg
 
                     // Tonal icon container
                     Rectangle {
@@ -119,7 +119,7 @@ Item {
                         MaterialIcon {
                             anchors.centerIn: parent
                             text: root.pageIcons[delegateRoot.modelData.page] || "tune"
-                            pixelSize: Config.typography.large
+                            pixelSize: Appearance.typography.large
                             color: Appearance.colors.m3onSurfaceVariant
                         }
                     }
@@ -132,7 +132,7 @@ Item {
                         StyledText {
                             text: delegateRoot.modelData.label
                             color: Appearance.colors.foreground
-                            font.pixelSize: Config.typography.small
+                            font.pixelSize: Appearance.typography.small
                             font.weight: Font.Medium
                             Layout.fillWidth: true
                             elide: Text.ElideRight
@@ -142,7 +142,7 @@ Item {
                             visible: delegateRoot.modelData.caption.length > 0
                             text: delegateRoot.modelData.caption
                             color: Appearance.colors.m3onSurfaceVariant
-                            font.pixelSize: Config.typography.smaller
+                            font.pixelSize: Appearance.typography.smaller
                             Layout.fillWidth: true
                             elide: Text.ElideRight
                         }
@@ -156,18 +156,18 @@ Item {
                         StyledText {
                             text: delegateRoot.modelData.page
                             color: Appearance.colors.m3onSurfaceVariant
-                            font.pixelSize: Config.typography.small
+                            font.pixelSize: Appearance.typography.small
                             font.weight: Font.Medium
                         }
                         MaterialIcon {
                             text: "chevron_right"
-                            pixelSize: Config.typography.small
+                            pixelSize: Appearance.typography.small
                             color: Appearance.colors.m3onSurfaceVariant
                         }
                         StyledText {
                             text: delegateRoot.modelData.section
                             color: Appearance.colors.m3onSurfaceVariant
-                            font.pixelSize: Config.typography.small
+                            font.pixelSize: Appearance.typography.small
                         }
                     }
                 }

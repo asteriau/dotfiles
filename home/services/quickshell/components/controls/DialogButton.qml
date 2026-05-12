@@ -48,7 +48,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        radius: Config.layout.pillRadius
+        radius: Appearance.layout.pillRadius
         color: ma.containsMouse ? root._bgHover : root._bg
         Behavior on color { Motion.ColorFade {} }
     }
@@ -59,8 +59,8 @@ Item {
         text: root.text
         color: root._fg
         font.family: Config.typography.family
-        font.pixelSize: Config.typography.smaller
-        font.weight: Config.typography.weightMedium
+        font.pixelSize: Appearance.typography.smaller
+        font.weight: Appearance.typography.weightMedium
         Behavior on color { Motion.ColorFade {} }
     }
 

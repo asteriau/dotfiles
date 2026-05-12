@@ -60,7 +60,7 @@ Item {
                 visible: row.muted
                 text: "volume_off"
                 color: Appearance.colors.m3onSurface
-                font.family: Config.typography.iconFamily
+                font.family: Appearance.typography.iconFamily
                 font.pixelSize: 22
             }
 
@@ -85,7 +85,7 @@ Item {
                     : row.appName
                 color: Appearance.colors.comment
                 font.family: Config.typography.family
-                font.pixelSize: Config.typography.small
+                font.pixelSize: Appearance.typography.small
                 elide: Text.ElideRight
             }
 

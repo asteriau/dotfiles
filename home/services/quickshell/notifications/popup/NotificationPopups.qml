@@ -14,7 +14,7 @@ import qs.services
 Scope {
     id: scope
 
-    readonly property bool dnd: Config.doNotDisturb
+    readonly property bool dnd: Config.notifications.doNotDisturb
     readonly property var notifs: scope.dnd ? [] : NotificationState.popupNotifs
 
     // Mirrors bar position. bar=left/top/bottom → top-right;
@@ -26,10 +26,10 @@ Scope {
     readonly property bool anchorRight:  resolved.endsWith("right")
     readonly property bool anchorLeft:   resolved.endsWith("left")
 
-    readonly property int marginTop:    anchorTop    && Config.bar.position === "top"    ? Config.bar.height + 8 : (anchorTop    ? 12 : 0)
-    readonly property int marginBottom: anchorBottom && Config.bar.position === "bottom" ? Config.bar.height + 8 : (anchorBottom ? 12 : 0)
-    readonly property int marginRight:  anchorRight  && Config.bar.position === "right"  ? Config.bar.width + 8  : (anchorRight  ? 12 : 0)
-    readonly property int marginLeft:   anchorLeft   && Config.bar.position === "left"   ? Config.bar.width + 8  : (anchorLeft   ? 12 : 0)
+    readonly property int marginTop:    anchorTop    && Config.bar.position === "top"    ? Appearance.bar.height + 8 : (anchorTop    ? 12 : 0)
+    readonly property int marginBottom: anchorBottom && Config.bar.position === "bottom" ? Appearance.bar.height + 8 : (anchorBottom ? 12 : 0)
+    readonly property int marginRight:  anchorRight  && Config.bar.position === "right"  ? Appearance.bar.width + 8  : (anchorRight  ? 12 : 0)
+    readonly property int marginLeft:   anchorLeft   && Config.bar.position === "left"   ? Appearance.bar.width + 8  : (anchorLeft   ? 12 : 0)
 
     PanelWindow {
         id: win
@@ -55,7 +55,7 @@ Scope {
             right:  scope.marginRight
         }
 
-        implicitWidth: Config.notifications.width + 24
+        implicitWidth: Appearance.notification.width + 24
         implicitHeight: list.contentHeight + 24
 
         ListView {
@@ -78,7 +78,7 @@ Scope {
 
             delegate: NotificationPopupItem {
                 required property var modelData
-                width: Config.notifications.width
+                width: Appearance.notification.width
                 n: modelData
             }
         }

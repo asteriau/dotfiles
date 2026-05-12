@@ -32,7 +32,7 @@ Item {
             x: root.expanded ? 0 : (parent.width - width) / 2
             width:  root.expanded ? parent.width : 56
             height: root.expanded ? 40 : 52
-            radius: Config.layout.radiusXl
+            radius: Appearance.layout.radiusXl
             color: Appearance.colors.transparent
 
             Behavior on width  { NumberAnimation { duration: Appearance.motion.duration.spatial; easing.type: Easing.OutCubic } }
@@ -63,7 +63,7 @@ Item {
             visible: !root.expanded
             anchors.centerIn: parent
             text: item.icon
-            font.pointSize: Config.typography.huge
+            font.pointSize: Appearance.typography.huge
             fill: item.selected ? 1 : 0
             color: item.selected ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.m3onSurfaceVariant
             Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
@@ -82,7 +82,7 @@ Item {
 
             MaterialIcon {
                 text: item.icon
-                font.pointSize: Config.typography.huge
+                font.pointSize: Appearance.typography.huge
                 fill: item.selected ? 1 : 0
                 color: item.selected ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.m3onSurfaceVariant
                 Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
@@ -93,7 +93,7 @@ Item {
                 Layout.fillWidth: true
                 text: item.label
                 font.family: Config.typography.family
-                font.pixelSize: Config.typography.small
+                font.pixelSize: Appearance.typography.small
                 font.weight: item.selected ? Font.Medium : Font.Normal
                 color: item.selected ? Appearance.colors.m3onPrimaryContainer : Appearance.colors.m3onSurfaceVariant
                 Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
@@ -128,7 +128,7 @@ Item {
                 MaterialIcon {
                     anchors.centerIn: parent
                     text: root.expanded ? "menu_open" : "menu"
-                    font.pointSize: Config.typography.huge
+                    font.pointSize: Appearance.typography.huge
                     color: Appearance.colors.m3onSurfaceVariant
                 }
 

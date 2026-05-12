@@ -46,7 +46,7 @@ Rectangle {
         anchors.rightMargin: 16
         anchors.topMargin: 8
         anchors.bottomMargin: 8
-        spacing: Config.layout.gapLg
+        spacing: Appearance.layout.gapLg
 
         Rectangle {
             Layout.preferredWidth: 36
@@ -59,7 +59,7 @@ Rectangle {
             MaterialIcon {
                 anchors.centerIn: parent
                 text: root.icon
-                font.pointSize: Config.typography.large
+                font.pointSize: Appearance.typography.large
                 color: Appearance.colors.m3onSecondaryContainer
             }
         }
@@ -68,7 +68,7 @@ Rectangle {
             visible: root.text.length > 0
             text: root.text
             color: Appearance.colors.foreground
-            font.pixelSize: Config.typography.small
+            font.pixelSize: Appearance.typography.small
             font.weight: Font.Medium
             Layout.preferredWidth: 120
             elide: Text.ElideRight
@@ -94,7 +94,7 @@ Rectangle {
             text: (root.decimals > 0 ? root.value.toFixed(root.decimals)
                                      : String(Math.round(root.value))) + root.suffix
             color: Appearance.colors.m3onSurfaceVariant
-            font.pixelSize: Config.typography.smallie
+            font.pixelSize: Appearance.typography.smallie
             font.weight: Font.Medium
             Layout.preferredWidth: 48
             horizontalAlignment: Text.AlignRight

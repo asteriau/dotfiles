@@ -28,8 +28,8 @@ Item {
         id: breadcrumb
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-        anchors.leftMargin: Config.layout.gapLg
-        spacing: Config.layout.gapMd
+        anchors.leftMargin: Appearance.layout.gapLg
+        spacing: Appearance.layout.gapMd
         visible: !root.compact
         opacity: root.compact ? 0 : 1
         Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
@@ -37,14 +37,14 @@ Item {
         StyledText {
             text: "Settings"
             color: Appearance.colors.m3onSurfaceVariant
-            font.pixelSize: Config.typography.larger
+            font.pixelSize: Appearance.typography.larger
             font.weight: Font.Medium
-            font.family: Config.typography.titleFamily
+            font.family: Appearance.typography.titleFamily
         }
 
         MaterialIcon {
             text: "chevron_right"
-            font.pointSize: Config.typography.huge
+            font.pointSize: Appearance.typography.huge
             color: Appearance.colors.m3onSurfaceVariant
             opacity: 0.7
         }
@@ -54,7 +54,7 @@ Item {
             Layout.preferredHeight: 28
             Layout.preferredWidth: 140
             text: root.pageName
-            pixelSize: Config.typography.larger
+            pixelSize: Appearance.typography.larger
             fontWeight: Font.Medium
             color: Appearance.colors.accent
         }

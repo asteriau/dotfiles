@@ -24,7 +24,7 @@ Item {
 
     property string timeString: NotificationUtils.getFriendlyNotifTimeString(n?.time)
 
-    implicitWidth: Config.notifications.width
+    implicitWidth: Appearance.notification.width
     implicitHeight: background.implicitHeight
 
     // Popup appear animation.
@@ -76,7 +76,7 @@ Item {
         x: 0
         width: parent.width
         color: root.isPopup ? Appearance.colors.popupBackground : Appearance.colors.elevated
-        radius: root.isPopup ? Config.layout.notificationRadius : Config.layout.notificationCollapsedR
+        radius: root.isPopup ? Appearance.layout.notificationRadius : Appearance.layout.notificationCollapsedR
         antialiasing: true
         clip: true
         opacity: Math.max(0, 1 - Math.abs(x) / (width * 0.9))

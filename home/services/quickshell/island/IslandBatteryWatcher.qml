@@ -15,12 +15,12 @@ Item {
 
     Timer {
         id: peekTimer
-        interval: Config.island.peekDurationMs
+        interval: Appearance.island.peekDurationMs
         onTriggered: root.peeking = false
     }
     Timer {
         id: hideTimer
-        interval: Config.island.batteryPeekMs
+        interval: Appearance.island.batteryPeekMs
         onTriggered: root.active = false
     }
 

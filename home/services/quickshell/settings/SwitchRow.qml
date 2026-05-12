@@ -21,7 +21,7 @@ Rectangle {
     implicitHeight: Math.max(56, contentRow.implicitHeight + 16)
     color: ma.pressed ? Appearance.colors.pressed
                       : (ma.containsMouse ? Appearance.colors.hover : Appearance.colors.transparent)
-    radius: Config.layout.radiusLg
+    radius: Appearance.layout.radiusLg
     Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
     Rectangle {
@@ -60,7 +60,7 @@ Rectangle {
             MaterialIcon {
                 anchors.centerIn: parent
                 text: root.icon
-                font.pointSize: Config.typography.large
+                font.pointSize: Appearance.typography.large
                 fill: root.checked ? 1 : 0
                 color: root.checked ? Appearance.colors.accentText : Appearance.colors.m3onSurfaceVariant
                 Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
@@ -81,9 +81,9 @@ Rectangle {
         ColumnLayout {
             id: labelCol
             anchors.left: iconBadge.visible ? iconBadge.right : parent.left
-            anchors.leftMargin: iconBadge.visible ? Config.layout.gapLg : 0
+            anchors.leftMargin: iconBadge.visible ? Appearance.layout.gapLg : 0
             anchors.right: switchCtl.left
-            anchors.rightMargin: Config.layout.gapLg
+            anchors.rightMargin: Appearance.layout.gapLg
             anchors.verticalCenter: parent.verticalCenter
             spacing: 2
 
@@ -91,7 +91,7 @@ Rectangle {
                 Layout.fillWidth: true
                 text: root.text
                 color: Appearance.colors.foreground
-                font.pixelSize: Config.typography.small
+                font.pixelSize: Appearance.typography.small
                 font.weight: Font.Medium
                 elide: Text.ElideRight
             }
@@ -101,7 +101,7 @@ Rectangle {
                 visible: root.caption.length > 0
                 text: root.caption
                 color: Appearance.colors.m3onSurfaceVariant
-                font.pixelSize: Config.typography.smaller
+                font.pixelSize: Appearance.typography.smaller
                 elide: Text.ElideRight
             }
         }

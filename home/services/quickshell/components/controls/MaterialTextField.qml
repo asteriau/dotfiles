@@ -21,7 +21,7 @@ TextField {
     selectByMouse: true
 
     background: Rectangle {
-        radius: Config.layout.radiusSm
+        radius: Appearance.layout.radiusSm
         color: Appearance.colors.colLayer3
         border.width: 1
         border.color: root.hasError

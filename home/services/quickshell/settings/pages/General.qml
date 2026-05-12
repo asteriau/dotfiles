@@ -13,8 +13,8 @@ ContentPage {
 
             TextFieldRow {
                 objectName: "gen-fontFamily"
-                text: Config.fontFamily
-                onEdited: v => Config.fontFamily = v
+                text: Config.typography.family
+                onEdited: v => Config.typography.family = v
             }
         }
 
@@ -25,9 +25,9 @@ ContentPage {
             SliderRow {
                 objectName: "gen-iconSize"
                 icon: "format_size"
-                from: 10; to: 24; value: Config.iconSize; stepSize: 1
+                from: 10; to: 24; value: Config.typography.iconSize; stepSize: 1
                 suffix: "px"
-                onMoved: v => Config.iconSize = v
+                onMoved: v => Config.typography.iconSize = v
             }
         }
     }

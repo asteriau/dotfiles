@@ -24,7 +24,7 @@ Item {
 
     Timer {
         id: dismissTimer
-        interval: Config.notifications.expireTimeout
+        interval: Appearance.notification.expireTimeout
         running: !root.isCritical && !hover.hovered && root.n !== null
         repeat: false
         onTriggered: {

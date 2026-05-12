@@ -17,7 +17,7 @@ Window {
     color: Appearance.colors.background
 
     readonly property string _base: Qt.resolvedUrl(".")
-    readonly property real contentPadding: Config.layout.pageMargin / 2
+    readonly property real contentPadding: Appearance.layout.pageMargin / 2
 
     property int currentPage: 0
     property bool navExpanded: width > 900
@@ -118,8 +118,8 @@ Window {
             pageName: settingsWindow.pages[settingsWindow.currentPage].name
             compact: settingsWindow.width < 820
             searchOffsetX: ((settingsWindow.navExpanded
-                                ? Config.layout.navRailExpanded
-                                : Config.layout.navRailCollapsed)
+                                ? Appearance.layout.navRailExpanded
+                                : Appearance.layout.navRailCollapsed)
                             + settingsWindow.contentPadding) / 2
 
             onQueryChanged: q => settingsWindow.searchQuery = q
@@ -145,8 +145,8 @@ Window {
                 Layout.fillHeight: true
                 Layout.margins: 5
                 Layout.preferredWidth: settingsWindow.navExpanded
-                                        ? Config.layout.navRailExpanded
-                                        : Config.layout.navRailCollapsed
+                                        ? Appearance.layout.navRailExpanded
+                                        : Appearance.layout.navRailCollapsed
 
                 Behavior on Layout.preferredWidth {
                     NumberAnimation {

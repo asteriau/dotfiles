@@ -11,10 +11,10 @@ PressablePill {
     Component.onCompleted: ResourcesState.subscribe()
     Component.onDestruction: ResourcesState.unsubscribe()
 
-    implicitWidth:  Config.bar.width - Config.layout.gapSm * 2
+    implicitWidth:  Appearance.bar.width - Appearance.layout.gapSm * 2
     implicitHeight: col.implicitHeight + 8
 
-    radius: Config.layout.radiusContainer
+    radius: Appearance.layout.radiusContainer
     colorIdle: Appearance.colors.transparent
     useStateLayer: true
     pressScale: 0.98
@@ -39,7 +39,7 @@ PressablePill {
                 MaterialIcon {
                     anchors.centerIn: parent
                     text: "memory"
-                    pixelSize: Config.typography.normal
+                    pixelSize: Appearance.typography.normal
                     color: Appearance.colors.m3onSecondaryContainer
                 }
             }
@@ -59,7 +59,7 @@ PressablePill {
                 MaterialIcon {
                     anchors.centerIn: parent
                     text: "swap_horiz"
-                    pixelSize: Config.typography.normal
+                    pixelSize: Appearance.typography.normal
                     color: Appearance.colors.m3onSecondaryContainer
                 }
             }
@@ -78,7 +78,7 @@ PressablePill {
                 MaterialIcon {
                     anchors.centerIn: parent
                     text: "planner_review"
-                    pixelSize: Config.typography.normal
+                    pixelSize: Appearance.typography.normal
                     color: Appearance.colors.m3onSecondaryContainer
                 }
             }

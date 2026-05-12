@@ -93,11 +93,15 @@ Singleton {
     }
 
     Connections {
-        target: Config
-        function onThemeMatugenWallpaperChanged() { root.scheduleRegen(); }
-        function onThemeMatugenSchemeChanged()    { root.scheduleRegen(); }
-        function onThemeMatugenDarkChanged()      { root.scheduleRegen(); }
-        function onThemeMatugenContrastChanged()  { root.scheduleRegen(); }
-        function onThemeModeChanged()             { root.scheduleRegen(); }
+        target: Config.theme.matugen
+        function onWallpaperChanged() { root.scheduleRegen(); }
+        function onSchemeChanged()    { root.scheduleRegen(); }
+        function onDarkChanged()      { root.scheduleRegen(); }
+        function onContrastChanged()  { root.scheduleRegen(); }
+    }
+
+    Connections {
+        target: Config.theme
+        function onModeChanged() { root.scheduleRegen(); }
     }
 }

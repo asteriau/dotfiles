@@ -9,7 +9,7 @@ PressablePill {
     id: root
 
     property string icon
-    property real iconPointSize: Config.typography.huge
+    property real iconPointSize: Appearance.typography.huge
     property real iconPixelSize: 0                  // when > 0, overrides pointSize
     property real iconFill:   active ? 1 : 0
     property int  iconWeight: active ? 500 : 400

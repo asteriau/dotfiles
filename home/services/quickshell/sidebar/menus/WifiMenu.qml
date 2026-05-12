@@ -24,8 +24,8 @@ WindowDialog {
         active: NetworkState.scanning
         Layout.topMargin: -8
         Layout.bottomMargin: -8
-        Layout.leftMargin: -Config.layout.radiusLg
-        Layout.rightMargin: -Config.layout.radiusLg
+        Layout.leftMargin: -Appearance.layout.radiusLg
+        Layout.rightMargin: -Appearance.layout.radiusLg
     }
 
     Item {
@@ -33,8 +33,8 @@ WindowDialog {
         Layout.fillHeight: true
         Layout.topMargin: -15
         Layout.bottomMargin: -16
-        Layout.leftMargin: -Config.layout.radiusLg
-        Layout.rightMargin: -Config.layout.radiusLg
+        Layout.leftMargin: -Appearance.layout.radiusLg
+        Layout.rightMargin: -Appearance.layout.radiusLg
 
         ListView {
             anchors.fill: parent
@@ -53,13 +53,13 @@ WindowDialog {
             width: parent.width - 32
             visible: !NetworkState.wifiEnabled
                 || (NetworkState.wifiNetworks.length === 0 && !NetworkState.scanning)
-            spacing: Config.layout.gapSm
+            spacing: Appearance.layout.gapSm
 
             Text {
                 Layout.alignment: Qt.AlignHCenter
                 text: "wifi_off"
                 color: Appearance.colors.m3onSurfaceInactive
-                font.family: Config.typography.iconFamily
+                font.family: Appearance.typography.iconFamily
                 font.pixelSize: 32
             }
 
@@ -69,7 +69,7 @@ WindowDialog {
                 text: !NetworkState.wifiEnabled ? "Wi-Fi is off" : "No networks found"
                 color: Appearance.colors.m3onSurface
                 font.family: Config.typography.family
-                font.pixelSize: Config.typography.smallie
+                font.pixelSize: Appearance.typography.smallie
                 wrapMode: Text.Wrap
             }
 
@@ -81,7 +81,7 @@ WindowDialog {
                     : "Press Rescan to search again"
                 color: Appearance.colors.m3onSurfaceInactive
                 font.family: Config.typography.family
-                font.pixelSize: Config.typography.smaller
+                font.pixelSize: Appearance.typography.smaller
                 wrapMode: Text.Wrap
             }
         }

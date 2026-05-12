@@ -123,7 +123,7 @@ Item {
             StyledText {
                 Layout.fillWidth: true
                 textFormat: Text.StyledText
-                font.pixelSize: Config.typography.small
+                font.pixelSize: Appearance.typography.small
                 color: root.fgColor
                 elide: Text.ElideRight
                 text: root.selected
@@ -134,7 +134,7 @@ Item {
 
         StyledText {
             visible: root.selected || ma.containsMouse
-            font.pixelSize: Config.typography.normal
+            font.pixelSize: Appearance.typography.normal
             color: Appearance.colors.m3onPrimaryContainer
             text: root.entry?.verb ?? ""
             Layout.alignment: Qt.AlignVCenter

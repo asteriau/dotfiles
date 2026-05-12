@@ -38,7 +38,7 @@ PopupWindow {
         id: bg
         anchors.fill: parent
         color: Appearance.colors.tooltipBg
-        radius: Config.layout.radiusSm
+        radius: Appearance.layout.radiusSm
         opacity: root.shown ? 1 : 0
         scale:   root.shown ? 1 : 0.92
         transformOrigin: Item.Top
@@ -58,8 +58,8 @@ PopupWindow {
             id: label
             anchors.centerIn: parent
             text: root.targetText
-            font.family: Config.fontFamily
-            font.pixelSize: Config.typography.smaller
+            font.family: Config.typography.family
+            font.pixelSize: Appearance.typography.smaller
             font.hintingPreference: Font.PreferNoHinting
             color: Appearance.colors.tooltipFg
         }

@@ -27,7 +27,7 @@ Rectangle {
         }
     }
     visible: card.opacity > 0.001 || root.show
-    radius: Config.layout.cardRadius
+    radius: Appearance.layout.cardRadius
     clip: true
 
     // Outside-click dismiss.
@@ -42,13 +42,13 @@ Rectangle {
     Rectangle {
         id: card
         anchors.horizontalCenter: parent.horizontalCenter
-        radius: Config.layout.radiusLg
+        radius: Appearance.layout.radiusLg
         color: Appearance.colors.surfaceContainerHigh
 
-        readonly property real _cappedH: Math.min(root.backgroundHeight, root.height - Config.layout.gapLg * 2)
+        readonly property real _cappedH: Math.min(root.backgroundHeight, root.height - Appearance.layout.gapLg * 2)
         y: (root.height - _cappedH) / 2
 
-        implicitWidth: Math.min(root.backgroundWidth, root.width - Config.layout.gapMd * 2)
+        implicitWidth: Math.min(root.backgroundWidth, root.width - Appearance.layout.gapMd * 2)
         implicitHeight: _cappedH
 
         opacity: root.show ? 1 : 0

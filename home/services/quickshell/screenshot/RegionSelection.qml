@@ -115,7 +115,7 @@ PanelWindow {
         root.regionWidth = Math.max(0, Math.min(root.regionWidth, root.screen.width - root.regionX));
         root.regionHeight = Math.max(0, Math.min(root.regionHeight, root.screen.height - root.regionY));
 
-        const screenshotDir = Config.screenshotSavePath !== "" ? Config.screenshotSavePath : "";
+        const screenshotDir = Config.screenshot.savePath !== "" ? Config.screenshot.savePath : "";
         const screenshotAction = root.getScreenshotAction();
         const command = ScreenshotAction.getCommand(
             root.regionX * root.monitorScale,
@@ -162,7 +162,7 @@ PanelWindow {
         }
         onReleased: (mouse) => {
             if (root.isCircleSelection) {
-                const padding = Config.regionCirclePadding + Config.regionCircleStrokeWidth / 2;
+                const padding = Config.screenshot.regionCircle.padding + Config.screenshot.regionCircle.strokeWidth / 2;
                 const dragPoints = (root.points.length > 0) ? root.points : [{ x: mouseArea.mouseX, y: mouseArea.mouseY }];
                 const maxX = Math.max(...dragPoints.map(p => p.x));
                 const minX = Math.min(...dragPoints.map(p => p.x));

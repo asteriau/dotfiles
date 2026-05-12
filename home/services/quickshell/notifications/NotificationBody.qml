@@ -18,7 +18,7 @@ StyledText {
     Layout.fillWidth: true
     text: expanded ? NotificationUtils.processNotificationBody(rawBody, appName) : rawBody
     color: Appearance.colors.comment
-    font.pixelSize: Config.typography.smallie
+    font.pixelSize: Appearance.typography.smallie
     wrapMode: Text.Wrap
     elide: Text.ElideRight
     maximumLineCount: expanded ? 100 : 2
