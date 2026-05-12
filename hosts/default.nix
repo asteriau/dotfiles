@@ -14,7 +14,12 @@
       homeImports = import "${self}/home/profiles";
 
       mod = "${self}/system";
-      inherit (import mod) laptop;
+      inherit (import mod)
+        laptop
+        gaming
+        wayland
+        wsl
+        ;
 
       mkHost =
         host: extraModules:
@@ -40,24 +45,8 @@
         };
     in
     {
-      meow = mkHost "meow" (
-        laptop
-        ++ [
-          "${mod}/programs/gamemode.nix"
-          "${mod}/programs/hyprland"
-          "${mod}/programs/games.nix"
+      meow = mkHost "meow" (laptop ++ wayland ++ gaming);
 
-          "${mod}/network/spotify.nix"
-
-          "${mod}/services/gnome-services.nix"
-        ]
-      );
-
-      nixos = mkHost "wsl" [
-        "${mod}/core/users.nix"
-        "${mod}/nix"
-        "${mod}/programs/zsh.nix"
-        "${mod}/programs/home-manager.nix"
-      ];
+      nixos = mkHost "wsl" wsl;
     };
 }
