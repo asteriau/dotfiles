@@ -2,8 +2,12 @@
   lib,
   pkgs,
   config,
+  theme,
   ...
 }:
+let
+  colorsCss = theme.format.toGtkColors theme.palette;
+in
 {
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
@@ -35,5 +39,9 @@
     };
   };
 
-  xdg.configFile."gtk-4.0/gtk.css".enable = lib.mkForce false;
+  xdg.configFile = {
+    "gtk-3.0/colors.css".text = colorsCss;
+    "gtk-4.0/colors.css".text = colorsCss;
+    "gtk-4.0/gtk.css".enable = lib.mkForce false;
+  };
 }
