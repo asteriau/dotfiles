@@ -7,8 +7,6 @@ let
     ./hardware/graphics.nix
 
     ./network
-    ./network/avahi.nix
-    ./network/tailscale.nix
 
     ./programs
 
