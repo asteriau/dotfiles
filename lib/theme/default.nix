@@ -8,6 +8,7 @@ let
   stateDir = "${self}/home/services/quickshell/state";
 
   activePresetFile = "${stateDir}/active-preset";
+  matugenFile = "${stateDir}/colors.json";
 
   load = import ./load.nix { inherit lib; };
   normalize = import ./normalize.nix { inherit lib; };
@@ -19,19 +20,25 @@ let
     inherit fallback;
   };
 
-  presetRaw = load.loadPreset {
-    dir = themesDir;
-    name = preset;
-  };
+  presetPalette = normalize (
+    load.loadPreset {
+      dir = themesDir;
+      name = preset;
+    }
+  );
 
-  palette = normalize presetRaw;
+  matugenRaw = load.readMatugen { file = matugenFile; };
+  matugenPalette = if matugenRaw == null then { } else normalize matugenRaw;
+
+  palette = presetPalette // matugenPalette;
+  source = if matugenRaw == null then "preset:${preset}" else "preset:${preset}+matugen";
 in
 {
   inherit
     palette
     preset
+    source
     format
     colors
     ;
-  source = "preset:${preset}";
 }
