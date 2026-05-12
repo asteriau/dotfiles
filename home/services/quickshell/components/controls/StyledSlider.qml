@@ -56,15 +56,15 @@ Slider {
 
     Behavior on value {
         SmoothedAnimation {
-            velocity: M3Easing.elementMoveFastVelocity
+            velocity: Appearance.motion.elementMoveFastVelocity
         }
     }
 
     Behavior on handleMargins {
         NumberAnimation {
-            duration: M3Easing.elementMoveFastDuration
+            duration: Appearance.motion.duration.elementMoveFast
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: M3Easing.expressiveEffects
+            easing.bezierCurve: Appearance.motion.easing.expressiveEffects
         }
     }
 
@@ -80,9 +80,9 @@ Slider {
 
         Behavior on color {
             ColorAnimation {
-                duration: M3Easing.elementMoveFastDuration
+                duration: Appearance.motion.duration.elementMoveFast
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveEffects
+                easing.bezierCurve: Appearance.motion.easing.expressiveEffects
             }
         }
     }
@@ -204,9 +204,9 @@ Slider {
 
         Behavior on implicitWidth {
             NumberAnimation {
-                duration: M3Easing.elementMoveFastDuration
+                duration: Appearance.motion.duration.elementMoveFast
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.expressiveEffects
+                easing.bezierCurve: Appearance.motion.easing.expressiveEffects
             }
         }
     }

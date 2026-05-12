@@ -39,7 +39,7 @@ Item {
         grade: root.grade
         color: root.color
         opacity: root._aActive ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
     }
     MaterialIcon {
         anchors.centerIn: parent
@@ -51,6 +51,6 @@ Item {
         grade: root.grade
         color: root.color
         opacity: root._aActive ? 0 : 1
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
     }
 }

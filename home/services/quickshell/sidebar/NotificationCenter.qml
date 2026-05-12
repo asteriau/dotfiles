@@ -77,7 +77,7 @@ Item {
                 visible: localModel.count === 0
                 opacity: visible ? 0.9 : 0
 
-                Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium1 } }
+                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium1 } }
 
                 Item { Layout.fillHeight: true }
 
@@ -147,35 +147,35 @@ Item {
                         properties: "opacity"
                         from: 0
                         to: 1
-                        duration: M3Easing.spatialDuration
+                        duration: Appearance.motion.duration.spatial
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasizedDecel
+                        easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
                     }
                     NumberAnimation {
                         properties: "scale"
                         from: 0.90
                         to: 1
-                        duration: M3Easing.spatialDuration
+                        duration: Appearance.motion.duration.spatial
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasizedDecel
+                        easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
                     }
                 }
 
                 addDisplaced: Transition {
                     NumberAnimation {
                         properties: "x,y"
-                        duration: M3Easing.durationMedium2
+                        duration: Appearance.motion.duration.medium2
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasizedDecel
+                        easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
                     }
                 }
 
                 displaced: Transition {
                     NumberAnimation {
                         properties: "x,y"
-                        duration: M3Easing.durationMedium2
+                        duration: Appearance.motion.duration.medium2
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasizedDecel
+                        easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
                     }
                 }
 
@@ -195,7 +195,7 @@ Item {
                     }
 
                     Behavior on opacity {
-                        Motion.EmphAccel { duration: M3Easing.effectsDuration }
+                        Motion.EmphAccel { duration: Appearance.motion.duration.effects }
                     }
 
                     transform: Translate {

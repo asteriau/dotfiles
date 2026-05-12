@@ -40,7 +40,7 @@ Item {
                 : MaterialShape.Shape.Clover4Leaf
 
             Behavior on color {
-                ColorAnimation { duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized }
+                ColorAnimation { duration: Appearance.motion.duration.medium3; easing.bezierCurve: Appearance.motion.easing.emphasized }
             }
         }
 
@@ -64,7 +64,7 @@ Item {
             anchors.fill: parent
             radius: 22
             color: input.activeFocus ? Colors.surfaceContainerHigh : Colors.surfaceContainer
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+            Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
         }
 
         TextField {
@@ -101,7 +101,7 @@ Item {
             font: input.font
             elide: Text.ElideRight
             opacity: input.text === "" ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized } }
+            Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium3; easing.bezierCurve: Appearance.motion.easing.emphasized } }
         }
 
         // Clear chip
@@ -116,8 +116,8 @@ Item {
             color: clearMa.containsMouse ? Colors.hover : Colors.transparent
             opacity: input.text.length > 0 ? 1 : 0
             visible: opacity > 0
-            Behavior on color   { ColorAnimation  { duration: M3Easing.effectsDuration } }
-            Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+            Behavior on color   { ColorAnimation  { duration: Appearance.motion.duration.effects } }
+            Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
 
             MaterialIcon {
                 anchors.centerIn: parent

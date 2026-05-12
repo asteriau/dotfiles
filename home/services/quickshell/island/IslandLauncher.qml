@@ -34,7 +34,7 @@ Item {
     }
     Timer {
         id: clearTimer
-        interval: M3Easing.durationLong2
+        interval: Appearance.motion.duration.long2
         onTriggered: root.displayedResults = []
     }
 
@@ -110,13 +110,13 @@ Item {
             interactive: true
 
             add: Transition {
-                NumberAnimation { property: "opacity"; from: 0; to: 1; duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized }
+                NumberAnimation { property: "opacity"; from: 0; to: 1; duration: Appearance.motion.duration.medium3; easing.bezierCurve: Appearance.motion.easing.emphasized }
             }
             remove: Transition {
-                NumberAnimation { property: "opacity"; from: 1; to: 0; duration: M3Easing.durationLong2; easing.bezierCurve: M3Easing.emphasized }
+                NumberAnimation { property: "opacity"; from: 1; to: 0; duration: Appearance.motion.duration.long2; easing.bezierCurve: Appearance.motion.easing.emphasized }
             }
             displaced: Transition {
-                NumberAnimation { properties: "x,y"; duration: M3Easing.durationMedium3; easing.bezierCurve: M3Easing.emphasized }
+                NumberAnimation { properties: "x,y"; duration: Appearance.motion.duration.medium3; easing.bezierCurve: Appearance.motion.easing.emphasized }
             }
 
             model: ScriptModel {
@@ -127,8 +127,8 @@ Item {
             opacity: root.showResults ? 1 : 0
             Behavior on opacity {
                 NumberAnimation {
-                    duration: M3Easing.durationLong2
-                    easing.bezierCurve: M3Easing.emphasized
+                    duration: Appearance.motion.duration.long2
+                    easing.bezierCurve: Appearance.motion.easing.emphasized
                 }
             }
 

@@ -69,11 +69,11 @@ Scope {
             model: scope.notifs
 
             add: Transition {
-                NumberAnimation { property: "opacity"; from: 0; to: 1; duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasizedDecel }
-                NumberAnimation { property: "scale";   from: 0.9; to: 1; duration: M3Easing.spatialDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasizedDecel }
+                NumberAnimation { property: "opacity"; from: 0; to: 1; duration: Appearance.motion.duration.spatial; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.motion.easing.emphasizedDecel }
+                NumberAnimation { property: "scale";   from: 0.9; to: 1; duration: Appearance.motion.duration.spatial; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.motion.easing.emphasizedDecel }
             }
             displaced: Transition {
-                NumberAnimation { properties: "x,y"; duration: M3Easing.durationMedium2; easing.bezierCurve: M3Easing.emphasized }
+                NumberAnimation { properties: "x,y"; duration: Appearance.motion.duration.medium2; easing.bezierCurve: Appearance.motion.easing.emphasized }
             }
 
             delegate: NotificationPopupItem {

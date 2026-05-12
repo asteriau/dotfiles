@@ -36,7 +36,7 @@ Item {
         antialiasing: true
 
         Behavior on color {
-            ColorAnimation { duration: M3Easing.durationShort2 }
+            ColorAnimation { duration: Appearance.motion.duration.short2 }
         }
 
         StyledText {

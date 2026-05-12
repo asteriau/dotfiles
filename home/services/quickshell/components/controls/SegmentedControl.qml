@@ -63,7 +63,7 @@ Item {
             bottomLeftRadius:  btn.isFirst ? btn._bigRadius : btn._smallRadius
             topRightRadius:    btn.isLast  ? btn._bigRadius : btn._smallRadius
             bottomRightRadius: btn.isLast  ? btn._bigRadius : btn._smallRadius
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+            Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
             RowLayout {
                 id: contentRow
@@ -76,7 +76,7 @@ Item {
                     font.pointSize: Config.typography.normal
                     fill: btn.isSelected ? 1 : 0
                     color: btn.isSelected ? Colors.accentText : Colors.m3onSurfaceVariant
-                    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                    Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                 }
 
                 Text {
@@ -86,7 +86,7 @@ Item {
                     font.family: Config.typography.family
                     font.pixelSize: Config.typography.smallie
                     font.weight: btn.isSelected ? Font.Medium : Font.Normal
-                    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                    Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                 }
             }
         }

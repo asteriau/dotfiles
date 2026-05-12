@@ -51,9 +51,9 @@ Item {
 
     Behavior on implicitWidth {
         NumberAnimation {
-            duration: M3Easing.spatialDuration
+            duration: Appearance.motion.duration.spatial
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: M3Easing.emphasized
+            easing.bezierCurve: Appearance.motion.easing.emphasized
         }
     }
 
@@ -62,7 +62,7 @@ Item {
         radius: Config.layout.radiusContainer
         color: Colors.surfaceContainerLow
         opacity: root.currentTitle.length > 0 ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
     }
 
     // A/B slots — toggled on window change so icon + title crossfade atomically.
@@ -86,7 +86,7 @@ Item {
         anchors.centerIn: parent
         spacing: root.iconGap
         opacity: root._aActive ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
 
         IconImage {
             visible: root._a.appId.length > 0
@@ -110,7 +110,7 @@ Item {
         anchors.centerIn: parent
         spacing: root.iconGap
         opacity: root._aActive ? 0 : 1
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
 
         IconImage {
             visible: root._b.appId.length > 0

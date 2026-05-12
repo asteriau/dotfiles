@@ -18,7 +18,7 @@ Item {
         border.width: root.checked ? 0 : 2
         border.color: Colors.m3outline
 
-        Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+        Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
         Rectangle {
             id: thumb
@@ -31,8 +31,8 @@ Item {
             x: root.checked ? parent.width - width - 2 : 2
 
             Behavior on x { SpringAnimation { spring: 4; damping: 0.6; mass: 0.6 } }
-            Behavior on width { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+            Behavior on width { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
+            Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
         }
     }
 

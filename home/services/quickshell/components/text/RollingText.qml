@@ -13,7 +13,7 @@ Item {
     property int    weight: Font.Normal
     property color  color: Colors.foreground
     property int    horizontalAlignment: Text.AlignHCenter
-    property int    duration: M3Easing.durationMedium1
+    property int    duration: Appearance.motion.duration.medium1
 
     property string _a: text
     property string _b: ""
@@ -45,7 +45,7 @@ Item {
             NumberAnimation {
                 duration: root.duration
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.emphasizedDecel
+                easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
             }
         }
     }
@@ -65,7 +65,7 @@ Item {
             NumberAnimation {
                 duration: root.duration
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.emphasizedDecel
+                easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
             }
         }
     }

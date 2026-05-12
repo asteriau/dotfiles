@@ -24,7 +24,7 @@ Item {
                : root.hovered ? Config.layout.stateHover
                : 0
         Behavior on opacity {
-            NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic }
         }
     }
 }

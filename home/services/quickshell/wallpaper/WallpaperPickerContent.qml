@@ -366,7 +366,7 @@ MouseArea {
                                     color: isCurrent
                                         ? Colors.secondaryContainer
                                         : (segMa.containsMouse ? Colors.colLayer2Hover : "transparent")
-                                    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                                    Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                                     topLeftRadius:     leftmost  ? bigR : (isCurrent ? bigR : smallR)
                                     bottomLeftRadius:  leftmost  ? bigR : (isCurrent ? bigR : smallR)
@@ -524,7 +524,7 @@ MouseArea {
                                     : cell.isWallpaper
                                         ? Colors.secondaryContainer
                                         : Qt.rgba(Colors.primaryContainer.r, Colors.primaryContainer.g, Colors.primaryContainer.b, 0.35)
-                                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                                Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                                 ColumnLayout {
                                     anchors.fill: parent

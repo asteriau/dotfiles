@@ -22,7 +22,7 @@ Rectangle {
     color: ma.pressed ? Colors.pressed
                       : (ma.containsMouse ? Colors.hover : Colors.transparent)
     radius: Config.layout.radiusLg
-    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+    Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
     Rectangle {
         id: flashRect
@@ -55,7 +55,7 @@ Rectangle {
             height: 36
             radius: 18
             color: root.checked ? Colors.accent : Colors.surfaceContainerHigh
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+            Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
             MaterialIcon {
                 anchors.centerIn: parent
@@ -63,7 +63,7 @@ Rectangle {
                 font.pointSize: Config.typography.large
                 fill: root.checked ? 1 : 0
                 color: root.checked ? Colors.accentText : Colors.m3onSurfaceVariant
-                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
             }
         }
 

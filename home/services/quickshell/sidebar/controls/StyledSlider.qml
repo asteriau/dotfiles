@@ -53,7 +53,7 @@ Slider {
     to: 1
 
     Behavior on value {
-        SmoothedAnimation { velocity: M3Easing.elementMoveFastVelocity }
+        SmoothedAnimation { velocity: Appearance.motion.elementMoveFastVelocity }
     }
 
     Behavior on handleMargins { Motion.ElementFast {} }

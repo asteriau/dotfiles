@@ -62,7 +62,7 @@ Item {
 
         scale: ma.pressed ? 0.96 : 1.0
         Behavior on scale {
-            NumberAnimation { duration: M3Easing.pressDuration; easing.type: Easing.OutQuad }
+            NumberAnimation { duration: Appearance.motion.duration.press; easing.type: Easing.OutQuad }
         }
 
         readonly property var biggestWindow:
@@ -90,8 +90,8 @@ Item {
             color: root.isActive ? Colors.m3onPrimary :
                    root.isOccupied ? Colors.m3onSecondaryContainer : Colors.m3onSurfaceInactive
 
-            Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            Behavior on color   { ColorAnimation   { duration: M3Easing.effectsDuration } }
+            Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
+            Behavior on color   { ColorAnimation   { duration: Appearance.motion.duration.effects } }
         }
 
         // Flat dot for empty workspaces.
@@ -108,8 +108,8 @@ Item {
             color: root.isActive ? Colors.m3onPrimary :
                    root.isOccupied ? Colors.m3onSecondaryContainer : Colors.m3onSurfaceInactive
 
-            Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-            Behavior on color   { ColorAnimation   { duration: M3Easing.effectsDuration } }
+            Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
+            Behavior on color   { ColorAnimation   { duration: Appearance.motion.duration.effects } }
         }
 
         // App icon.
@@ -122,15 +122,15 @@ Item {
                      (content.biggestWindow && !root.showNumbers && Config.workspaces.showAppIcons) ?
                      1 : content.biggestWindow ? 1 : 0
 
-            Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+            Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
 
             // Subtle scale bounce on active transition.
             scale: root.isActive ? 1.05 : 1.0
             Behavior on scale {
                 NumberAnimation {
-                    duration: M3Easing.spatialDuration
+                    duration: Appearance.motion.duration.spatial
                     easing.type: Easing.BezierSpline
-                    easing.bezierCurve: M3Easing.emphasized
+                    easing.bezierCurve: Appearance.motion.easing.emphasized
                 }
             }
 
@@ -146,9 +146,9 @@ Item {
                 implicitSize: (!root.showNumbers && Config.workspaces.showAppIcons) ?
                     root.iconSize : root.iconSizeShrinked
 
-                Behavior on implicitSize         { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
-                Behavior on anchors.bottomMargin { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
-                Behavior on anchors.rightMargin  { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.BezierSpline; easing.bezierCurve: M3Easing.emphasized } }
+                Behavior on implicitSize         { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.motion.easing.emphasized } }
+                Behavior on anchors.bottomMargin { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.motion.easing.emphasized } }
+                Behavior on anchors.rightMargin  { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.motion.easing.emphasized } }
             }
 
             // Monochrome overlay

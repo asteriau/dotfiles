@@ -113,8 +113,8 @@ T.Button {
         radius: root.buttonEffectiveRadius
         implicitHeight: 30
         color: root.buttonColor
-        Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-        Behavior on radius { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.OutCubic } }
+        Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
+        Behavior on radius { NumberAnimation { duration: Appearance.motion.duration.spatial; easing.type: Easing.OutCubic } }
 
         layer.enabled: true
         layer.effect: OpacityMask {
@@ -135,7 +135,7 @@ T.Button {
             property real implicitWidth: 0
             property real implicitHeight: 0
 
-            Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+            Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
 
             RadialGradient {
                 anchors.fill: parent

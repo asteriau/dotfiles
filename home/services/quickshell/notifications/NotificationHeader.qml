@@ -58,7 +58,7 @@ Item {
         antialiasing: true
 
         Behavior on color {
-            ColorAnimation { duration: M3Easing.durationShort2 }
+            ColorAnimation { duration: Appearance.motion.duration.short2 }
         }
 
         Row {
@@ -83,9 +83,9 @@ Item {
 
                 Behavior on rotation {
                     NumberAnimation {
-                        duration: M3Easing.durationMedium1
+                        duration: Appearance.motion.duration.medium1
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasized
+                        easing.bezierCurve: Appearance.motion.easing.emphasized
                     }
                 }
             }

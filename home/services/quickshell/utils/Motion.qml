@@ -2,81 +2,71 @@ pragma Singleton
 import QtQuick
 import qs.utils
 
-// Reusable animation primitives, named for their M3 motion semantics.
-//
-// Use as the inner animation of a Behavior:
-//   Behavior on opacity { Motion.Fade {} }
-//   Behavior on color   { Motion.ColorFade {} }
-//   Behavior on x       { Motion.Spatial {} }
-//
-// Override values by adding properties:
-//   Behavior on x { Motion.EmphAccel { onRunningChanged: ... } }
-
 QtObject {
     component Fade: NumberAnimation {
-        duration: M3Easing.effectsDuration
+        duration: Appearance.motion.duration.effects
         easing.type: Easing.OutCubic
     }
 
     component ColorFade: ColorAnimation {
-        duration: M3Easing.effectsDuration
+        duration: Appearance.motion.duration.effects
         easing.type: Easing.OutCubic
     }
 
     component ColorFadeQuick: ColorAnimation {
-        duration: M3Easing.effectsDuration
+        duration: Appearance.motion.duration.effects
     }
 
     component Spatial: NumberAnimation {
-        duration: M3Easing.spatialDuration
+        duration: Appearance.motion.duration.spatial
         easing.type: Easing.OutCubic
     }
 
     component SpatialEmph: NumberAnimation {
-        duration: M3Easing.spatialDuration
+        duration: Appearance.motion.duration.spatial
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.emphasized
+        easing.bezierCurve: Appearance.motion.easing.emphasized
     }
 
     component Emph: NumberAnimation {
-        duration: M3Easing.durationLong1
+        duration: Appearance.motion.duration.long1
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.emphasized
+        easing.bezierCurve: Appearance.motion.easing.emphasized
     }
 
     component EmphAccel: NumberAnimation {
-        duration: M3Easing.durationMedium1
+        duration: Appearance.motion.duration.medium1
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.emphasizedAccel
+        easing.bezierCurve: Appearance.motion.easing.emphasizedAccel
     }
 
     component EmphDecel: NumberAnimation {
-        duration: M3Easing.durationMedium2
+        duration: Appearance.motion.duration.medium2
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.emphasizedDecel
+        easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
     }
 
     component Element: NumberAnimation {
-        duration: M3Easing.elementMoveDuration
+        duration: Appearance.motion.duration.elementMove
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.expressiveDefaultSpatial
+        easing.bezierCurve: Appearance.motion.easing.expressiveDefaultSpatial
     }
 
     component ElementColor: ColorAnimation {
-        duration: M3Easing.elementMoveDuration
+        duration: Appearance.motion.duration.elementMove
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.expressiveDefaultSpatial
+        easing.bezierCurve: Appearance.motion.easing.expressiveDefaultSpatial
     }
 
     component ElementFast: NumberAnimation {
-        duration: M3Easing.elementMoveFastDuration
+        duration: Appearance.motion.duration.elementMoveFast
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.expressiveEffects
+        easing.bezierCurve: Appearance.motion.easing.expressiveEffects
     }
 
     component ElementFastColor: ColorAnimation {
-        duration: M3Easing.elementMoveFastDuration
+        duration: Appearance.motion.duration.elementMoveFast
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.expressiveEffects
+        easing.bezierCurve: Appearance.motion.easing.expressiveEffects
     }
 }

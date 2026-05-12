@@ -36,7 +36,7 @@ ClippingRectangle {
         sourceSize.width: 64; sourceSize.height: 64
         source: root._aSrc
         opacity: root._useA && status === Image.Ready ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
     }
     Image {
         anchors.fill: parent
@@ -45,7 +45,7 @@ ClippingRectangle {
         sourceSize.width: 64; sourceSize.height: 64
         source: root._bSrc
         opacity: !root._useA && status === Image.Ready ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
     }
 
     MaterialIcon {

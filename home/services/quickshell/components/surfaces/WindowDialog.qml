@@ -21,9 +21,9 @@ Rectangle {
     color: root.show ? Qt.rgba(0, 0, 0, 0.25) : Qt.rgba(0, 0, 0, 0)
     Behavior on color {
         ColorAnimation {
-            duration: M3Easing.durationMedium3
+            duration: Appearance.motion.duration.medium3
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: M3Easing.emphasized
+            easing.bezierCurve: Appearance.motion.easing.emphasized
         }
     }
     visible: card.opacity > 0.001 || root.show
@@ -54,9 +54,9 @@ Rectangle {
         opacity: root.show ? 1 : 0
         Behavior on opacity {
             NumberAnimation {
-                duration: M3Easing.durationMedium3
+                duration: Appearance.motion.duration.medium3
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: M3Easing.emphasized
+                easing.bezierCurve: Appearance.motion.easing.emphasized
             }
         }
 
@@ -68,16 +68,16 @@ Rectangle {
                 yScale: root.show ? 1 : 0.92
                 Behavior on xScale {
                     NumberAnimation {
-                        duration: M3Easing.durationLong1
+                        duration: Appearance.motion.duration.long1
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasized
+                        easing.bezierCurve: Appearance.motion.easing.emphasized
                     }
                 }
                 Behavior on yScale {
                     NumberAnimation {
-                        duration: M3Easing.durationLong1
+                        duration: Appearance.motion.duration.long1
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasized
+                        easing.bezierCurve: Appearance.motion.easing.emphasized
                     }
                 }
             },
@@ -85,9 +85,9 @@ Rectangle {
                 y: root.show ? 0 : -root.movement
                 Behavior on y {
                     NumberAnimation {
-                        duration: M3Easing.durationLong1
+                        duration: Appearance.motion.duration.long1
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasized
+                        easing.bezierCurve: Appearance.motion.easing.emphasized
                     }
                 }
             }

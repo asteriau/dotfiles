@@ -35,6 +35,6 @@ PressablePill {
         grade: root.iconGrade
         color: root.active ? root.colorIconActive : root.colorIcon
 
-        Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+        Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
     }
 }

@@ -76,7 +76,7 @@ Item {
             blur: 1
             blurMultiplier: 1.4
             opacity: blurredArt.status === Image.Ready ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium3; easing.type: Easing.OutCubic } }
+            Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium3; easing.type: Easing.OutCubic } }
         }
 
         Rectangle {

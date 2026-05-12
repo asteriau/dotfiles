@@ -69,9 +69,9 @@ Item {
         }
     }
 
-    Behavior on bodyWidth     { NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
-    Behavior on bodyHeight    { NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
-    Behavior on topRadius     { NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
-    Behavior on bottomRadius  { NumberAnimation { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
-    Behavior on fillColor     { ColorAnimation   { duration: M3Easing.durationLong1; easing.bezierCurve: M3Easing.emphasized } }
+    Behavior on bodyWidth     { NumberAnimation { duration: Appearance.motion.duration.long1; easing.bezierCurve: Appearance.motion.easing.emphasized } }
+    Behavior on bodyHeight    { NumberAnimation { duration: Appearance.motion.duration.long1; easing.bezierCurve: Appearance.motion.easing.emphasized } }
+    Behavior on topRadius     { NumberAnimation { duration: Appearance.motion.duration.long1; easing.bezierCurve: Appearance.motion.easing.emphasized } }
+    Behavior on bottomRadius  { NumberAnimation { duration: Appearance.motion.duration.long1; easing.bezierCurve: Appearance.motion.easing.emphasized } }
+    Behavior on fillColor     { ColorAnimation   { duration: Appearance.motion.duration.long1; easing.bezierCurve: Appearance.motion.easing.emphasized } }
 }

@@ -13,7 +13,7 @@ Rectangle {
     implicitHeight: 48
     color: ma.containsMouse ? Colors.hover : Colors.transparent
     radius: 0
-    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+    Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
     RowLayout {
         anchors.fill: parent

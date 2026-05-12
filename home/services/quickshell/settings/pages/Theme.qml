@@ -122,7 +122,7 @@ ContentPage {
                     opacity: status === Image.Ready ? 1 : 0
                     Behavior on opacity {
                         NumberAnimation {
-                            duration: M3Easing.durationMedium2
+                            duration: Appearance.motion.duration.medium2
                             easing.type: Easing.OutCubic
                         }
                     }
@@ -145,7 +145,7 @@ ContentPage {
                 Layout.preferredHeight: 40
                 radius: Config.layout.radiusMd
                 color: chooseMa.containsMouse ? Colors.surfaceContainerHighest : Colors.surfaceContainerHigh
-                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                 RowLayout {
                     anchors.centerIn: parent

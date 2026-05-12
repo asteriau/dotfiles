@@ -112,9 +112,9 @@ Scope {
                 property real blurAmt: UiState.sidebarMenu !== "none" ? 1.0 : 0.0
                 Behavior on blurAmt {
                     NumberAnimation {
-                        duration: M3Easing.durationMedium3
+                        duration: Appearance.motion.duration.medium3
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.emphasized
+                        easing.bezierCurve: Appearance.motion.easing.emphasized
                     }
                 }
 

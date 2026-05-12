@@ -44,32 +44,47 @@ QtObject {
         readonly property QtObject level5: QtObject { readonly property real opacity: 0.30; readonly property real blur: 16; readonly property real y: 8 }
     }
 
-    // M3 motion: durations + easings.
     readonly property QtObject motion: QtObject {
         readonly property QtObject duration: QtObject {
-            readonly property int short1:  50
-            readonly property int short2:  100
+            readonly property int instant: 90
+            readonly property int short1:  100
+            readonly property int short2:  120
             readonly property int short3:  150
             readonly property int short4:  200
             readonly property int medium1: 250
             readonly property int medium2: 300
             readonly property int medium3: 350
-            readonly property int medium4: 400
-            readonly property int long1:   450
+            readonly property int long1:   420
             readonly property int long2:   500
-            readonly property int long3:   550
-            readonly property int long4:   600
+
+            readonly property int spatial:    medium3
+            readonly property int effects:    short4
+            readonly property int press:      short2
+            readonly property int elementMove:     500
+            readonly property int elementMoveFast: 200
+            readonly property int clickBounce:     400
+
+            readonly property int ambientFast: 3500
+            readonly property int ambientSlow: 6000
+            readonly property int ambient:     ambientFast
         }
-        // BezierSpline curves (6-element form: 2 control points + endpoint).
         readonly property QtObject easing: QtObject {
-            readonly property list<real> standard:         [0.2, 0.0, 0.0, 1.0, 1, 1]
-            readonly property list<real> standardAccel:    [0.3, 0.0, 1.0, 1.0, 1, 1]
-            readonly property list<real> standardDecel:    [0.0, 0.0, 0.0, 1.0, 1, 1]
-            readonly property list<real> emphasized:       [0.2, 0.0, 0.0, 1.0, 1, 1]
-            readonly property list<real> emphasizedAccel:  [0.3, 0.0, 0.8, 0.15, 1, 1]
-            readonly property list<real> emphasizedDecel:  [0.05, 0.7, 0.1, 1.0, 1, 1]
-            readonly property list<real> linear:           [0.0, 0.0, 1.0, 1.0, 1, 1]
+            readonly property list<real> standard:        [0.2, 0.0, 0.0, 1.0, 1, 1]
+            readonly property list<real> standardAccel:   [0.3, 0.0, 1.0, 1.0, 1, 1]
+            readonly property list<real> standardDecel:   [0.0, 0.0, 0.0, 1.0, 1, 1]
+            readonly property list<real> emphasized:      [0.05, 0, 0.133, 0.06, 0.166, 0.4, 0.208, 0.82, 0.25, 1, 1, 1]
+            readonly property list<real> emphasizedAccel: [0.3, 0, 0.8, 0.15, 1, 1]
+            readonly property list<real> emphasizedDecel: [0.05, 0.7, 0.1, 1, 1, 1]
+            readonly property list<real> linear:          [0.0, 0.0, 1.0, 1.0, 1, 1]
+
+            readonly property list<real> expressiveSpring:         [0.42, 1.67, 0.21, 0.90, 1, 1]
+            readonly property list<real> expressiveDefaultSpatial: [0.38, 1.21, 0.22, 1.00, 1, 1]
+            readonly property list<real> expressiveFastSpatial:    [0.42, 1.67, 0.21, 0.90, 1, 1]
+            readonly property list<real> expressiveEffects:        [0.34, 0.80, 0.34, 1.00, 1, 1]
         }
+
+        readonly property int expressiveOvershoot:     Easing.OutBack
+        readonly property int elementMoveFastVelocity: 850
     }
 
     // M3 state-layer opacities for hover / focus / pressed / dragged overlays.

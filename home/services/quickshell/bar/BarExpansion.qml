@@ -137,9 +137,9 @@ Item {
                     }
                     NumberAnimation {
                         properties: "opacity,scale"
-                        duration: M3Easing.effectsDuration
+                        duration: Appearance.motion.duration.effects
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.expressiveEffects
+                        easing.bezierCurve: Appearance.motion.easing.expressiveEffects
                     }
                 }
             },
@@ -150,9 +150,9 @@ Item {
                 SequentialAnimation {
                     NumberAnimation {
                         properties: "opacity,scale"
-                        duration: M3Easing.effectsDuration
+                        duration: Appearance.motion.duration.effects
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: M3Easing.expressiveEffects
+                        easing.bezierCurve: Appearance.motion.easing.expressiveEffects
                     }
                     PropertyAction {
                         target: popout

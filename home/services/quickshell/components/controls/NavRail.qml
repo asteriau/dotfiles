@@ -35,8 +35,8 @@ Item {
             radius: Config.layout.radiusXl
             color: Colors.transparent
 
-            Behavior on width  { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.OutCubic } }
-            Behavior on x      { NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.OutCubic } }
+            Behavior on width  { NumberAnimation { duration: Appearance.motion.duration.spatial; easing.type: Easing.OutCubic } }
+            Behavior on x      { NumberAnimation { duration: Appearance.motion.duration.spatial; easing.type: Easing.OutCubic } }
 
             // Hover overlay (only when not selected)
             Rectangle {
@@ -44,7 +44,7 @@ Item {
                 radius: parent.radius
                 color: Colors.hover
                 opacity: !item.selected && ma.containsMouse ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             }
 
             // Selected fill
@@ -53,8 +53,8 @@ Item {
                 radius: parent.radius
                 color: ma.containsMouse ? Qt.lighter(Colors.primaryContainer, 1.05) : Colors.primaryContainer
                 opacity: item.selected ? 1 : 0
-                Behavior on color   { ColorAnimation  { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                Behavior on color   { ColorAnimation  { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             }
         }
 
@@ -66,8 +66,8 @@ Item {
             font.pointSize: Config.typography.huge
             fill: item.selected ? 1 : 0
             color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-            Behavior on fill  { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+            Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
+            Behavior on fill  { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
         }
 
         // Expanded: icon + label row
@@ -85,8 +85,8 @@ Item {
                 font.pointSize: Config.typography.huge
                 fill: item.selected ? 1 : 0
                 color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
-                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
-                Behavior on fill  { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
+                Behavior on fill  { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             }
 
             Text {
@@ -96,7 +96,7 @@ Item {
                 font.pixelSize: Config.typography.small
                 font.weight: item.selected ? Font.Medium : Font.Normal
                 color: item.selected ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
-                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
             }
         }
 
@@ -123,7 +123,7 @@ Item {
                 anchors.fill: parent
                 radius: width / 2
                 color: chevronMa.containsMouse ? Colors.hover : Colors.transparent
-                Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                 MaterialIcon {
                     anchors.centerIn: parent

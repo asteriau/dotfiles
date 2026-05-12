@@ -40,7 +40,7 @@ Item {
         spacing: 8
         opacity: root.expanded ? 0 : 1
         visible: opacity > 0
-        Behavior on opacity { NumberAnimation { duration: M3Easing.durationShort4; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.short4; easing.type: Easing.OutCubic } }
 
         MaterialIcon {
             text: root.icon
@@ -66,7 +66,7 @@ Item {
         spacing: 14
         opacity: root.expanded ? 1 : 0
         visible: opacity > 0
-        Behavior on opacity { NumberAnimation { duration: M3Easing.durationShort4; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.short4; easing.type: Easing.OutCubic } }
 
         Rectangle {
             Layout.preferredWidth: 56

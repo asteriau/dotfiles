@@ -19,7 +19,7 @@ Item {
     property bool active: false
     property bool enableScale: true
     property real pressScale: 0.92
-    property int  pressDuration: M3Easing.pressDuration
+    property int  pressDuration: Appearance.motion.duration.press
 
     // MD3 state-layer overlay (opt-in). When true, hover/press color blending is
     // suppressed and a StateLayer overlay handles visual feedback.
@@ -47,7 +47,7 @@ Item {
         scale: root.enableScale && ma.pressed ? root.pressScale : 1.0
 
         Behavior on color {
-            ColorAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+            ColorAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic }
         }
         Behavior on scale {
             NumberAnimation { duration: root.pressDuration; easing.type: Easing.OutQuad }

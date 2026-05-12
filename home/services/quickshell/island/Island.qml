@@ -112,8 +112,8 @@ Scope {
 
             Behavior on opacity {
                 NumberAnimation {
-                    duration: M3Easing.durationMedium3
-                    easing.bezierCurve: M3Easing.emphasized
+                    duration: Appearance.motion.duration.medium3
+                    easing.bezierCurve: Appearance.motion.easing.emphasized
                 }
             }
 
@@ -126,14 +126,14 @@ Scope {
                     yScale: container.idleHidden ? 0.6 : 1
                     Behavior on xScale {
                         NumberAnimation {
-                            duration: M3Easing.durationLong1
-                            easing.bezierCurve: M3Easing.emphasized
+                            duration: Appearance.motion.duration.long1
+                            easing.bezierCurve: Appearance.motion.easing.emphasized
                         }
                     }
                     Behavior on yScale {
                         NumberAnimation {
-                            duration: M3Easing.durationLong1
-                            easing.bezierCurve: M3Easing.emphasized
+                            duration: Appearance.motion.duration.long1
+                            easing.bezierCurve: Appearance.motion.easing.emphasized
                         }
                     }
                 },
@@ -142,8 +142,8 @@ Scope {
                     y: container.idleHidden ? -container.implicitHeight : 0
                     Behavior on y {
                         NumberAnimation {
-                            duration: M3Easing.durationLong1
-                            easing.bezierCurve: M3Easing.emphasized
+                            duration: Appearance.motion.duration.long1
+                            easing.bezierCurve: Appearance.motion.easing.emphasized
                         }
                     }
                 }
@@ -283,7 +283,7 @@ Scope {
                 progress: osdInputs.progress
                 opacity: pillState._displayMode === "osd" ? 1 : 0
                 visible: opacity > 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             }
 
             IslandBattery {
@@ -294,7 +294,7 @@ Scope {
                 expanded: pillState.expanded
                 opacity: pillState._displayMode === "battery" ? 1 : 0
                 visible: opacity > 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             }
 
             // Media expanded card (clipped to the notch body via OpacityMask
@@ -317,11 +317,11 @@ Scope {
                 transitions: [
                     Transition {
                         to: "visible"
-                        NumberAnimation { property: "opacity"; duration: M3Easing.durationShort4; easing.type: Easing.OutCubic }
+                        NumberAnimation { property: "opacity"; duration: Appearance.motion.duration.short4; easing.type: Easing.OutCubic }
                     },
                     Transition {
                         from: "visible"
-                        NumberAnimation { property: "opacity"; duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+                        NumberAnimation { property: "opacity"; duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic }
                     }
                 ]
 
@@ -345,7 +345,7 @@ Scope {
                 anchors.verticalCenter: notch.verticalCenter
                 opacity: container.mediaPeekVisible ? 1 : 0
                 visible: opacity > 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
             }
             
             IslandLauncher {
@@ -358,8 +358,8 @@ Scope {
                 onActivated: scope.launcher?.hide()
                 Behavior on opacity {
                     NumberAnimation {
-                        duration: M3Easing.durationLong1
-                        easing.bezierCurve: M3Easing.emphasized
+                        duration: Appearance.motion.duration.long1
+                        easing.bezierCurve: Appearance.motion.easing.emphasized
                     }
                 }
                 Component.onCompleted: {
@@ -377,7 +377,7 @@ Scope {
                 accentColor: container.mediaTint
                 opacity: container.mediaPeekVisible ? 1 : 0
                 visible: opacity > 0
-                Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
             }
         }
     }

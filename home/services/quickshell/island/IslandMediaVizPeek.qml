@@ -26,7 +26,7 @@ Item {
                 transformOrigin: Item.Center
 
                 Behavior on color {
-                    ColorAnimation { duration: M3Easing.durationMedium3; easing.type: Easing.OutCubic }
+                    ColorAnimation { duration: Appearance.motion.duration.medium3; easing.type: Easing.OutCubic }
                 }
 
                 SequentialAnimation on scale {
@@ -38,7 +38,7 @@ Item {
 
                 scale: root.playing ? scale : 0.32
                 opacity: root.playing ? 1 : 0.55
-                Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration } }
+                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects } }
             }
         }
     }

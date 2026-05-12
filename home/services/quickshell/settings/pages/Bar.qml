@@ -66,7 +66,7 @@ ContentPage {
                         color: active
                             ? Colors.primaryContainer
                             : (ma.containsMouse ? Colors.colLayer4 : Colors.colLayer3)
-                        Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                        Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
 
                         MaterialIcon {
                             anchors.centerIn: parent
@@ -74,7 +74,7 @@ ContentPage {
                             font.pointSize: Config.typography.normal
                             fill: parent.active ? 1 : 0
                             color: parent.active ? Colors.m3onPrimaryContainer : Colors.m3onSurfaceVariant
-                            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                            Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                         }
 
                         MouseArea {

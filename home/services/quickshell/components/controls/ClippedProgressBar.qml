@@ -23,7 +23,7 @@ Item {
     implicitHeight: valueBarHeight
 
     Behavior on value {
-        NumberAnimation { duration: M3Easing.durationShort4; easing.type: Easing.OutCubic }
+        NumberAnimation { duration: Appearance.motion.duration.short4; easing.type: Easing.OutCubic }
     }
 
     // Step 1: track + fill (small radius on fill so it doesn't look nested)

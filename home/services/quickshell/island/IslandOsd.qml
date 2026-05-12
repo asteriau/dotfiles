@@ -65,7 +65,7 @@ Item {
                     radius: height / 2
                     color: root.fillColor
                     width: parent.width * root.clamped
-                    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                    Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                 }
 
                 Rectangle {
@@ -75,7 +75,7 @@ Item {
                     width: Math.max(0, parent.width - fill.width - root.barHeight)
                     radius: height / 2
                     color: root.trackColor
-                    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                    Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                 }
 
                 Rectangle {
@@ -85,7 +85,7 @@ Item {
                     height: root.barHeight
                     radius: height / 2
                     color: root.fillColor
-                    Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration } }
+                    Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
                 }
             }
         }

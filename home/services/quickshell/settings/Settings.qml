@@ -150,7 +150,7 @@ Window {
 
                 Behavior on Layout.preferredWidth {
                     NumberAnimation {
-                        duration: M3Easing.spatialDuration
+                        duration: Appearance.motion.duration.spatial
                         easing.type: Easing.OutCubic
                     }
                 }
@@ -202,16 +202,16 @@ Window {
                         y: loaderA.targetVisible ? 0 : 14
                         Behavior on y {
                             NumberAnimation {
-                                duration: M3Easing.spatialDuration
-                                easing.bezierCurve: M3Easing.emphasized
+                                duration: Appearance.motion.duration.spatial
+                                easing.bezierCurve: Appearance.motion.easing.emphasized
                                 easing.type: Easing.BezierSpline
                             }
                         }
                     }
                     Behavior on opacity {
                         NumberAnimation {
-                            duration: M3Easing.spatialDuration
-                            easing.bezierCurve: M3Easing.emphasized
+                            duration: Appearance.motion.duration.spatial
+                            easing.bezierCurve: Appearance.motion.easing.emphasized
                             easing.type: Easing.BezierSpline
                         }
                     }
@@ -229,16 +229,16 @@ Window {
                         y: loaderB.targetVisible ? 0 : 14
                         Behavior on y {
                             NumberAnimation {
-                                duration: M3Easing.spatialDuration
-                                easing.bezierCurve: M3Easing.emphasized
+                                duration: Appearance.motion.duration.spatial
+                                easing.bezierCurve: Appearance.motion.easing.emphasized
                                 easing.type: Easing.BezierSpline
                             }
                         }
                     }
                     Behavior on opacity {
                         NumberAnimation {
-                            duration: M3Easing.spatialDuration
-                            easing.bezierCurve: M3Easing.emphasized
+                            duration: Appearance.motion.duration.spatial
+                            easing.bezierCurve: Appearance.motion.easing.emphasized
                             easing.type: Easing.BezierSpline
                         }
                     }
@@ -256,16 +256,16 @@ Window {
                         y: settingsWindow.searchActive ? 0 : 14
                         Behavior on y {
                             NumberAnimation {
-                                duration: M3Easing.spatialDuration
-                                easing.bezierCurve: M3Easing.emphasized
+                                duration: Appearance.motion.duration.spatial
+                                easing.bezierCurve: Appearance.motion.easing.emphasized
                                 easing.type: Easing.BezierSpline
                             }
                         }
                     }
                     Behavior on opacity {
                         NumberAnimation {
-                            duration: M3Easing.spatialDuration
-                            easing.bezierCurve: M3Easing.emphasized
+                            duration: Appearance.motion.duration.spatial
+                            easing.bezierCurve: Appearance.motion.easing.emphasized
                             easing.type: Easing.BezierSpline
                         }
                     }

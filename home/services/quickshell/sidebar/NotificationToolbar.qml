@@ -27,7 +27,7 @@ RowLayout {
         font.weight: Font.Medium
 
         Behavior on color {
-            ColorAnimation { duration: M3Easing.effectsDuration }
+            ColorAnimation { duration: Appearance.motion.duration.effects }
         }
     }
 

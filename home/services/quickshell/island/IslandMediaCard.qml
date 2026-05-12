@@ -150,7 +150,7 @@ Item {
                     sourceSize.height: 256
                     visible: opacity > 0
                     opacity: status === Image.Ready ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: M3Easing.durationMedium3; easing.type: Easing.OutCubic } }
+                    Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium3; easing.type: Easing.OutCubic } }
                 }
 
                 MaterialIcon {

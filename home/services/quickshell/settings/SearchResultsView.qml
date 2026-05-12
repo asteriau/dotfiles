@@ -96,7 +96,7 @@ Item {
                     radius: parent.radius
                     color: index === root.selectedIndex ? Colors.secondaryContainer : Colors.hover
                     opacity: index === root.selectedIndex ? 1 : (ma.containsMouse ? 1 : 0)
-                    Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+                    Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
                 }
 
                 RowLayout {

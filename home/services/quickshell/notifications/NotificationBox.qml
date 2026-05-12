@@ -31,22 +31,22 @@ Item {
     NumberAnimation on opacity {
         from: 0
         to: 1
-        duration: M3Easing.spatialDuration
+        duration: Appearance.motion.duration.spatial
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.emphasizedDecel
+        easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
         running: root.isPopup
     }
     NumberAnimation on scale {
         from: 0.90
         to: 1
-        duration: M3Easing.spatialDuration
+        duration: Appearance.motion.duration.spatial
         easing.type: Easing.BezierSpline
-        easing.bezierCurve: M3Easing.emphasizedDecel
+        easing.bezierCurve: Appearance.motion.easing.emphasizedDecel
         running: root.isPopup
     }
 
     Behavior on actionsProgress {
-        Motion.EmphDecel { easing.bezierCurve: root.expanded ? M3Easing.emphasizedDecel : M3Easing.emphasizedAccel }
+        Motion.EmphDecel { easing.bezierCurve: root.expanded ? Appearance.motion.easing.emphasizedDecel : Appearance.motion.easing.emphasizedAccel }
     }
 
     Component.onCompleted: actionsProgress = expanded ? 1 : 0
@@ -85,11 +85,11 @@ Item {
             ? (row.implicitHeight + root.padding * 2)
             : Math.min(root.collapsedMaxHeight, row.implicitHeight + root.padding * 2)
 
-        Behavior on implicitHeight { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+        Behavior on implicitHeight { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
 
         Behavior on x {
             enabled: !dragHandler.active
-            Motion.EmphDecel { duration: M3Easing.durationMedium1 }
+            Motion.EmphDecel { duration: Appearance.motion.duration.medium1 }
         }
 
         MouseArea {
@@ -131,9 +131,9 @@ Item {
             id: dismissAnim
             target: background
             property: "x"
-            duration: M3Easing.durationMedium1
+            duration: Appearance.motion.duration.medium1
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: M3Easing.emphasizedAccel
+            easing.bezierCurve: Appearance.motion.easing.emphasizedAccel
             onFinished: root.closeSelf()
         }
 

@@ -35,7 +35,7 @@ Item {
         color: Colors.surfaceContainerLow
 
         Behavior on color {
-            ColorAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+            ColorAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic }
         }
     }
 

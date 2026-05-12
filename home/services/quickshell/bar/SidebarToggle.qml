@@ -12,7 +12,7 @@ PressablePill {
     useStateLayer: true
     stateLayerTone: iconColor
     pressScale: 0.9
-    pressDuration: M3Easing.durationShort3  // match sparkIcon's scale timing
+    pressDuration: Appearance.motion.duration.short3  // match sparkIcon's scale timing
 
     implicitWidth: 32
     implicitHeight: 32
@@ -30,7 +30,7 @@ PressablePill {
 
         Behavior on scale {
             NumberAnimation {
-                duration: M3Easing.durationShort3
+                duration: Appearance.motion.duration.short3
                 easing.type: Easing.OutQuad
             }
         }

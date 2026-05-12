@@ -47,6 +47,6 @@ Item {
         opacity: root.shadowOpacity
     }
 
-    Behavior on tintAmount   { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
-    Behavior on shadowOpacity { NumberAnimation { duration: M3Easing.durationMedium2; easing.type: Easing.OutCubic } }
+    Behavior on tintAmount   { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
+    Behavior on shadowOpacity { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
 }

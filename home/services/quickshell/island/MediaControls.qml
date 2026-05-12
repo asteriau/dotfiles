@@ -50,7 +50,7 @@ Item {
             color: root.colors?.colOnSecondaryContainer ?? Colors.foreground
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+            Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
         }
     }
 
@@ -120,7 +120,7 @@ Item {
             color: root.player?.isPlaying
                 ? (root.colors?.colOnPrimary ?? Colors.foreground)
                 : (root.colors?.colOnSecondaryContainer ?? Colors.foreground)
-            Behavior on color { ColorAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+            Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
         }
     }
 }

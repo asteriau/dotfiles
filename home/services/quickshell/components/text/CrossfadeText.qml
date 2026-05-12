@@ -37,7 +37,7 @@ Item {
         horizontalAlignment: root.horizontalAlignment
         verticalAlignment: Text.AlignVCenter
         opacity: root._aActive ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
     }
     StyledText {
         id: labelB
@@ -50,6 +50,6 @@ Item {
         horizontalAlignment: root.horizontalAlignment
         verticalAlignment: Text.AlignVCenter
         opacity: root._aActive ? 0 : 1
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
     }
 }

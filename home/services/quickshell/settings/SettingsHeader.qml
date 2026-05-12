@@ -32,7 +32,7 @@ Item {
         spacing: Config.layout.gapMd
         visible: !root.compact
         opacity: root.compact ? 0 : 1
-        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
 
         StyledText {
             text: "Settings"
@@ -69,7 +69,7 @@ Item {
         anchors.horizontalCenterOffset: root.searchOffsetX
         anchors.verticalCenter: parent.verticalCenter
         Behavior on anchors.horizontalCenterOffset {
-            NumberAnimation { duration: M3Easing.spatialDuration; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: Appearance.motion.duration.spatial; easing.type: Easing.OutCubic }
         }
 
         onQueryChanged: q => root.queryChanged(q)
