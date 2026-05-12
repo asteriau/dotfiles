@@ -6,7 +6,10 @@
 {
   flake.nixosConfigurations =
     let
-      inherit (inputs.nixpkgs.lib) nixosSystem;
+      inherit (inputs.nixpkgs) lib;
+      inherit (lib) nixosSystem;
+
+      asteriaLib = import "${self}/lib" { inherit lib self; };
 
       homeImports = import "${self}/home/profiles";
 
@@ -17,7 +20,10 @@
         host: extraModules:
         let
           profile = import ./${host}/profile.nix;
-          specialArgs = { inherit inputs self profile; };
+          specialArgs = {
+            inherit inputs self profile;
+          }
+          // asteriaLib;
         in
         nixosSystem {
           inherit specialArgs;

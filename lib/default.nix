@@ -1,7 +1,8 @@
-{ lib, ... }:
-# personal lib
+{ lib, self }:
 {
-  _module.args = {
-    colors = import ./colors lib;
+  colors = import ./colors lib;
+  theme = import ./theme {
+    inherit lib self;
+    fallback = "default-dark";
   };
 }
