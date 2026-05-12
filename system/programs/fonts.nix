@@ -1,4 +1,7 @@
 { pkgs, inputs, ... }:
+let
+  inherit (pkgs.stdenv.hostPlatform) system;
+in
 {
   fonts = {
     packages = with pkgs; [
@@ -12,6 +15,7 @@
       noto-fonts-color-emoji
       roboto
       (google-fonts.override { fonts = [ "Inter" ]; })
+      inputs.self.packages.${system}.google-sans-flex
 
       # monospace fonts
       jetbrains-mono

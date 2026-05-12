@@ -183,29 +183,46 @@ Singleton {
         }
     }
 
-    // Clear foot's matugen overlay when leaving matugen mode so foot falls
-    // back to its declarative (foot.nix) palette. Empty file = no [colors]
-    // section to override main config; SIGUSR1 makes running foots re-read.
+    // When leaving matugen mode, point foot's overlay back at the preset
+    // palette (managed by foot.nix). foot.ini already includes state/foot.ini
+    // at the top, so we write a nested include here. SIGUSR1 → live reload.
     function _clearFootOverlay(): void {
         footClear.command = [
             "bash", "-c",
-            ': > "$1" && pkill -SIGUSR1 foot 2>/dev/null || true',
+            'printf "include = %s/.config/foot/colors.ini\\n" "$HOME" > "$1" && pkill -SIGUSR1 foot 2>/dev/null || true',
             "--",
             root.shellDir + "/state/foot.ini"
         ];
         footClear.running = true;
     }
 
+    // Empty file → hyprland.conf's static general/misc settings win again.
+    function _clearHyprlandOverlay(): void {
+        hyprlandClear.command = [
+            "bash", "-c",
+            ': > "$1" && hyprctl reload >/dev/null 2>&1 || true',
+            "--",
+            root.shellDir + "/state/hyprland.conf"
+        ];
+        hyprlandClear.running = true;
+    }
+
+    function _resetOverlays(): void {
+        _clearFootOverlay();
+        _clearHyprlandOverlay();
+    }
+
     Process { id: footClear; running: false }
+    Process { id: hyprlandClear; running: false }
 
     Connections {
         target: Config
         function onThemeModeChanged() {
-            if (Config.theme.mode === "preset") root._clearFootOverlay();
+            if (Config.theme.mode === "preset") root._resetOverlays();
         }
     }
 
     Component.onCompleted: {
-        if (Config._loaded && Config.theme.mode === "preset") root._clearFootOverlay();
+        if (Config._loaded && Config.theme.mode === "preset") root._resetOverlays();
     }
 }

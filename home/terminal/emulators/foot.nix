@@ -81,17 +81,19 @@ let
       beam-thickness = 1;
     };
 
-    colors = colors;
   };
 in
 {
   home.packages = [ pkgs.foot ];
 
-  # Manage foot.ini directly so we can append an `include` directive at the
-  # bottom — Quickshell writes `state/foot.ini` in matugen mode to override
-  # [colors]; in preset mode it clears the file so static colors above win.
-  home.file.".config/foot/foot.ini".text = lib.generators.toINI { } settings + ''
+  # Preset palette as a standalone include target. Quickshell points
+  # state/foot.ini back here when leaving matugen mode.
+  home.file.".config/foot/colors.ini".text = lib.generators.toINI { } { inherit colors; };
 
+  # `include` must precede any [section]; quickshell-managed state/foot.ini
+  # holds either matugen-generated [colors] or an include of colors.ini above.
+  home.file.".config/foot/foot.ini".text = ''
     include = ${config.home.homeDirectory}/.config/quickshell/state/foot.ini
-  '';
+  ''
+  + lib.generators.toINI { } settings;
 }

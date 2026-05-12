@@ -28,4 +28,9 @@
 
   # let HM manage itself when in standalone mode
   programs.home-manager.enable = true;
+
+  # Auto start/stop/restart user services on activation instead of just
+  # printing suggestions — new services come up without a manual
+  # `systemctl --user start ...` on first switch.
+  systemd.user.startServices = "sd-switch";
 }

@@ -11,6 +11,12 @@ in
 {
   programs.hyprland.settings = {
     "$mod" = "SUPER";
+
+    # Matugen overlay for borders / misc.background_color. Empty in preset
+    # mode → static values below win; populated in matugen mode → overrides.
+    # ~ is expanded by Hyprland to the user's home at session start.
+    source = [ "~/.config/quickshell/state/hyprland.conf" ];
+
     env = [
       "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
       "HYPRCURSOR_THEME,${cursorName}"

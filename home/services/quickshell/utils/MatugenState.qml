@@ -29,15 +29,21 @@ Singleton {
             'input_path  = "$SHELL_DIR/matugen/template.json"\n' +
             'output_path = "$SHELL_DIR/state/colors.json"\n' +
             '\n' +
-            '[templates.foot]\n' +
-            'input_path  = "$SHELL_DIR/matugen/foot.ini"\n' +
-            'output_path = "$SHELL_DIR/state/foot.ini"\n' +
+            '[templates.hyprland]\n' +
+            'input_path  = "$SHELL_DIR/matugen/hyprland.conf"\n' +
+            'output_path = "$SHELL_DIR/state/hyprland.conf"\n' +
             'EOF\n' +
-            'exec matugen image "$WALLPAPER" ' +
+            'matugen image "$WALLPAPER" ' +
                 '-m "$MODE" -t "$SCHEME" ' +
                 '--contrast "$CONTRAST" ' +
                 '--source-color-index 0 ' +
-                '--config "$SHELL_DIR/state/matugen.toml"';
+                '--config "$SHELL_DIR/state/matugen.toml"; ' +
+            'python3 "$SHELL_DIR/scripts/generate-term-colors.py" ' +
+                '--path "$WALLPAPER" ' +
+                '--termscheme "$SHELL_DIR/scripts/scheme-base.json" ' +
+                '--output "$SHELL_DIR/state/foot.ini" ' +
+                '--mode "$MODE" --scheme "$SCHEME" --contrast "$CONTRAST"; ' +
+            'exec hyprctl reload';
         matugenProc.running = false;
         matugenProc.environment = {
             "SHELL_DIR": root.shellDir,

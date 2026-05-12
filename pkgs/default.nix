@@ -10,6 +10,8 @@
 
         bibata-hyprcursor = pkgs.callPackage ./bibata-hyprcursor { };
 
+        google-sans-flex = pkgs.callPackage ./google-sans-flex { };
+
         wl-ocr = pkgs.callPackage ./wl-ocr { };
       };
     };

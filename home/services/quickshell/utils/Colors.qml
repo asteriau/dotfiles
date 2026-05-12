@@ -39,7 +39,7 @@ Singleton {
     readonly property color scrim:          Qt.rgba(0, 0, 0, 0.22)
 
     // Popup-layer surface (derived from elevated).
-    readonly property color popupBackground: Qt.rgba(elevated.r, elevated.g, elevated.b, 0.94)
+    readonly property color popupBackground: elevated
 
     // Derived.
     readonly property color overlay:        Qt.hsla(0, 0, 0.95, 0.7)
