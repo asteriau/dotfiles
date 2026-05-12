@@ -12,6 +12,7 @@ in
 
     ./animations.nix
     ./binds.nix
+    ./decoration.nix
     ./rules.nix
     ./settings.nix
   ];
