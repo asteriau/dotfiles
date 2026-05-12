@@ -11,6 +11,7 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
+import qs.modules.island.helpers
 
 Item {
     id: root

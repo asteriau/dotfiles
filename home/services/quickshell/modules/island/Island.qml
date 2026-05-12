@@ -5,6 +5,10 @@ import Quickshell.Wayland
 import Quickshell.Services.Mpris
 import Quickshell.Hyprland
 import qs.modules.launcher
+import qs.modules.island.modes
+import qs.modules.island.watchers
+import qs.modules.island.shapes
+import qs.modules.island.peeks
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
@@ -22,8 +26,8 @@ Scope {
     readonly property bool launcherOpen: launcher?.open ?? false
 
     // OSD + battery state owned by extracted child items.
-    IslandOsdInputs       { id: osdInputs }
-    IslandBatteryWatcher  { id: batteryWatcher }
+    OsdInputs       { id: osdInputs }
+    BatteryWatcher  { id: batteryWatcher }
 
     readonly property bool peeking: batteryWatcher.peeking
 
@@ -202,7 +206,7 @@ Scope {
             }
 
             // OSD compact (volume/brightness/mic)
-            IslandOsd {
+            OsdMode {
                 anchors.fill: notch
                 anchors.leftMargin: notch.topRadius
                 anchors.rightMargin: notch.topRadius
@@ -214,7 +218,7 @@ Scope {
                 Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.effects; easing.type: Easing.OutCubic } }
             }
 
-            IslandBattery {
+            BatteryMode {
                 id: batteryView
                 anchors.fill: notch
                 anchors.leftMargin: notch.topRadius
@@ -253,7 +257,7 @@ Scope {
                     }
                 ]
 
-                IslandMediaCard {
+                MediaMode {
                     id: card
                     anchors.fill: parent
                     radius: notch.bottomRadius
@@ -264,7 +268,7 @@ Scope {
 
             readonly property color mediaTint: mediaExpanded.tintColor
 
-            IslandMediaArtPeek {
+            MediaArtPeek {
                 id: artPeek
                 width: Appearance.island.mediaArtPeekSize
                 height: Appearance.island.mediaArtPeekSize
@@ -276,7 +280,7 @@ Scope {
                 Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
             }
             
-            IslandLauncher {
+            LauncherMode {
                 id: launcherView
                 anchors.fill: notch
                 anchors.leftMargin: notch.topRadius
@@ -295,7 +299,7 @@ Scope {
                 }
             }
 
-            IslandMediaVizPeek {
+            MediaVizPeek {
                 id: vizPeek
                 width: Appearance.island.mediaVizPeekWidth
                 height: Appearance.island.mediaArtPeekSize

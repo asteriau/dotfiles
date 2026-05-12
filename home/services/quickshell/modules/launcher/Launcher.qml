@@ -10,7 +10,7 @@ Scope {
     property bool open: false
     property bool _superMayTrigger: false
 
-    // Set by Island.qml so we can drive the embedded IslandLauncher view
+    // Set by Island.qml so we can drive the embedded LauncherMode view
     // (focus input, clear/set text on open, etc.).
     property var islandView: null
 
