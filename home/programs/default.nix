@@ -1,8 +1,7 @@
 { pkgs, inputs, ... }:
 {
   imports = [
-    ./browsers/chromium.nix
-    ./browsers/zen.nix
+    ./browsers
     ./media
     ./gtk.nix
     ./office
