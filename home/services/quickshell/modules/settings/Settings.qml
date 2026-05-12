@@ -21,10 +21,10 @@ Window {
     property int currentPage: 0
     property bool navExpanded: width > 900
     readonly property var pages: [
-        { name: "Bar",     icon: "dock_to_left", source: _base + "pages/Bar.qml"     },
-        { name: "Theme",   icon: "palette",      source: _base + "pages/Theme.qml"   },
-        { name: "General", icon: "tune",         source: _base + "pages/General.qml" },
-        { name: "About",   icon: "info",         source: _base + "pages/About.qml"   }
+        { name: "Bar",     icon: "dock_to_left", source: _base + "pages/BarPage.qml"     },
+        { name: "Theme",   icon: "palette",      source: _base + "pages/ThemePage.qml"   },
+        { name: "General", icon: "tune",         source: _base + "pages/GeneralPage.qml" },
+        { name: "About",   icon: "info",         source: _base + "pages/AboutPage.qml"   }
     ]
 
     property string searchQuery: ""

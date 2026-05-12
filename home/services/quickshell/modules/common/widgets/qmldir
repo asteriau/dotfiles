@@ -53,3 +53,8 @@ ContentPage 1.0 ContentPage.qml
 ContentSection 1.0 ContentSection.qml
 ContentSubsection 1.0 ContentSubsection.qml
 ResourceDial 1.0 ResourceDial.qml
+InfoRow 1.0 InfoRow.qml
+SettingsRow 1.0 SettingsRow.qml
+SliderRow 1.0 SliderRow.qml
+SwitchRow 1.0 SwitchRow.qml
+TextFieldRow 1.0 TextFieldRow.qml
