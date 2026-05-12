@@ -7,7 +7,6 @@
     ./media
     ./office
     ./qt.nix
-    ./vicinae.nix
     ./wayland
   ];
 
