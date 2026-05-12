@@ -18,7 +18,6 @@ Singleton {
     readonly property bool wifiEnabled: Networking.wifiEnabled
     property bool ethernetConnected: false
     property bool scanning: false
-    property string lastError: ""
 
     // [{ ssid, bssid, signal, freq, security, active, knownProfile }]
     property var wifiNetworks: []
@@ -172,14 +171,12 @@ Singleton {
             const errText = connectStderr.text || "";
             const outText = connectStdout.text || "";
             if (code === 0) {
-                root.lastError = "";
                 root.connected(ssid);
                 root.rescan();
             } else if (errText.match(/Secrets were required|password|no secret|Authentication/i)) {
                 root.passwordRequired(ssid);
             } else {
                 const msg = (errText || outText).trim() || ("nmcli exited " + code);
-                root.lastError = msg;
                 root.connectFailed(ssid, msg);
             }
             connectProc._ssid = "";
