@@ -19,17 +19,20 @@ ContentSection {
             Layout.leftMargin: Appearance.layout.gapXl
             Layout.rightMargin: Appearance.layout.gapXl
             Layout.bottomMargin: Appearance.layout.gapMd
-            implicitHeight: presetSeg.visible ? presetSeg.implicitHeight : presetEmpty.implicitHeight
+            implicitHeight: presetCombo.visible ? presetCombo.implicitHeight : presetEmpty.implicitHeight
 
-            SegmentedControl {
-                id: presetSeg
+            StyledComboBox {
+                id: presetCombo
                 objectName: "theme-presetPicker"
                 anchors.left: parent.left
                 anchors.right: parent.right
                 visible: root.presetOptions.length > 0
-                currentValue: Config.theme.preset
-                options: root.presetOptions
-                onSelectedValue: v => Config.theme.preset = v
+                model: root.presetOptions
+                textRole: "label"
+                valueRole: "value"
+                displayRole: "label"
+                currentIndex: indexOfValue(Config.theme.preset)
+                onActivated: Config.theme.preset = currentValue
             }
 
             StyledText {
