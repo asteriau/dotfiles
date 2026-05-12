@@ -1,11 +1,11 @@
 {
   config,
   pkgs,
+  profile,
   ...
 }:
 let
   cfg = config.programs.git;
-  key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICcr1LDS9jd0eKlI+2T7exP29Q01lMtXioB5PQQsio1V laura@meow";
 in
 {
   home.packages = [ pkgs.gh ];
@@ -96,8 +96,8 @@ in
         };
 
       user = {
-        email = "dorahaladita@gmail.com";
-        name = "asteria";
+        email = profile.email;
+        name = profile.name;
       };
 
       gpg.ssh.allowedSignersFile =
@@ -117,6 +117,6 @@ in
   };
 
   xdg.configFile."git/allowed_signers".text = ''
-    ${cfg.settings.user.email} namespaces="git" ${key}
+    ${cfg.settings.user.email} namespaces="git" ${profile.sshSigningKey}
   '';
 }
