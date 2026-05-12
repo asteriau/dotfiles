@@ -60,36 +60,22 @@ PanelWindow {
     property real regionX: Math.min(dragStartX, draggingX)
     property real regionY: Math.min(dragStartY, draggingY)
 
-    TempScreenshotProcess {
-        id: screenshotProc
-        running: true
+    property bool isRecording: root.action === RegionSelection.SnipAction.Record || root.action === RegionSelection.SnipAction.RecordWithSound
+
+    ScreenshotPreparation {
+        id: prep
         screen: root.screen
         screenshotDir: root.screenshotDir
         screenshotPath: root.screenshotPath
-        onExited: (exitCode, exitStatus) => {
-            root.preparationDone = !checkRecordingProc.running;
+        isRecording: root.isRecording
+        onReady: {
+            if (root.isRecording && prep.recordingShouldStop) {
+                Quickshell.execDetached([Directories.recordScriptPath]);
+                root.dismiss();
+                return;
+            }
+            root.visible = true;
         }
-    }
-    property bool isRecording: root.action === RegionSelection.SnipAction.Record || root.action === RegionSelection.SnipAction.RecordWithSound
-    property bool recordingShouldStop: false
-    Process {
-        id: checkRecordingProc
-        running: isRecording
-        command: ["pidof", "wf-recorder"]
-        onExited: (exitCode, exitStatus) => {
-            root.preparationDone = !screenshotProc.running;
-            root.recordingShouldStop = (exitCode === 0);
-        }
-    }
-    property bool preparationDone: false
-    onPreparationDoneChanged: {
-        if (!preparationDone) return;
-        if (root.isRecording && root.recordingShouldStop) {
-            Quickshell.execDetached([Directories.recordScriptPath]);
-            root.dismiss();
-            return;
-        }
-        root.visible = true;
     }
 
     function getScreenshotAction() {
