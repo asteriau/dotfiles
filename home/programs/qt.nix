@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  theme,
   ...
 }:
 let
@@ -15,12 +16,15 @@ let
 
   qtctConf = {
     Appearance = {
-      custom_palette = false;
+      custom_palette = true;
+      color_scheme_path = "${config.xdg.configHome}/qt5ct/colors/asteria.conf";
       icon_theme = config.gtk.iconTheme.name;
       standard_dialogs = "xdgdesktopportal";
       style = "kvantum";
     };
   };
+
+  colorScheme = theme.format.toQtPalette theme.palette;
 
   defaultFont = "${config.gtk.font.name},${builtins.toString config.gtk.font.size}";
 in
@@ -37,6 +41,9 @@ in
       source = "${KvLibadwaita}/src";
       recursive = true;
     };
+
+    "qt5ct/colors/asteria.conf".text = colorScheme;
+    "qt6ct/colors/asteria.conf".text = colorScheme;
 
     # qtct config
     "qt5ct/qt5ct.conf".text =
@@ -60,6 +67,9 @@ in
       lib.generators.toINI { } (
         qtctConf
         // {
+          Appearance = qtctConf.Appearance // {
+            color_scheme_path = "${config.xdg.configHome}/qt6ct/colors/asteria.conf";
+          };
           Fonts = {
             fixed = default;
             general = default;
