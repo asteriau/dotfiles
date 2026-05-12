@@ -9,8 +9,6 @@
       inherit (inputs.nixpkgs) lib;
       inherit (lib) nixosSystem;
 
-      asteriaLib = import "${self}/lib" { inherit lib self; };
-
       homeImports = import "${self}/home/profiles";
 
       mod = "${self}/system";
@@ -25,6 +23,7 @@
         host: extraModules:
         let
           profile = import ./${host}/profile.nix;
+          asteriaLib = import "${self}/lib" { inherit lib self profile; };
           specialArgs = {
             inherit inputs self profile;
           }

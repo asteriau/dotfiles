@@ -23,6 +23,16 @@
     else
       fallback;
 
+  readActiveMode =
+    {
+      file,
+      fallback,
+    }:
+    if builtins.pathExists file then
+      lib.strings.removeSuffix "\n" (builtins.readFile file)
+    else
+      fallback;
+
   readMatugen =
     { file }:
     if !builtins.pathExists file then

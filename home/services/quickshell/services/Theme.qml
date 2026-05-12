@@ -211,9 +211,10 @@ Singleton {
     Process { id: footClear; running: false }
     Process { id: hyprlandClear; running: false }
 
-    // Mirror the active preset name to state/active-preset so the nix-side
-    // theme module (lib/theme) can pick it up on the next rebuild. Foot/GTK/
-    // QT/hyprland statics will then reflect the same preset QS is showing.
+    // Mirror the active preset name + mode to state files so the nix-side
+    // theme module (lib/theme) can pick them up on the next rebuild. Foot/
+    // GTK/QT/hyprland statics will then reflect the same preset QS is
+    // showing; matugen overlay is gated on mode.
     function _writeActivePreset(): void {
         activePresetWriter.command = [
             "bash", "-c",
@@ -225,11 +226,24 @@ Singleton {
         activePresetWriter.running = true;
     }
 
+    function _writeActiveMode(): void {
+        activeModeWriter.command = [
+            "bash", "-c",
+            'printf "%s\\n" "$1" > "$2"',
+            "--",
+            Config.theme.mode,
+            Directories.shellDir + "/state/active-mode"
+        ];
+        activeModeWriter.running = true;
+    }
+
     Process { id: activePresetWriter; running: false }
+    Process { id: activeModeWriter; running: false }
 
     Connections {
         target: Config.theme
         function onModeChanged() {
+            if (Config._loaded) root._writeActiveMode();
             if (Config.theme.mode === "preset") root._resetOverlays();
         }
         function onPresetChanged() {
@@ -241,6 +255,7 @@ Singleton {
         if (Config._loaded) {
             if (Config.theme.mode === "preset") root._resetOverlays();
             root._writeActivePreset();
+            root._writeActiveMode();
         }
     }
 }
