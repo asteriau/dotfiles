@@ -2,6 +2,7 @@ import QtQuick
 import qs.modules.common.widgets
 import qs.modules.common
 import qs.services
+import qs.modules.bar.popups
 
 PressablePill {
     id: root
@@ -46,6 +47,6 @@ PressablePill {
         targetItem: root
         padding: Appearance.layout.gapXl
 
-        ResourcesPanel {}
+        ResourcesPopup {}
     }
 }

@@ -2,6 +2,7 @@ import QtQuick
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
+import qs.modules.bar.popups
 
 Item {
     id: root
@@ -95,12 +96,12 @@ Item {
 
             Popout {
                 name: "clock"
-                sourceComponent: ClockExpansionContent {}
+                sourceComponent: ClockPopupContent {}
             }
 
             Popout {
                 name: "resources"
-                sourceComponent: ResourcesExpansionContent {}
+                sourceComponent: ResourcesPopupContent {}
             }
         }
     }

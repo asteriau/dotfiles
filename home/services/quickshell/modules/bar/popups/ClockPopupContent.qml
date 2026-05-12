@@ -11,7 +11,7 @@ Item {
     implicitWidth:  panel.implicitWidth + padding * 2
     implicitHeight: panel.implicitHeight + padding * 2
 
-    CalendarPanel {
+    CalendarPopup {
         id: panel
         x: root.padding
         y: root.padding

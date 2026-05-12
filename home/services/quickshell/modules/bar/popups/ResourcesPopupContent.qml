@@ -11,7 +11,7 @@ Item {
     implicitWidth:  panel.width + padding * 2
     implicitHeight: panel.implicitHeight + padding * 2
 
-    ResourcesPanel {
+    ResourcesPopup {
         id: panel
         x: root.padding
         y: root.padding

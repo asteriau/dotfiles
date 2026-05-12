@@ -4,6 +4,7 @@ import qs.modules.common.widgets
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
+import qs.modules.bar.popups
 
 PressablePill {
     id: root
@@ -104,6 +105,6 @@ PressablePill {
         targetItem: root
         padding: Appearance.layout.gapLg
 
-        CalendarPanel { active: popup.active }
+        CalendarPopup { active: popup.active }
     }
 }
