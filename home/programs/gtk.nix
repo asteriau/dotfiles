@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   config,
   theme,
@@ -40,8 +39,7 @@ in
   };
 
   xdg.configFile = {
-    "gtk-3.0/colors.css".text = colorsCss;
-    "gtk-4.0/colors.css".text = colorsCss;
-    "gtk-4.0/gtk.css".enable = lib.mkForce false;
+    "gtk-3.0/gtk.css".text = colorsCss;
+    "gtk-4.0/gtk.css".text = colorsCss;
   };
 }
