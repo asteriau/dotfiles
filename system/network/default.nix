@@ -1,5 +1,9 @@
 # networking configuration
-{ pkgs, ... }:
+{
+  pkgs,
+  profile,
+  ...
+}:
 {
   networking = {
     # use quad9 with DNS over TLS
@@ -19,7 +23,7 @@
     Host neushore
       User builder
       HostName build.neushore.dev
-      IdentityFile /home/laura/.ssh/id_ed25519
+      IdentityFile /home/${profile.user}/.ssh/id_ed25519
       Port 30
   '';
 
