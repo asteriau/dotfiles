@@ -41,9 +41,12 @@ in
       border_size = 2;
       "col.active_border" = toHyprlandRgba {
         hex = theme.palette.border;
-        alpha = "FF";
+        alpha = "77";
       };
-      "col.inactive_border" = "rgba(00000000)";
+      "col.inactive_border" = toHyprlandRgba {
+        hex = theme.palette.surfaceContainerLow;
+        alpha = "33";
+      };
 
       allow_tearing = false;
       resize_on_border = true;
@@ -83,6 +86,11 @@ in
 
     misc = {
       force_default_wallpaper = 0;
+
+      background_color = toHyprlandRgba {
+        hex = theme.palette.elevated;
+        alpha = "FF";
+      };
 
       # disable dragging animation
       animate_mouse_windowdragging = false;
