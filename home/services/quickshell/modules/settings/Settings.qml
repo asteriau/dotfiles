@@ -3,9 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Window
 import qs.modules.common.widgets
 import qs.modules.common
-import qs.modules.common.functions
-import qs.modules.common.models
-import qs.services
 import "searchData.js" as SearchData
 
 Window {
@@ -33,10 +30,9 @@ Window {
     property string searchQuery: ""
     readonly property bool searchActive: searchQuery.trim().length > 0
     property var searchResults: []
+    property string _pendingAnchor: ""
 
-    onSearchQueryChanged: {
-        searchResults = SearchData.search(searchQuery);
-    }
+    onSearchQueryChanged: searchResults = SearchData.search(searchQuery)
 
     function _findByObjectName(node, name) {
         if (!node) return null;
@@ -46,7 +42,6 @@ Window {
             var r = _findByObjectName(kids[i], name);
             if (r) return r;
         }
-        // Some nodes expose contentItem children separately (e.g. Flickable contentColumn)
         if (node.contentItem && node.contentItem !== node) {
             var r2 = _findByObjectName(node.contentItem, name);
             if (r2) return r2;
@@ -61,31 +56,23 @@ Window {
             console.warn("Settings search: anchorId not found:", anchorId);
             return;
         }
-        // Walk up to find the Flickable (ContentPage).
         var flickable = pageItem;
-        while (flickable && !(flickable.contentY !== undefined && flickable.contentHeight !== undefined)) {
+        while (flickable && !(flickable.contentY !== undefined && flickable.contentHeight !== undefined))
             flickable = flickable.parent;
-        }
         if (flickable && flickable.contentY !== undefined) {
             var pos = target.mapToItem(flickable.contentItem, 0, 0);
-            var desired = Math.max(0, pos.y - 24);
+            var desired = Math.max(0, pos.y - Appearance.layout.gapXl + Appearance.layout.gapSm);
             var max = Math.max(0, flickable.contentHeight - flickable.height);
             flickable.contentY = Math.min(desired, max);
         }
-        if (typeof target.flash === "function") {
+        if (typeof target.flash === "function")
             target.flash();
-        }
     }
 
-    property string _pendingAnchor: ""
-
-    function _tryScrollFront() {
-        if (!_pendingAnchor) return;
-        var front = contentCard.frontIsA ? loaderA : loaderB;
-        if (front.status === Loader.Ready && front.item) {
-            _scrollAndFlash(front.item, _pendingAnchor);
-            _pendingAnchor = "";
-        }
+    function _consumePendingAnchor(pageItem) {
+        if (!_pendingAnchor || !pageItem) return;
+        _scrollAndFlash(pageItem, _pendingAnchor);
+        _pendingAnchor = "";
     }
 
     function activateResult(entry) {
@@ -94,17 +81,13 @@ Window {
         header.clearSearch();
         currentPage = entry.pageIndex;
         _pendingAnchor = entry.anchorId;
-        _tryScrollFront();
+        _consumePendingAnchor(pageLoader.currentItem);
     }
 
     TapHandler {
         acceptedButtons: Qt.LeftButton
         gesturePolicy: TapHandler.DragThreshold
-        onTapped: {
-            if (header && header.searchField) {
-                header.searchField.unfocusInput();
-            }
-        }
+        onTapped: if (header && header.searchField) header.searchField.unfocusInput()
     }
 
     ColumnLayout {
@@ -131,9 +114,9 @@ Window {
                 }
                 header.searchField.unfocusInput();
             }
-            onArrowDown: resultsView.moveSelection(1)
-            onArrowUp:   resultsView.moveSelection(-1)
-            onSubmitted: resultsView.activateSelected()
+            onArrowDown: searchOverlay.moveSelection(1)
+            onArrowUp:   searchOverlay.moveSelection(-1)
+            onSubmitted: searchOverlay.activateSelected()
         }
 
         RowLayout {
@@ -141,7 +124,6 @@ Window {
             Layout.fillHeight: true
             spacing: settingsWindow.contentPadding
 
-            // Nav rail
             Item {
                 Layout.fillHeight: true
                 Layout.margins: 5
@@ -166,108 +148,27 @@ Window {
                 }
             }
 
-            // Content card
             Rectangle {
-                id: contentCard
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 color: Appearance.colors.transparent
-                radius: 24 - settingsWindow.contentPadding
+                radius: Appearance.layout.radiusXxl - settingsWindow.contentPadding
                 clip: true
 
-                // Two loaders crossfade between pages; flip `frontIsA` on each change.
-                property bool frontIsA: true
-                readonly property string currentSource:
-                    settingsWindow.pages[settingsWindow.currentPage].source
-
-                onCurrentSourceChanged: {
-                    if (!loaderA.item && !loaderB.item) return;
-                    const incoming = frontIsA ? loaderB : loaderA;
-                    incoming.source = currentSource;
-                    frontIsA = !frontIsA;
-                }
-
-                onFrontIsAChanged: settingsWindow._tryScrollFront()
-
-                Loader {
-                    id: loaderA
+                SettingsPageLoader {
+                    id: pageLoader
                     anchors.fill: parent
-                    asynchronous: true
-                    source: contentCard.currentSource
-                    readonly property bool targetVisible: !settingsWindow.searchActive && contentCard.frontIsA
-                    opacity: targetVisible ? 1 : 0
-                    visible: opacity > 0
-                    onStatusChanged: if (status === Loader.Ready) settingsWindow._tryScrollFront()
-                    transform: Translate {
-                        y: loaderA.targetVisible ? 0 : 14
-                        Behavior on y {
-                            NumberAnimation {
-                                duration: Appearance.motion.duration.spatial
-                                easing.bezierCurve: Appearance.motion.easing.emphasized
-                                easing.type: Easing.BezierSpline
-                            }
-                        }
-                    }
-                    Behavior on opacity {
-                        NumberAnimation {
-                            duration: Appearance.motion.duration.spatial
-                            easing.bezierCurve: Appearance.motion.easing.emphasized
-                            easing.type: Easing.BezierSpline
-                        }
-                    }
+                    source: settingsWindow.pages[settingsWindow.currentPage].source
+                    active: !settingsWindow.searchActive
+                    onPageReady: page => settingsWindow._consumePendingAnchor(page)
                 }
 
-                Loader {
-                    id: loaderB
-                    anchors.fill: parent
-                    asynchronous: true
-                    readonly property bool targetVisible: !settingsWindow.searchActive && !contentCard.frontIsA
-                    opacity: targetVisible ? 1 : 0
-                    visible: opacity > 0
-                    onStatusChanged: if (status === Loader.Ready) settingsWindow._tryScrollFront()
-                    transform: Translate {
-                        y: loaderB.targetVisible ? 0 : 14
-                        Behavior on y {
-                            NumberAnimation {
-                                duration: Appearance.motion.duration.spatial
-                                easing.bezierCurve: Appearance.motion.easing.emphasized
-                                easing.type: Easing.BezierSpline
-                            }
-                        }
-                    }
-                    Behavior on opacity {
-                        NumberAnimation {
-                            duration: Appearance.motion.duration.spatial
-                            easing.bezierCurve: Appearance.motion.easing.emphasized
-                            easing.type: Easing.BezierSpline
-                        }
-                    }
-                }
-
-                SearchResultsView {
-                    id: resultsView
+                SettingsSearchOverlay {
+                    id: searchOverlay
                     anchors.fill: parent
                     results: settingsWindow.searchResults
                     query: settingsWindow.searchQuery
-                    opacity: settingsWindow.searchActive ? 1 : 0
-                    visible: opacity > 0
-                    transform: Translate {
-                        y: settingsWindow.searchActive ? 0 : 14
-                        Behavior on y {
-                            NumberAnimation {
-                                duration: Appearance.motion.duration.spatial
-                                easing.bezierCurve: Appearance.motion.easing.emphasized
-                                easing.type: Easing.BezierSpline
-                            }
-                        }
-                    }
-                    Behavior on opacity {
-                        NumberAnimation {
-                            duration: Appearance.motion.duration.spatial
-                            easing.bezierCurve: Appearance.motion.easing.emphasized
-                            easing.type: Easing.BezierSpline
-                        }
-                    }
+                    active: settingsWindow.searchActive
                     onActivated: entry => settingsWindow.activateResult(entry)
                 }
             }
