@@ -1,5 +1,6 @@
 {
   inputs,
+  profile,
   ...
 }:
 {
@@ -10,8 +11,8 @@
   ];
 
   home = {
-    username = "laura";
-    homeDirectory = "/home/laura";
+    username = profile.user;
+    homeDirectory = "/home/${profile.user}";
     stateVersion = "23.11";
     extraOutputsToInstall = [
       "doc"
