@@ -102,7 +102,7 @@ PanelWindow {
                 rowSpacing: Config.layout.gapMd
                 transparent: !battery.low
                 bgColor: battery.low
-                    ? ColorMix.mix(Appearance.colors.red, toneColor, 0.2)
+                    ? ColorUtils.mix(Appearance.colors.red, toneColor, 0.2)
                     : toneColor
 
                 Battery { id: battery }

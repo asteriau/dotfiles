@@ -38,7 +38,7 @@ Item {
         implicitWidth: 24
         implicitHeight: 24
         property string iconName
-        colBackground: ColorMix.transparentize(root.colors?.colSecondaryContainer ?? Appearance.colors.secondaryContainer, 1)
+        colBackground: ColorUtils.transparentize(root.colors?.colSecondaryContainer ?? Appearance.colors.secondaryContainer, 1)
         colBackgroundHover: root.colors?.colSecondaryContainerHover ?? Appearance.colors.secondaryContainer
         colRipple: root.colors?.colSecondaryContainerActive ?? Appearance.colors.accent
         buttonRadius: 999

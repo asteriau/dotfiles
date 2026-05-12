@@ -36,7 +36,7 @@ Item {
         id: background
         anchors.fill: parent
         anchors.margins: root.showShadow ? 4 : 0
-        color: root.colors ? ColorMix.applyAlpha(root.colors.colLayer0, 1) : Appearance.colors.elevated
+        color: root.colors ? ColorUtils.applyAlpha(root.colors.colLayer0, 1) : Appearance.colors.elevated
         radius: root.maskSource ? 0 : root.radius
 
         layer.enabled: true
@@ -81,7 +81,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            color: root.colors ? ColorMix.transparentize(root.colors.colLayer0, 0.3) : "transparent"
+            color: root.colors ? ColorUtils.transparentize(root.colors.colLayer0, 0.3) : "transparent"
             radius: root.maskSource ? 0 : root.radius
         }
     }

@@ -17,7 +17,7 @@ T.Button {
     property var altAction
     property var middleClickAction
 
-    property color colBackground: ColorMix.transparentize(Appearance.colors.surfaceContainerHigh, 1)
+    property color colBackground: ColorUtils.transparentize(Appearance.colors.surfaceContainerHigh, 1)
     property color colBackgroundHover: Appearance.colors.surfaceContainerHigh
     property color colBackgroundToggled: Appearance.colors.accent
     property color colBackgroundToggledHover: Qt.lighter(Appearance.colors.accent, 1.1)
@@ -25,7 +25,7 @@ T.Button {
     property color colRippleToggled: Qt.lighter(Appearance.colors.accent, 1.2)
 
     opacity: root.enabled ? 1 : 0.4
-    property color buttonColor: ColorMix.transparentize(root.toggled
+    property color buttonColor: ColorUtils.transparentize(root.toggled
         ? (root.hovered ? colBackgroundToggledHover : colBackgroundToggled)
         : (root.hovered ? colBackgroundHover : colBackground), root.enabled ? 0 : 1)
     property color rippleColor: root.toggled ? colRippleToggled : colRipple

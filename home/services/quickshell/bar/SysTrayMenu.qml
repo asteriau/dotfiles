@@ -142,7 +142,7 @@ PopupWindow {
             sourceComponent: RippleButton {
                 id: backButton
                 buttonRadius: popupBackground.radius - root.popupInnerPadding
-                colBackground: ColorMix.transparentize(Appearance.colors.surfaceContainerHigh, 1)
+                colBackground: ColorUtils.transparentize(Appearance.colors.surfaceContainerHigh, 1)
                 colBackgroundHover: Appearance.colors.surfaceContainerHigh
                 implicitWidth: backContent.implicitWidth + 24
                 implicitHeight: 36

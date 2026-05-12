@@ -29,7 +29,7 @@ Item {
     readonly property string artFileName: artUrl ? Qt.md5(artUrl) : ""
     readonly property string artFilePath: artFileName ? `${artDownloadLocation}/${artFileName}` : ""
     property bool downloaded: false
-    property color artDominantColor: ColorMix.mix((colorQuantizer?.colors[0] ?? Appearance.colors.accent), Appearance.colors.primaryContainer, 0.8)
+    property color artDominantColor: ColorUtils.mix((colorQuantizer?.colors[0] ?? Appearance.colors.accent), Appearance.colors.primaryContainer, 0.8)
 
     readonly property bool browserPlayer:      MprisState.isBrowserPlayer(player?.dbusName ?? "")
     readonly property string playerctlName:    MprisState.playerctlNameFromDbus(player?.dbusName ?? "")
@@ -127,7 +127,7 @@ Item {
                 Layout.preferredHeight: 80
                 Layout.alignment: Qt.AlignVCenter
                 radius: 16
-                color: ColorMix.transparentize(root.blendedColors.colLayer1, 0.4)
+                color: ColorUtils.transparentize(root.blendedColors.colLayer1, 0.4)
                 antialiasing: true
 
                 layer.enabled: true

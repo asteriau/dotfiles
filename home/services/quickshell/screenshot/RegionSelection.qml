@@ -38,7 +38,7 @@ PanelWindow {
     property color overlayColor: Qt.rgba(0, 0, 0, 0.4)
     property color brightText: Theme.dark ? Appearance.colors.foreground : Appearance.colors.background
     property color brightSecondary: Theme.dark ? Appearance.colors.colSecondary : Appearance.colors.colOnSecondaryContainer
-    property color selectionBorderColor: ColorMix.mix(brightText, brightSecondary, 0.5)
+    property color selectionBorderColor: ColorUtils.mix(brightText, brightSecondary, 0.5)
     property color selectionFillColor: "#33ffffff"
     property color onBorderColor: "#ff000000"
 

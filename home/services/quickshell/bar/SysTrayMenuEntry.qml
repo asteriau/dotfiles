@@ -21,7 +21,7 @@ RippleButton {
     signal dismiss
     signal openSubmenu(handle: QsMenuHandle)
 
-    colBackground: ColorMix.transparentize(Appearance.colors.surfaceContainerHigh, 1)
+    colBackground: ColorUtils.transparentize(Appearance.colors.surfaceContainerHigh, 1)
     colBackgroundHover: Appearance.colors.surfaceContainerHigh
     enabled: !menuEntry.isSeparator
     visible: !menuEntry.isSeparator
