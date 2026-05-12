@@ -20,5 +20,23 @@
   "accentText": "#FAFAFA",
   "accentContainerText": "#1A2D40",
   "m3onSurfaceVariant": "#555555",
-  "m3outline": "#888888"
+  "m3outline": "#888888",
+  "_ansi": {
+    "black": "#1A1A1A",
+    "red": "#B0464A",
+    "green": "#6B7860",
+    "yellow": "#9C7A2E",
+    "blue": "#4A6885",
+    "magenta": "#7A5680",
+    "cyan": "#5E7E7A",
+    "white": "#F4F4F4",
+    "brightBlack": "#555555",
+    "brightRed": "#B0464A",
+    "brightGreen": "#6B7860",
+    "brightYellow": "#9C7A2E",
+    "brightBlue": "#4A6885",
+    "brightMagenta": "#7A5680",
+    "brightCyan": "#5E7E7A",
+    "brightWhite": "#FFFFFF"
+  }
 }
