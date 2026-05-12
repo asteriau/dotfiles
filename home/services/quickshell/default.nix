@@ -4,12 +4,11 @@
   lib,
   config,
   profile,
+  quickshell,
+  QML2_IMPORT_PATH,
   ...
 }:
 let
-  quickshell = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
-
-  # Drives scripts/generate-term-colors.py (ii's harmonize/boost algorithm).
   termColorsPython = pkgs.python3.withPackages (p: [
     p.materialyoucolor
     p.pillow
@@ -44,16 +43,11 @@ let
     wireplumber
     wl-clipboard
   ]);
-
-  QML2_IMPORT_PATH = lib.concatStringsSep ":" [
-    "${quickshell}/lib/qt-6/qml"
-    "${pkgs.kdePackages.qtdeclarative}/lib/qt-6/qml"
-    "${pkgs.kdePackages.qt5compat}/lib/qt-6/qml"
-    "${pkgs.kdePackages.kirigami.unwrapped}/lib/qt-6/qml"
-  ];
 in
 {
-  home.packages = [ quickshell ];
+  imports = [
+    ./package.nix
+  ];
 
   home.file.".config/quickshell".source =
     config.lib.file.mkOutOfStoreSymlink "${profile.flakePath}/home/services/quickshell";
@@ -67,8 +61,6 @@ in
     [ -e "$state/hyprland.conf" ] || run touch "$state/hyprland.conf"
     [ -e "$state/foot.ini" ] || run sh -c 'printf "include = %s/.config/foot/colors.ini\n" "$HOME" > "$1"' _ "$state/foot.ini"
   '';
-
-  home.sessionVariables.QML2_IMPORT_PATH = QML2_IMPORT_PATH;
 
   systemd.user.services.quickshell = {
     Unit = {
