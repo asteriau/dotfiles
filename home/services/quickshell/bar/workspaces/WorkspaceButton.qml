@@ -7,6 +7,7 @@ import Quickshell.Hyprland
 import Quickshell.Widgets
 import qs.components.surfaces
 import qs.components.text
+import qs.services
 import qs.utils
 
 // z:4 workspace button. Transparent hover disc plus number/dot/app-icon
@@ -43,7 +44,7 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onPressed: Hyprland.dispatch(`workspace ${root.workspaceValue}`)
+        onPressed: HyprlandActions.switchToWorkspace(root.workspaceValue)
     }
 
     // M3 state-layer overlay (clipped to the button circle).

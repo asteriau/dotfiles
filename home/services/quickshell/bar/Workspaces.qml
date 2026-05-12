@@ -4,6 +4,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
+import qs.services
 import qs.utils
 import qs.bar.workspaces
 
@@ -57,13 +58,12 @@ Item {
     }
     onWorkspaceGroupChanged: updateWorkspaceOccupied()
 
-    // Scroll to switch workspaces.
     WheelHandler {
         onWheel: event => {
             if (event.angleDelta.y < 0)
-                Hyprland.dispatch("workspace r+1");
+                HyprlandActions.nextWorkspace();
             else if (event.angleDelta.y > 0)
-                Hyprland.dispatch("workspace r-1");
+                HyprlandActions.prevWorkspace();
         }
         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
     }
