@@ -1,7 +1,7 @@
 {
   imports = [
     # editors
-    ../../editors/vscode
+    ../../editors/vscode.nix
 
     # programs
     ../../programs
