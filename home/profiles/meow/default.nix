@@ -5,7 +5,7 @@
 
     # programs
     ../../programs
-    ../../programs/games
+    ../../programs/games.nix
     ../../programs/wayland
 
     # services
