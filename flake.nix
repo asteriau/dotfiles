@@ -133,14 +133,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    uwu-colors = {
-      url = "github:q60/uwu_colors";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        utils.follows = "flake-utils";
-      };
-    };
-
     vicinae.url = "github:vicinaehq/vicinae";
 
     vicinae-extensions.url = "github:vicinaehq/extensions";

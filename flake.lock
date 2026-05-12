@@ -901,7 +901,6 @@
         "systems": "systems_3",
         "tailray": "tailray",
         "treefmt-nix": "treefmt-nix",
-        "uwu-colors": "uwu-colors",
         "vicinae": "vicinae",
         "vicinae-extensions": "vicinae-extensions",
         "yazi": "yazi",
@@ -1074,29 +1073,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "uwu-colors": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "utils": [
-          "flake-utils"
-        ]
-      },
-      "locked": {
-        "lastModified": 1750698731,
-        "narHash": "sha256-d+QCHXuZwSK+MzmKiYvR2ts1P0wd3i0eWoPxt4fVpaA=",
-        "owner": "q60",
-        "repo": "uwu_colors",
-        "rev": "af85b3a7c7f9ec6af8dad5a12d730a2b38d5ff1c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "q60",
-        "repo": "uwu_colors",
         "type": "github"
       }
     },
