@@ -1,45 +1,6 @@
 {
   description = "asteria's NixOS and Home-Manager flake";
 
-  outputs =
-    inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" ];
-
-      imports = [
-        ./hosts
-        ./lib
-        ./modules
-        ./pkgs
-        ./fmt-hooks.nix
-      ];
-
-      perSystem =
-        {
-          config,
-          pkgs,
-          ...
-        }:
-        {
-          devShells.default = pkgs.mkShell {
-            packages = [
-              pkgs.git
-              config.packages.repl
-              pkgs.statix
-              pkgs.deadnix
-              pkgs.nil
-              pkgs.treefmt
-              pkgs.qt6.qtdeclarative
-            ];
-            name = "dots";
-            env.DIRENV_LOG_FORMAT = "";
-            shellHook = ''
-              ${config.pre-commit.installationScript}
-            '';
-          };
-        };
-    };
-
   inputs = {
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix";
@@ -144,4 +105,43 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+
+      imports = [
+        ./hosts
+        ./lib
+        ./modules
+        ./pkgs
+        ./fmt-hooks.nix
+      ];
+
+      perSystem =
+        {
+          config,
+          pkgs,
+          ...
+        }:
+        {
+          devShells.default = pkgs.mkShell {
+            packages = [
+              pkgs.git
+              config.packages.repl
+              pkgs.statix
+              pkgs.deadnix
+              pkgs.nil
+              pkgs.treefmt
+              pkgs.qt6.qtdeclarative
+            ];
+            name = "dots";
+            env.DIRENV_LOG_FORMAT = "";
+            shellHook = ''
+              ${config.pre-commit.installationScript}
+            '';
+          };
+        };
+    };
 }
