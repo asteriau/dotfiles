@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
+import Quickshell.Widgets
 import qs.components.text
 import qs.utils
 
@@ -20,14 +21,51 @@ Item {
     readonly property string currentTitle: focusedHere && activeWindow && biggestWin
         ? activeWindow.title : (biggestWin?.title ?? "")
 
-    property int maxTitleWidth: 240
+    readonly property int hPadding: 14
+    readonly property int iconSize: 18
+    readonly property int iconGap: 8
+    readonly property int maxTitleChars: 32
 
     visible: !Config.bar.vertical
 
-    implicitWidth:  maxTitleWidth
-    implicitHeight: colA.implicitHeight
+    // Width-only measurer for the current title; drives the container width.
+    TextMetrics {
+        id: titleMetrics
+        text: root.currentTitle
+        font.pixelSize: Config.typography.small
+        font.family: Config.typography.family
+    }
+    FontMetrics {
+        id: titleFm
+        font.pixelSize: Config.typography.small
+        font.family: Config.typography.family
+    }
+    readonly property int maxTextWidth: Math.round(titleFm.averageCharacterWidth * maxTitleChars)
+    // +2px slack so we don't sit a subpixel under the eliding threshold.
+    readonly property int contentTextWidth: Math.min(Math.ceil(titleMetrics.tightBoundingRect.width) + 2, maxTextWidth)
 
-    // A/B slots — toggled on window change so both lines crossfade atomically.
+    implicitWidth: currentTitle.length > 0
+        ? contentTextWidth + iconSize + iconGap + hPadding * 2
+        : 0
+    implicitHeight: Config.bar.height - Config.layout.gapSm * 2
+
+    Behavior on implicitWidth {
+        NumberAnimation {
+            duration: M3Easing.spatialDuration
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: M3Easing.emphasized
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        radius: Config.layout.radiusContainer
+        color: Colors.surfaceContainerLow
+        opacity: root.currentTitle.length > 0 ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
+    }
+
+    // A/B slots — toggled on window change so icon + title crossfade atomically.
     property var _a: ({ appId: "", title: "" })
     property var _b: ({ appId: "", title: "" })
     property bool _aActive: true
@@ -44,25 +82,23 @@ Item {
     onCurrentTitleChanged: Qt.callLater(_update)
     Component.onCompleted: { _a = { appId: currentAppId, title: currentTitle } }
 
-    ColumnLayout {
-        id: colA
-        width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
-        spacing: -4
+    RowLayout {
+        anchors.centerIn: parent
+        spacing: root.iconGap
         opacity: root._aActive ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
 
-        StyledText {
-            Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Config.typography.smallest
-            color: Colors.m3onSurfaceInactive
-            elide: Text.ElideRight
-            text: root._a.appId
+        IconImage {
+            visible: root._a.appId.length > 0
+            implicitSize: root.iconSize
+            mipmap: true
+            source: visible ? Quickshell.iconPath(
+                WorkspaceIconSearch.guessIcon(root._a.appId), "image-missing") : ""
         }
+
         StyledText {
-            Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
+            Layout.maximumWidth: root.width - root.hPadding * 2 - root.iconSize - root.iconGap
+            verticalAlignment: Text.AlignVCenter
             font.pixelSize: Config.typography.small
             color: Colors.foreground
             elide: Text.ElideRight
@@ -70,25 +106,23 @@ Item {
         }
     }
 
-    ColumnLayout {
-        id: colB
-        width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
-        spacing: -4
+    RowLayout {
+        anchors.centerIn: parent
+        spacing: root.iconGap
         opacity: root._aActive ? 0 : 1
         Behavior on opacity { NumberAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic } }
 
-        StyledText {
-            Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Config.typography.smallest
-            color: Colors.m3onSurfaceInactive
-            elide: Text.ElideRight
-            text: root._b.appId
+        IconImage {
+            visible: root._b.appId.length > 0
+            implicitSize: root.iconSize
+            mipmap: true
+            source: visible ? Quickshell.iconPath(
+                WorkspaceIconSearch.guessIcon(root._b.appId), "image-missing") : ""
         }
+
         StyledText {
-            Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
+            Layout.maximumWidth: root.width - root.hPadding * 2 - root.iconSize - root.iconGap
+            verticalAlignment: Text.AlignVCenter
             font.pixelSize: Config.typography.small
             color: Colors.foreground
             elide: Text.ElideRight
