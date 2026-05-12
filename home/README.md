@@ -2,12 +2,11 @@
 
 Home-Manager configurations for different hosts.
 
-| Name                  | Description                                          |
-| --------------------- | ---------------------------------------------------- |
-| `default.nix`         | Home-Manager specific configuration                  |
-| `editors`             | Helix & VSCode                                       |
-| `profiles`            | Per-device/user profiles, entry point of the configs |
-| `programs`            | Programs, games, media, etc                          |
-| `services`            | Services like `quickshell`, etc                      |
-| `terminal`            | Terminal programs, shells, emulators, etc            |
-| `specialisations.nix` | Light/Dark theme specialisations                     |
+| Name          | Description                                          |
+| ------------- | ---------------------------------------------------- |
+| `default.nix` | Home-Manager specific configuration                  |
+| `editors`     | VSCode                                               |
+| `profiles`    | Per-device/user profiles, entry point of the configs |
+| `programs`    | Programs, games, media, etc                          |
+| `services`    | Services like `quickshell`, etc                      |
+| `terminal`    | Terminal programs, shells, emulators, etc            |

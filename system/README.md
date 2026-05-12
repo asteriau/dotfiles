@@ -10,4 +10,4 @@ Common configuration files shared across hosts.
 | network       | Network-related software configuration                 |
 | nix           | Nix-related options                                    |
 | programs      | `programs.*` configuration                             |
-| services      | `services.*` configurtaion                             |
+| services      | `services.*` configuration                             |

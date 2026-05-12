@@ -1,11 +1,9 @@
 # Hosts config
 
-| Name    | Description                                               |
-| ------- | --------------------------------------------------------- |
-| `meow`  | Lenovo laptop, main machine                               |
-| `kiiro` | Previous main machine, retired and rarely used server now |
-| `rog`   | Temporary machine, used while `io` was in service         |
+| Name   | Description                 |
+| ------ | --------------------------- |
+| `meow` | Lenovo laptop, main machine |
+| `wsl`  | WSL2 NixOS environment      |
 
-All the hosts have a shared config in `modules/core.nix`. Host specific configs
-are stored inside the specific host dir. Each host imports its own modules
-inside `default.nix`.
+Shared configuration lives in `system/`. Host-specific configs live inside the
+host directory. Each host imports its own modules in `default.nix`.
