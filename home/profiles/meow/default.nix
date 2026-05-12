@@ -23,7 +23,5 @@
 
     # terminal emulators
     ../../terminal/emulators/foot.nix
-    ../../terminal/emulators/wezterm.nix
-    ../../terminal/emulators/kitty.nix
   ];
 }
