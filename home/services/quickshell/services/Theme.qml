@@ -179,37 +179,121 @@ Singleton {
         }
     }
 
-    // When leaving matugen mode, point foot's overlay back at the preset
-    // palette (managed by foot.nix). foot.ini already includes state/foot.ini
-    // at the top, so we write a nested include here. SIGUSR1 → live reload.
-    function _clearFootOverlay(): void {
-        footClear.command = [
+    // Strip the leading "#" off a "#rrggbb" string.
+    function _stripHash(s) { return (s && s[0] === "#") ? s.substring(1) : s; }
+
+    // Derived 16-color ANSI block when the preset doesn't supply `_ansi`.
+    // Mirrors lib/theme/format.nix:derivedAnsi.
+    function _derivedAnsi() {
+        const p = palette || defaults;
+        const pick = k => _stripHash(p[k] || defaults[k]);
+        return {
+            black:         pick("surfaceContainerLowest"),
+            red:           pick("red"),
+            green:         pick("mpris"),
+            yellow:        pick("accent"),
+            blue:          pick("accent"),
+            magenta:       pick("primaryContainer"),
+            cyan:          pick("mpris"),
+            white:         pick("foreground"),
+            brightBlack:   pick("surfaceContainerHigh"),
+            brightRed:     pick("red"),
+            brightGreen:   pick("mpris"),
+            brightYellow:  pick("accent"),
+            brightBlue:    pick("accent"),
+            brightMagenta: pick("primaryContainer"),
+            brightCyan:    pick("mpris"),
+            brightWhite:   pick("foreground")
+        };
+    }
+
+    function _footIniBody() {
+        const p = palette || defaults;
+        let ansi;
+        if (p._ansi) {
+            ansi = {};
+            for (const k in p._ansi) ansi[k] = _stripHash(p._ansi[k]);
+        } else {
+            ansi = _derivedAnsi();
+        }
+        const bg = _stripHash(p.background);
+        const fg = _stripHash(p.foreground);
+        const accent = _stripHash(p.accent);
+        return `[colors]
+alpha=1.000000
+background=${bg}
+foreground=${fg}
+regular0=${ansi.black}
+regular1=${ansi.red}
+regular2=${ansi.green}
+regular3=${ansi.yellow}
+regular4=${ansi.blue}
+regular5=${ansi.magenta}
+regular6=${ansi.cyan}
+regular7=${ansi.white}
+bright0=${ansi.brightBlack}
+bright1=${ansi.brightRed}
+bright2=${ansi.brightGreen}
+bright3=${ansi.brightYellow}
+bright4=${ansi.brightBlue}
+bright5=${ansi.brightMagenta}
+bright6=${ansi.brightCyan}
+bright7=${ansi.brightWhite}
+selection-foreground=${accent}
+selection-background=${bg}
+search-box-no-match=${bg} ${ansi.red}
+search-box-match=${fg} ${bg}
+jump-labels=${bg} ${accent}
+urls=${accent}
+`;
+    }
+
+    function _hyprlandConfBody() {
+        const p = palette || defaults;
+        const border    = _stripHash(p.border);
+        const surfaceCL = _stripHash(p.surfaceContainerLow);
+        const elevated  = _stripHash(p.elevated);
+        return `general:col.active_border = rgba(${border}77)
+general:col.inactive_border = rgba(${surfaceCL}33)
+misc:background_color = rgba(${elevated}FF)
+`;
+    }
+
+    function _writeFootOverlay(): void {
+        footWrite.command = [
             "bash", "-c",
-            'printf "include = %s/.config/foot/colors.ini\\n" "$HOME" > "$1" && pkill -SIGUSR1 foot 2>/dev/null || true',
+            'printf "%s" "$1" > "$2" && pkill -SIGUSR1 foot 2>/dev/null || true',
             "--",
+            _footIniBody(),
             Directories.shellDir + "/state/foot.ini"
         ];
-        footClear.running = true;
+        footWrite.running = true;
     }
 
-    // Empty file → hyprland.conf's static general/misc settings win again.
-    function _clearHyprlandOverlay(): void {
-        hyprlandClear.command = [
+    function _writeHyprlandOverlay(): void {
+        hyprlandWrite.command = [
             "bash", "-c",
-            ': > "$1" && hyprctl reload >/dev/null 2>&1 || true',
+            'printf "%s" "$1" > "$2" && hyprctl reload >/dev/null 2>&1 || true',
             "--",
+            _hyprlandConfBody(),
             Directories.shellDir + "/state/hyprland.conf"
         ];
-        hyprlandClear.running = true;
+        hyprlandWrite.running = true;
     }
 
-    function _resetOverlays(): void {
-        _clearFootOverlay();
-        _clearHyprlandOverlay();
+    function _writeOverlays(): void {
+        _writeFootOverlay();
+        _writeHyprlandOverlay();
     }
 
-    Process { id: footClear; running: false }
-    Process { id: hyprlandClear; running: false }
+    Process { id: footWrite; running: false }
+    Process { id: hyprlandWrite; running: false }
+
+    // Re-render overlays whenever the resolved palette changes in preset
+    // mode. Matugen mode owns its own overlay writes from Matugen.qml.
+    onPaletteChanged: {
+        if (Config._loaded && Config.theme.mode === "preset") _writeOverlays();
+    }
 
     // Mirror the active preset name + mode to state files so the nix-side
     // theme module (lib/theme) can pick them up on the next rebuild. Foot/
@@ -244,7 +328,6 @@ Singleton {
         target: Config.theme
         function onModeChanged() {
             if (Config._loaded) root._writeActiveMode();
-            if (Config.theme.mode === "preset") root._resetOverlays();
         }
         function onPresetChanged() {
             if (Config._loaded) root._writeActivePreset();
@@ -253,9 +336,9 @@ Singleton {
 
     Component.onCompleted: {
         if (Config._loaded) {
-            if (Config.theme.mode === "preset") root._resetOverlays();
             root._writeActivePreset();
             root._writeActiveMode();
+            if (Config.theme.mode === "preset") root._writeOverlays();
         }
     }
 }
