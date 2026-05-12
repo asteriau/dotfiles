@@ -1,14 +1,20 @@
-{ inputs, ... }:
+{
+  inputs,
+  profile,
+  ...
+}:
 {
   imports = [
     inputs.nixos-wsl.nixosModules.default
   ];
-  # nh default flake
-  environment.variables.NH_FLAKE = "/home/laura/Documents/code/dotfiles";
+
+  environment.variables.NH_FLAKE = profile.flakePath;
+
+  networking.hostName = profile.hostName;
 
   wsl = {
     enable = true;
-    defaultUser = "laura";
+    defaultUser = profile.user;
   };
 
   nixpkgs.hostPlatform = "x86_64-linux";

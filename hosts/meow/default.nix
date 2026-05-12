@@ -1,8 +1,7 @@
 {
   pkgs,
-  self,
   lib,
-  inputs,
+  profile,
   ...
 }:
 {
@@ -35,15 +34,14 @@
     ];
   };
 
-  # nh default flake
-  environment.variables.NH_FLAKE = "/home/laura/Documents/code/dotfiles";
+  environment.variables.NH_FLAKE = profile.flakePath;
 
   hardware = {
     # xpadneo.enable = true;
     sensor.iio.enable = true;
   };
 
-  networking.hostName = "meow";
+  networking.hostName = profile.hostName;
 
   security.tpm2.enable = true;
 
