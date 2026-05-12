@@ -241,8 +241,8 @@ PanelWindow {
                     regionSelectionControls.opacity = 1;
                 }
             }
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            Behavior on anchors.bottomMargin { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+            Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.short4 } }
+            Behavior on anchors.bottomMargin { NumberAnimation { duration: Appearance.motion.duration.medium1; easing.type: Easing.OutCubic } }
             spacing: 6
 
             OptionsToolbar {
@@ -260,7 +260,7 @@ PanelWindow {
                 anchors.verticalCenter: parent.verticalCenter
                 width: 48
                 height: 48
-                radius: 16
+                radius: Appearance.layout.radiusLg
                 color: Appearance.colors.accentContainer
 
                 MaterialIcon {

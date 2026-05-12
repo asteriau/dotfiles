@@ -101,7 +101,7 @@ Item {
             Layout.preferredHeight: 32
             implicitWidth: 32
             implicitHeight: 32
-            radius: 16
+            radius: Appearance.layout.radiusLg
             icon: "settings"
             iconPixelSize: 20
             iconGrade: 0

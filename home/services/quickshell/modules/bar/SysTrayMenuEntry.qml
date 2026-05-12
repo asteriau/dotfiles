@@ -67,7 +67,7 @@ RippleButton {
                 sourceComponent: Rectangle {
                     implicitWidth: 16
                     implicitHeight: 16
-                    radius: 8
+                    radius: Appearance.layout.radiusSm
                     color: "transparent"
                     border.width: 2
                     border.color: root.menuEntry.checkState === Qt.Checked ? Appearance.colors.accent : Appearance.colors.m3onSurfaceVariant
@@ -76,7 +76,7 @@ RippleButton {
                         anchors.centerIn: parent
                         implicitWidth: 8
                         implicitHeight: 8
-                        radius: 4
+                        radius: Appearance.layout.radiusXs
                         color: Appearance.colors.accent
                         visible: root.menuEntry.checkState === Qt.Checked
                     }

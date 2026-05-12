@@ -29,6 +29,6 @@ TextField {
             ? Qt.rgba(0.92, 0.45, 0.45, 1)
             : (root.activeFocus ? Appearance.colors.colPrimary : Appearance.colors.outlineVariant)
 
-        Behavior on border.color { ColorAnimation { duration: 120 } }
+        Behavior on border.color { ColorAnimation { duration: Appearance.motion.duration.short2 } }
     }
 }

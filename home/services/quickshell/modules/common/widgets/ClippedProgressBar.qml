@@ -30,7 +30,7 @@ Item {
     Rectangle {
         id: trackRect
         anchors.fill: parent
-        radius: 9999
+        radius: Appearance.layout.pillRadius
         color: root.trackColor
         visible: false
         layer.enabled: true
@@ -52,7 +52,7 @@ Item {
         maskSource: Rectangle {
             width:  root.valueBarWidth
             height: root.valueBarHeight
-            radius: 9999
+            radius: Appearance.layout.pillRadius
         }
     }
 

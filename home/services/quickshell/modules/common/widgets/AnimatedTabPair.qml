@@ -15,6 +15,6 @@ QtObject {
     }
     // Trailing edge catches up smoothly
     Behavior on idx2 {
-        NumberAnimation { duration: 350; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.motion.easing.emphasized }
+        NumberAnimation { duration: Appearance.motion.duration.medium3; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.motion.easing.emphasized }
     }
 }

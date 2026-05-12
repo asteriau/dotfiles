@@ -124,7 +124,7 @@ Item {
                 Layout.preferredWidth: 80
                 Layout.preferredHeight: 80
                 Layout.alignment: Qt.AlignVCenter
-                radius: 16
+                radius: Appearance.layout.radiusLg
                 color: ColorUtils.transparentize(root.blendedColors.colLayer1, 0.4)
                 antialiasing: true
 

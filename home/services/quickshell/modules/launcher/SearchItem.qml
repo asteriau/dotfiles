@@ -32,7 +32,7 @@ Item {
             : ma.containsMouse ? Qt.rgba(Appearance.colors.primaryContainer.r, Appearance.colors.primaryContainer.g, Appearance.colors.primaryContainer.b, 0.6)
             : "transparent"
         Behavior on color {
-            ColorAnimation { duration: 120; easing.type: Easing.OutCubic }
+            ColorAnimation { duration: Appearance.motion.duration.short2; easing.type: Easing.OutCubic }
         }
     }
 

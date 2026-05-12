@@ -50,7 +50,7 @@ PopupWindow {
         }
         Behavior on scale {
             NumberAnimation {
-                duration: 200
+                duration: Appearance.motion.duration.short4
                 easing.type: Easing.BezierSpline
                 easing.bezierCurve: [0.34, 0.80, 0.34, 1.00, 1, 1]
             }

@@ -47,7 +47,7 @@ Item {
                         : "transparent"
 
                     Behavior on color {
-                        ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
+                        ColorAnimation { duration: Appearance.motion.duration.short4; easing.type: Easing.OutCubic }
                     }
 
                     Row {

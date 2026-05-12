@@ -64,7 +64,7 @@ Slider {
         x: root.handleMargins + (normalizedValue * root.effectiveDraggingWidth) - (root.trackDotSize / 2)
         width: root.trackDotSize
         height: root.trackDotSize
-        radius: 9999
+        radius: Appearance.layout.pillRadius
         color: normalizedValue > root.visualPosition ? root.dotColor : root.dotColorHighlighted
 
         Behavior on color { Motion.ElementFastColor {} }
@@ -147,7 +147,7 @@ Slider {
         implicitHeight: root.handleHeight
         x: root.leftPadding + (root.visualPosition * root.effectiveDraggingWidth) - (root.handleWidth / 2)
         anchors.verticalCenter: parent.verticalCenter
-        radius: 9999
+        radius: Appearance.layout.pillRadius
         color: root.handleColor
 
         Behavior on implicitWidth { Motion.ElementFast {} }

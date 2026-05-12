@@ -26,7 +26,7 @@ ComboBox {
         border.width: 1
         border.color: root.activeFocus ? Appearance.colors.colPrimary : Appearance.colors.outlineVariant
 
-        Behavior on color { ColorAnimation { duration: 120 } }
+        Behavior on color { ColorAnimation { duration: Appearance.motion.duration.short2 } }
     }
 
     contentItem: Text {

@@ -274,7 +274,7 @@ QtObject {
         }
 
         readonly property QtObject scroll: QtObject {
-            property int duration: 300
+            property int duration: Appearance.motion.duration.medium2
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: [0, 0, 0, 1, 1, 1]
         }
@@ -287,6 +287,7 @@ QtObject {
         readonly property int gapLg: 12
         readonly property int gapXl: 16
 
+        readonly property int radiusXs:   4
         readonly property int radiusSm:   8
         readonly property int radiusMd:   12
         readonly property int radiusLg:   16

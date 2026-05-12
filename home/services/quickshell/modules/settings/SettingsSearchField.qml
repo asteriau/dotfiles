@@ -63,7 +63,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            radius: 22
+            radius: Appearance.layout.radiusXl
             color: input.activeFocus ? Appearance.colors.surfaceContainerHigh : Appearance.colors.surfaceContainer
             Behavior on color { ColorAnimation { duration: Appearance.motion.duration.effects } }
         }
@@ -113,7 +113,7 @@ Item {
             anchors.rightMargin: 6
             width: 32
             height: 32
-            radius: 16
+            radius: Appearance.layout.radiusLg
             color: clearMa.containsMouse ? Appearance.colors.hover : Appearance.colors.transparent
             opacity: input.text.length > 0 ? 1 : 0
             visible: opacity > 0
