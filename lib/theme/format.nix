@@ -35,10 +35,13 @@ rec {
     palette:
     let
       ansi = if palette ? _ansi then lib.mapAttrs (_: stripHash) palette._ansi else derivedAnsi palette;
+      bg = stripHash palette.background;
+      fg = stripHash palette.foreground;
+      accent = stripHash palette.accent;
     in
     {
-      background = stripHash palette.background;
-      foreground = stripHash palette.foreground;
+      background = bg;
+      foreground = fg;
       regular0 = ansi.black;
       regular1 = ansi.red;
       regular2 = ansi.green;
@@ -55,6 +58,17 @@ rec {
       bright5 = ansi.brightMagenta;
       bright6 = ansi.brightCyan;
       bright7 = ansi.brightWhite;
+
+      selection-foreground = accent;
+      selection-background = bg;
+
+      search-box-no-match = "${bg} ${ansi.red}";
+      search-box-match = "${fg} ${bg}";
+
+      jump-labels = "${bg} ${accent}";
+      urls = accent;
+
+      alpha = 1.0;
     };
 
   toGtkColors = palette: ''
