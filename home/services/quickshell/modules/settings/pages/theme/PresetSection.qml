@@ -55,4 +55,18 @@ ContentSection {
             onEdited: v => Config.theme.preset = v
         }
     }
+
+    StyledText {
+        Layout.fillWidth: true
+        Layout.leftMargin: Appearance.layout.gapXl
+        Layout.rightMargin: Appearance.layout.gapXl
+        Layout.topMargin: Appearance.layout.gapMd
+        Layout.bottomMargin: Appearance.layout.gapMd
+        wrapMode: Text.WordWrap
+        color: Appearance.colors.m3onSurfaceVariant
+        font.pixelSize: Appearance.typography.smallie
+        text: "Switching applies live to Quickshell, foot, and Hyprland. " +
+              "GTK, QT, and other config-file consumers are included in the " +
+              "preset but need a full rebuild (and app restart) to take effect."
+    }
 }
