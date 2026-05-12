@@ -192,7 +192,7 @@ Item {
                 MediaControls {
                     Layout.fillWidth: true
                     player: root.player
-                    colors: root.blendedColors
+                    accentScheme: root.blendedColors
                     position: root.displayedPosition
                     length: root.lengthSec
 
@@ -203,7 +203,7 @@ Item {
                         length: root.lengthSec
                         animating: root.progressAnimating
                         browserPlayer: root.browserPlayer
-                        colors: root.blendedColors
+                        accentScheme: root.blendedColors
                         onSeekRequested: pos => {
                             if (!root.player) return;
                             root.player.position = pos;
