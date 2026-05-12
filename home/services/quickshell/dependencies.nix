@@ -19,6 +19,7 @@ in
     bash
     bluez
     brightnessctl
+    cliphist
     coreutils
     curl
     ddcutil
