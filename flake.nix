@@ -14,11 +14,6 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
-    };
-
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs = {
