@@ -1,0 +1,4 @@
+module qs.modules.settings.pages.theme
+PresetSection 1.0 PresetSection.qml
+MatugenSection 1.0 MatugenSection.qml
+WallpaperPreview 1.0 WallpaperPreview.qml

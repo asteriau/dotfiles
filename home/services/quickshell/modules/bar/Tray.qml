@@ -14,8 +14,8 @@ Item {
     Layout.alignment: Qt.AlignHCenter
 
     implicitWidth:  vertical ? Appearance.bar.width
-                             : (layoutLoader.item?.implicitWidth ?? 0) + Appearance.layout.gapMd * 2
-    implicitHeight: vertical ? (layoutLoader.item?.implicitHeight ?? 0) + Appearance.layout.gapMd
+                             : (hLayout.implicitWidth + Appearance.layout.gapMd * 2)
+    implicitHeight: vertical ? (vLayout.implicitHeight + Appearance.layout.gapMd)
                              : Appearance.bar.height
 
     Rectangle {
@@ -33,28 +33,21 @@ Item {
         }
     }
 
-    Loader {
-        id: layoutLoader
-        anchors.fill: parent
-        sourceComponent: root.vertical ? verticalLayout : horizontalLayout
+    TrayVertical {
+        id: vLayout
+        visible: root.vertical
+        iconsVisible: root.iconsVisible
+        iconSize: root.entryIconSize
+        toggleSize: root.toggleSize
+        onToggled: root.iconsVisible = !root.iconsVisible
     }
 
-    Component {
-        id: verticalLayout
-        TrayVertical {
-            iconsVisible: root.iconsVisible
-            iconSize: root.entryIconSize
-            toggleSize: root.toggleSize
-            onToggled: root.iconsVisible = !root.iconsVisible
-        }
-    }
-    Component {
-        id: horizontalLayout
-        TrayHorizontal {
-            iconsVisible: root.iconsVisible
-            iconSize: root.entryIconSize
-            toggleSize: root.toggleSize
-            onToggled: root.iconsVisible = !root.iconsVisible
-        }
+    TrayHorizontal {
+        id: hLayout
+        visible: !root.vertical
+        iconsVisible: root.iconsVisible
+        iconSize: root.entryIconSize
+        toggleSize: root.toggleSize
+        onToggled: root.iconsVisible = !root.iconsVisible
     }
 }
