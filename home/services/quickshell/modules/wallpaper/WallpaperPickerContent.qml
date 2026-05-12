@@ -204,7 +204,7 @@ MouseArea {
                         Layout.margins: 4
                         clip: true
                         interactive: false
-                        spacing: 2
+                        spacing: Appearance.layout.gapXs
 
                         model: [
                             { icon: "home",      label: "Home",       path: root.homeDir },
@@ -230,8 +230,8 @@ MouseArea {
 
                             contentItem: RowLayout {
                                 anchors.fill: parent
-                                anchors.leftMargin: 12
-                                anchors.rightMargin: 12
+                                anchors.leftMargin: Appearance.layout.gapLg
+                                anchors.rightMargin: Appearance.layout.gapLg
                                 spacing: Appearance.layout.gapSm
 
                                 MaterialIcon {
@@ -274,7 +274,7 @@ MouseArea {
                     RowLayout {
                         anchors.fill: parent
                         anchors.margins: 6
-                        spacing: 8
+                        spacing: Appearance.layout.gapMd
 
                         RippleButton {
                             Layout.alignment: Qt.AlignVCenter
@@ -306,8 +306,8 @@ MouseArea {
                                 TextInput {
                                     id: pathInput
                                     anchors.fill: parent
-                                    anchors.leftMargin: 12
-                                    anchors.rightMargin: 12
+                                    anchors.leftMargin: Appearance.layout.gapLg
+                                    anchors.rightMargin: Appearance.layout.gapLg
                                     verticalAlignment: TextInput.AlignVCenter
                                     text: root.currentDir
                                     color: Appearance.colors.foreground
@@ -343,7 +343,7 @@ MouseArea {
                                 anchors.fill: parent
                                 orientation: ListView.Horizontal
                                 clip: true
-                                spacing: 2
+                                spacing: Appearance.layout.gapXs
                                 interactive: false
                                 model: root.pathSegments
 
@@ -613,7 +613,7 @@ MouseArea {
                         id: bottomBar
                         anchors.bottom: parent.bottom
                         anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottomMargin: 8
+                        anchors.bottomMargin: Appearance.layout.gapMd
                         spacing: 6
 
                         Rectangle {
@@ -630,7 +630,7 @@ MouseArea {
                                 anchors.fill: parent
                                 anchors.leftMargin: 6
                                 anchors.rightMargin: 6
-                                spacing: 4
+                                spacing: Appearance.layout.gapSm
 
                                 RippleButton {
                                     Layout.alignment: Qt.AlignVCenter

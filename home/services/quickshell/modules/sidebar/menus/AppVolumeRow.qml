@@ -40,9 +40,9 @@ Item {
     RowLayout {
         id: rowLayout
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-        spacing: 8
+        anchors.leftMargin: Appearance.layout.gapXl
+        anchors.rightMargin: Appearance.layout.gapXl
+        spacing: Appearance.layout.gapMd
 
         Item {
             Layout.alignment: Qt.AlignVCenter
@@ -63,7 +63,7 @@ Item {
                 text: "volume_off"
                 color: Appearance.colors.m3onSurface
                 font.family: Appearance.typography.iconFamily
-                font.pixelSize: 22
+                font.pixelSize: Appearance.typography.huge
             }
 
             MouseArea {

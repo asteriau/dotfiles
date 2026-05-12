@@ -40,10 +40,10 @@ Rectangle {
     Item {
         id: contentRow
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-        anchors.topMargin: 8
-        anchors.bottomMargin: 8
+        anchors.leftMargin: Appearance.layout.gapXl
+        anchors.rightMargin: Appearance.layout.gapXl
+        anchors.topMargin: Appearance.layout.gapMd
+        anchors.bottomMargin: Appearance.layout.gapMd
         implicitHeight: Math.max(iconBadge.height, labelCol.implicitHeight, switchCtl.height)
 
         Rectangle {
@@ -85,7 +85,7 @@ Rectangle {
             anchors.right: switchCtl.left
             anchors.rightMargin: Appearance.layout.gapLg
             anchors.verticalCenter: parent.verticalCenter
-            spacing: 2
+            spacing: Appearance.layout.gapXs
 
             StyledText {
                 Layout.fillWidth: true

@@ -21,7 +21,7 @@ Item {
         id: topTextRow
         anchors.left: parent.left
         anchors.right: expandBtn.left
-        anchors.rightMargin: 4
+        anchors.rightMargin: Appearance.layout.gapSm
         anchors.verticalCenter: parent.verticalCenter
         spacing: 5
 
@@ -65,7 +65,7 @@ Item {
         Row {
             id: pillRow
             anchors.centerIn: parent
-            spacing: 2
+            spacing: Appearance.layout.gapXs
 
             StyledText {
                 visible: root.count > 1

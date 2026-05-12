@@ -106,7 +106,7 @@ Item {
         // Bind width (not anchors.fill) so `implicitHeight` reflects the
         // wrapped content rather than inheriting parent's fixed height.
         width: root.width
-        spacing: 2
+        spacing: Appearance.layout.gapXs
 
         Repeater {
             model: root.options

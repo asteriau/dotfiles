@@ -74,8 +74,8 @@ Item {
         SearchBar {
             id: searchBar
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-            Layout.topMargin: 8
-            Layout.bottomMargin: 8
+            Layout.topMargin: Appearance.layout.gapMd
+            Layout.bottomMargin: Appearance.layout.gapMd
             Layout.minimumHeight: implicitHeight
             onAccepted: root.activateCurrent()
             onUpPressed: listView.decrementCurrentIndex()
@@ -99,14 +99,14 @@ Item {
             visible: count > 0
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.leftMargin: 4
-            Layout.rightMargin: 4
-            Layout.bottomMargin: 8
+            Layout.leftMargin: Appearance.layout.gapSm
+            Layout.rightMargin: Appearance.layout.gapSm
+            Layout.bottomMargin: Appearance.layout.gapMd
             Layout.minimumHeight: 0
             clip: true
             topMargin: 6
             bottomMargin: 6
-            spacing: 2
+            spacing: Appearance.layout.gapXs
             highlightMoveDuration: 100
             keyNavigationEnabled: true
             interactive: true

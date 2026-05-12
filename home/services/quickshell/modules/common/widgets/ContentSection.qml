@@ -13,12 +13,12 @@ ColumnLayout {
     default property alias contentData: sectionContent.data
 
     Layout.fillWidth: true
-    spacing: 12
+    spacing: Appearance.layout.gapLg
 
     RowLayout {
         Layout.fillWidth: true
-        Layout.leftMargin: 4
-        Layout.bottomMargin: 2
+        Layout.leftMargin: Appearance.layout.gapSm
+        Layout.bottomMargin: Appearance.layout.gapXs
         visible: root.title.length > 0
         spacing: 6
 

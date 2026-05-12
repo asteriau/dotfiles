@@ -115,8 +115,8 @@ Item {
             anchors.fill: parent
             anchors.leftMargin: 14 + root.contentSideInset
             anchors.rightMargin: 14 + root.contentSideInset
-            anchors.topMargin: 12
-            anchors.bottomMargin: 12
+            anchors.topMargin: Appearance.layout.gapLg
+            anchors.bottomMargin: Appearance.layout.gapLg
             spacing: 14
 
             Rectangle {

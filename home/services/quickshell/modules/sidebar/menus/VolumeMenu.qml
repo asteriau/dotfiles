@@ -28,10 +28,10 @@ WindowDialog {
         Layout.bottomMargin: -16
         Layout.leftMargin: -Appearance.layout.radiusLg
         Layout.rightMargin: -Appearance.layout.radiusLg
-        topMargin: 12
-        bottomMargin: 12
+        topMargin: Appearance.layout.gapLg
+        bottomMargin: Appearance.layout.gapLg
         clip: true
-        spacing: 4
+        spacing: Appearance.layout.gapSm
         model: Audio.sinkStreams
         ScrollBar.vertical: ScrollBar {}
         delegate: AppVolumeRow {

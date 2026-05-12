@@ -13,9 +13,9 @@ ContentPage {
 
     ColumnLayout {
         Layout.fillWidth: true
-        Layout.leftMargin: 4
-        Layout.bottomMargin: 8
-        spacing: 4
+        Layout.leftMargin: Appearance.layout.gapSm
+        Layout.bottomMargin: Appearance.layout.gapMd
+        spacing: Appearance.layout.gapSm
 
         StyledText {
             text: "Tachyon"

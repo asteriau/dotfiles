@@ -104,10 +104,10 @@ Item {
                 RowLayout {
                     id: rowCol
                     anchors.fill: parent
-                    anchors.leftMargin: 16
-                    anchors.rightMargin: 16
-                    anchors.topMargin: 12
-                    anchors.bottomMargin: 12
+                    anchors.leftMargin: Appearance.layout.gapXl
+                    anchors.rightMargin: Appearance.layout.gapXl
+                    anchors.topMargin: Appearance.layout.gapLg
+                    anchors.bottomMargin: Appearance.layout.gapLg
                     spacing: Appearance.layout.gapLg
 
                     // Tonal icon container
@@ -129,7 +129,7 @@ Item {
                     ColumnLayout {
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignVCenter
-                        spacing: 2
+                        spacing: Appearance.layout.gapXs
 
                         StyledText {
                             text: delegateRoot.modelData.label
@@ -153,7 +153,7 @@ Item {
                     // Page › Section breadcrumb
                     RowLayout {
                         Layout.alignment: Qt.AlignVCenter
-                        spacing: 4
+                        spacing: Appearance.layout.gapSm
 
                         StyledText {
                             text: delegateRoot.modelData.page

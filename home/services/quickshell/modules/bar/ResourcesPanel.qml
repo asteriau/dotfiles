@@ -9,7 +9,7 @@ import qs.services
 ColumnLayout {
     id: root
     width: 280
-    spacing: 12
+    spacing: Appearance.layout.gapLg
 
     Component.onCompleted: Resources.subscribe()
     Component.onDestruction: Resources.unsubscribe()
@@ -24,11 +24,11 @@ ColumnLayout {
 
     ColumnLayout {
         Layout.fillWidth: true
-        spacing: 4
+        spacing: Appearance.layout.gapSm
 
         RowLayout {
             Layout.fillWidth: true
-            spacing: 8
+            spacing: Appearance.layout.gapMd
 
             MaterialIcon {
                 Layout.alignment: Qt.AlignVCenter
@@ -67,11 +67,11 @@ ColumnLayout {
 
     ColumnLayout {
         Layout.fillWidth: true
-        spacing: 4
+        spacing: Appearance.layout.gapSm
 
         RowLayout {
             Layout.fillWidth: true
-            spacing: 8
+            spacing: Appearance.layout.gapMd
 
             MaterialIcon {
                 Layout.alignment: Qt.AlignVCenter

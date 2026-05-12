@@ -47,7 +47,7 @@ Item {
         ColumnLayout {
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: false
-            spacing: 2
+            spacing: Appearance.layout.gapXs
 
             StyledText {
                 text: root.longDateLabel

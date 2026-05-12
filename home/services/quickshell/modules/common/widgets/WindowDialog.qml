@@ -103,7 +103,7 @@ Rectangle {
             id: contentColumn
             anchors.fill: parent
             anchors.margins: card.radius
-            spacing: 16
+            spacing: Appearance.layout.gapXl
         }
     }
 }

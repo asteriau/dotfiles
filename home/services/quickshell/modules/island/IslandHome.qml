@@ -63,7 +63,7 @@ Item {
         ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 8
+            spacing: Appearance.layout.gapMd
 
             Item { Layout.fillHeight: true }
 

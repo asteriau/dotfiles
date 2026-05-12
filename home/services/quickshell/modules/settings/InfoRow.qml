@@ -19,11 +19,11 @@ Rectangle {
 
     RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-        anchors.topMargin: 8
-        anchors.bottomMargin: 8
-        spacing: 12
+        anchors.leftMargin: Appearance.layout.gapXl
+        anchors.rightMargin: Appearance.layout.gapXl
+        anchors.topMargin: Appearance.layout.gapMd
+        anchors.bottomMargin: Appearance.layout.gapMd
+        spacing: Appearance.layout.gapLg
 
         StyledText {
             text: root.label

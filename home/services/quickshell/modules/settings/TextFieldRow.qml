@@ -15,18 +15,18 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-        anchors.topMargin: 8
-        anchors.bottomMargin: 8
+        anchors.leftMargin: Appearance.layout.gapXl
+        anchors.rightMargin: Appearance.layout.gapXl
+        anchors.topMargin: Appearance.layout.gapMd
+        anchors.bottomMargin: Appearance.layout.gapMd
         radius: Appearance.layout.radiusMd
         color: Appearance.colors.colLayer3
 
         TextInput {
             id: input
             anchors.fill: parent
-            anchors.leftMargin: 16
-            anchors.rightMargin: 16
+            anchors.leftMargin: Appearance.layout.gapXl
+            anchors.rightMargin: Appearance.layout.gapXl
             verticalAlignment: TextInput.AlignVCenter
             text: root.text
             color: Appearance.colors.foreground

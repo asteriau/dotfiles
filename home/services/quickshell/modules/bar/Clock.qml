@@ -102,7 +102,7 @@ PressablePill {
     BarPopup {
         id: popup
         targetItem: root
-        padding: 12
+        padding: Appearance.layout.gapLg
 
         CalendarPanel { active: popup.active }
     }

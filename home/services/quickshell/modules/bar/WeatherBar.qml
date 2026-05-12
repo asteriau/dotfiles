@@ -18,15 +18,15 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        anchors.topMargin: 4
-        anchors.bottomMargin: 4
+        anchors.topMargin: Appearance.layout.gapSm
+        anchors.bottomMargin: Appearance.layout.gapSm
         radius: Appearance.layout.radiusMd
         color: Appearance.colors.surfaceContainerLow
     }
 
     Row {
         id: row
-        spacing: 4
+        spacing: Appearance.layout.gapSm
         anchors.centerIn: parent
 
         MaterialIcon {

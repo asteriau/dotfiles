@@ -80,7 +80,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: 18
             anchors.rightMargin: 18
-            spacing: 12
+            spacing: Appearance.layout.gapLg
 
             MaterialIcon {
                 text: item.icon
@@ -113,7 +113,7 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 4
+        spacing: Appearance.layout.gapSm
 
         // Expand/collapse chevron
         Item {

@@ -20,7 +20,7 @@ Rectangle {
 
     Column {
         id: contentItem
-        spacing: 8
+        spacing: Appearance.layout.gapMd
         anchors {
             fill: parent
             leftMargin: root.horizontalPadding

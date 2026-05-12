@@ -156,10 +156,10 @@ PopupWindow {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
                         right: parent.right
-                        leftMargin: 12
-                        rightMargin: 12
+                        leftMargin: Appearance.layout.gapLg
+                        rightMargin: Appearance.layout.gapLg
                     }
-                    spacing: 8
+                    spacing: Appearance.layout.gapMd
 
                     MaterialIcon {
                         text: "chevron_left"
@@ -184,8 +184,8 @@ PopupWindow {
             visible: submenu.isSubMenu
             implicitHeight: 1
             color: Appearance.colors.m3outline
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
+            Layout.topMargin: Appearance.layout.gapSm
+            Layout.bottomMargin: Appearance.layout.gapSm
         }
 
         Repeater {

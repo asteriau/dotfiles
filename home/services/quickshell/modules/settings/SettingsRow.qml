@@ -33,7 +33,7 @@ RowLayout {
         Layout.fillWidth: root.labelColumnWidth === 0
         Layout.preferredWidth: root.labelColumnWidth > 0 ? root.labelColumnWidth : -1
         Layout.alignment: Qt.AlignVCenter
-        spacing: 2
+        spacing: Appearance.layout.gapXs
 
         StyledText {
             visible: root.label.length > 0

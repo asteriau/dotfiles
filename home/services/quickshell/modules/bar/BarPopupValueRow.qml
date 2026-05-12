@@ -10,7 +10,7 @@ RowLayout {
     required property string icon
     required property string label
     required property string value
-    spacing: 4
+    spacing: Appearance.layout.gapSm
     // Stretch to the parent column so AlignRight on the value works.
     Layout.fillWidth: true
 

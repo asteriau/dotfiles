@@ -56,7 +56,7 @@ HoverTooltip {
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: `${root.percentage}`
                     font.family: Config.typography.family
-                    font.pixelSize: 13
+                    font.pixelSize: Appearance.typography.smallie
                     font.weight: Font.DemiBold
                     color: "white"
                 }
@@ -79,7 +79,7 @@ HoverTooltip {
                     anchors.verticalCenter: parent.verticalCenter
                     text: `${root.percentage}`
                     font.family: Config.typography.family
-                    font.pixelSize: 13
+                    font.pixelSize: Appearance.typography.smallie
                     font.weight: root.percentage < 100 ? Font.DemiBold : Font.Medium
                     color: "white"
                 }

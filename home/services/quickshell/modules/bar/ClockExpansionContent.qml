@@ -6,7 +6,7 @@ import qs.modules.common.models
 Item {
     id: root
 
-    property real padding: 12
+    property real padding: Appearance.layout.gapLg
 
     implicitWidth:  panel.implicitWidth + padding * 2
     implicitHeight: panel.implicitHeight + padding * 2

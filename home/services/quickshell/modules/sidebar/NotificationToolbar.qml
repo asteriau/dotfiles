@@ -12,13 +12,13 @@ import qs.services
 RowLayout {
     id: root
     Layout.fillWidth: true
-    spacing: 8
+    spacing: Appearance.layout.gapMd
 
     readonly property int notifCount: Notifications.allNotifs.length
 
     StyledText {
         Layout.fillWidth: true
-        Layout.leftMargin: 8
+        Layout.leftMargin: Appearance.layout.gapMd
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         text: root.notifCount > 0

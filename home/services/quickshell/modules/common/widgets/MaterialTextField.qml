@@ -14,7 +14,7 @@ TextField {
     selectionColor: Appearance.colors.colPrimary
     selectedTextColor: Appearance.colors.colOnPrimary
     font.family: "Inter"
-    font.pixelSize: 13
+    font.pixelSize: Appearance.typography.smallie
     leftPadding: 10
     rightPadding: 10
     topPadding: 8

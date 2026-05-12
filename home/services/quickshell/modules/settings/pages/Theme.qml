@@ -55,8 +55,8 @@ ContentPage {
 
             Item {
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
+                Layout.leftMargin: Appearance.layout.gapXl
+                Layout.rightMargin: Appearance.layout.gapXl
                 Layout.bottomMargin: 6
                 implicitHeight: srcSeg.implicitHeight
 
@@ -86,8 +86,8 @@ ContentPage {
                 id: previewItem
                 objectName: "theme-wallpaper"
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
+                Layout.leftMargin: Appearance.layout.gapXl
+                Layout.rightMargin: Appearance.layout.gapXl
                 Layout.preferredHeight: 200
 
                 Rectangle {
@@ -136,9 +136,9 @@ ContentPage {
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-                Layout.bottomMargin: 8
+                Layout.leftMargin: Appearance.layout.gapXl
+                Layout.rightMargin: Appearance.layout.gapXl
+                Layout.bottomMargin: Appearance.layout.gapMd
                 Layout.preferredHeight: 40
                 radius: Appearance.layout.radiusMd
                 color: chooseMa.containsMouse ? Appearance.colors.surfaceContainerHighest : Appearance.colors.surfaceContainerHigh
@@ -181,9 +181,9 @@ ContentPage {
 
             Item {
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-                Layout.bottomMargin: 8
+                Layout.leftMargin: Appearance.layout.gapXl
+                Layout.rightMargin: Appearance.layout.gapXl
+                Layout.bottomMargin: Appearance.layout.gapMd
                 implicitHeight: presetSeg.visible ? presetSeg.implicitHeight : presetEmpty.implicitHeight
 
                 SegmentedControl {
@@ -231,8 +231,8 @@ ContentPage {
 
             Item {
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
+                Layout.leftMargin: Appearance.layout.gapXl
+                Layout.rightMargin: Appearance.layout.gapXl
                 Layout.bottomMargin: 6
                 implicitHeight: schemeSeg.implicitHeight
 

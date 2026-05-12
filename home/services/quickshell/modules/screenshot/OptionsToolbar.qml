@@ -28,7 +28,7 @@ Item {
                 fill: parent
                 margins: 8
             }
-            spacing: 4
+            spacing: Appearance.layout.gapSm
 
             Repeater {
                 model: [

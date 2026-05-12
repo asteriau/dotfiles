@@ -10,7 +10,7 @@ ComboBox {
     property string displayRole: ""
 
     font.family: "Inter"
-    font.pixelSize: 13
+    font.pixelSize: Appearance.typography.smallie
     leftPadding: 12
     rightPadding: 32
     topPadding: 8
@@ -44,7 +44,7 @@ ComboBox {
         anchors.rightMargin: 10
         text: "expand_more"
         font.family: "Material Symbols Rounded"
-        font.pixelSize: 16
+        font.pixelSize: Appearance.typography.normal
         color: Appearance.colors.colOnLayer2
     }
 
@@ -74,7 +74,7 @@ ComboBox {
     popup: Popup {
         y: root.height + 2
         width: root.width
-        padding: 4
+        padding: Appearance.layout.gapSm
         background: Rectangle {
             color: Appearance.colors.surfaceContainerHigh
             radius: Appearance.layout.radiusSm

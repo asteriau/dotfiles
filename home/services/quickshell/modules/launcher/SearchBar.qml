@@ -11,7 +11,7 @@ import qs.modules.common.models
 
 RowLayout {
     id: root
-    spacing: 8
+    spacing: Appearance.layout.gapMd
 
     property alias input: input
     property bool animateWidth: false
@@ -50,8 +50,8 @@ RowLayout {
     }
 
     Item {
-        Layout.topMargin: 4
-        Layout.bottomMargin: 4
+        Layout.topMargin: Appearance.layout.gapSm
+        Layout.bottomMargin: Appearance.layout.gapSm
         Layout.alignment: Qt.AlignVCenter
 
         readonly property int collapsedWidth: 320

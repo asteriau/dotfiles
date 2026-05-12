@@ -131,7 +131,7 @@ Item {
                 id: list
                 anchors.fill: parent
                 visible: localModel.count > 0
-                spacing: 12
+                spacing: Appearance.layout.gapLg
                 interactive: true
                 model: localModel
                 boundsBehavior: Flickable.DragAndOvershootBounds

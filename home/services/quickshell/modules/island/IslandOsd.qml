@@ -22,7 +22,7 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: 10
         anchors.rightMargin: 20
-        spacing: 8
+        spacing: Appearance.layout.gapMd
 
         CrossfadeIcon {
             text: root.icon

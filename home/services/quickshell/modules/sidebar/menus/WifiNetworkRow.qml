@@ -95,7 +95,7 @@ DialogListItem {
         // Password row.
         ColumnLayout {
             visible: row.asking
-            Layout.topMargin: 8
+            Layout.topMargin: Appearance.layout.gapMd
             Layout.fillWidth: true
             spacing: Appearance.layout.gapMd
 
@@ -110,7 +110,7 @@ DialogListItem {
 
             RowLayout {
                 Layout.fillWidth: true
-                spacing: 4
+                spacing: Appearance.layout.gapSm
 
                 Item { Layout.fillWidth: true }
 

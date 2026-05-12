@@ -8,7 +8,7 @@ import qs.services
 QtObject {
     id: root
 
-    readonly property int  padding:        4
+    readonly property int  padding: Appearance.layout.gapSm
     readonly property real spacingScale:   padding * 3
     readonly property int  hoverTimeoutMs: 500
     readonly property real roundingPower:  2.5

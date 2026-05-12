@@ -10,5 +10,5 @@ RowLayout {
     Layout.bottomMargin: -8
     Layout.leftMargin: -8
     Layout.rightMargin: -8
-    spacing: 4
+    spacing: Appearance.layout.gapSm
 }

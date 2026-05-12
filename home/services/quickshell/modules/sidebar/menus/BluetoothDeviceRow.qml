@@ -64,7 +64,7 @@ DialogListItem {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                spacing: 2
+                spacing: Appearance.layout.gapXs
 
                 Text {
                     Layout.fillWidth: true
@@ -98,9 +98,9 @@ DialogListItem {
 
         RowLayout {
             visible: row.expanded
-            Layout.topMargin: 8
+            Layout.topMargin: Appearance.layout.gapMd
             Layout.fillWidth: true
-            spacing: 4
+            spacing: Appearance.layout.gapSm
 
             Item { Layout.fillWidth: true }
 

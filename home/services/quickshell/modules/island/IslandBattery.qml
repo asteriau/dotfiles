@@ -39,7 +39,7 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: 14
         anchors.rightMargin: 14
-        spacing: 8
+        spacing: Appearance.layout.gapMd
         opacity: root.expanded ? 0 : 1
         visible: opacity > 0
         Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.short4; easing.type: Easing.OutCubic } }
@@ -88,7 +88,7 @@ Item {
         ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 2
+            spacing: Appearance.layout.gapXs
 
             StyledText {
                 variant: StyledText.Variant.Label

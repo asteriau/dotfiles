@@ -105,7 +105,7 @@ Item {
             StyledText {
                 anchors.centerIn: parent
                 text: root.entry?.iconName ?? ""
-                font.pixelSize: 22
+                font.pixelSize: Appearance.typography.huge
                 color: root.fgColor
             }
         }

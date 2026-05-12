@@ -18,10 +18,10 @@ ContentPage {
 
             RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: 16
-                anchors.rightMargin: 16
-                anchors.topMargin: 8
-                anchors.bottomMargin: 8
+                anchors.leftMargin: Appearance.layout.gapXl
+                anchors.rightMargin: Appearance.layout.gapXl
+                anchors.topMargin: Appearance.layout.gapMd
+                anchors.bottomMargin: Appearance.layout.gapMd
                 spacing: 14
 
                 Rectangle {
@@ -49,7 +49,7 @@ ContentPage {
 
                 Row {
                     Layout.alignment: Qt.AlignVCenter
-                    spacing: 2
+                    spacing: Appearance.layout.gapXs
 
                     component PosBtn: Rectangle {
                         required property string value

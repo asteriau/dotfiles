@@ -52,7 +52,7 @@ RippleButton {
             leftMargin: root.horizontalPadding
             rightMargin: root.horizontalPadding
         }
-        spacing: 8
+        spacing: Appearance.layout.gapMd
         visible: !root.menuEntry.isSeparator
 
         Item {

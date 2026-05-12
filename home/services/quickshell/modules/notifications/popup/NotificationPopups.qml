@@ -62,7 +62,7 @@ Scope {
             anchors.fill: parent
             anchors.margins: 12
             interactive: false
-            spacing: 8
+            spacing: Appearance.layout.gapMd
             verticalLayoutDirection: scope.anchorBottom ? ListView.BottomToTop : ListView.TopToBottom
 
             model: scope.notifs

@@ -44,7 +44,7 @@ PressablePill {
     BarPopup {
         id: popup
         targetItem: root
-        padding: 16
+        padding: Appearance.layout.gapXl
 
         ResourcesPanel {}
     }

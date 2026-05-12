@@ -56,7 +56,7 @@ Item {
     // Field
     Item {
         anchors.left: iconPill.right
-        anchors.leftMargin: 8
+        anchors.leftMargin: Appearance.layout.gapMd
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         height: 44

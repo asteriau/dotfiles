@@ -12,15 +12,15 @@ ColumnLayout {
     default property alias contentData: sectionContent.data
 
     Layout.fillWidth: true
-    Layout.topMargin: 4
-    spacing: 4
+    Layout.topMargin: Appearance.layout.gapSm
+    spacing: Appearance.layout.gapSm
 
     RowLayout {
         Layout.fillWidth: true
-        Layout.leftMargin: 16
-        Layout.rightMargin: 16
+        Layout.leftMargin: Appearance.layout.gapXl
+        Layout.rightMargin: Appearance.layout.gapXl
         Layout.topMargin: 10
-        Layout.bottomMargin: 4
+        Layout.bottomMargin: Appearance.layout.gapSm
         visible: root.title.length > 0 || root.tooltip.length > 0
         spacing: Appearance.layout.rowGap
 
@@ -49,7 +49,7 @@ ColumnLayout {
     ColumnLayout {
         id: sectionContent
         Layout.fillWidth: true
-        Layout.bottomMargin: 4
+        Layout.bottomMargin: Appearance.layout.gapSm
         spacing: Appearance.layout.subsectionGap
     }
 }

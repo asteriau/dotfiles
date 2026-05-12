@@ -45,7 +45,7 @@ Item {
         id: content
         anchors.centerIn: parent
 
-        property real padding: 8
+        property real padding: Appearance.layout.gapMd
         implicitHeight: 38
         implicitWidth: root.showDescription ? contentRow.implicitWidth + padding * 2 : implicitHeight
         clip: true
@@ -71,7 +71,7 @@ Item {
                 left: parent.left
                 leftMargin: content.padding
             }
-            spacing: 12
+            spacing: Appearance.layout.gapLg
 
             MaterialIcon {
                 anchors.verticalCenter: parent.verticalCenter

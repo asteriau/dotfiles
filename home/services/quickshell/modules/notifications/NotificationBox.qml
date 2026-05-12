@@ -156,7 +156,7 @@ Item {
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
-                spacing: 4
+                spacing: Appearance.layout.gapSm
 
                 NotificationHeader {
                     Layout.fillWidth: true
