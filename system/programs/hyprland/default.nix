@@ -10,6 +10,7 @@ in
   imports = [
     inputs.hyprland.nixosModules.default
 
+    ./animations.nix
     ./binds.nix
     ./rules.nix
     ./settings.nix
