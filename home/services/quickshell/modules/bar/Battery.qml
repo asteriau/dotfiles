@@ -2,8 +2,6 @@ import QtQuick
 import Quickshell.Services.UPower
 import qs.modules.common.widgets
 import qs.modules.common
-import qs.modules.common.functions
-import qs.modules.common.models
 
 HoverTooltip {
     id: root
@@ -38,50 +36,23 @@ HoverTooltip {
             width:  bar.valueBarWidth
             height: bar.valueBarHeight
 
-            Column {
-                visible: root.vertical
+            Loader {
                 anchors.centerIn: parent
-                spacing: -4
-
-                MaterialIcon {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: root.batteryIcon
-                    fill: 1
-                    pixelSize: Appearance.typography.normal
-                    weight: Font.DemiBold
-                    color: "white"
-                }
-                Text {
-                    visible: root.percentage < 100
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: `${root.percentage}`
-                    font.family: Config.typography.family
-                    font.pixelSize: Appearance.typography.smallie
-                    font.weight: Font.DemiBold
-                    color: "white"
-                }
+                sourceComponent: root.vertical ? verticalIndicator : horizontalIndicator
             }
 
-            Row {
-                visible: !root.vertical
-                anchors.centerIn: parent
-                spacing: 1
-
-                MaterialIcon {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: root.batteryIcon
-                    fill: 1
-                    pixelSize: 11
-                    weight: Font.DemiBold
-                    color: "white"
+            Component {
+                id: verticalIndicator
+                BatteryVertical {
+                    icon: root.batteryIcon
+                    percentage: root.percentage
                 }
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: `${root.percentage}`
-                    font.family: Config.typography.family
-                    font.pixelSize: Appearance.typography.smallie
-                    font.weight: root.percentage < 100 ? Font.DemiBold : Font.Medium
-                    color: "white"
+            }
+            Component {
+                id: horizontalIndicator
+                BatteryHorizontal {
+                    icon: root.batteryIcon
+                    percentage: root.percentage
                 }
             }
         }
