@@ -6,7 +6,7 @@
     ./gtk.nix
     ./office
     ./qt.nix
-    ./vicinae
+    ./vicinae.nix
   ];
 
   home.packages = with pkgs; [
