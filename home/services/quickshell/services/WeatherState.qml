@@ -3,7 +3,9 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import QtQuick
-import qs.utils
+import qs.modules.common
+import qs.modules.common.functions
+import qs.modules.common.models
 
 Singleton {
     id: root

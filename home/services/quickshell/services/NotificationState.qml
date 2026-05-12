@@ -4,7 +4,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Services.Notifications
-import qs.utils
+import qs.modules.common
+import qs.modules.common.functions
+import qs.modules.common.models
 
 Singleton {
     id: root

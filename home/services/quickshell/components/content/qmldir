@@ -1,4 +1,0 @@
-module qs.components.content
-ContentPage 1.0 ContentPage.qml
-ContentSection 1.0 ContentSection.qml
-ContentSubsection 1.0 ContentSubsection.qml

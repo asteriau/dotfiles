@@ -2,16 +2,18 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Window
-import qs.background
-import qs.bar
-import qs.island
-import qs.launcher
-import qs.notifications.popup
-import qs.screenshot
-import qs.settings
-import qs.sidebar
-import qs.utils
-import qs.wallpaper
+import qs.modules.background
+import qs.modules.bar
+import qs.modules.island
+import qs.modules.launcher
+import qs.modules.notifications.popup
+import qs.modules.screenshot
+import qs.modules.settings
+import qs.modules.sidebar
+import qs.modules.common
+import qs.modules.common.functions
+import qs.modules.common.models
+import qs.modules.wallpaper
 import Quickshell // for ShellRoot and PanelWindow
 import Quickshell.Hyprland // for GlobalShortcut
 
