@@ -87,7 +87,7 @@ Item {
         Behavior on implicitHeight { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
 
         Behavior on x {
-            enabled: !dragHandler.active
+            enabled: !dragController.dragging
             Motion.EmphDecel { duration: Appearance.motion.duration.medium1 }
         }
 
@@ -106,34 +106,11 @@ Item {
             }
         }
 
-        DragHandler {
-            id: dragHandler
+        NotificationDragHandler {
+            id: dragController
             target: background
-            yAxis.enabled: false
-            xAxis.enabled: true
             enabled: !root.expanded
-
-            onActiveChanged: {
-                if (!active) {
-                    const threshold = 70;
-                    if (Math.abs(background.x) > threshold) {
-                        dismissAnim.to = background.x > 0 ? background.width + 40 : -(background.width + 40);
-                        dismissAnim.start();
-                    } else {
-                        background.x = 0;
-                    }
-                }
-            }
-        }
-
-        NumberAnimation {
-            id: dismissAnim
-            target: background
-            property: "x"
-            duration: Appearance.motion.duration.medium1
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.motion.easing.emphasizedAccel
-            onFinished: root.closeSelf()
+            onDismissRequested: root.closeSelf()
         }
 
         RowLayout {
