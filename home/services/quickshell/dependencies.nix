@@ -1,0 +1,41 @@
+{
+  pkgs,
+  inputs,
+  ...
+}:
+let
+  termColorsPython = pkgs.python3.withPackages (p: [
+    p.materialyoucolor
+    p.pillow
+  ]);
+in
+{
+  _module.args.quickshellDeps = [
+    termColorsPython
+    inputs.matugen.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
+  ]
+  ++ (with pkgs; [
+    bash
+    bluez
+    brightnessctl
+    coreutils
+    curl
+    ddcutil
+    foot
+    gnugrep
+    grim
+    hyprsunset
+    imagemagick
+    jq
+    libnotify
+    networkmanager
+    playerctl
+    procps
+    pulseaudio
+    slurp
+    wf-recorder
+    wireplumber
+    wl-clipboard
+  ]);
+}

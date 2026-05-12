@@ -1,51 +1,16 @@
 {
   pkgs,
-  inputs,
   lib,
   config,
   profile,
   quickshell,
+  quickshellDeps,
   QML2_IMPORT_PATH,
   ...
 }:
-let
-  termColorsPython = pkgs.python3.withPackages (p: [
-    p.materialyoucolor
-    p.pillow
-  ]);
-
-  dependencies = [
-    termColorsPython
-    inputs.matugen.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
-  ]
-  ++ (with pkgs; [
-    bash
-    bluez
-    brightnessctl
-    cliphist
-    coreutils
-    curl
-    ddcutil
-    foot
-    gnugrep
-    grim
-    hyprsunset
-    imagemagick
-    jq
-    libnotify
-    networkmanager
-    playerctl
-    procps
-    pulseaudio
-    slurp
-    wf-recorder
-    wireplumber
-    wl-clipboard
-  ]);
-in
 {
   imports = [
+    ./dependencies.nix
     ./package.nix
   ];
 
@@ -72,7 +37,7 @@ in
       After = "graphical-session.target";
     };
     Service = {
-      Environment = "PATH=/run/wrappers/bin:${lib.makeBinPath dependencies}:${config.home.homeDirectory}/.nix-profile/bin:/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin QML2_IMPORT_PATH=${QML2_IMPORT_PATH}";
+      Environment = "PATH=/run/wrappers/bin:${lib.makeBinPath quickshellDeps}:${config.home.homeDirectory}/.nix-profile/bin:/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin QML2_IMPORT_PATH=${QML2_IMPORT_PATH}";
       ExecStart = lib.getExe quickshell;
       Restart = "on-failure";
     };
