@@ -4,8 +4,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-// Owns OSD payload (volume / brightness / mic) and the auto-hide timer.
-// Island.qml reads `active`, `icon`, `label`, `progress`.
 Item {
     id: root
 

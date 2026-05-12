@@ -4,9 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// 1px hairline divider that bleeds past the dialog's content padding
-// to span the full card width. `bleed` defaults to the dialog card
-// radius (`Appearance.layout.radiusLg`) to match WindowDialog's padding.
 Rectangle {
     id: root
 

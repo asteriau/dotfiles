@@ -4,8 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Footer row for dialog buttons. Tight 4px spacing between buttons,
-// trims leading/trailing padding so buttons hug the dialog edges.
 RowLayout {
     Layout.fillWidth: true
     Layout.topMargin: 0

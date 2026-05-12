@@ -9,8 +9,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-// Per-popup wrapper around NotificationBox. Adds auto-dismiss timer with
-// hover-pause; critical urgency is sticky.
 Item {
     id: root
 

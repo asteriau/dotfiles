@@ -5,8 +5,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Shared month-grid calendar — used by Clock's popup and the expanded-bar
-// clock content. Choreographed on first show.
 ChoreographerLoader {
     id: root
 

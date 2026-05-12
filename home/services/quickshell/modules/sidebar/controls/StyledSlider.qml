@@ -6,9 +6,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Port of ii's StyledSlider (modules/common/widgets/StyledSlider.qml), wavy
-// mode and tooltip stripped. M3 expressive slider — split track around the
-// handle, divider segmentation, stop-indicator dots.
 Slider {
     id: root
 

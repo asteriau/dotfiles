@@ -3,7 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Crossfades between two StyledText instances when `text` changes.
 Item {
     id: root
 

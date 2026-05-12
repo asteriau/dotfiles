@@ -3,7 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Material 3 expressive switch.
 Item {
     id: root
     implicitWidth: 52

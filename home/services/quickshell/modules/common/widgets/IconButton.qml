@@ -4,9 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Round/pill button with a centered Material Symbol icon.
-// `active` switches between accent and surface backgrounds (M3 toggle).
-// Hover tint is off by default; set `tintOnHover: true` for idle-hover feedback.
 PressablePill {
     id: root
 

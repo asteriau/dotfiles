@@ -3,9 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// 1px divider line. Auto-orients to the bar axis: in vertical bar it spans
-// horizontally, in horizontal bar it spans vertically. Stretches to fill
-// the bar cross-axis so Grid alignment doesn't mis-position it.
 Item {
     readonly property bool vertical: Config.bar.vertical
     property int length: vertical ? 14 : 14

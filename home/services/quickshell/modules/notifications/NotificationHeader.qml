@@ -1,4 +1,3 @@
-// Top row of a notification: summary / time + expand chevron pill.
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.common.widgets

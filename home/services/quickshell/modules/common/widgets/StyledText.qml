@@ -3,8 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Token-driven Text. Pick a `variant` to apply the matching size/weight/color.
-// Override any prop freely; this just sets sane defaults from Config/Appearance.colors.
 Text {
     id: root
 

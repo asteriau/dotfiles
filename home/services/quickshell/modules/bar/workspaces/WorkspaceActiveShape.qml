@@ -4,9 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// z:3 active-workspace indicator. Uses AnimatedTabPair to smoothly slide
-// between workspaces and morphs the silhouette based on the current id so
-// each workspace has a distinct personality.
 Item {
     id: root
 

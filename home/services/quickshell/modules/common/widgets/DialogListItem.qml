@@ -4,10 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Full-bleed list row used inside dialog ListViews. Provides hover
-// background, primary + alt click signals, and exposes
-// `horizontalPadding` / `verticalPadding` so consumers can lay out
-// their RowLayout/ColumnLayout content with consistent margins.
 Item {
     id: root
 

@@ -2,8 +2,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Shapes
 
-// Vertical bar background shape. Mirrors NotchShape's geometry rotated 90°:
-// concave fillets at the screen-edge corners, convex rounding on the free side.
 Item {
     id: root
 

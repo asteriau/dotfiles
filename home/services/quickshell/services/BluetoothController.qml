@@ -5,10 +5,6 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Bluetooth
 
-// Wrapper around Quickshell.Bluetooth that exposes a sorted device list
-// (connected → paired → other) and centralises connect/pair/forget plumbing.
-//
-// Discovery toggles automatically while subscribers > 0.
 Singleton {
     id: root
 

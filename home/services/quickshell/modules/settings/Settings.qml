@@ -1,4 +1,3 @@
-//@ pragma UseQApplication
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Window
@@ -113,7 +112,6 @@ Window {
         anchors.margins: settingsWindow.contentPadding
         spacing: settingsWindow.contentPadding
 
-        // ── Header ────────────────────────────────────────────────────────
         SettingsHeader {
             id: header
             Layout.fillWidth: true
@@ -191,7 +189,6 @@ Window {
 
                 onFrontIsAChanged: settingsWindow._tryScrollFront()
 
-                // ── Page loaders (hidden when searching) ──────────────────
                 Loader {
                     id: loaderA
                     anchors.fill: parent
@@ -247,7 +244,6 @@ Window {
                     }
                 }
 
-                // ── Search results overlay ─────────────────────────────────
                 SearchResultsView {
                     id: resultsView
                     anchors.fill: parent

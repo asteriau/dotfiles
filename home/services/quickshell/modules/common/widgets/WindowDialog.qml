@@ -4,10 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Floating dialog with scrim. Card slides + scales + fades in to match
-// the island's M3 emphasized show/hide motion. Children added via the
-// default property go inside the card's ColumnLayout (16px spacing,
-// padding = card radius).
 Rectangle {
     id: root
 

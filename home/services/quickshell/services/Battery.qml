@@ -4,7 +4,6 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.UPower
 
-// Thin wrapper over UPower's display device. Event-driven — no polling.
 Singleton {
     id: root
 

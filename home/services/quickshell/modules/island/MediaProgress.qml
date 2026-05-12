@@ -6,10 +6,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Seek surface for the media card. Shows the wavy StyledSlider when the player
-// reports canSeek, otherwise a wavy StyledProgressBar. Emits seekRequested with
-// the target position in seconds so the orchestrator can update both the
-// native MPRIS player and the browser poller's cached position.
 Item {
     id: root
 

@@ -1,6 +1,3 @@
-// Polls `playerctl` for browser-origin MPRIS players (Firefox, Chromium,
-// plasma-browser-integration) that don't emit reliable position updates over
-// DBus. Exposes status/position/animating as bindable outputs.
 import QtQuick
 import Quickshell.Io
 import qs.services

@@ -3,9 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Vertically rolling text label. On `text` change, the old label slides up out
-// and the new label slides in from below. Used by the bar clock for digit
-// rolls; works for any short label that should swap with motion.
 Item {
     id: root
 

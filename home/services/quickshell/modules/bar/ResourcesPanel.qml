@@ -6,8 +6,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-// Shared resources detail panel — used by ResourcesBar's popup and by
-// ResourcesExpansionContent in the expanded bar mode.
 ColumnLayout {
     id: root
     width: 280

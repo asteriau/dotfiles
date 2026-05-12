@@ -7,14 +7,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Transport controls for the media card. Geometry mirrors the original
-// PlayerControl inline layout exactly:
-//   trackTime ------ (empty)                   (playPauseButton overlays,
-//   [ prev ][  <default slot: MediaProgress>  ][ next ]   anchored top-right)
-//
-// The orchestrator fills the default slot with MediaProgress so prev/next
-// bracket the slider and playPauseButton sits above, overlapping the trackTime
-// row — matching the byte-for-byte layout before the split.
 Item {
     id: root
 

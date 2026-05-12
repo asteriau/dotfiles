@@ -4,10 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Port of ii's QuickSlider component (inline in QuickSliders.qml). Wraps
-// StyledSlider with a primary material symbol on the right of the track that
-// snaps onto the handle near full, and an optional secondary symbol at
-// `iconLocation` along the track.
 StyledSlider {
     id: quickSlider
 

@@ -5,11 +5,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Hover/click popup for bar widgets. Adapted from ii's StyledPopup.
-// Toggle via `active`. Default children become popup content.
-//
-// `transparent: true` disables the inner surface so callers can supply their
-// own card chrome (e.g. MediaCard).
 PopupWindow {
     id: root
 

@@ -44,7 +44,6 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         spacing: 14
 
-        // ── Date + weather ──
         ColumnLayout {
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: false
@@ -96,7 +95,6 @@ Item {
 
         Item { Layout.fillWidth: true }
 
-        // ── Settings: minimal borderless icon, M3 standard icon-button ──
         IconButton {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 32

@@ -4,7 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Minimal MD3-flavored text field. Used for inline wifi password entry.
 TextField {
     id: root
 

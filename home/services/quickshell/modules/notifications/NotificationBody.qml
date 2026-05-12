@@ -1,5 +1,3 @@
-// Body text of a notification. Two-line preview when collapsed, rich-text
-// processed body when expanded.
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.common.widgets

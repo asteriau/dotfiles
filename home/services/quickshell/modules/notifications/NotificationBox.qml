@@ -1,6 +1,3 @@
-// Notification card: orchestrator for header/body/actions with drag-to-dismiss
-// and expand animation. Inspired by ii's NotificationGroup/NotificationItem.
-
 pragma ComponentBehavior: Bound
 
 import QtQuick

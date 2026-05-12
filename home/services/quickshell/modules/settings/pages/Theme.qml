@@ -13,7 +13,6 @@ ContentPage {
 
     readonly property bool isMatugen: Config.theme.mode === "matugen"
 
-    // ── Preset discovery ──────────────────────────────────────────────────
     readonly property string shellDir: {
         const u = Qt.resolvedUrl("../../..").toString();
         return u.replace(/^file:\/\//, "").replace(/\/$/, "");
@@ -48,7 +47,6 @@ ContentPage {
     }
     Component.onCompleted: rebuildPresetOptions()
 
-    // ─────────────────────────────────────────────────────────────────────
     ContentSection {
         title: "Source"
 
@@ -78,7 +76,6 @@ ContentPage {
         }
     }
 
-    // ── Wallpaper ─────────────────────────────────────────────────────────
     ContentSection {
         title: "Wallpaper"
 
@@ -175,7 +172,6 @@ ContentPage {
         }
     }
 
-    // ── Preset picker ─────────────────────────────────────────────────────
     ContentSection {
         visible: !page.isMatugen
         title: "Preset"
@@ -226,7 +222,6 @@ ContentPage {
         }
     }
 
-    // ── Matugen controls ──────────────────────────────────────────────────
     ContentSection {
         visible: page.isMatugen
         title: "Matugen"

@@ -1,10 +1,6 @@
 pragma Singleton
 pragma ComponentBehavior: Bound
 
-// Adapted from https://github.com/end-4/dots-hyprland (illogical-impulse)
-// and https://github.com/caelestia-dots/shell.
-// Supports brightnessctl (laptop backlight) + ddcutil (external DDC/CI).
-
 import Quickshell
 import Quickshell.Io
 import QtQuick

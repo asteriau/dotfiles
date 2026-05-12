@@ -10,9 +10,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-// Top-level floating notification popups. Mirrors bar position so popups
-// land in the screen corner opposite the bar (so they never overlap it).
-// Critical urgency stays sticky; Do Not Disturb suppresses everything.
 Scope {
     id: scope
 

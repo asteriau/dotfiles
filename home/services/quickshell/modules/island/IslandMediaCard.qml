@@ -12,9 +12,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-// Expanded media card for the island. Targets ~440x112. Art-themed surface via
-// MediaArtBackdrop + AdaptedMaterialScheme. Lifts art-download / quantizer
-// plumbing from PlayerControl (cannot be reused directly; sidebar geometry).
 Item {
     id: root
 
@@ -122,7 +119,6 @@ Item {
             anchors.bottomMargin: 12
             spacing: 14
 
-            // ── Art tile ─────────────────────────────────────────────────
             Rectangle {
                 id: artTile
                 Layout.preferredWidth: 80
@@ -165,7 +161,6 @@ Item {
                 }
             }
 
-            // ── Right column ─────────────────────────────────────────────
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true

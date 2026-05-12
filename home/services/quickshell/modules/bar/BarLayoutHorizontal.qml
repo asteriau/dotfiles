@@ -26,7 +26,6 @@ Rectangle {
         color: Appearance.colors.background
     }
 
-    // ── Nav ──────────────────────────────────────────────────────────────
     Row {
         anchors {
             left: parent.left
@@ -39,7 +38,6 @@ Rectangle {
         Workspaces    { anchors.verticalCenter: parent.verticalCenter }
     }
 
-    // ── Focal ────────────────────────────────────────────────────────────
     ActiveWindow {
         anchors {
             horizontalCenter: parent.horizontalCenter
@@ -47,7 +45,6 @@ Rectangle {
         }
     }
 
-    // ── Status ───────────────────────────────────────────────────────────
     Row {
         anchors {
             right: parent.right

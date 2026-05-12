@@ -3,8 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// M3 state-layer overlay. 4 states: hover / focus / press / drag.
-// Place over an interactive surface; bind hovered/pressed/focused/dragged.
 Item {
     id: root
 

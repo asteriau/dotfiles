@@ -222,10 +222,8 @@ QtObject {
         readonly property color wsCapsuleEdge: Qt.darker(c.elevated, 1.1)
     }
 
-    // ─────────────────────────────────────────────────────────────────────
     // Legacy animation tokens — preserved for existing consumers. Migrating
     // these to motion.* lands in a later phase.
-    // ─────────────────────────────────────────────────────────────────────
 
     readonly property QtObject animationCurves: QtObject {
         readonly property list<real> expressiveFastSpatial: [0.42, 1.67, 0.21, 0.90, 1, 1]

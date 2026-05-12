@@ -4,9 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Pill action button used in dialog footers and inline expanded rows.
-// Default variant: transparent fill, primary-colored text (M3 text button).
-// Override `variant` for affirming, destructive, or layered actions.
 Item {
     id: root
 

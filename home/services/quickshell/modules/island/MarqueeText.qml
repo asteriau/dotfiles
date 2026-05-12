@@ -4,8 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Continuous horizontal scroll for text that overflows. Falls back to a
-// single static StyledText when the text fits.
 Item {
     id: root
 

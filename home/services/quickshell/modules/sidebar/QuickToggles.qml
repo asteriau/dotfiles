@@ -5,8 +5,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-// Four separate circular pill toggles (Wi-Fi, Bluetooth, DND, Mic) inside an
-// M3 surface container, sized to wrap the pills (not full-width).
 Item {
     id: root
     Layout.fillWidth: true

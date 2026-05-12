@@ -5,8 +5,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Adapted from ii's ClippedFilledCircularProgress.
-// Default child becomes the icon mask (carved out of the fill).
 Item {
     id: root
 

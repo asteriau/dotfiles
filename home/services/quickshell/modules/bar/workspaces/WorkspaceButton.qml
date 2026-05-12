@@ -11,9 +11,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// z:4 workspace button. Transparent hover disc plus number/dot/app-icon
-// content, with optional monochrome tint for app icons. Clicking dispatches
-// the Hyprland workspace switch.
 Item {
     id: root
 

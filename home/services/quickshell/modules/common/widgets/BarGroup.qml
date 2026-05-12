@@ -3,8 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Pill container for bar widgets. Default children flow inside an inner Grid;
-// pass `columns: 1` for vertical stacking. Tonal level via `tone`.
 Item {
     id: root
 

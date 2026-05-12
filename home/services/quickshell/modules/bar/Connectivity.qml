@@ -12,7 +12,6 @@ HoverTooltip {
 
     property bool vertical: Config.bar.vertical
 
-    // ── WiFi ──────────────────────────────────────────────────────────────
     property NetworkDevice wifiAdapter: Networking.devices?.values?.find(d => d.type === DeviceType.Wifi) ?? null
     readonly property WifiNetwork activeNetwork: wifiAdapter?.networks?.values.find(n => n.connected) ?? null
     readonly property bool ethernetConnected: Networking.devices?.values.some(d => d.type === "ethernet" && d.connected) ?? false
@@ -33,7 +32,6 @@ HoverTooltip {
     readonly property bool showWifi: !!wifiAdapter && !ethernetConnected
     readonly property real wifiValue: wifiAdapter?.connected ? (activeNetwork?.signalStrength ?? 0) : 0
 
-    // ── Bluetooth ─────────────────────────────────────────────────────────
     property var btAdapter: Bluetooth.defaultAdapter
     readonly property var btConnected:  btAdapter?.devices.values.filter(d => d.state === BluetoothDeviceState.Connected)  ?? []
     readonly property var btConnecting: btAdapter?.devices.values.filter(d => d.state === BluetoothDeviceState.Connecting) ?? []

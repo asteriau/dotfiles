@@ -1,5 +1,3 @@
-// Horizontal settings row: optional left icon, label/caption column, and
-// right-aligned control slot (children of SettingsRow render into the slot).
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.common.widgets

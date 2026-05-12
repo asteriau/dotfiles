@@ -10,14 +10,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.modules.bar.workspaces
 
-// Orchestrator for the bar's workspaces widget. Owns occupancy tracking,
-// scroll-to-switch, and the layered composition (capsule → orbs → active
-// shape → buttons). The per-slot visuals live in bar/workspaces/.
-//
-// NOTE: This file lives at bar/Workspaces.qml (not bar/workspaces/Workspaces.qml)
-// so that Bar.qml / BarHorizontal.qml can keep using `Workspaces {}` without an
-// extra import. The delegates underneath live in bar/workspaces/ and are imported
-// via `qs.bar.workspaces` below.
 Item {
     id: root
 
@@ -41,7 +33,6 @@ Item {
     implicitWidth:  vertical ? Appearance.bar.width : (workspaceButtonWidth * workspacesShown)
     implicitHeight: vertical ? (workspaceButtonWidth * workspacesShown + verticalPadding * 2) : Appearance.bar.height
 
-    // ── Occupancy tracking ────────────────────────────────────────────────
     function updateWorkspaceOccupied() {
         workspaceOccupied = Array.from({ length: workspacesShown }, (_, i) =>
             Hyprland.workspaces.values.some(ws =>

@@ -4,8 +4,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-// Watches Battery.charging transitions and exposes a peek window.
-// Island.qml reads `active` (peek mode visible) and `peeking` (force-expand).
 Item {
     id: root
 

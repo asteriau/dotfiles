@@ -3,11 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Rounded pressable surface. Generic base for pills, tiles, chips, icon buttons.
-// Exposes `hovered`/`pressed` states; children can bind to them.
-//
-// Defaults are no-op on hover (matches existing PillToggle/TileSmall behavior).
-// Opt in to hover tinting by overriding `colorHover`.
 Item {
     id: root
 

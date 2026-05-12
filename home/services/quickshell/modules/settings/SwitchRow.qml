@@ -1,4 +1,3 @@
-// Tappable row that toggles a switch when clicked anywhere.
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.common.widgets

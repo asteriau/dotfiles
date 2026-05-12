@@ -3,11 +3,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Material Symbols icon. Set `text` to a symbol name and optionally adjust `fill`,
-// `grade`, `weight`, and size. Size: either set `font.pointSize:` like any Text, or
-// use the opt-in `pixelSize:` property for pixel-exact sizing (used by phase-2
-// retrofits where pixel sizes matter). Setting pixelSize > 0 clears pointSize to
-// avoid Qt's "both point size and pixel size set" warning.
 Text {
     id: root
 

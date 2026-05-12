@@ -6,9 +6,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Backdrop for the media card: drop shadow + rounded background + blurred album
-// art + alpha tint. The foreground content (art thumbnail, text column, controls)
-// is placed through the default content slot and stacks above the blur layers.
 Item {
     id: root
 

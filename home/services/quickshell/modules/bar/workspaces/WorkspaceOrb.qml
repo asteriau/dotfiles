@@ -5,9 +5,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// One occupied-workspace orb. Rounded corners collapse toward neighbors so a
-// run of occupied workspaces reads as a single continuous pill. Fades out on
-// the active slot (which is drawn by WorkspaceActiveShape instead).
 Rectangle {
     id: root
 

@@ -4,8 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// MD3-flavored ComboBox. `model` may be a list of plain values or objects;
-// `displayRole` picks the field to render (defaults to whole entry as string).
 ComboBox {
     id: root
 

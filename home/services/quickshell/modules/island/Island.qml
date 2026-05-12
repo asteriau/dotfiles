@@ -10,7 +10,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-
 Scope {
     id: scope
 

@@ -4,8 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Pill progress bar with text rendered as a solid overlay via OpacityMask.
-// Fill shows level; text/icon is masked on top in textColor for readability.
 Item {
     id: root
 

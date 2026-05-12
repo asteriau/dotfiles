@@ -4,9 +4,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// Indeterminate progress bar for dialog scan / loading states.
-// Active: animates a primary-colored pill across the track.
-// Idle: renders a hairline divider in the same slot.
 Item {
     id: root
 

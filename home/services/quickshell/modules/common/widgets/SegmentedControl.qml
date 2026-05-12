@@ -6,13 +6,6 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-// M3 segmented control.
-//
-// Two use modes:
-//   1. Index-based: set `options: ["A", "B"]` or `[{label,icon}, ...]`
-//      and bind `currentIndex` / react to `selected(index)`.
-//   2. Value-based: set options to `[{label,icon,value}, ...]`, bind
-//      `currentValue` and react to `selectedValue(value)`.
 Item {
     id: root
 

@@ -5,12 +5,6 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Networking
 
-// nmcli-backed network state. Wraps Quickshell.Networking.wifiEnabled with
-// scan/connect/disconnect plumbing the built-in API doesn't expose.
-//
-// Polling is ref-counted: scan loop runs only while subscribers > 0.
-// Ethernet poll piggybacks on the same counter (was previously inline in
-// QuickToggles.qml; consolidated here).
 Singleton {
     id: root
 

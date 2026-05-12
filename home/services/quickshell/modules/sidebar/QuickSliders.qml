@@ -6,10 +6,6 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-// Single container holding all three sliders (brightness/night-light, volume,
-// mic), modeled after ii's QuickSliders.qml. The implicit gap between sliders
-// comes from the slider handle being taller than the track, so no explicit
-// Column spacing is needed.
 Rectangle {
     id: root
 

@@ -1,4 +1,3 @@
-// Expand-on-demand actions row: close + notification-provided actions + copy.
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
