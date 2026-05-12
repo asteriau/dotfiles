@@ -2,11 +2,12 @@
   config,
   pkgs,
   lib,
+  theme,
   ...
 }:
 let
-  # pointer = config.home.pointerCursor;
   cursorName = "Bibata-Modern-Classic-Hyprcursor";
+  inherit (theme.format) toHyprlandRgba stripHash;
 in
 {
   programs.hyprland.settings = {
@@ -38,7 +39,10 @@ in
       gaps_in = 4;
       gaps_out = 8;
       border_size = 2;
-      "col.active_border" = "rgba(252525FF)";
+      "col.active_border" = toHyprlandRgba {
+        hex = theme.palette.border;
+        alpha = "FF";
+      };
       "col.inactive_border" = "rgba(00000000)";
 
       allow_tearing = false;
@@ -49,11 +53,17 @@ in
       groupbar = {
         font_size = 10;
         gradients = false;
-        text_color = "rgb(b6c4ff)";
+        text_color = "rgb(${stripHash theme.palette.m3onPrimaryContainer})";
       };
 
-      "col.border_active" = "rgba(35447988)";
-      "col.border_inactive" = "rgba(dce1ff88)";
+      "col.border_active" = toHyprlandRgba {
+        hex = theme.palette.primaryContainer;
+        alpha = "88";
+      };
+      "col.border_inactive" = toHyprlandRgba {
+        hex = theme.palette.m3onPrimaryContainer;
+        alpha = "88";
+      };
     };
 
     input = {
