@@ -4,94 +4,123 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.SystemTray
 import Quickshell.Widgets
-import qs.components.effects
 import qs.components.surfaces
 import qs.components.text
 import qs.utils
 
-Rectangle {
+Item {
     id: root
 
     property bool vertical: true
     property bool iconsVisible: false
 
-    // Honoured when parent is a ColumnLayout (vertical bar); ignored by plain Row
-    // in the horizontal bar, which is fine — no behavior change either way.
+    readonly property int entryIconSize: 20
+    readonly property int toggleSize:    26
+
     Layout.alignment: Qt.AlignHCenter
 
-    implicitWidth:  vertical ? 32 : (hRow.implicitWidth + 12)
-    implicitHeight: vertical ? (vCol.implicitHeight + 12) : (Config.bar.height - 8)
-    radius: Config.layout.radiusContainer
-    color: "transparent"
+    implicitWidth:  vertical ? Config.bar.width
+                             : (hRow.implicitWidth + Config.layout.gapMd * 2)
+    implicitHeight: vertical ? (vCol.implicitHeight + Config.layout.gapMd)
+                             : Config.bar.height
 
-    // Shared delegate: icon with right-click menu + tooltip.
-    component TrayEntry: HoverTooltip {
+    Rectangle {
+        id: card
+        anchors.fill: parent
+        anchors.topMargin:    root.vertical ? 0 : Config.layout.gapSm
+        anchors.bottomMargin: root.vertical ? 0 : Config.layout.gapSm
+        anchors.leftMargin:   root.vertical ? Config.layout.gapSm : 0
+        anchors.rightMargin:  root.vertical ? Config.layout.gapSm : 0
+        radius: Config.layout.radiusContainer
+        color: Colors.surfaceContainerLow
+
+        Behavior on color {
+            ColorAnimation { duration: M3Easing.effectsDuration; easing.type: Easing.OutCubic }
+        }
+    }
+
+    // Shared delegate: clickable icon with right-click menu.
+    component TrayEntry: Item {
         id: entry
         required property SystemTrayItem modelData
 
-        text: modelData.tooltipTitle
-        visible: true
+        implicitWidth: root.entryIconSize
+        implicitHeight: root.entryIconSize
 
-        Item {
-            implicitWidth: trayIcon.implicitWidth
-            implicitHeight: trayIcon.implicitHeight
+        IconImage {
+            id: trayIcon
+            anchors.fill: parent
+            mipmap: true
+            source: entry.modelData.icon
+        }
 
-            IconImage {
-                id: trayIcon
-                mipmap: true
-                source: entry.modelData.icon
-                implicitSize: Config.iconSize
-            }
+        MultiEffect {
+            source: trayIcon
+            anchors.fill: trayIcon
+            shadowEnabled: Config.shadow.enabled
+            shadowVerticalOffset: Config.shadow.verticalOffset
+            blurMax: Config.shadow.blur
+            opacity: Config.shadow.opacity
+        }
 
-            MultiEffect {
-                source: trayIcon
-                anchors.fill: trayIcon
-                shadowEnabled: Config.shadow.enabled
-                shadowVerticalOffset: Config.shadow.verticalOffset
-                blurMax: Config.shadow.blur
-                opacity: Config.shadow.opacity
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            cursorShape: Qt.PointingHandCursor
+
+            onPressed: event => {
+                switch (event.button) {
+                case Qt.LeftButton:
+                    entry.modelData.activate();
+                    break;
+                case Qt.RightButton:
+                    if (entry.modelData.hasMenu) {
+                        if (menuLoader.active && menuLoader.item)
+                            menuLoader.item.close();
+                        else
+                            menuLoader.active = true;
+                    }
+                    break;
+                }
+                event.accepted = true;
             }
         }
 
-        acceptedButtons: Qt.RightButton | Qt.LeftButton
-
-        onClicked: event => {
-            switch (event.button) {
-            case Qt.LeftButton:
-                modelData.activate();
-                break;
-            case Qt.RightButton:
-                if (modelData.hasMenu)
-                    menu.open();
-                break;
-            }
-            event.accepted = true;
-        }
-
-        QsMenuAnchor {
-            id: menu
-            menu: entry.modelData.menu
-            onVisibleChanged: QsWindow.window.inhibitGrab = visible
-
-            anchor {
-                item: trayIcon
-                edges: Edges.Right | Edges.Top
-                gravity: Edges.Right | Edges.Bottom
-                adjustment: PopupAdjustment.All
+        Loader {
+            id: menuLoader
+            active: false
+            sourceComponent: SysTrayMenu {
+                trayItemMenuHandle: entry.modelData.menu
+                anchor {
+                    window: entry.QsWindow.window
+                    item: entry
+                    gravity: Config.bar.vertical
+                        ? (Config.bar.onEnd ? Edges.Left : Edges.Right)
+                        : (Config.bar.onEnd ? Edges.Top : Edges.Bottom)
+                    edges: Config.bar.vertical
+                        ? (Config.bar.onEnd ? Edges.Left : Edges.Right)
+                        : (Config.bar.onEnd ? Edges.Top : Edges.Bottom)
+                }
+                Component.onCompleted: open()
+                onMenuClosed: menuLoader.active = false
             }
         }
     }
 
     // Vertical: collapsible column with rotating expand_more chevron.
+    // Spacing collapses to 0 when icons are hidden so the toggle sits centred
+    // in the card; otherwise the empty icons slot leaves a phantom gap above.
     ColumnLayout {
         id: vCol
         visible: root.vertical
         anchors.centerIn: parent
-        spacing: 8
+        spacing: root.iconsVisible ? Config.layout.gapMd : 0
+
+        Behavior on spacing { Motion.Spatial {} }
 
         Item {
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: 20
+            Layout.preferredWidth: root.entryIconSize + Config.layout.gapSm
             implicitHeight: root.iconsVisible ? iconsCol.implicitHeight : 0
             clip: true
             opacity: root.iconsVisible ? 1 : 0
@@ -102,7 +131,7 @@ Rectangle {
             ColumnLayout {
                 id: iconsCol
                 anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 10
+                spacing: Config.layout.gapMd
 
                 Repeater {
                     model: SystemTray.items
@@ -111,30 +140,23 @@ Rectangle {
             }
         }
 
-        Rectangle {
-            Layout.alignment: Qt.AlignHCenter
-            visible: root.iconsVisible && SystemTray.items.values.length > 0
-            implicitWidth: 16
-            implicitHeight: 1
-            color: Colors.divider
-        }
-
         PressablePill {
             Layout.alignment: Qt.AlignHCenter
-            implicitWidth: 24
-            implicitHeight: 24
-            radius: 12
+            implicitWidth: root.toggleSize
+            implicitHeight: root.toggleSize
+            radius: root.toggleSize / 2
             colorIdle: Colors.transparent
             useStateLayer: true
-            pressScale: 0.96
+            pressScale: 0.94
             onClicked: root.iconsVisible = !root.iconsVisible
 
             MaterialIcon {
                 anchors.centerIn: parent
                 text: "expand_more"
-                pixelSize: 14
-                color: root.iconsVisible ? Colors.accent : Colors.foreground
+                pixelSize: 18
+                color: root.iconsVisible ? Colors.accent : Colors.m3onSurfaceVariant
                 rotation: root.iconsVisible ? 180 : 0
+                renderType: Text.QtRendering
 
                 Behavior on rotation { Motion.SpatialEmph {} }
                 Behavior on color { Motion.ColorFadeQuick {} }
@@ -142,17 +164,19 @@ Rectangle {
         }
     }
 
-    // Horizontal: collapsible row with chevron_left/right (flips icon, no rotation).
+    // Horizontal: collapsible row with a rotating chevron 
     Row {
         id: hRow
         visible: !root.vertical
         anchors.centerIn: parent
-        spacing: 6
+        spacing: root.iconsVisible ? Config.layout.gapSm : 0
+
+        Behavior on spacing { Motion.Spatial {} }
 
         Item {
             anchors.verticalCenter: parent.verticalCenter
             implicitWidth: root.iconsVisible ? iconsRow.implicitWidth : 0
-            implicitHeight: Config.iconSize
+            implicitHeight: root.entryIconSize
             clip: true
 
             Behavior on implicitWidth { Motion.SpatialEmph {} }
@@ -160,7 +184,7 @@ Rectangle {
             Row {
                 id: iconsRow
                 anchors.verticalCenter: parent.verticalCenter
-                spacing: 6
+                spacing: Config.layout.gapMd
 
                 Repeater {
                     model: SystemTray.items
@@ -169,30 +193,28 @@ Rectangle {
             }
         }
 
-        Rectangle {
-            anchors.verticalCenter: parent.verticalCenter
-            visible: root.iconsVisible && SystemTray.items.values.length > 0
-            implicitWidth: 1
-            implicitHeight: 12
-            color: Colors.divider
-        }
-
         PressablePill {
             anchors.verticalCenter: parent.verticalCenter
-            implicitWidth: 24
-            implicitHeight: 24
-            radius: 12
+            implicitWidth: root.toggleSize
+            implicitHeight: root.toggleSize
+            radius: root.toggleSize / 2
             colorIdle: Colors.transparent
             useStateLayer: true
-            pressScale: 0.96
+            pressScale: 0.94
             onClicked: root.iconsVisible = !root.iconsVisible
 
             MaterialIcon {
                 anchors.centerIn: parent
-                text: root.iconsVisible ? "chevron_right" : "chevron_left"
-                pixelSize: 14
-                color: root.iconsVisible ? Colors.accent : Colors.foreground
+                text: "chevron_right"
+                pixelSize: 18
+                color: root.iconsVisible ? Colors.accent : Colors.m3onSurfaceVariant
+                // Rotated 180° → looks like chevron_left when collapsed.
+                rotation: root.iconsVisible ? 0 : 180
 
+                layer.enabled: true
+                layer.smooth: true
+
+                Behavior on rotation { Motion.SpatialEmph {} }
                 Behavior on color { Motion.ColorFadeQuick {} }
             }
         }
