@@ -33,8 +33,6 @@
 
         no_anim = [
           "quickshell:notifications:overlay"
-          "quickshell:sidebar"
-
         ];
       in
       [

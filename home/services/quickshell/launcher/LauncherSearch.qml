@@ -36,6 +36,7 @@ Singleton {
             type: "App",
             iconType: "system",
             iconName: a.icon,
+            iconSource: AppSearch.iconPath(a.icon),
             verb: "Open",
             comment: a.comment || "",
             execute: () => {

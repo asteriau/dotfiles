@@ -17,16 +17,9 @@ Scope {
     readonly property bool dnd: Config.doNotDisturb
     readonly property var notifs: scope.dnd ? [] : NotificationState.popupNotifs
 
-    // Mirrors bar position. bar=left → top-right; bar=right → top-left;
-    // bar=top → top-right (offset below bar); bar=bottom → bottom-right
-    // (offset above bar).
-    readonly property string resolved: {
-        switch (Config.bar.position) {
-            case "right":  return "top-left";
-            case "bottom": return "bottom-right";
-            default:       return "top-right";
-        }
-    }
+    // Mirrors bar position. bar=left/top/bottom → top-right;
+    // bar=right → top-left.
+    readonly property string resolved: Config.bar.position === "right" ? "top-left" : "top-right"
 
     readonly property bool anchorTop:    resolved.startsWith("top")
     readonly property bool anchorBottom: resolved.startsWith("bottom")

@@ -83,7 +83,9 @@ Item {
         Component {
             id: sysIconComp
             IconImage {
-                source: Quickshell.iconPath(root.entry?.iconName ?? "", "application-x-executable")
+                source: root.entry?.iconSource
+                    ?? Quickshell.iconPath(root.entry?.iconName ?? "", "application-x-executable")
+                asynchronous: true
                 anchors.fill: parent
             }
         }
