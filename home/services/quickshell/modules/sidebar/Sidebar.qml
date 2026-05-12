@@ -3,7 +3,6 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
-import qs.modules.sidebar.menus
 import qs.modules.common
 
 Scope {
@@ -67,11 +66,7 @@ Scope {
 
         SidebarChrome {
             anchors.fill: parent
-
-            WifiMenu      { anchors.fill: parent }
-            BluetoothMenu { anchors.fill: parent }
-            MicMenu       { anchors.fill: parent }
-            VolumeMenu    { anchors.fill: parent }
+            SidebarMenuStack { anchors.fill: parent }
         }
     }
 }
