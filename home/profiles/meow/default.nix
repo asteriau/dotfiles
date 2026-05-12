@@ -15,10 +15,7 @@
     ../../services/media
 
     # system services
-    ../../services/system/kdeconnect.nix
-    ../../services/system/polkit-agent.nix
-    ../../services/system/tailray.nix
-    ../../services/system/udiskie.nix
+    ../../services/system
 
     # terminal emulators
     ../../terminal/emulators/foot.nix
