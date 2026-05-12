@@ -68,7 +68,7 @@ Item {
         }
 
         readonly property var biggestWindow:
-            WorkspaceAppData.biggestWindowForWorkspace(root.workspaceValue)
+            WindowList.biggestWindowForWorkspace(root.workspaceValue)
         readonly property string iconSource:
             Quickshell.iconPath(
                 WorkspaceIcons.guessIcon(biggestWindow?.class ?? ""),

@@ -32,7 +32,7 @@ WindowDialog {
         bottomMargin: 12
         clip: true
         spacing: 4
-        model: PipeWireState.sinkStreams
+        model: Audio.sinkStreams
         ScrollBar.vertical: ScrollBar {}
         delegate: AppVolumeRow {
             width: ListView.view.width
@@ -49,11 +49,11 @@ WindowDialog {
         spacing: 0
 
         Repeater {
-            model: PipeWireState.sinks
+            model: Audio.sinks
             delegate: AudioDeviceRow {
-                isDefault: PipeWireState.defaultSink && modelData
-                    && PipeWireState.defaultSink.id === modelData.id
-                onSelected: (node) => PipeWireState.setDefaultSink(node)
+                isDefault: Audio.defaultSink && modelData
+                    && Audio.defaultSink.id === modelData.id
+                onSelected: (node) => Audio.setDefaultSink(node)
             }
         }
     }

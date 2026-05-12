@@ -11,8 +11,8 @@ Item {
     Layout.fillWidth: true
     implicitHeight: row.implicitHeight
 
-    Component.onCompleted: WeatherState.subscribe()
-    Component.onDestruction: WeatherState.unsubscribe()
+    Component.onCompleted: Weather.subscribe()
+    Component.onDestruction: Weather.unsubscribe()
 
     property date now: new Date()
     readonly property string longDateLabel: {
@@ -59,10 +59,10 @@ Item {
 
             RowLayout {
                 spacing: 6
-                visible: WeatherState.ready
+                visible: Weather.ready
 
                 MaterialIcon {
-                    text: WeatherState.glyph
+                    text: Weather.glyph
                     pixelSize: 14
                     fill: 1
                     weight: 450
@@ -71,7 +71,7 @@ Item {
                 }
 
                 StyledText {
-                    text: Math.round(WeatherState.temp) + "°"
+                    text: Math.round(Weather.temp) + "°"
                     color: Appearance.colors.m3onSurfaceVariant
                     font.pixelSize: Appearance.typography.smaller
                     font.weight: Font.Medium
@@ -85,7 +85,7 @@ Item {
 
                 StyledText {
                     text: {
-                        const d = WeatherState.description || WeatherState.condition;
+                        const d = Weather.description || Weather.condition;
                         return d ? d.charAt(0).toUpperCase() + d.slice(1) : "";
                     }
                     color: Appearance.colors.m3onSurfaceVariant

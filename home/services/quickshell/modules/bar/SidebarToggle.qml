@@ -46,7 +46,7 @@ PressablePill {
     }
 
     onClicked: {
-        NotificationState.notifOverlayOpen = false;
+        Notifications.notifOverlayOpen = false;
         UiState.showSidebar = !UiState.showSidebar;
     }
 }

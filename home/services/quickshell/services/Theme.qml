@@ -40,15 +40,10 @@ Singleton {
     property bool _warnedMissing: false
     property bool _warnedParse:   false
 
-    readonly property string shellDir: {
-        const u = Qt.resolvedUrl("../..").toString();
-        return u.replace(/^file:\/\//, "").replace(/\/$/, "");
-    }
-
     readonly property string activePath: {
         if (Config.theme.mode === "matugen")
-            return root.shellDir + "/state/colors.json";
-        return root.shellDir + "/themes/" + Config.theme.preset + ".json";
+            return Directories.shellDir + "/state/colors.json";
+        return Directories.shellDir + "/themes/" + Config.theme.preset + ".json";
     }
 
     function _val(key: string): string {
@@ -87,7 +82,7 @@ Singleton {
     function reload(): void {
         if (Config.theme.mode !== "matugen") return;
         reloader.running = false;
-        reloader.command = ["cat", root.shellDir + "/state/colors.json"];
+        reloader.command = ["cat", Directories.shellDir + "/state/colors.json"];
         reloader.running = true;
     }
 
@@ -192,7 +187,7 @@ Singleton {
             "bash", "-c",
             'printf "include = %s/.config/foot/colors.ini\\n" "$HOME" > "$1" && pkill -SIGUSR1 foot 2>/dev/null || true',
             "--",
-            root.shellDir + "/state/foot.ini"
+            Directories.shellDir + "/state/foot.ini"
         ];
         footClear.running = true;
     }
@@ -203,7 +198,7 @@ Singleton {
             "bash", "-c",
             ': > "$1" && hyprctl reload >/dev/null 2>&1 || true',
             "--",
-            root.shellDir + "/state/hyprland.conf"
+            Directories.shellDir + "/state/hyprland.conf"
         ];
         hyprlandClear.running = true;
     }

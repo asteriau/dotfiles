@@ -33,11 +33,11 @@ DialogListItem {
 
     onClicked: {
         if (row.isActive) {
-            NetworkState.disconnect(row.ssid);
+            Network.disconnect(row.ssid);
         } else if (row.secure && !row.known) {
             row.asking = !row.asking;
         } else {
-            NetworkState.connect(row.ssid, "");
+            Network.connect(row.ssid, "");
         }
     }
 
@@ -127,7 +127,7 @@ DialogListItem {
                     onClicked: trigger()
                     function trigger() {
                         if (pwField.text.length === 0) return;
-                        NetworkState.connect(row.ssid, pwField.text);
+                        Network.connect(row.ssid, pwField.text);
                     }
                 }
             }
@@ -135,7 +135,7 @@ DialogListItem {
     }
 
     Connections {
-        target: NetworkState
+        target: Network
         function onPasswordRequired(ssid) {
             if (ssid === row.ssid) {
                 row.asking = true;

@@ -17,7 +17,7 @@ Scope {
     id: scope
 
     readonly property bool dnd: Config.notifications.doNotDisturb
-    readonly property var notifs: scope.dnd ? [] : NotificationState.popupNotifs
+    readonly property var notifs: scope.dnd ? [] : Notifications.popupNotifs
 
     // Mirrors bar position. bar=left/top/bottom → top-right;
     // bar=right → top-left.

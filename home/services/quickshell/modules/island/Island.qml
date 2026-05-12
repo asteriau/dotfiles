@@ -17,7 +17,7 @@ Scope {
     required property var launcher
 
     // State sources
-    readonly property MprisPlayer player: MprisState.player
+    readonly property MprisPlayer player: MprisController.player
     readonly property bool mediaActive: player !== null
 
     readonly property bool launcherOpen: launcher?.open ?? false
@@ -31,7 +31,7 @@ Scope {
     // Hide entirely when any window on the active workspace is fullscreen
     readonly property HyprlandMonitor _hMonitor: Hyprland.monitorFor(win.screen)
     readonly property int _activeWsId: _hMonitor?.activeWorkspace?.id ?? -1
-    readonly property bool fullscreenActive: WorkspaceAppData.windowList.some(w =>
+    readonly property bool fullscreenActive: WindowList.windowList.some(w =>
         (w.fullscreen ?? 0) > 0 && (w.workspace?.id ?? -2) === _activeWsId)
 
     // Resolved priority: launcher > osd > battery > media > home (idle)

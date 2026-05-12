@@ -18,7 +18,7 @@ import qs.services
 Item {
     id: root
 
-    property MprisPlayer player: MprisState.player
+    property MprisPlayer player: MprisController.player
     property real radius: Appearance.island.expandRadius
     property Item backdropMask: null
     property real contentSideInset: 0
@@ -33,10 +33,10 @@ Item {
     property bool downloaded: false
     property color artDominantColor: ColorUtils.mix((colorQuantizer?.colors[0] ?? Appearance.colors.accent), Appearance.colors.primaryContainer, 0.8)
 
-    readonly property bool browserPlayer:      MprisState.isBrowserPlayer(player?.dbusName ?? "")
-    readonly property string playerctlName:    MprisState.playerctlNameFromDbus(player?.dbusName ?? "")
-    readonly property bool artIsRemote:        MprisState.isRemoteArt(artUrl)
-    readonly property string immediateArtSource: MprisState.resolveArtSource(artUrl)
+    readonly property bool browserPlayer:      MprisController.isBrowserPlayer(player?.dbusName ?? "")
+    readonly property string playerctlName:    MprisController.playerctlNameFromDbus(player?.dbusName ?? "")
+    readonly property bool artIsRemote:        MprisController.isRemoteArt(artUrl)
+    readonly property string immediateArtSource: MprisController.resolveArtSource(artUrl)
 
     readonly property string displayedArtFilePath: {
         if (artUrl.length === 0) return "";
@@ -86,9 +86,9 @@ Item {
         property string artFilePath: root.artFilePath
         command: [
             "bash", "-c",
-            `mkdir -p ${MprisState.shellQuote(root.artDownloadLocation)} && `
-            + `{ [ -s ${MprisState.shellQuote(artFilePath)} ] || `
-            + `curl -L --fail -sS ${MprisState.shellQuote(targetFile)} -o ${MprisState.shellQuote(artFilePath)}; }`
+            `mkdir -p ${MprisController.shellQuote(root.artDownloadLocation)} && `
+            + `{ [ -s ${MprisController.shellQuote(artFilePath)} ] || `
+            + `curl -L --fail -sS ${MprisController.shellQuote(targetFile)} -o ${MprisController.shellQuote(artFilePath)}; }`
         ]
         onExited: exitCode => root.downloaded = exitCode === 0
     }

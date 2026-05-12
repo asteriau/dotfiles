@@ -11,7 +11,7 @@ import qs.services
 Item {
     id: root
 
-    readonly property MprisPlayer player: MprisState.player
+    readonly property MprisPlayer player: MprisController.player
     readonly property bool hasMedia: player !== null
 
     property string timeText: ""
@@ -93,22 +93,22 @@ Item {
 
             RowLayout {
                 Layout.fillWidth: true
-                visible: BatteryState.present
+                visible: Battery.present
                 spacing: 10
 
                 MaterialIcon {
-                    text: BatteryState.charging ? "battery_charging_full" : "battery_5_bar"
+                    text: Battery.charging ? "battery_charging_full" : "battery_5_bar"
                     fill: 1
                     pixelSize: 18
-                    color: BatteryState.low ? "#e0c060"
-                          : (BatteryState.charging ? Appearance.colors.accent : Appearance.colors.foreground)
+                    color: Battery.low ? "#e0c060"
+                          : (Battery.charging ? Appearance.colors.accent : Appearance.colors.foreground)
                 }
                 StyledText {
                     Layout.fillWidth: true
                     variant: StyledText.Variant.Body
                     color: Appearance.colors.foreground
-                    text: Math.round(BatteryState.level * 100) + "%"
-                          + (BatteryState.charging ? " · Charging" : "")
+                    text: Math.round(Battery.level * 100) + "%"
+                          + (Battery.charging ? " · Charging" : "")
                 }
             }
 

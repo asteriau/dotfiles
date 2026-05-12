@@ -14,12 +14,12 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 import qs.modules.wallpaper
-import Quickshell // for ShellRoot and PanelWindow
-import Quickshell.Hyprland // for GlobalShortcut
+import qs.services
+import Quickshell
+import Quickshell.Hyprland
 
 ShellRoot {
-    // Keep MatugenState alive so its Connections auto-regen on wallpaper/scheme changes
-    readonly property var _matugen: MatugenState
+    readonly property var _matugen: Matugen
 
     Background {}
     Bar {}

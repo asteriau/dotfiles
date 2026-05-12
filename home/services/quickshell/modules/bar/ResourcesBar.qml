@@ -8,8 +8,8 @@ import qs.services
 PressablePill {
     id: root
 
-    Component.onCompleted: ResourcesState.subscribe()
-    Component.onDestruction: ResourcesState.unsubscribe()
+    Component.onCompleted: Resources.subscribe()
+    Component.onDestruction: Resources.unsubscribe()
 
     implicitWidth:  Appearance.bar.width - Appearance.layout.gapSm * 2
     implicitHeight: col.implicitHeight + 8
@@ -29,7 +29,7 @@ PressablePill {
         CircularProgress {
             implicitSize: 20
             lineWidth: 2
-            value: ResourcesState.memoryUsedPercentage
+            value: Resources.memoryUsedPercentage
             color: Appearance.colors.m3onSecondaryContainer
             enableAnimation: true
 
@@ -48,8 +48,8 @@ PressablePill {
         CircularProgress {
             implicitSize: 20
             lineWidth: 2
-            visible: ResourcesState.swapTotal > 0
-            value: ResourcesState.swapUsedPercentage
+            visible: Resources.swapTotal > 0
+            value: Resources.swapUsedPercentage
             color: Appearance.colors.m3onSecondaryContainer
             enableAnimation: true
 
@@ -68,7 +68,7 @@ PressablePill {
         CircularProgress {
             implicitSize: 20
             lineWidth: 2
-            value: ResourcesState.cpuUsage
+            value: Resources.cpuUsage
             color: Appearance.colors.m3onSecondaryContainer
             enableAnimation: true
 

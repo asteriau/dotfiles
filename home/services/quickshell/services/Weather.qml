@@ -107,7 +107,7 @@ Singleton {
                     root.lastUpdated = new Date();
                     root.ready = true;
                 } catch (e) {
-                    console.warn("WeatherState parse failed:", e);
+                    console.warn("Weather parse failed:", e);
                 }
             }
         }

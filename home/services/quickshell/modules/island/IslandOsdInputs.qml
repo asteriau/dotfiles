@@ -30,10 +30,10 @@ Item {
     }
 
     Connections {
-        target: PipeWireState.defaultSink ? PipeWireState.defaultSink.audio : null
+        target: Audio.defaultSink ? Audio.defaultSink.audio : null
         function update() {
-            const muted = PipeWireState.defaultSink?.audio.muted ?? false;
-            const vol   = PipeWireState.defaultSink?.audio.volume ?? 0;
+            const muted = Audio.defaultSink?.audio.muted ?? false;
+            const vol   = Audio.defaultSink?.audio.volume ?? 0;
             const changed = !root._seededSink
                 || muted !== root._lastSinkMuted
                 || Math.abs(vol - root._lastSinkVol) > 0.0005;
@@ -54,10 +54,10 @@ Item {
     }
 
     Connections {
-        target: PipeWireState.defaultSource ? PipeWireState.defaultSource.audio : null
+        target: Audio.defaultSource ? Audio.defaultSource.audio : null
         function update() {
-            const muted = PipeWireState.defaultSource?.audio.muted ?? false;
-            const vol   = PipeWireState.defaultSource?.audio.volume ?? 0;
+            const muted = Audio.defaultSource?.audio.muted ?? false;
+            const vol   = Audio.defaultSource?.audio.volume ?? 0;
             const changed = !root._seededSource
                 || muted !== root._lastSourceMuted
                 || Math.abs(vol - root._lastSourceVol) > 0.0005;
@@ -76,18 +76,18 @@ Item {
     }
 
     Connections {
-        target: BrightnessState
+        target: Brightness
         function onBrightnessChanged() {
             root.icon = "brightness_medium";
             root.label = "Brightness";
-            root.progress = BrightnessState.brightness ?? 0;
+            root.progress = Brightness.brightness ?? 0;
             root.active = true;
             hideTimer.restart();
         }
     }
 
     Connections {
-        target: OsdState
+        target: Osd
         function onShow(icon, label, progress) {
             root.icon = icon;
             root.label = label;

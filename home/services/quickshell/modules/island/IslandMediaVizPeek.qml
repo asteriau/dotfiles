@@ -9,7 +9,7 @@ import qs.services
 Item {
     id: root
 
-    property MprisPlayer player: MprisState.player
+    property MprisPlayer player: MprisController.player
     readonly property bool playing: player?.isPlaying ?? false
     property color accentColor: Appearance.colors.accent
 

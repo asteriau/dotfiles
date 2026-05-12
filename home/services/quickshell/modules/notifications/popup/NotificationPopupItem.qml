@@ -30,7 +30,7 @@ Item {
         running: !root.isCritical && !hover.hovered && root.n !== null
         repeat: false
         onTriggered: {
-            if (root.n) NotificationState.notifDismissByNotif(root.n);
+            if (root.n) Notifications.notifDismissByNotif(root.n);
         }
     }
 

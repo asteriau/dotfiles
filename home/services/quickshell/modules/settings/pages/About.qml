@@ -8,8 +8,8 @@ import qs.modules.common.models
 import qs.services
 
 ContentPage {
-    Component.onCompleted: SystemInfoState.subscribe()
-    Component.onDestruction: SystemInfoState.unsubscribe()
+    Component.onCompleted: SystemInfo.subscribe()
+    Component.onDestruction: SystemInfo.unsubscribe()
 
     ColumnLayout {
         Layout.fillWidth: true
@@ -35,10 +35,10 @@ ContentPage {
     ContentSection {
         title: "System"
 
-        InfoRow { label: "Distro";   value: SystemInfoState.distro }
-        InfoRow { label: "Kernel";   value: SystemInfoState.kernel }
-        InfoRow { label: "Hostname"; value: SystemInfoState.hostname }
-        InfoRow { label: "WM";       value: SystemInfoState.desktop }
-        InfoRow { label: "Uptime";   value: SystemInfoState.uptime }
+        InfoRow { label: "Distro";   value: SystemInfo.distro }
+        InfoRow { label: "Kernel";   value: SystemInfo.kernel }
+        InfoRow { label: "Hostname"; value: SystemInfo.hostname }
+        InfoRow { label: "WM";       value: SystemInfo.desktop }
+        InfoRow { label: "Uptime";   value: SystemInfo.uptime }
     }
 }

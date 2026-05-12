@@ -14,15 +14,15 @@ WindowDialog {
     onDismiss: UiState.sidebarMenu = "none"
 
     onShowChanged: {
-        if (show) { NetworkState.subscribe(); NetworkState.rescan(); }
-        else NetworkState.unsubscribe();
+        if (show) { Network.subscribe(); Network.rescan(); }
+        else Network.unsubscribe();
     }
 
     DialogTitle { text: "Connect to Wi-Fi" }
 
-    DialogSeparator { visible: !NetworkState.scanning }
+    DialogSeparator { visible: !Network.scanning }
     DialogProgressBar {
-        active: NetworkState.scanning
+        active: Network.scanning
         Layout.topMargin: -8
         Layout.bottomMargin: -8
         Layout.leftMargin: -Appearance.layout.radiusLg
@@ -39,10 +39,10 @@ WindowDialog {
 
         ListView {
             anchors.fill: parent
-            visible: NetworkState.wifiEnabled && NetworkState.wifiNetworks.length > 0
+            visible: Network.wifiEnabled && Network.wifiNetworks.length > 0
             clip: true
             spacing: 0
-            model: NetworkState.wifiNetworks
+            model: Network.wifiNetworks
             ScrollBar.vertical: ScrollBar {}
             delegate: WifiNetworkRow {
                 width: ListView.view.width
@@ -52,8 +52,8 @@ WindowDialog {
         ColumnLayout {
             anchors.centerIn: parent
             width: parent.width - 32
-            visible: !NetworkState.wifiEnabled
-                || (NetworkState.wifiNetworks.length === 0 && !NetworkState.scanning)
+            visible: !Network.wifiEnabled
+                || (Network.wifiNetworks.length === 0 && !Network.scanning)
             spacing: Appearance.layout.gapSm
 
             Text {
@@ -67,7 +67,7 @@ WindowDialog {
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                text: !NetworkState.wifiEnabled ? "Wi-Fi is off" : "No networks found"
+                text: !Network.wifiEnabled ? "Wi-Fi is off" : "No networks found"
                 color: Appearance.colors.m3onSurface
                 font.family: Config.typography.family
                 font.pixelSize: Appearance.typography.smallie
@@ -77,7 +77,7 @@ WindowDialog {
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                text: !NetworkState.wifiEnabled
+                text: !Network.wifiEnabled
                     ? "Enable it from the toggle, or check your adapter"
                     : "Press Rescan to search again"
                 color: Appearance.colors.m3onSurfaceInactive
@@ -93,8 +93,8 @@ WindowDialog {
     DialogButtonRow {
         DialogButton {
             text: "Rescan"
-            enabled: NetworkState.wifiEnabled && !NetworkState.scanning
-            onClicked: NetworkState.rescan()
+            enabled: Network.wifiEnabled && !Network.scanning
+            onClicked: Network.rescan()
         }
 
         Item { Layout.fillWidth: true }

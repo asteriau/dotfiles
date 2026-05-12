@@ -8,10 +8,10 @@ import qs.services
 Item {
     id: root
 
-    Component.onCompleted: WeatherState.subscribe()
-    Component.onDestruction: WeatherState.unsubscribe()
+    Component.onCompleted: Weather.subscribe()
+    Component.onDestruction: Weather.unsubscribe()
 
-    visible: WeatherState.ready
+    visible: Weather.ready
 
     implicitWidth:  row.implicitWidth + Appearance.layout.gapMd * 2
     implicitHeight: Appearance.bar.height
@@ -30,14 +30,14 @@ Item {
         anchors.centerIn: parent
 
         MaterialIcon {
-            text: WeatherState.glyph
+            text: Weather.glyph
             pixelSize: Appearance.typography.normal
             color: Appearance.colors.foreground
             anchors.verticalCenter: parent.verticalCenter
         }
 
         Text {
-            text: Math.round(WeatherState.temp) + "°"
+            text: Math.round(Weather.temp) + "°"
             font.family: Config.typography.family
             font.pixelSize: Appearance.typography.small
             color: Appearance.colors.foreground

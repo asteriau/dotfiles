@@ -12,14 +12,14 @@ Item {
     Layout.fillWidth: true
     implicitHeight: card.implicitHeight
 
-    readonly property bool wifiOn: NetworkState.wifiEnabled
-    readonly property bool ethernetConnected: NetworkState.ethernetConnected
-    readonly property bool btOn: BluetoothState.enabled
-    readonly property bool micMuted: PipeWireState.defaultSource?.audio?.muted ?? false
+    readonly property bool wifiOn: Network.wifiEnabled
+    readonly property bool ethernetConnected: Network.ethernetConnected
+    readonly property bool btOn: BluetoothController.enabled
+    readonly property bool micMuted: Audio.defaultSource?.audio?.muted ?? false
     readonly property bool dnd: Config.notifications.doNotDisturb
 
-    Component.onCompleted: NetworkState.subscribe()
-    Component.onDestruction: NetworkState.unsubscribe()
+    Component.onCompleted: Network.subscribe()
+    Component.onDestruction: Network.unsubscribe()
 
     Rectangle {
         id: card
@@ -42,14 +42,14 @@ Item {
                 enabled: !root.ethernetConnected
                 onActivated: {
                     if (root.ethernetConnected) return;
-                    NetworkState.setWifiEnabled(!root.wifiOn);
+                    Network.setWifiEnabled(!root.wifiOn);
                 }
                 onRightActivated: UiState.sidebarMenu = "wifi"
             }
             ToggleButton {
                 icon: root.btOn ? "bluetooth" : "bluetooth_disabled"
                 active: root.btOn
-                onActivated: BluetoothState.setEnabled(!root.btOn)
+                onActivated: BluetoothController.setEnabled(!root.btOn)
                 onRightActivated: UiState.sidebarMenu = "bluetooth"
             }
             ToggleButton {
@@ -61,7 +61,7 @@ Item {
                 icon: root.micMuted ? "mic_off" : "mic"
                 active: !root.micMuted
                 onActivated: {
-                    const src = PipeWireState.defaultSource;
+                    const src = Audio.defaultSource;
                     if (src?.audio)
                         src.audio.muted = !src.audio.muted;
                 }

@@ -24,7 +24,7 @@ Item {
     }
 
     function syncFromSource() {
-        const src = NotificationState.allNotifs;
+        const src = Notifications.allNotifs;
         const srcSet = new Set(src);
         for (let i = 0; i < localModel.count; i++) {
             const item = localModel.get(i);
@@ -58,7 +58,7 @@ Item {
     Component.onCompleted: syncFromSource()
 
     Connections {
-        target: NotificationState
+        target: Notifications
         function onAllNotifsChanged() {
             root.syncFromSource();
         }

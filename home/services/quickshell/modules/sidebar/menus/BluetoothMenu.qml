@@ -13,13 +13,13 @@ WindowDialog {
     show: UiState.sidebarMenu === "bluetooth"
     onDismiss: UiState.sidebarMenu = "none"
 
-    onShowChanged: show ? BluetoothState.subscribe() : BluetoothState.unsubscribe()
+    onShowChanged: show ? BluetoothController.subscribe() : BluetoothController.unsubscribe()
 
     DialogTitle { text: "Bluetooth devices" }
 
-    DialogSeparator { visible: !BluetoothState.discovering }
+    DialogSeparator { visible: !BluetoothController.discovering }
     DialogProgressBar {
-        active: BluetoothState.discovering
+        active: BluetoothController.discovering
         Layout.topMargin: -8
         Layout.bottomMargin: -8
         Layout.leftMargin: -Appearance.layout.radiusLg
@@ -36,10 +36,10 @@ WindowDialog {
 
         ListView {
             anchors.fill: parent
-            visible: BluetoothState.devices.length > 0
+            visible: BluetoothController.devices.length > 0
             clip: true
             spacing: 0
-            model: BluetoothState.devices
+            model: BluetoothController.devices
             ScrollBar.vertical: ScrollBar {}
             delegate: BluetoothDeviceRow {
                 width: ListView.view.width
@@ -49,12 +49,12 @@ WindowDialog {
         ColumnLayout {
             anchors.centerIn: parent
             width: parent.width - 32
-            visible: BluetoothState.devices.length === 0
+            visible: BluetoothController.devices.length === 0
             spacing: Appearance.layout.gapSm
 
             Text {
                 Layout.alignment: Qt.AlignHCenter
-                text: BluetoothState.adapter ? "bluetooth_searching" : "bluetooth_disabled"
+                text: BluetoothController.adapter ? "bluetooth_searching" : "bluetooth_disabled"
                 color: Appearance.colors.m3onSurfaceInactive
                 font.family: Appearance.typography.iconFamily
                 font.pixelSize: 32
@@ -63,9 +63,9 @@ WindowDialog {
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                text: !BluetoothState.adapter
+                text: !BluetoothController.adapter
                     ? "No Bluetooth controller"
-                    : (!BluetoothState.enabled ? "Bluetooth is off" : "No devices found")
+                    : (!BluetoothController.enabled ? "Bluetooth is off" : "No devices found")
                 color: Appearance.colors.m3onSurface
                 font.family: Config.typography.family
                 font.pixelSize: Appearance.typography.smallie
@@ -75,10 +75,10 @@ WindowDialog {
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
-                visible: !BluetoothState.adapter || !BluetoothState.enabled || BluetoothState.devices.length === 0
-                text: !BluetoothState.adapter
+                visible: !BluetoothController.adapter || !BluetoothController.enabled || BluetoothController.devices.length === 0
+                text: !BluetoothController.adapter
                     ? "Plug in or enable a Bluetooth adapter"
-                    : (!BluetoothState.enabled ? "Enable it from the toggle" : "Make sure the device is in pairing mode")
+                    : (!BluetoothController.enabled ? "Enable it from the toggle" : "Make sure the device is in pairing mode")
                 color: Appearance.colors.m3onSurfaceInactive
                 font.family: Config.typography.family
                 font.pixelSize: Appearance.typography.smaller

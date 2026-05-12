@@ -32,13 +32,13 @@ WindowDialog {
         bottomMargin: 12
         clip: true
         spacing: 4
-        model: PipeWireState.sources
+        model: Audio.sources
         ScrollBar.vertical: ScrollBar {}
         delegate: AudioDeviceRow {
             width: ListView.view.width
-            isDefault: PipeWireState.defaultSource && modelData
-                && PipeWireState.defaultSource.id === modelData.id
-            onSelected: (node) => PipeWireState.setDefaultSource(node)
+            isDefault: Audio.defaultSource && modelData
+                && Audio.defaultSource.id === modelData.id
+            onSelected: (node) => Audio.setDefaultSource(node)
         }
     }
 

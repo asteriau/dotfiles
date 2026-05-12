@@ -69,7 +69,7 @@ Item {
 
     function closeSelf() {
         if (root.n)
-            NotificationState.notifCloseByNotif(root.n);
+            Notifications.notifCloseByNotif(root.n);
     }
 
     Rectangle {

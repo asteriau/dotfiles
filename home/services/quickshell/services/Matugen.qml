@@ -6,14 +6,10 @@ import Quickshell.Io
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
+import qs.services
 
 Singleton {
     id: root
-
-    readonly property string shellDir: {
-        const u = Qt.resolvedUrl("../..").toString();
-        return u.replace(/^file:\/\//, "").replace(/\/$/, "");
-    }
 
     readonly property bool running: matugenProc.running
 
@@ -48,7 +44,7 @@ Singleton {
             'exec hyprctl reload';
         matugenProc.running = false;
         matugenProc.environment = {
-            "SHELL_DIR": root.shellDir,
+            "SHELL_DIR": Directories.shellDir,
             "WALLPAPER": wp,
             "MODE":      Config.theme.matugen.dark ? "dark" : "light",
             "SCHEME":    Config.theme.matugen.scheme,

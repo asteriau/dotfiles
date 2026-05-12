@@ -11,9 +11,9 @@ import qs.services
 ClippingRectangle {
     id: root
 
-    property MprisPlayer player: MprisState.player
+    property MprisPlayer player: MprisController.player
     readonly property string artUrl: (player?.trackArtUrl ?? "").toString()
-    readonly property string resolvedArt: artUrl ? MprisState.resolveArtSource(artUrl) : ""
+    readonly property string resolvedArt: artUrl ? MprisController.resolveArtSource(artUrl) : ""
 
     radius: width / 2
     color: Appearance.colors.surfaceContainerHighest

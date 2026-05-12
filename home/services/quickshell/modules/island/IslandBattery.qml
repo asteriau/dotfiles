@@ -12,10 +12,10 @@ Item {
 
     property bool expanded: false
 
-    readonly property real level: BatteryState.level
-    readonly property bool charging: BatteryState.charging
-    readonly property bool low: BatteryState.low
-    readonly property bool critical: BatteryState.critical
+    readonly property real level: Battery.level
+    readonly property bool charging: Battery.charging
+    readonly property bool low: Battery.low
+    readonly property bool critical: Battery.critical
 
     readonly property color tint: critical
         ? "#ff5454"
@@ -103,7 +103,7 @@ Item {
             }
             StyledText {
                 variant: StyledText.Variant.BodySm
-                text: BatteryState.status
+                text: Battery.status
                 color: Appearance.colors.foreground
                 opacity: 0.7
             }

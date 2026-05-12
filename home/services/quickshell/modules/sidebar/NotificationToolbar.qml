@@ -14,7 +14,7 @@ RowLayout {
     Layout.fillWidth: true
     spacing: 8
 
-    readonly property int notifCount: NotificationState.allNotifs.length
+    readonly property int notifCount: Notifications.allNotifs.length
 
     StyledText {
         Layout.fillWidth: true
@@ -36,6 +36,6 @@ RowLayout {
     PillToggle {
         icon: "delete_sweep"
         active: root.notifCount > 0
-        onClicked: NotificationState.closeAll()
+        onClicked: Notifications.closeAll()
     }
 }

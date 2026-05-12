@@ -13,7 +13,7 @@ import qs.services
 Rectangle {
     id: root
 
-    readonly property bool nlActive: NightLightState.active
+    readonly property bool nlActive: NightLight.active
     property real verticalPadding: 14
     property real horizontalPadding: 12
 
@@ -44,26 +44,26 @@ Rectangle {
             materialSymbol: "light_mode"
             secondaryMaterialSymbol: "wb_twilight"
             iconLocation: 0.3
-            stopIndicatorValues: (root.nlActive && (BrightnessState.brightness ?? 0) > 0)
-                ? [0.3 + (BrightnessState.brightness ?? 0) * 0.7]
+            stopIndicatorValues: (root.nlActive && (Brightness.brightness ?? 0) > 0)
+                ? [0.3 + (Brightness.brightness ?? 0) * 0.7]
                 : []
             value: {
                 if (root.nlActive) {
-                    const nlSlider = NightLightState.tempToSlider(NightLightState.temperature);
+                    const nlSlider = NightLight.tempToSlider(NightLight.temperature);
                     return 0.3 - nlSlider * 0.3;
                 }
-                return 0.3 + (BrightnessState.brightness ?? 0) * 0.7;
+                return 0.3 + (Brightness.brightness ?? 0) * 0.7;
             }
             onMoved: {
                 if (value >= 0.3) {
-                    BrightnessState.setBrightness((value - 0.3) / 0.7);
+                    Brightness.setBrightness((value - 0.3) / 0.7);
                     if (root.nlActive)
-                        NightLightState.setTemperature(NightLightState.maxTemp);
+                        NightLight.setTemperature(NightLight.maxTemp);
                 } else {
-                    if ((BrightnessState.brightness ?? 0) !== 0)
-                        BrightnessState.setBrightness(0);
+                    if ((Brightness.brightness ?? 0) !== 0)
+                        Brightness.setBrightness(0);
                     const nlSlider = 1 - value / 0.3;
-                    NightLightState.setTemperature(NightLightState.sliderToTemp(nlSlider));
+                    NightLight.setTemperature(NightLight.sliderToTemp(nlSlider));
                 }
             }
         }
@@ -74,9 +74,9 @@ Rectangle {
                 right: parent.right
             }
             materialSymbol: "volume_up"
-            value: PipeWireState.defaultSink?.audio?.volume ?? 0
+            value: Audio.defaultSink?.audio?.volume ?? 0
             onMoved: {
-                const a = PipeWireState.defaultSink?.audio;
+                const a = Audio.defaultSink?.audio;
                 if (a) a.volume = value;
             }
             onRightClicked: UiState.sidebarMenu = "volume"
@@ -88,9 +88,9 @@ Rectangle {
                 right: parent.right
             }
             materialSymbol: "mic"
-            value: PipeWireState.defaultSource?.audio?.volume ?? 0
+            value: Audio.defaultSource?.audio?.volume ?? 0
             onMoved: {
-                const a = PipeWireState.defaultSource?.audio;
+                const a = Audio.defaultSource?.audio;
                 if (a) a.volume = value;
             }
         }

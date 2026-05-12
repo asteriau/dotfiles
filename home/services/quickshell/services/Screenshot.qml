@@ -1,13 +1,13 @@
 pragma Singleton
+
 import QtQuick
 import Quickshell
 import qs.modules.common
-import qs.modules.common.functions
-import qs.modules.common.models
-import qs.services
 
 Singleton {
     id: root
+
+    property bool regionSelectorOpen: false
 
     enum Action {
         Copy,
@@ -28,7 +28,7 @@ Singleton {
         const slurpRegion = `${rx},${ry} ${rw}x${rh}`;
 
         switch (action) {
-            case ScreenshotAction.Action.Copy:
+            case Screenshot.Action.Copy:
                 if (saveDir === "") {
                     return ["bash", "-c", `${cropToStdout} | wl-copy && ${cleanup}`];
                 }
@@ -40,12 +40,12 @@ Singleton {
                     ${cropToStdout} | tee >(wl-copy) > "$savePath" && \
                     ${cleanup}`
                 ];
-            case ScreenshotAction.Action.Record:
+            case Screenshot.Action.Record:
                 return ["bash", "-c", `'${_esc(Directories.recordScriptPath)}' --region '${slurpRegion}'`];
-            case ScreenshotAction.Action.RecordWithSound:
+            case Screenshot.Action.RecordWithSound:
                 return ["bash", "-c", `'${_esc(Directories.recordScriptPath)}' --region '${slurpRegion}' --sound`];
             default:
-                console.warn("[ScreenshotAction] Unknown action:", action);
+                console.warn("[Screenshot] Unknown action:", action);
                 return null;
         }
     }

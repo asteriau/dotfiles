@@ -12,14 +12,14 @@ Scope {
     id: root
 
     function dismiss() {
-        ScreenshotState.regionSelectorOpen = false;
+        Screenshot.regionSelectorOpen = false;
     }
 
     property var action: RegionSelection.SnipAction.Copy
     property var selectionMode: RegionSelection.SelectionMode.RectCorners
 
     function _open() {
-        ScreenshotState.regionSelectorOpen = true;
+        Screenshot.regionSelectorOpen = true;
     }
 
     function screenshot() {
@@ -31,14 +31,14 @@ Scope {
     function record() {
         root.action = RegionSelection.SnipAction.Record;
         root.selectionMode = RegionSelection.SelectionMode.RectCorners;
-        if (ScreenshotState.regionSelectorOpen) ScreenshotState.regionSelectorOpen = false;
+        if (Screenshot.regionSelectorOpen) Screenshot.regionSelectorOpen = false;
         _open();
     }
 
     function recordWithSound() {
         root.action = RegionSelection.SnipAction.RecordWithSound;
         root.selectionMode = RegionSelection.SelectionMode.RectCorners;
-        if (ScreenshotState.regionSelectorOpen) ScreenshotState.regionSelectorOpen = false;
+        if (Screenshot.regionSelectorOpen) Screenshot.regionSelectorOpen = false;
         _open();
     }
 
@@ -47,7 +47,7 @@ Scope {
         delegate: LazyLoader {
             id: regionSelectorLoader
             required property var modelData
-            active: ScreenshotState.regionSelectorOpen
+            active: Screenshot.regionSelectorOpen
 
             component: RegionSelection {
                 screen: regionSelectorLoader.modelData

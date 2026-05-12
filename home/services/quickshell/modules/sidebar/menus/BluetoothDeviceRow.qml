@@ -108,14 +108,14 @@ DialogListItem {
                 visible: row.paired
                 text: "Forget"
                 variant: DialogButton.Variant.Danger
-                onClicked: BluetoothState.forget(row.modelData)
+                onClicked: BluetoothController.forget(row.modelData)
             }
 
             DialogButton {
                 visible: !row.paired
                 text: "Pair"
                 variant: DialogButton.Variant.Default
-                onClicked: BluetoothState.pair(row.modelData)
+                onClicked: BluetoothController.pair(row.modelData)
             }
 
             DialogButton {
@@ -123,8 +123,8 @@ DialogListItem {
                 text: row.connected ? "Disconnect" : "Connect"
                 variant: DialogButton.Variant.Primary
                 onClicked: {
-                    if (row.connected) BluetoothState.disconnect(row.modelData);
-                    else BluetoothState.connect(row.modelData);
+                    if (row.connected) BluetoothController.disconnect(row.modelData);
+                    else BluetoothController.connect(row.modelData);
                 }
             }
         }

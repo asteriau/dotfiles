@@ -13,8 +13,8 @@ ColumnLayout {
     width: 280
     spacing: 12
 
-    Component.onCompleted: ResourcesState.subscribe()
-    Component.onDestruction: ResourcesState.unsubscribe()
+    Component.onCompleted: Resources.subscribe()
+    Component.onDestruction: Resources.unsubscribe()
 
     StyledText {
         Layout.fillWidth: true
@@ -40,14 +40,14 @@ ColumnLayout {
             }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
-                text: (ResourcesState.memUsedStr || "0").split(" ")[0]
+                text: (Resources.memUsedStr || "0").split(" ")[0]
                 font.pixelSize: Appearance.typography.larger
                 font.weight: Font.Medium
                 color: Appearance.colors.foreground
             }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
-                text: "/ " + (ResourcesState.memTotalStr || "0")
+                text: "/ " + (Resources.memTotalStr || "0")
                 font.pixelSize: Appearance.typography.small
                 color: Appearance.colors.m3onSurfaceInactive
             }
@@ -62,8 +62,8 @@ ColumnLayout {
 
         StyledCombinedProgressBar {
             Layout.fillWidth: true
-            valueWeights: [ResourcesState.memoryTotal, ResourcesState.swapTotal]
-            values: [ResourcesState.memoryUsedPercentage, ResourcesState.swapUsedPercentage]
+            valueWeights: [Resources.memoryTotal, Resources.swapTotal]
+            values: [Resources.memoryUsedPercentage, Resources.swapUsedPercentage]
         }
     }
 
@@ -83,7 +83,7 @@ ColumnLayout {
             }
             StyledText {
                 Layout.alignment: Qt.AlignBaseline
-                text: Math.round(ResourcesState.cpuUsage * 100)
+                text: Math.round(Resources.cpuUsage * 100)
                 font.pixelSize: Appearance.typography.larger
                 font.weight: Font.Medium
                 color: Appearance.colors.foreground
@@ -105,9 +105,9 @@ ColumnLayout {
 
         StyledCombinedProgressBar {
             Layout.fillWidth: true
-            readonly property bool useSingleAggregate: ResourcesState.cpuCoreUsages.length > 8
-            valueWeights: useSingleAggregate ? [1.0] : (ResourcesState.cpuCoreWeights.length > 0 ? ResourcesState.cpuCoreWeights : [1.0])
-            values: useSingleAggregate ? [ResourcesState.cpuUsage] : (ResourcesState.cpuCoreUsages.length > 0 ? ResourcesState.cpuCoreUsages : [ResourcesState.cpuUsage])
+            readonly property bool useSingleAggregate: Resources.cpuCoreUsages.length > 8
+            valueWeights: useSingleAggregate ? [1.0] : (Resources.cpuCoreWeights.length > 0 ? Resources.cpuCoreWeights : [1.0])
+            values: useSingleAggregate ? [Resources.cpuUsage] : (Resources.cpuCoreUsages.length > 0 ? Resources.cpuCoreUsages : [Resources.cpuUsage])
         }
     }
 }

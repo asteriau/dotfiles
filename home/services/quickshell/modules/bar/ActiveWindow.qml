@@ -17,7 +17,7 @@ Item {
     readonly property Toplevel activeWindow: ToplevelManager.activeToplevel
     readonly property bool focusedHere: activeWindow?.activated ?? false
     readonly property int activeWorkspaceId: monitor?.activeWorkspace?.id ?? 1
-    readonly property var biggestWin: WorkspaceAppData.biggestWindowForWorkspace(activeWorkspaceId)
+    readonly property var biggestWin: WindowList.biggestWindowForWorkspace(activeWorkspaceId)
 
     readonly property string currentAppId: focusedHere && activeWindow && biggestWin
         ? activeWindow.appId : (biggestWin?.class ?? "")

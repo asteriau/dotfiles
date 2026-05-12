@@ -94,9 +94,9 @@ PanelWindow {
 
     function getScreenshotAction() {
         switch (root.action) {
-        case RegionSelection.SnipAction.Copy:           return ScreenshotAction.Action.Copy;
-        case RegionSelection.SnipAction.Record:         return ScreenshotAction.Action.Record;
-        case RegionSelection.SnipAction.RecordWithSound:return ScreenshotAction.Action.RecordWithSound;
+        case RegionSelection.SnipAction.Copy:           return Screenshot.Action.Copy;
+        case RegionSelection.SnipAction.Record:         return Screenshot.Action.Record;
+        case RegionSelection.SnipAction.RecordWithSound:return Screenshot.Action.RecordWithSound;
         default:
             console.warn("[RegionSelection] Unknown action");
             root.dismiss();
@@ -118,7 +118,7 @@ PanelWindow {
 
         const screenshotDir = Config.screenshot.savePath !== "" ? Config.screenshot.savePath : "";
         const screenshotAction = root.getScreenshotAction();
-        const command = ScreenshotAction.getCommand(
+        const command = Screenshot.getCommand(
             root.regionX * root.monitorScale,
             root.regionY * root.monitorScale,
             root.regionWidth * root.monitorScale,

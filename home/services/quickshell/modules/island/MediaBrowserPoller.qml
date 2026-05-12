@@ -50,8 +50,8 @@ Item {
             return;
         proc.command = [
             "bash", "-lc",
-            `playerctl -p ${MprisState.shellQuote(playerName)} status 2>/dev/null; `
-            + `playerctl -p ${MprisState.shellQuote(playerName)} position 2>/dev/null`
+            `playerctl -p ${MprisController.shellQuote(playerName)} status 2>/dev/null; `
+            + `playerctl -p ${MprisController.shellQuote(playerName)} position 2>/dev/null`
         ];
         proc.running = true;
     }
