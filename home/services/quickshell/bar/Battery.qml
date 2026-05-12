@@ -11,15 +11,15 @@ HoverTooltip {
     property bool vertical: Config.bar.vertical
 
     readonly property var  battery:    UPower.displayDevice
-    readonly property int  percentage: UiState.previewBattery ? 50 : Math.round(battery.percentage * 100)
-    readonly property real fraction:   UiState.previewBattery ? 0.50 : Math.max(0, Math.min(1, battery.percentage))
-    readonly property bool charging:   UiState.previewBattery ? false : (battery.state === UPowerDeviceState.Charging
-        || battery.state === UPowerDeviceState.FullyCharged)
+    readonly property int  percentage: Math.round(battery.percentage * 100)
+    readonly property real fraction:   Math.max(0, Math.min(1, battery.percentage))
+    readonly property bool charging:   battery.state === UPowerDeviceState.Charging
+        || battery.state === UPowerDeviceState.FullyCharged
     readonly property bool low: visible && fraction <= 0.20 && !charging
     readonly property string batteryIcon: charging ? "bolt"
         : `battery_${Math.round(fraction * 6)}_bar`
 
-    visible: battery.isLaptopBattery || UiState.previewBattery
+    visible: battery.isLaptopBattery
 
     text: `Battery ${percentage}%${charging ? " (charging)" : ""}`
 

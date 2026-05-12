@@ -18,7 +18,6 @@ HoverTooltip {
     readonly property bool ethernetConnected: Networking.devices?.values.some(d => d.type === "ethernet" && d.connected) ?? false
 
     readonly property string wifiState: {
-        if (UiState.previewConnectivity)      return "signal-good";
         if (!Networking.wifiHardwareEnabled) return "hardware-disabled";
         if (!Networking.wifiEnabled)         return "disabled";
         if (wifiAdapter?.state === DeviceConnectionState.Connecting
@@ -31,9 +30,8 @@ HoverTooltip {
         }
         return "offline";
     }
-    readonly property bool showWifi: UiState.previewConnectivity || (!!wifiAdapter && !ethernetConnected)
-    readonly property real wifiValue: UiState.previewConnectivity ? 0.8
-        : (wifiAdapter?.connected ? (activeNetwork?.signalStrength ?? 0) : 0)
+    readonly property bool showWifi: !!wifiAdapter && !ethernetConnected
+    readonly property real wifiValue: wifiAdapter?.connected ? (activeNetwork?.signalStrength ?? 0) : 0
 
     // ── Bluetooth ─────────────────────────────────────────────────────────
     property var btAdapter: Bluetooth.defaultAdapter
@@ -53,8 +51,7 @@ HoverTooltip {
     text: {
         const lines = [];
         if (showWifi) {
-            if (UiState.previewConnectivity)                                     lines.push("WiFi: Home Network");
-            else if (!Networking.wifiEnabled)                                   lines.push("WiFi disabled");
+            if (!Networking.wifiEnabled)                                       lines.push("WiFi disabled");
             else if (wifiAdapter?.connected && activeNetwork)                   lines.push(`WiFi: ${activeNetwork.name}`);
             else if (wifiAdapter?.state === DeviceConnectionState.Connecting)   lines.push(`Connecting to ${activeNetwork?.name ?? "…"}`);
             else                                                                lines.push("WiFi disconnected");
