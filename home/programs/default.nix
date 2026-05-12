@@ -2,11 +2,13 @@
 {
   imports = [
     ./browsers
-    ./media
+    ./games.nix
     ./gtk.nix
+    ./media
     ./office
     ./qt.nix
     ./vicinae.nix
+    ./wayland
   ];
 
   home.packages = with pkgs; [
