@@ -1,7 +1,6 @@
 let
   desktop = [
     ./core
-    ./core/boot.nix
 
     ./hardware/fwupd.nix
     ./hardware/tablet.nix
