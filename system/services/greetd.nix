@@ -10,7 +10,7 @@
     let
       session = {
         command = "${lib.getExe config.programs.uwsm.package} start hyprland.desktop";
-        user = profile.user;
+        inherit (profile) user;
       };
     in
     {

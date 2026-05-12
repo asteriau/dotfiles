@@ -96,8 +96,7 @@ in
         };
 
       user = {
-        email = profile.email;
-        name = profile.name;
+        inherit (profile) email name;
       };
 
       gpg.ssh.allowedSignersFile =
