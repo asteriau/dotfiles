@@ -1,6 +1,10 @@
-{ pkgs, ... }:
 {
-  users.users.laura = {
+  pkgs,
+  profile,
+  ...
+}:
+{
+  users.users.${profile.user} = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [
