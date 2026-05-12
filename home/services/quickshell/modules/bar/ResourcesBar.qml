@@ -1,8 +1,6 @@
 import QtQuick
 import qs.modules.common.widgets
 import qs.modules.common
-import qs.modules.common.functions
-import qs.modules.common.models
 import qs.services
 
 PressablePill {
@@ -26,62 +24,20 @@ PressablePill {
         anchors.centerIn: parent
         spacing: 6
 
-        CircularProgress {
-            implicitSize: 20
-            lineWidth: 2
+        ResourceDial {
+            icon: "memory"
             value: Resources.memoryUsedPercentage
-            color: Appearance.colors.m3onSecondaryContainer
-            enableAnimation: true
-
-            Item {
-                anchors.centerIn: parent
-                width: 20; height: 20
-                MaterialIcon {
-                    anchors.centerIn: parent
-                    text: "memory"
-                    pixelSize: Appearance.typography.normal
-                    color: Appearance.colors.m3onSecondaryContainer
-                }
-            }
         }
 
-        CircularProgress {
-            implicitSize: 20
-            lineWidth: 2
+        ResourceDial {
             visible: Resources.swapTotal > 0
+            icon: "swap_horiz"
             value: Resources.swapUsedPercentage
-            color: Appearance.colors.m3onSecondaryContainer
-            enableAnimation: true
-
-            Item {
-                anchors.centerIn: parent
-                width: 20; height: 20
-                MaterialIcon {
-                    anchors.centerIn: parent
-                    text: "swap_horiz"
-                    pixelSize: Appearance.typography.normal
-                    color: Appearance.colors.m3onSecondaryContainer
-                }
-            }
         }
 
-        CircularProgress {
-            implicitSize: 20
-            lineWidth: 2
+        ResourceDial {
+            icon: "planner_review"
             value: Resources.cpuUsage
-            color: Appearance.colors.m3onSecondaryContainer
-            enableAnimation: true
-
-            Item {
-                anchors.centerIn: parent
-                width: 20; height: 20
-                MaterialIcon {
-                    anchors.centerIn: parent
-                    text: "planner_review"
-                    pixelSize: Appearance.typography.normal
-                    color: Appearance.colors.m3onSecondaryContainer
-                }
-            }
         }
     }
 

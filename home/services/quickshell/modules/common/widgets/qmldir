@@ -52,3 +52,4 @@ RollingText 1.0 RollingText.qml
 ContentPage 1.0 ContentPage.qml
 ContentSection 1.0 ContentSection.qml
 ContentSubsection 1.0 ContentSubsection.qml
+ResourceDial 1.0 ResourceDial.qml
