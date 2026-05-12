@@ -12,8 +12,7 @@
     ../../services/quickshell
 
     # media services
-    ../../services/media/playerctl.nix
-    ../../services/media/spotify.nix
+    ../../services/media
 
     # system services
     ../../services/system/kdeconnect.nix
