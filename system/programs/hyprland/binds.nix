@@ -67,16 +67,15 @@ in
       "$mod, up, movefocus, u"
       "$mod, down, movefocus, d"
 
-      # screenshot / recording (quickshell region selector)
-      # region screenshot
-      ", Print, global, quickshell:regionScreenshot"
+      # screenshot / recording
+      # fullscreen screenshot to clipboard
+      ", Print, exec, grim - | wl-copy"
+      # region screenshot (quickshell region selector)
       "$mod SHIFT, S, global, quickshell:regionScreenshot"
-      # region recording
+      # region recording (no sound)
       "$mod SHIFT, R, global, quickshell:regionRecord"
-      "$mod SHIFT ALT, R, global, quickshell:regionRecordWithSound"
-      # fullscreen recording (direct script)
-      "CTRL, Print, exec, bash $HOME/.config/quickshell/scripts/record.sh --fullscreen"
-      "$mod SHIFT CTRL, R, exec, bash $HOME/.config/quickshell/scripts/record.sh --fullscreen --sound"
+      # fullscreen recording with sound
+      "$mod SHIFT ALT, R, exec, bash $HOME/.config/quickshell/scripts/record.sh --fullscreen --sound"
 
       # special workspace
       "$mod SHIFT, grave, movetoworkspace, special"
