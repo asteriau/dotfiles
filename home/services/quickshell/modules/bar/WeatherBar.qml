@@ -8,6 +8,11 @@ import qs.services
 Item {
     id: root
 
+    property string cluster: "solo"
+
+    readonly property bool _roundLeft:  cluster === "start" || cluster === "solo"
+    readonly property bool _roundRight: cluster === "end"   || cluster === "solo"
+
     Component.onCompleted: Weather.subscribe()
     Component.onDestruction: Weather.unsubscribe()
 
@@ -20,7 +25,10 @@ Item {
         anchors.fill: parent
         anchors.topMargin: Appearance.layout.gapSm
         anchors.bottomMargin: Appearance.layout.gapSm
-        radius: Appearance.layout.radiusMd
+        topLeftRadius:     root._roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+        bottomLeftRadius:  root._roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+        topRightRadius:    root._roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+        bottomRightRadius: root._roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
         color: Appearance.colors.surfaceContainerLow
     }
 

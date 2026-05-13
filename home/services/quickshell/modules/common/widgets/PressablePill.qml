@@ -7,6 +7,10 @@ Item {
     id: root
 
     property real radius: Appearance.layout.radiusXl
+    property real topLeftRadius:     -1
+    property real topRightRadius:    -1
+    property real bottomLeftRadius:  -1
+    property real bottomRightRadius: -1
     property color colorIdle:    Appearance.colors.elevated
     property color colorHover:   colorIdle           // no-op by default
     property color colorPressed: colorIdle           // no-op by default
@@ -35,6 +39,10 @@ Item {
         id: bg
         anchors.fill: parent
         radius: root.radius
+        topLeftRadius:     root.topLeftRadius     >= 0 ? root.topLeftRadius     : root.radius
+        topRightRadius:    root.topRightRadius    >= 0 ? root.topRightRadius    : root.radius
+        bottomLeftRadius:  root.bottomLeftRadius  >= 0 ? root.bottomLeftRadius  : root.radius
+        bottomRightRadius: root.bottomRightRadius >= 0 ? root.bottomRightRadius : root.radius
         antialiasing: true
         color: root.useStateLayer
             ? (root.active ? root.colorActive : root.colorIdle)
@@ -54,6 +62,10 @@ Item {
             anchors.fill: parent
             visible: root.useStateLayer
             radius: root.radius
+            topLeftRadius:     root.topLeftRadius
+            topRightRadius:    root.topRightRadius
+            bottomLeftRadius:  root.bottomLeftRadius
+            bottomRightRadius: root.bottomRightRadius
             tone: root.stateLayerTone
             hovered: ma.containsMouse
             pressed: ma.pressed

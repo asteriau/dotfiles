@@ -43,22 +43,24 @@ Item {
             verticalCenter: parent.verticalCenter
             horizontalCenter: parent.horizontalCenter
         }
-        spacing: Appearance.layout.barZoneGap
+        spacing: Appearance.layout.clusterGap
 
         BarGroup {
             Layout.alignment: Qt.AlignHCenter
             tone: "low"
             padding: 0
+            cluster: "start"
 
             ResourcesBar {}
         }
-        Workspaces { Layout.alignment: Qt.AlignHCenter }
+        Workspaces { Layout.alignment: Qt.AlignHCenter; cluster: "mid" }
 
         BarGroup {
             Layout.alignment: Qt.AlignHCenter
             tone: "low"
             rowSpacing: Appearance.layout.gapMd
             padding: 0
+            cluster: "end"
 
             Clock {}
         }
@@ -71,21 +73,17 @@ Item {
             bottomMargin: Appearance.layout.zonePaddingV
             horizontalCenter: parent.horizontalCenter
         }
-        spacing: Appearance.layout.barZoneGap
+        spacing: Appearance.layout.clusterGap
 
-        BarGroup {
-            id: batteryGroup
+        Battery {
+            id: battery
             Layout.alignment: Qt.AlignHCenter
-            tone: "low"
-            rowSpacing: Appearance.layout.gapMd
-            transparent: !battery.low
-            bgColor: battery.low
-                ? ColorUtils.mix(Appearance.colors.red, toneColor, 0.2)
-                : toneColor
-
-            Battery { id: battery }
+            cluster: "start"
         }
 
-        Tray { Layout.alignment: Qt.AlignHCenter }
+        Tray {
+            Layout.alignment: Qt.AlignHCenter
+            cluster: battery.visible ? "end" : "solo"
+        }
     }
 }

@@ -12,6 +12,11 @@ PressablePill {
     property bool vertical: Config.bar.vertical
     readonly property bool horizontal: !vertical
 
+    property string cluster: "solo"
+
+    readonly property bool _roundLeft:  cluster === "start" || cluster === "solo"
+    readonly property bool _roundRight: cluster === "end"   || cluster === "solo"
+
     readonly property string hh:    Qt.formatDateTime(Utils.clock.date, "hh")
     readonly property string mm:    Qt.formatDateTime(Utils.clock.date, "mm")
     readonly property string hhmm:  Qt.formatDateTime(Utils.clock.date, "hh:mm")
@@ -21,6 +26,10 @@ PressablePill {
     implicitHeight: horizontal ? Appearance.bar.height - Appearance.layout.gapSm * 2 : col.implicitHeight + 8
 
     radius: Appearance.layout.radiusContainer
+    topLeftRadius:     _roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    bottomLeftRadius:  _roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    topRightRadius:    _roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    bottomRightRadius: _roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
     colorIdle: horizontal ? Appearance.colors.surfaceContainerLow : Appearance.colors.transparent
     useStateLayer: true
     pressScale: 0.98
@@ -86,11 +95,6 @@ PressablePill {
             color: Appearance.colors.foreground
         }
 
-        StyledText {
-            text: "/"
-            font.pixelSize: Appearance.typography.small
-            color: Appearance.colors.m3onSurfaceInactive
-        }
 
         StyledText {
             text: root.ddmm

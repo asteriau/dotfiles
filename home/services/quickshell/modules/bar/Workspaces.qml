@@ -14,6 +14,14 @@ Item {
     id: root
 
     property bool vertical: Config.bar.vertical
+    property string cluster: "solo"
+
+    readonly property bool _roundStart: cluster === "start" || cluster === "solo"
+    readonly property bool _roundEnd:   cluster === "end"   || cluster === "solo"
+    readonly property bool _roundTL: vertical ? _roundStart : _roundStart
+    readonly property bool _roundTR: vertical ? _roundStart : _roundEnd
+    readonly property bool _roundBL: vertical ? _roundEnd   : _roundStart
+    readonly property bool _roundBR: vertical ? _roundEnd   : _roundEnd
 
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(QsWindow.window?.screen)
     readonly property Toplevel activeWindow: ToplevelManager.activeToplevel
@@ -71,7 +79,11 @@ Item {
             leftMargin:   root.vertical ? 4 : 0
             rightMargin:  root.vertical ? 4 : 0
         }
-        radius: Appearance.layout.radiusMd
+        radius: Appearance.layout.radiusContainer
+        topLeftRadius:     root._roundTL ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+        topRightRadius:    root._roundTR ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+        bottomLeftRadius:  root._roundBL ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+        bottomRightRadius: root._roundBR ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
         color: Appearance.colors.surfaceContainerLow
     }
 

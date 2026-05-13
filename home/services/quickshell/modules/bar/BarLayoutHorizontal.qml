@@ -51,12 +51,11 @@ Rectangle {
             rightMargin: Appearance.layout.zonePaddingH
             verticalCenter: parent.verticalCenter
         }
-        spacing: Appearance.layout.barZoneGap
+        spacing: Appearance.layout.clusterGap
 
-        Tray       { vertical: false; anchors.verticalCenter: parent.verticalCenter }
-        Battery    { vertical: false; anchors.verticalCenter: parent.verticalCenter }
-        WeatherBar { anchors.verticalCenter: parent.verticalCenter }
-
-        Clock { anchors.verticalCenter: parent.verticalCenter }
+        Tray       { vertical: false;     cluster: "start"; anchors.verticalCenter: parent.verticalCenter }
+        WeatherBar {                      cluster: "mid";   anchors.verticalCenter: parent.verticalCenter }
+        Battery    { vertical: false;     cluster: "mid";   anchors.verticalCenter: parent.verticalCenter }
+        Clock      {                      cluster: "end";   anchors.verticalCenter: parent.verticalCenter }
     }
 }

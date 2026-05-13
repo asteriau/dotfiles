@@ -324,7 +324,10 @@ QtObject {
 
         readonly property int radiusInteractive: radiusSm
         readonly property int radiusContainer:   radiusMd
+        readonly property int radiusInner:       radiusXs
         readonly property int radiusBar:         18
+
+        readonly property int clusterGap:        4
 
         readonly property int interactiveMinV:  40
         readonly property int interactiveMinH:  32
