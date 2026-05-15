@@ -38,19 +38,34 @@ Singleton {
         stdout: SplitParser { onRead: line => root.desktop = line }
     }
 
-    Process {
-        id: uptimeProc
-        running: true
-        command: ["sh", "-c", "uptime -p"]
-        stdout: SplitParser {
-            onRead: line => root.uptime = line.replace(/^up\s+/, "")
-        }
+    function _refreshUptime(): void {
+        uptimeFile.reload();
+        const secs = Number((uptimeFile.text() || "").split(" ")[0] ?? 0);
+        const days = Math.floor(secs / 86400);
+        const hours = Math.floor((secs % 86400) / 3600);
+        const minutes = Math.floor((secs % 3600) / 60);
+        const parts = [];
+        if (days > 0)
+            parts.push(`${days} day${days === 1 ? "" : "s"}`);
+        if (hours > 0)
+            parts.push(`${hours} hour${hours === 1 ? "" : "s"}`);
+        if (minutes > 0 || parts.length === 0)
+            parts.push(`${minutes} minute${minutes === 1 ? "" : "s"}`);
+        root.uptime = parts.join(", ");
     }
+
+    FileView {
+        id: uptimeFile
+        path: "/proc/uptime"
+    }
+
+    Component.onCompleted: root._refreshUptime()
 
     Timer {
         interval: 60000
         repeat: true
         running: root.subscribers > 0
-        onTriggered: uptimeProc.running = true
+        triggeredOnStart: true
+        onTriggered: root._refreshUptime()
     }
 }
