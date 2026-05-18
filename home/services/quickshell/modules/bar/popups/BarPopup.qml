@@ -85,10 +85,8 @@ PopupWindow {
             id: bg
             anchors.fill: parent
             visible: !root.transparent
-            color: Appearance.colors.surfaceContainer
+            color: Appearance.colors.background
             radius: Appearance.layout.radiusSm
-            border.width: 1
-            border.color: Appearance.colors.outlineVariant
         }
 
         Item {

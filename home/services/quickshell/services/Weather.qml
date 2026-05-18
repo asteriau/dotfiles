@@ -30,6 +30,12 @@ Singleton {
     property bool ready: false
     property string errorMessage: ""
 
+    // Forecast slices derived from the OWM 3h-step list. `hourly` covers the
+    // next 24h (8 entries); `daily` aggregates the full 5-day list into
+    // per-day min/max with the noon-nearest condition driving the icon.
+    property var hourly: []
+    property var daily: []
+
     readonly property bool isNight: iconCode.endsWith("n")
 
     // Derived visual tokens.
@@ -46,12 +52,75 @@ Singleton {
         return "cloud";
     }
 
+    function _entryFromForecast(e): var {
+        const code = e.weather?.[0]?.icon ?? "";
+        const cond = e.weather?.[0]?.main ?? "";
+        return {
+            time:      new Date(e.dt * 1000),
+            temp:      e.main?.temp ?? 0,
+            feelsLike: e.main?.feels_like ?? 0,
+            condition: cond,
+            iconCode:  code,
+            isNight:   code.endsWith("n"),
+            glyph:     root._glyph(cond, code.endsWith("n")),
+            windSpeed: e.wind?.speed ?? 0,
+            humidity:  e.main?.humidity ?? 0
+        };
+    }
+
+    function _buildHourly(list): var {
+        const out = [];
+        const n = Math.min(8, list.length);
+        for (let i = 0; i < n; i++) out.push(root._entryFromForecast(list[i]));
+        return out;
+    }
+
+    // Group entries by local day, then for each day reduce to {date, min, max,
+    // glyph, condition}. Icon comes from the entry whose hour is closest to
+    // noon so days don't pick up nighttime glyphs from the 21:00 / 00:00 slot.
+    function _buildDaily(list): var {
+        const buckets = new Map();
+        for (const e of list) {
+            const t = new Date(e.dt * 1000);
+            const key = t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate();
+            if (!buckets.has(key))
+                buckets.set(key, { date: new Date(t.getFullYear(), t.getMonth(), t.getDate()), entries: [] });
+            buckets.get(key).entries.push(e);
+        }
+        const days = [];
+        for (const b of buckets.values()) {
+            let mn = b.entries[0].main.temp_min;
+            let mx = b.entries[0].main.temp_max;
+            let bestIdx = 0;
+            let bestDist = 24;
+            for (let i = 0; i < b.entries.length; i++) {
+                const e = b.entries[i];
+                if (e.main.temp_min < mn) mn = e.main.temp_min;
+                if (e.main.temp_max > mx) mx = e.main.temp_max;
+                const dist = Math.abs(new Date(e.dt * 1000).getHours() - 12);
+                if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+            }
+            const noon = b.entries[bestIdx];
+            const code = noon.weather?.[0]?.icon ?? "";
+            const cond = noon.weather?.[0]?.main ?? "";
+            days.push({
+                date:      b.date,
+                tempMin:   mn,
+                tempMax:   mx,
+                condition: cond,
+                glyph:     root._glyph(cond, code.endsWith("n"))
+            });
+            if (days.length === 5) break;
+        }
+        return days;
+    }
+
 
     readonly property string _fetchCmd:
         "KEY=$(cat \"${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/secrets/openweathermap.key\" 2>/dev/null); " +
         "[ -n \"$KEY\" ] || exit 0; " +
         "CUR=$(curl -4 -sSL \"https://api.openweathermap.org/data/2.5/weather?lat=" + Config.weather.lat + "&lon=" + Config.weather.lon + "&units=metric&appid=$KEY\"); " +
-        "FC=$(curl -4 -sSL \"https://api.openweathermap.org/data/2.5/forecast?lat=" + Config.weather.lat + "&lon=" + Config.weather.lon + "&units=metric&cnt=8&appid=$KEY\"); " +
+        "FC=$(curl -4 -sSL \"https://api.openweathermap.org/data/2.5/forecast?lat=" + Config.weather.lat + "&lon=" + Config.weather.lon + "&units=metric&cnt=40&appid=$KEY\"); " +
         "printf '%s\\n---\\n%s' \"$CUR\" \"$FC\""
 
     Process {
@@ -102,6 +171,8 @@ Singleton {
                             root.tempMin = mn;
                             root.tempMax = mx;
                         }
+                        root.hourly = root._buildHourly(list);
+                        root.daily  = root._buildDaily(list);
                     }
 
                     root.lastUpdated = new Date();

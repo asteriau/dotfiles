@@ -1,11 +1,13 @@
 import QtQuick
+import QtQuick.Layouts
 import qs.modules.common.widgets
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
+import qs.modules.bar.popups
 
-Item {
+PressablePill {
     id: root
 
     property string cluster: "solo"
@@ -19,18 +21,18 @@ Item {
     visible: Weather.ready
 
     implicitWidth:  row.implicitWidth + Appearance.layout.gapMd * 2
-    implicitHeight: Appearance.bar.height
+    implicitHeight: Appearance.bar.height - Appearance.layout.gapSm * 2
 
-    Rectangle {
-        anchors.fill: parent
-        anchors.topMargin: Appearance.layout.gapSm
-        anchors.bottomMargin: Appearance.layout.gapSm
-        topLeftRadius:     root._roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
-        bottomLeftRadius:  root._roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
-        topRightRadius:    root._roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
-        bottomRightRadius: root._roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
-        color: Appearance.colors.surfaceContainerLow
-    }
+    radius: Appearance.layout.radiusContainer
+    topLeftRadius:     _roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    bottomLeftRadius:  _roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    topRightRadius:    _roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    bottomRightRadius: _roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    colorIdle: Appearance.colors.surfaceContainerLow
+    useStateLayer: true
+    pressScale: 0.98
+
+    onClicked: popup.active = !popup.active
 
     Row {
         id: row
@@ -51,5 +53,13 @@ Item {
             color: Appearance.colors.foreground
             anchors.verticalCenter: parent.verticalCenter
         }
+    }
+
+    BarPopup {
+        id: popup
+        targetItem: root
+        padding: Appearance.layout.gapLg
+
+        WeatherPopup { active: popup.active }
     }
 }
