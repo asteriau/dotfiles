@@ -15,8 +15,14 @@ PressablePill {
     implicitHeight: col.implicitHeight + 8
 
     radius: Appearance.layout.radiusContainer
+
+    // Suppress button hover/press feedback once this trigger's morph is open
+    // (the pill has become the morph shape, not a clickable button).
+    readonly property bool morphActive: !Config.bar.vertical && BarPopouts.activeName === "resources"
+
     colorIdle: Appearance.colors.transparent
-    useStateLayer: true
+    useStateLayer: !root.morphActive
+    animateColor: !root.morphActive
     pressScale: 0.98
 
     onClicked: {

@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import qs.modules.bar
 import qs.modules.common
 
@@ -64,8 +65,32 @@ Scope {
             }
         }
 
+        // Faithful hefty layering, all coincident on the bar-strip rect:
+        //   strip (flat background)  ─ below
+        //   morphPopout (the morph)  ─ middle  (direct host child → its
+        //                              coordinate base is unchanged)
+        //   stripContent (widgets)   ─ above   (clock/weather sit ON the
+        //                              shape; ActiveWindow never overdrawn)
         Item {
             id: strip
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: Config.bar.onEnd ? undefined : parent.top
+            anchors.bottom: Config.bar.onEnd ? parent.bottom : undefined
+            height: Appearance.bar.height
+
+            BarBackground {
+                anchors.fill: parent
+            }
+        }
+
+        BarMorphPopout {
+            id: morphPopout
+        }
+
+        Item {
+            id: stripContent
 
             anchors.left: parent.left
             anchors.right: parent.right
@@ -78,10 +103,6 @@ Scope {
             }
         }
 
-        BarMorphPopout {
-            id: morphPopout
-        }
-
         // Escape closes the open popout. keyboardFocus is OnDemand only while
         // a popout is open (mirrors Island's launcher pattern) and returns to
         // None when closed, so the bar never holds focus at rest (the Phase-1
@@ -91,6 +112,16 @@ Scope {
             sequences: ["Escape"]
             enabled: BarPopouts.open
             onActivated: BarPopouts.close()
+        }
+
+        // Click anywhere outside the bar/popout closes it — the same
+        // compositor grab the launcher (Island) uses. Transient: active only
+        // while a popout is open and released the instant it closes, so the
+        // desktop-passthrough safety invariant is preserved at rest.
+        HyprlandFocusGrab {
+            windows: [host]
+            active: BarPopouts.open
+            onCleared: BarPopouts.close()
         }
     }
 }

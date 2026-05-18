@@ -60,10 +60,13 @@ Shapes.ShapeCanvas {
     // directly, so bind to it as-is (adding xOffset would double-count).
     readonly property real xInGlobal: bgShape.surfaceOriginX
     readonly property real yInGlobal: bgShape.surfaceOriginY
-    readonly property real minPopupXOffset: -xInGlobal
+    // Keep the popup this far from the screen edges so a corner trigger's
+    // popup doesn't sit flush against the edge.
+    property real popupEdgeMargin: Appearance.layout.gapLg
+    readonly property real minPopupXOffset: -xInGlobal + bgShape.popupEdgeMargin
     readonly property real minPopupYOffset: -yInGlobal
     readonly property real maxPopupXOffset: {
-        const maxPopupX = bgShape.surfaceWidth - popupWidth;
+        const maxPopupX = bgShape.surfaceWidth - popupWidth - bgShape.popupEdgeMargin;
         return maxPopupX - xInGlobal;
     }
     readonly property real maxPopupYOffset: {

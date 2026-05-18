@@ -39,7 +39,8 @@ PressablePill {
     colorIdle: root.morphActive ? Appearance.colors.transparent : (horizontal
                                                                    ? Appearance.colors.surfaceContainerLow :
                                                                      Appearance.colors.transparent)
-    useStateLayer: true
+    useStateLayer: !root.morphActive   // no hover/press flash once it's the morph
+    animateColor: !root.morphActive    // drop the pill bg instantly (no fade flash)
     pressScale: 0.98
 
     onClicked: {

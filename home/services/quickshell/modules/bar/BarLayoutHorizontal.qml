@@ -4,27 +4,12 @@ import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
 
-Rectangle {
+// Horizontal bar *content only*. The flat background is BarBackground,
+// rendered by BarShell BELOW the morph layer so these widgets sit on top of
+// the morph shape (faithful hefty layering — clock/weather stay visible while
+// a popout grows out of the bar, and ActiveWindow is never overdrawn).
+Item {
     id: root
-    color: Appearance.colors.background
-    radius: Config.bar.rounding ? Appearance.layout.radiusBar : 0
-
-    Rectangle {
-        visible: Config.bar.rounding
-        width: root.radius; height: root.radius
-        anchors.top:    Config.bar.onEnd ? undefined : parent.top
-        anchors.bottom: Config.bar.onEnd ? parent.bottom : undefined
-        anchors.left: parent.left
-        color: Appearance.colors.background
-    }
-    Rectangle {
-        visible: Config.bar.rounding
-        width: root.radius; height: root.radius
-        anchors.top:    Config.bar.onEnd ? undefined : parent.top
-        anchors.bottom: Config.bar.onEnd ? parent.bottom : undefined
-        anchors.right: parent.right
-        color: Appearance.colors.background
-    }
 
     Row {
         anchors {
@@ -34,8 +19,12 @@ Rectangle {
         }
         spacing: Appearance.layout.barZoneGap
 
-        SidebarToggle { anchors.verticalCenter: parent.verticalCenter }
-        Workspaces    { anchors.verticalCenter: parent.verticalCenter }
+        SidebarToggle {
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        Workspaces {
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 
     ActiveWindow {
@@ -53,9 +42,23 @@ Rectangle {
         }
         spacing: Appearance.layout.clusterGap
 
-        Tray       { vertical: false;     cluster: "start"; anchors.verticalCenter: parent.verticalCenter }
-        WeatherBar {                      cluster: "mid";   anchors.verticalCenter: parent.verticalCenter }
-        Battery    { vertical: false;     cluster: "mid";   anchors.verticalCenter: parent.verticalCenter }
-        Clock      {                      cluster: "end";   anchors.verticalCenter: parent.verticalCenter }
+        Tray {
+            vertical: false
+            cluster: "start"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        WeatherBar {
+            cluster: "mid"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        Battery {
+            vertical: false
+            cluster: "mid"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        Clock {
+            cluster: "end"
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 }

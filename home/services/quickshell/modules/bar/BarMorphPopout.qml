@@ -59,6 +59,25 @@ Item {
     // itself is only pill-sized.
     readonly property Item maskItem: shape
 
+    // Content tracks the shape: hold the reveal until the body has mostly
+    // expanded (else text renders outside the still-growing container for a
+    // frame); drop it instantly on close so it never lingers outside the
+    // collapsing shape.
+    property bool contentRevealed: false
+    onActiveChanged: {
+        if (root.active)
+            contentRevealTimer.restart();
+        else {
+            root.contentRevealed = false;
+            contentRevealTimer.stop();
+        }
+    }
+    Timer {
+        id: contentRevealTimer
+        interval: Appearance.motion.duration.elementMoveFast
+        onTriggered: root.contentRevealed = true
+    }
+
     BarWidgetShapeBackground {
         id: shape
 
@@ -90,7 +109,7 @@ Item {
         id: contentHost
         x: shape.popupContentOffsetX
         y: shape.popupContentOffsetY
-        opacity: root.active ? 1 : 0
+        opacity: root.active && root.contentRevealed ? 1 : 0
         Behavior on opacity {
             NumberAnimation {
                 duration: Appearance.motion.duration.elementMoveFast
