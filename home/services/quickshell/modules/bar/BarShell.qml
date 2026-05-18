@@ -45,12 +45,20 @@ Scope {
             right: true
         }
 
-        // SAFETY-CRITICAL: the mask is also the input region. It is limited to
-        // the bar strip only, so every pixel outside it passes through to
-        // windows exactly as before. Same proven pattern as Island's
-        // `mask: Region { item: container }`.
+        // SAFETY-CRITICAL: the mask is also the input region.
+        //   closed → strip only (Phase-1 pass-through invariant preserved);
+        //   open   → strip ∪ popout.
+        // The popout sub-region contributes zero area until the popout is
+        // on-screen, so nothing outside the bar is captured while closed.
         mask: Region {
-            item: strip
+            Region {
+                item: strip
+            }
+            Region {
+                item: morphPopout
+                width: morphPopout.visible ? morphPopout.width : 0
+                height: morphPopout.visible ? morphPopout.height : 0
+            }
         }
 
         Item {
@@ -65,6 +73,10 @@ Scope {
             BarLayoutHorizontal {
                 anchors.fill: parent
             }
+        }
+
+        BarMorphPopout {
+            id: morphPopout
         }
     }
 }
