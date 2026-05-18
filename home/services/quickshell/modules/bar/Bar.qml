@@ -8,13 +8,15 @@ PanelWindow {
     WlrLayershell.namespace: "quickshell:bar"
     screen: UiState.preferredMonitor
 
+    visible: Config.bar.vertical
+
     anchors {
-        top:    Config.bar.vertical || !Config.bar.onEnd
+        top: Config.bar.vertical || !Config.bar.onEnd
         bottom: Config.bar.vertical || Config.bar.onEnd
-        left:   !Config.bar.vertical || !Config.bar.onEnd
-        right:  !Config.bar.vertical || Config.bar.onEnd
+        left: !Config.bar.vertical || !Config.bar.onEnd
+        right: !Config.bar.vertical || Config.bar.onEnd
     }
-    implicitWidth:  Config.bar.vertical ? Appearance.bar.width  : 0
+    implicitWidth: Config.bar.vertical ? Appearance.bar.width : 0
     implicitHeight: Config.bar.vertical ? 0 : Appearance.bar.height
 
     color: "transparent"
@@ -24,6 +26,12 @@ PanelWindow {
         sourceComponent: Config.bar.vertical ? verticalLayout : horizontalLayout
     }
 
-    Component { id: verticalLayout;   BarLayoutVertical {} }
-    Component { id: horizontalLayout; BarLayoutHorizontal {} }
+    Component {
+        id: verticalLayout
+        BarLayoutVertical {}
+    }
+    Component {
+        id: horizontalLayout
+        BarLayoutHorizontal {}
+    }
 }

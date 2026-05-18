@@ -21,9 +21,13 @@ ShellRoot {
     readonly property var _matugen: Matugen
 
     Background {}
-    Bar {}
-    Launcher { id: launcher }
-    Island { launcher: launcher }
+    BarShell {}
+    Launcher {
+        id: launcher
+    }
+    Island {
+        launcher: launcher
+    }
     NotificationPopups {}
     Sidebar {}
     WallpaperPicker {}
@@ -39,7 +43,7 @@ ShellRoot {
                 return;
             }
             _settingsWindow = settingsComponent.createObject(null);
-            _settingsWindow.closing.connect(function() {
+            _settingsWindow.closing.connect(function () {
                 _settingsWindow.destroy();
                 _settingsWindow = null;
             });
@@ -64,11 +68,11 @@ ShellRoot {
         description: "Hold to show workspace numbers, release to show icons"
 
         onPressed: {
-            showNumbersTimer.restart()
+            showNumbersTimer.restart();
         }
         onReleased: {
-            showNumbersTimer.stop()
-            UiState.showWorkspaceNumbers = false
+            showNumbersTimer.stop();
+            UiState.showWorkspaceNumbers = false;
         }
     }
 }
