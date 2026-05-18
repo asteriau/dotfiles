@@ -55,9 +55,11 @@ Scope {
                 item: strip
             }
             Region {
-                item: morphPopout
-                width: morphPopout.visible ? morphPopout.width : 0
-                height: morphPopout.visible ? morphPopout.height : 0
+                // Follow the morph shape (it spans bar-pill ∪ popup); the
+                // morphPopout frame itself is only pill-sized.
+                item: morphPopout.maskItem
+                width: morphPopout.visible ? morphPopout.maskItem.width : 0
+                height: morphPopout.visible ? morphPopout.maskItem.height : 0
             }
         }
 
