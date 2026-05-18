@@ -4,6 +4,7 @@ import qs.modules.common.widgets
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
+import qs.modules.bar
 import qs.modules.bar.popups
 
 PressablePill {
@@ -14,27 +15,39 @@ PressablePill {
 
     property string cluster: "solo"
 
-    readonly property bool _roundLeft:  cluster === "start" || cluster === "solo"
-    readonly property bool _roundRight: cluster === "end"   || cluster === "solo"
+    readonly property bool _roundLeft: cluster === "start" || cluster === "solo"
+    readonly property bool _roundRight: cluster === "end" || cluster === "solo"
 
-    readonly property string hh:    Qt.formatDateTime(Utils.clock.date, "hh")
-    readonly property string mm:    Qt.formatDateTime(Utils.clock.date, "mm")
-    readonly property string hhmm:  Qt.formatDateTime(Utils.clock.date, "hh:mm")
-    readonly property string ddmm:  Qt.formatDateTime(Utils.clock.date, "dd/MM")
+    // Horizontal: this trigger's popout opens as the in-bar morph. While it is
+    // the active morph, drop the pill's own background so the morph shape reads
+    // as the bar itself expanding (not a separate panel slapped on top).
+    readonly property bool morphActive: !Config.bar.vertical && BarPopouts.activeName === "calendar"
 
-    implicitWidth:  horizontal ? hRow.implicitWidth + 16 : Appearance.bar.width - Appearance.layout.gapSm * 2
+    readonly property string hh: Qt.formatDateTime(Utils.clock.date, "hh")
+    readonly property string mm: Qt.formatDateTime(Utils.clock.date, "mm")
+    readonly property string hhmm: Qt.formatDateTime(Utils.clock.date, "hh:mm")
+    readonly property string ddmm: Qt.formatDateTime(Utils.clock.date, "dd/MM")
+
+    implicitWidth: horizontal ? hRow.implicitWidth + 16 : Appearance.bar.width - Appearance.layout.gapSm * 2
     implicitHeight: horizontal ? Appearance.bar.height - Appearance.layout.gapSm * 2 : col.implicitHeight + 8
 
     radius: Appearance.layout.radiusContainer
-    topLeftRadius:     _roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
-    bottomLeftRadius:  _roundLeft  ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
-    topRightRadius:    _roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    topLeftRadius: _roundLeft ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    bottomLeftRadius: _roundLeft ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
+    topRightRadius: _roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
     bottomRightRadius: _roundRight ? Appearance.layout.radiusContainer : Appearance.layout.radiusInner
-    colorIdle: horizontal ? Appearance.colors.surfaceContainerLow : Appearance.colors.transparent
+    colorIdle: root.morphActive ? Appearance.colors.transparent : (horizontal
+                                                                   ? Appearance.colors.surfaceContainerLow :
+                                                                     Appearance.colors.transparent)
     useStateLayer: true
     pressScale: 0.98
 
-    onClicked: popup.active = !popup.active
+    onClicked: {
+        if (Config.bar.vertical)
+            popupLoader.item.active = !popupLoader.item.active;
+        else
+            BarPopouts.toggle("calendar", root);
+    }
 
     // Vertical: stacked hh / mm / dd-MM with rolling digits.
     ColumnLayout {
@@ -95,7 +108,6 @@ PressablePill {
             color: Appearance.colors.foreground
         }
 
-
         StyledText {
             text: root.ddmm
             font.pixelSize: Appearance.typography.small
@@ -104,11 +116,19 @@ PressablePill {
         }
     }
 
-    BarPopup {
-        id: popup
-        targetItem: root
-        padding: Appearance.layout.gapLg
+    // Vertical bar keeps the original separate popup window; horizontal uses
+    // the in-bar morph (BarPopouts → BarMorphPopout) instead.
+    Loader {
+        id: popupLoader
+        active: Config.bar.vertical
+        sourceComponent: BarPopup {
+            id: popup
+            targetItem: root
+            padding: Appearance.layout.gapLg
 
-        CalendarPopup { active: popup.active }
+            CalendarPopup {
+                active: popup.active
+            }
+        }
     }
 }

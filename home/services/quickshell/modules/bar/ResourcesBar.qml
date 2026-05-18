@@ -2,6 +2,7 @@ import QtQuick
 import qs.modules.common.widgets
 import qs.modules.common
 import qs.services
+import qs.modules.bar
 import qs.modules.bar.popups
 
 PressablePill {
@@ -10,7 +11,7 @@ PressablePill {
     Component.onCompleted: Resources.subscribe()
     Component.onDestruction: Resources.unsubscribe()
 
-    implicitWidth:  Appearance.bar.width - Appearance.layout.gapSm * 2
+    implicitWidth: Appearance.bar.width - Appearance.layout.gapSm * 2
     implicitHeight: col.implicitHeight + 8
 
     radius: Appearance.layout.radiusContainer
@@ -18,7 +19,12 @@ PressablePill {
     useStateLayer: true
     pressScale: 0.98
 
-    onClicked: popup.active = !popup.active
+    onClicked: {
+        if (Config.bar.vertical)
+            popupLoader.item.active = !popupLoader.item.active;
+        else
+            BarPopouts.toggle("resources", root);
+    }
 
     Column {
         id: col
@@ -42,11 +48,17 @@ PressablePill {
         }
     }
 
-    BarPopup {
-        id: popup
-        targetItem: root
-        padding: Appearance.layout.gapXl
+    // Vertical bar keeps the original separate popup window; horizontal uses
+    // the in-bar morph (BarPopouts → BarMorphPopout) instead.
+    Loader {
+        id: popupLoader
+        active: Config.bar.vertical
+        sourceComponent: BarPopup {
+            id: popup
+            targetItem: root
+            padding: Appearance.layout.gapXl
 
-        ResourcesPopup {}
+            ResourcesPopup {}
+        }
     }
 }

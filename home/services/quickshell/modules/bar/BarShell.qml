@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import qs.modules.bar
 import qs.modules.common
 
 // Bar entry point.
@@ -35,7 +36,7 @@ Scope {
         WlrLayershell.layer: WlrLayer.Top
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "quickshell:bar"
-        WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+        WlrLayershell.keyboardFocus: BarPopouts.open ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
         color: "transparent"
 
         anchors {
@@ -79,6 +80,17 @@ Scope {
 
         BarMorphPopout {
             id: morphPopout
+        }
+
+        // Escape closes the open popout. keyboardFocus is OnDemand only while
+        // a popout is open (mirrors Island's launcher pattern) and returns to
+        // None when closed, so the bar never holds focus at rest (the Phase-1
+        // safety invariant is preserved). Closing also works by re-clicking the
+        // trigger or opening another popout (BarPopouts is one-at-a-time).
+        Shortcut {
+            sequences: ["Escape"]
+            enabled: BarPopouts.open
+            onActivated: BarPopouts.close()
         }
     }
 }
