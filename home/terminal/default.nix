@@ -25,4 +25,7 @@ in
     # auto-run programs using nix-index-database
     NIX_AUTO_RUN = "1";
   };
+
+  # add to PATH
+  home.sessionPath = [ "$HOME/.cargo/bin" ];
 }
