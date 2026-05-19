@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-# Port of dots-hyprland (ii) generate_colors_material.py, specialised to emit
-# foot.ini [colors]. Same harmonize/boost logic and same scheme-base.json so
-# output matches ii 1:1 for the 16 ANSI slots.
 import argparse
 import json
 import math

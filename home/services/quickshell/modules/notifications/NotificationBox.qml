@@ -45,7 +45,10 @@ Item {
     }
 
     Behavior on actionsProgress {
-        Motion.EmphDecel { easing.bezierCurve: root.expanded ? Appearance.motion.easing.emphasizedDecel : Appearance.motion.easing.emphasizedAccel }
+        Motion.EmphDecel {
+            easing.bezierCurve: root.expanded ? Appearance.motion.easing.emphasizedDecel :
+                                                Appearance.motion.easing.emphasizedAccel
+        }
     }
 
     Component.onCompleted: actionsProgress = expanded ? 1 : 0
@@ -74,21 +77,27 @@ Item {
 
         x: 0
         width: parent.width
-        color: root.isPopup ? Appearance.colors.popupBackground : Appearance.colors.elevated
-        radius: root.isPopup ? Appearance.layout.notificationRadius : Appearance.layout.notificationCollapsedR
+        color: root.isPopup ? Appearance.colors.popupBackground : Appearance.colors.colLayer2
+        radius: root.isPopup ? Appearance.layout.notificationRadius : Appearance.layout.radiusLg
         antialiasing: true
         clip: true
         opacity: Math.max(0, 1 - Math.abs(x) / (width * 0.9))
 
-        implicitHeight: root.expanded
-            ? (row.implicitHeight + root.padding * 2)
-            : Math.min(root.collapsedMaxHeight, row.implicitHeight + root.padding * 2)
+        implicitHeight: root.expanded ? (row.implicitHeight + root.padding * 2) : Math.min(
+                                            root.collapsedMaxHeight, row.implicitHeight + root.padding * 2)
 
-        Behavior on implicitHeight { NumberAnimation { duration: Appearance.motion.duration.medium2; easing.type: Easing.OutCubic } }
+        Behavior on implicitHeight {
+            NumberAnimation {
+                duration: Appearance.motion.duration.medium2
+                easing.type: Easing.OutCubic
+            }
+        }
 
         Behavior on x {
             enabled: !dragController.dragging
-            Motion.EmphDecel { duration: Appearance.motion.duration.medium1 }
+            Motion.EmphDecel {
+                duration: Appearance.motion.duration.medium1
+            }
         }
 
         MouseArea {
@@ -98,11 +107,11 @@ Item {
             hoverEnabled: true
             onClicked: mouse => {
                 if (mouse.button === Qt.LeftButton)
-                    root.invokeDefault();
+                root.invokeDefault();
                 else if (mouse.button === Qt.RightButton)
-                    root.expanded = !root.expanded;
+                root.expanded = !root.expanded;
                 else if (mouse.button === Qt.MiddleButton)
-                    root.closeSelf();
+                root.closeSelf();
             }
         }
 

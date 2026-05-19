@@ -13,10 +13,13 @@ import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
 
-Item {
+Rectangle {
     id: root
     Layout.fillWidth: true
     implicitHeight: 180
+    radius: Appearance.layout.radiusLg
+    color: Appearance.colors.colLayer1
+    antialiasing: true
     clip: true
 
     ListModel {
@@ -39,9 +42,9 @@ Item {
         for (let i = src.length - 1; i >= 0; i--) {
             if (!localRefs.has(src[i])) {
                 localModel.insert(0, {
-                    notifRef: src[i],
-                    dying: false
-                });
+                                      notifRef: src[i],
+                                      dying: false
+                                  });
             }
         }
     }
@@ -78,9 +81,15 @@ Item {
                 visible: localModel.count === 0
                 opacity: visible ? 0.9 : 0
 
-                Behavior on opacity { NumberAnimation { duration: Appearance.motion.duration.medium1 } }
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: Appearance.motion.duration.medium1
+                    }
+                }
 
-                Item { Layout.fillHeight: true }
+                Item {
+                    Layout.fillHeight: true
+                }
 
                 Item {
                     Layout.alignment: Qt.AlignHCenter
@@ -115,7 +124,9 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                 }
 
-                Item { Layout.fillHeight: true }
+                Item {
+                    Layout.fillHeight: true
+                }
             }
 
             Rectangle {
@@ -131,7 +142,7 @@ Item {
                 id: list
                 anchors.fill: parent
                 visible: localModel.count > 0
-                spacing: Appearance.layout.gapLg
+                spacing: Appearance.layout.gapXs
                 interactive: true
                 model: localModel
                 boundsBehavior: Flickable.DragAndOvershootBounds
@@ -196,7 +207,9 @@ Item {
                     }
 
                     Behavior on opacity {
-                        Motion.EmphAccel { duration: Appearance.motion.duration.effects }
+                        Motion.EmphAccel {
+                            duration: Appearance.motion.duration.effects
+                        }
                     }
 
                     transform: Translate {
@@ -223,8 +236,6 @@ Item {
                     }
                 }
             }
-
         }
-
     }
 }

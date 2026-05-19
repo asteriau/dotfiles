@@ -20,6 +20,7 @@ in
     bluez
     brightnessctl
     cliphist
+    cloudflare-warp
     coreutils
     curl
     ddcutil

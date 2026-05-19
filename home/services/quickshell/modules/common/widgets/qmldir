@@ -45,6 +45,7 @@ WindowDialog 1.0 WindowDialog.qml
 StyledText 1.0 StyledText.qml
 ShadowText 1.0 ShadowText.qml
 MaterialIcon 1.0 MaterialIcon.qml
+CustomIcon 1.0 CustomIcon.qml
 ShadowIcon 1.0 ShadowIcon.qml
 CrossfadeIcon 1.0 CrossfadeIcon.qml
 CrossfadeText 1.0 CrossfadeText.qml

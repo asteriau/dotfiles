@@ -10,63 +10,73 @@ Scope {
 
     IpcHandler {
         target: "sidebar"
-        function toggle(): void { UiState.showSidebar = !UiState.showSidebar; }
-        function open(): void { UiState.showSidebar = true; }
-        function close(): void { UiState.showSidebar = false; }
+        function toggle(): void {
+        UiState.showSidebar = !UiState.showSidebar;
+    }
+        function open(): void {
+                             UiState.showSidebar = true;
+                         }
+        function close(): void {
+        UiState.showSidebar = false;
+    }
     }
 
-    SidebarTrigger {}
+        SidebarTrigger {}
 
-    PanelWindow {
-        id: sideWin
+        PanelWindow {
+            id: sideWin
 
-        screen: UiState.preferredMonitor
-        visible: true
+            screen: UiState.preferredMonitor
+            visible: true
 
-        anchors {
-            right: true
-            top: true
-            bottom: true
-        }
-
-        WlrLayershell.exclusionMode: ExclusionMode.Ignore
-        WlrLayershell.namespace: "quickshell:sidebar"
-        WlrLayershell.keyboardFocus: UiState.showSidebar ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
-        color: "transparent"
-
-        implicitWidth: Config.sidebar.width
-
-        margins.right: UiState.showSidebar ? 0 : -Config.sidebar.width
-
-        Behavior on margins.right {
-            NumberAnimation {
-                duration: Appearance.motion.duration.medium3
-                easing.type: Easing.OutCubic
+            anchors {
+                right: true
+                top: true
+                bottom: true
             }
-        }
 
-        HyprlandFocusGrab {
-            id: grab
-            windows: [sideWin]
-            active: UiState.showSidebar
-            onCleared: {
-                UiState.showSidebar = false;
-                UiState.sidebarMenu = "none";
+            WlrLayershell.exclusionMode: ExclusionMode.Ignore
+            WlrLayershell.namespace: "quickshell:sidebar"
+            WlrLayershell.keyboardFocus: UiState.showSidebar ? WlrKeyboardFocus.OnDemand :
+                                                               WlrKeyboardFocus.None
+            color: "transparent"
+
+            implicitWidth: Config.sidebar.width
+
+            margins.right: UiState.showSidebar ? 0 : -Config.sidebar.width
+
+            Behavior on margins.right {
+                NumberAnimation {
+                    duration: Appearance.motion.duration.medium3
+                    easing.type: Easing.OutCubic
+                }
             }
-        }
 
-        Keys.onPressed: (event) => {
-            if (event.key === Qt.Key_Escape) {
-                if (UiState.sidebarMenu !== "none")
-                    UiState.sidebarMenu = "none";
-                else
+            HyprlandFocusGrab {
+                id: grab
+                windows: [sideWin]
+                active: UiState.showSidebar
+                onCleared: {
                     UiState.showSidebar = false;
+                    UiState.sidebarMenu = "none";
+                    UiState.quickTogglesEditMode = false;
+                }
+            }
+
+            Keys.onPressed: event => {
+                                if (event.key === Qt.Key_Escape) {
+                                    if (UiState.sidebarMenu !== "none")
+                                    UiState.sidebarMenu = "none";
+                                    else
+                                    UiState.showSidebar = false;
+                                }
+                            }
+
+            SidebarChrome {
+                anchors.fill: parent
+                SidebarMenuStack {
+                    anchors.fill: parent
+                }
             }
         }
-
-        SidebarChrome {
-            anchors.fill: parent
-            SidebarMenuStack { anchors.fill: parent }
-        }
     }
-}
