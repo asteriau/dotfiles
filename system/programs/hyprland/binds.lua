@@ -13,8 +13,8 @@ end
 
 -- mouse movements
 hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true, description = "Window: Move window" })
-hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Window: Resize window" })
-hl.bind(mod .. " + ALT + mouse:272", hl.dsp.window.resize(), { mouse = true, description = "Window: Resize window" })
+hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Window: Resize floating window" })
+hl.bind(mod .. " + ALT + mouse:272", hl.dsp.window.resize(), { mouse = true, description = "Window: Resize tiled window" })
 
 -- compositor commands
 hl.bind(mod .. " + Q", hl.dsp.window.close(), { description = "Window: Close active" })
@@ -25,15 +25,12 @@ hl.bind(mod .. " + SHIFT + P", hl.dsp.group.prev(), { description = "Window: Pre
 hl.bind(mod .. " + R", hl.dsp.layout("togglesplit"), { description = "Window: Toggle split" })
 hl.bind(mod .. " + T", hl.dsp.window.float({ action = "toggle" }), { description = "Window: Toggle floating" })
 hl.bind(mod .. " + P", hl.dsp.window.pseudo(), { description = "Window: Toggle pseudo" })
-hl.bind(mod .. " + ALT", hl.dsp.window.resize(), { description = "Window: Resize active" })
 
 -- utility
 hl.bind(mod .. " + Return", hl.dsp.exec_cmd("uwsm app -- foot"), { description = "App: Terminal" })
 hl.bind(mod .. " + Escape", hl.dsp.exec_cmd(toggle("wlogout") .. " -p layer-shell"), { description = "App: Logout menu" })
 hl.bind(mod .. " + O", hl.dsp.exec_cmd(runOnce("wl-ocr")), { description = "Utilities: OCR selection" })
 hl.bind("XF86Favorites", hl.dsp.exec_cmd(runOnce("wl-ocr")), { description = "Utilities: OCR selection" })
-hl.bind("XF86Calculator", hl.dsp.exec_cmd(toggle("gnome-calculator")), { description = "App: Calculator" })
-hl.bind(mod .. " + U", hl.dsp.exec_cmd("XDG_CURRENT_DESKTOP=gnome " .. runOnce("gnome-control-center")), { description = "App: Settings" })
 hl.bind(mod .. " + Slash", hl.dsp.exec_cmd("qs ipc call cheatsheet toggle"), { description = "Shell: Toggle cheatsheet" })
 
 -- move focus
@@ -44,17 +41,13 @@ hl.bind(mod .. " + down", hl.dsp.focus({ direction = "d" }), { description = "Wi
 
 -- screenshot / recording
 hl.bind("Print", hl.dsp.exec_cmd("grim - | wl-copy"), { description = "Screenshot: Fullscreen to clipboard" })
-hl.bind(mod .. " + SHIFT + S", hl.dsp.global("quickshell:regionScreenshot"), { description = "Screenshot: Region" })
+hl.bind(mod .. " + SHIFT + S", hl.dsp.global("quickshell:regionScreenshot"), { description = "Screenshot: Region screenshot" })
 hl.bind(mod .. " + SHIFT + R", hl.dsp.global("quickshell:regionRecord"), { description = "Screenshot: Region recording" })
 hl.bind(mod .. " + SHIFT + ALT + R", hl.dsp.exec_cmd("bash $HOME/.config/quickshell/scripts/record.sh --fullscreen --sound"), { description = "Screenshot: Fullscreen recording" })
 
--- special workspace
-hl.bind(mod .. " + SHIFT + grave", hl.dsp.window.move({ workspace = "special" }), { description = "Workspace: Move to special" })
-hl.bind(mod .. " + grave", hl.dsp.workspace.toggle_special("eDP-1"), { description = "Workspace: Toggle special" })
-
 -- cycle workspaces
-hl.bind(mod .. " + bracketleft", hl.dsp.focus({ workspace = "m-1" }), { description = "Workspace: Previous" })
-hl.bind(mod .. " + bracketright", hl.dsp.focus({ workspace = "m+1" }), { description = "Workspace: Next" })
+hl.bind(mod .. " + bracketleft", hl.dsp.focus({ workspace = "m-1" }), { description = "Workspace: Previous active" })
+hl.bind(mod .. " + bracketright", hl.dsp.focus({ workspace = "m+1" }), { description = "Workspace: Next active" })
 
 -- cycle monitors
 hl.bind(mod .. " + SHIFT + bracketleft", hl.dsp.focus({ monitor = "l" }), { description = "Monitor: Focus left" })
@@ -64,8 +57,7 @@ hl.bind(mod .. " + SHIFT + bracketright", hl.dsp.focus({ monitor = "r" }), { des
 hl.bind(mod .. " + SHIFT + ALT + bracketleft", hl.dsp.workspace.move({ monitor = "l" }), { description = "Monitor: Send workspace left" })
 hl.bind(mod .. " + SHIFT + ALT + bracketright", hl.dsp.workspace.move({ monitor = "r" }), { description = "Monitor: Send workspace right" })
 
--- workspaces 1-10. dots-hyprland leaves this loop undescribed; describe only
--- the first so the cheatsheet shows ONE representative row, not 20.
+-- workspaces
 for i = 1, 10 do
   local key = i % 10
   if i == 1 then
