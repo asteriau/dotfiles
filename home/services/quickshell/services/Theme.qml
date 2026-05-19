@@ -253,9 +253,13 @@ urls=${accent}
         const border    = _stripHash(p.border);
         const surfaceCL = _stripHash(p.surfaceContainerLow);
         const elevated  = _stripHash(p.elevated);
-        return `general:col.active_border = rgba(${border}77)
-general:col.inactive_border = rgba(${surfaceCL}33)
-misc:background_color = rgba(${elevated}FF)
+        return `hl.config({
+  general = { col = {
+    active_border = "rgba(${border}77)",
+    inactive_border = "rgba(${surfaceCL}33)",
+  } },
+  misc = { background_color = "rgba(${elevated}FF)" },
+})
 `;
     }
 
@@ -276,7 +280,7 @@ misc:background_color = rgba(${elevated}FF)
             'printf "%s" "$1" > "$2" && hyprctl reload >/dev/null 2>&1 || true',
             "--",
             _hyprlandConfBody(),
-            Directories.shellDir + "/state/hyprland.conf"
+            Directories.shellDir + "/state/hyprland-colors.lua"
         ];
         hyprlandWrite.running = true;
     }

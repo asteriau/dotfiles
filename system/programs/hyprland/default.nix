@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -10,11 +11,7 @@ in
   imports = [
     inputs.hyprland.nixosModules.default
 
-    ./animations.nix
-    ./binds.nix
-    ./decoration.nix
-    ./rules.nix
-    ./settings.nix
+    ./variables.nix
   ];
 
   environment = {
@@ -27,6 +24,26 @@ in
 
     # tell Electron/Chromium to run on Wayland
     variables.NIXOS_OZONE_WL = "1";
+
+    # write the Lua config (variables.lua is written by ./variables.nix)
+    etc =
+      let
+        lua = [
+          ./hyprland.lua
+          ./settings.lua
+          ./decoration.lua
+          ./animations.lua
+          ./binds.lua
+          ./rules.lua
+          ./colors.lua
+        ];
+      in
+      builtins.listToAttrs (
+        map (e: {
+          name = "xdg/hypr/${lib.baseNameOf e}";
+          value.source = e;
+        }) lua
+      );
   };
 
   # enable hyprland and required options

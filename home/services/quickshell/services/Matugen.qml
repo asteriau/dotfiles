@@ -28,8 +28,8 @@ Singleton {
             'output_path = "$SHELL_DIR/state/colors.json"\n' +
             '\n' +
             '[templates.hyprland]\n' +
-            'input_path  = "$SHELL_DIR/matugen/hyprland.conf"\n' +
-            'output_path = "$SHELL_DIR/state/hyprland.conf"\n' +
+            'input_path  = "$SHELL_DIR/matugen/hyprland-colors.lua"\n' +
+            'output_path = "$SHELL_DIR/state/hyprland-colors.lua"\n' +
             'EOF\n' +
             'matugen image "$WALLPAPER" ' +
                 '-m "$MODE" -t "$SCHEME" ' +
