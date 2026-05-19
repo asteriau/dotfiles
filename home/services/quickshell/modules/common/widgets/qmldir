@@ -60,3 +60,5 @@ SwitchRow 1.0 SwitchRow.qml
 TextFieldRow 1.0 TextFieldRow.qml
 RectangularContainerShape 1.0 RectangularContainerShape.qml
 AxisRectangularContainerShape 1.0 AxisRectangularContainerShape.qml
+KeyboardKey 1.0 KeyboardKey.qml
+CheatsheetShadow 1.0 CheatsheetShadow.qml

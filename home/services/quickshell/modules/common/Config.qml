@@ -112,6 +112,21 @@ Singleton {
                     property bool aimLines:    true
                 }
             }
+
+            property JsonObject cheatsheet: JsonObject {
+                id: cheatsheetOpts
+                property string superKey:       ""
+                property bool   useMacSymbol:   false
+                property bool   useFnSymbol:    false
+                property bool   useMouseSymbol: false
+                property bool   splitButtons:   false
+
+                property JsonObject fontSize: JsonObject {
+                    id: cheatsheetFontSizeOpts
+                    property int key:     12
+                    property int comment: 12
+                }
+            }
         }
     }
 
@@ -181,6 +196,19 @@ Singleton {
             property alias strokeWidth: regionCircleOpts.strokeWidth
             property alias padding:     regionCircleOpts.padding
             property alias aimLines:    regionCircleOpts.aimLines
+        }
+    }
+
+    readonly property QtObject cheatsheet: QtObject {
+        property alias superKey:       cheatsheetOpts.superKey
+        property alias useMacSymbol:   cheatsheetOpts.useMacSymbol
+        property alias useFnSymbol:    cheatsheetOpts.useFnSymbol
+        property alias useMouseSymbol: cheatsheetOpts.useMouseSymbol
+        property alias splitButtons:   cheatsheetOpts.splitButtons
+
+        readonly property QtObject fontSize: QtObject {
+            property alias key:     cheatsheetFontSizeOpts.key
+            property alias comment: cheatsheetFontSizeOpts.comment
         }
     }
 }

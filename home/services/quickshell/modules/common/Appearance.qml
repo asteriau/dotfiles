@@ -345,6 +345,7 @@ QtObject {
         readonly property string family:      Config.typography.family
         readonly property string titleFamily: family
         readonly property string iconFamily:  "Material Symbols Rounded"
+        readonly property string monospace: "monospace"
 
         readonly property int smallest: 10
         readonly property int smaller:  12

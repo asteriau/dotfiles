@@ -9,6 +9,7 @@ import qs.modules.notifications.popup
 import qs.modules.screenshot
 import qs.modules.settings
 import qs.modules.sidebar
+import qs.modules.cheatsheet
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.models
@@ -32,6 +33,7 @@ ShellRoot {
     Sidebar {}
     WallpaperPicker {}
     RegionSelector {}
+    Cheatsheet {}
     // Settings window
     property var _settingsWindow: null
     Connections {
