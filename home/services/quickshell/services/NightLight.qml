@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.modules.common.functions
 
 Singleton {
     id: root
@@ -22,7 +23,7 @@ Singleton {
     }
 
     function ensureDaemon(): void {
-        Quickshell.execDetached(["bash", "-c", "pidof hyprsunset || hyprsunset"]);
+        Utils.launchDecoupled(["bash", "-c", "pidof hyprsunset || hyprsunset"]);
     }
 
     function setTemperature(k: int): void {

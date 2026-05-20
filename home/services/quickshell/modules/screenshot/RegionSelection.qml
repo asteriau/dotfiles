@@ -113,7 +113,7 @@ PanelWindow {
             screenshotAction,
             screenshotDir
         );
-        if (command) Quickshell.execDetached(command);
+        if (command) Utils.launchDecoupled(command);
         root.dismiss();
     }
 

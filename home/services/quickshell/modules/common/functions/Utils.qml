@@ -40,4 +40,11 @@ Singleton {
     function launchSettings() {
         settingsRequested();
     }
+
+    // Launch a long-lived process in its own transient systemd scope under
+    // app.slice, decoupled from quickshell.service. Without this, descendants
+    // inherit the shell's cgroup and die on `systemctl --user restart quickshell`.
+    function launchDecoupled(argv: list<string>): void {
+        Quickshell.execDetached(["systemd-run", "--user", "--scope", "--collect", "--quiet", "--", ...argv]);
+    }
 }

@@ -2,6 +2,7 @@ pragma Singleton
 
 import QtQuick
 import Quickshell
+import qs.modules.common.functions
 import qs.modules.launcher
 
 Singleton {
@@ -41,9 +42,9 @@ Singleton {
             comment: a.comment || "",
             execute: () => {
                 if (a.runInTerminal) {
-                    Quickshell.execDetached(["foot", "-e", ...a.command]);
+                    Utils.launchDecoupled(["foot", "-e", ...a.command]);
                 } else {
-                    a.execute();
+                    Utils.launchDecoupled(a.command);
                 }
             }
         }));

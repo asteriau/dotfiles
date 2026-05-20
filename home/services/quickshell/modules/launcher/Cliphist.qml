@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.modules.common.functions
 
 Singleton {
     id: root
@@ -31,7 +32,7 @@ Singleton {
 
     function copy(entry) {
         const id = entry.split("\t")[0];
-        Quickshell.execDetached(["bash", "-c", `cliphist decode ${id} | wl-copy`]);
+        Utils.launchDecoupled(["bash", "-c", `cliphist decode ${id} | wl-copy`]);
     }
 
     function deleteEntry(entry) {
