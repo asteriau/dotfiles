@@ -8,7 +8,6 @@
   imports = [
     ./hardware-configuration.nix
     ./powersave.nix
-    ../../modules/gaming/aagl.nix
   ];
 
   boot = {
