@@ -30,4 +30,5 @@ in
   home.sessionPath = [
     "$HOME/.cargo/bin"
     "$HOME/.opencode/bin"
-];
+  ];
+}

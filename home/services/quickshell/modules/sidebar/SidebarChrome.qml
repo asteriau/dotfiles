@@ -37,42 +37,24 @@ Rectangle {
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.topMargin: Appearance.layout.gapXl + Appearance.layout.gapSm
-            anchors.bottomMargin: Appearance.layout.gapLg
-            anchors.leftMargin: 0
-            anchors.rightMargin: 0
-            spacing: Appearance.layout.gapLg
+            anchors.margins: Appearance.layout.gapXl
+            spacing: Appearance.layout.gapXl
 
             Header {
-                Layout.leftMargin: Appearance.layout.gapXl + Appearance.layout.gapSm
-                Layout.rightMargin: Appearance.layout.gapXl + Appearance.layout.gapSm
-                Layout.bottomMargin: Appearance.layout.gapLg
+                Layout.fillWidth: true
             }
 
             QuickToggles {
                 Layout.fillWidth: true
-                Layout.leftMargin: Appearance.layout.gapLg
-                Layout.rightMargin: Appearance.layout.gapLg
-                Layout.bottomMargin: Appearance.layout.gapLg
             }
 
             QuickSliders {
                 Layout.fillWidth: true
-                Layout.leftMargin: Appearance.layout.gapLg
-                Layout.rightMargin: Appearance.layout.gapLg
-                Layout.bottomMargin: Appearance.layout.gapLg
             }
 
             NotificationCenter {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.leftMargin: Appearance.layout.gapMd
-                Layout.rightMargin: Appearance.layout.gapMd
-            }
-
-            NotificationToolbar {
-                Layout.leftMargin: Appearance.layout.gapXl + Appearance.layout.gapSm
-                Layout.rightMargin: Appearance.layout.gapXl + Appearance.layout.gapSm
             }
         }
     }

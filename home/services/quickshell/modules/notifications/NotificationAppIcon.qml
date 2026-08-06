@@ -18,6 +18,7 @@ Item {
     property string summary: ""
     property int urgency: NotificationUrgency.Normal
     property int implicitSize: 38
+    property bool subtle: false
 
     readonly property bool isUrgent: urgency === NotificationUrgency.Critical
     readonly property real materialIconScale: 0.57
@@ -27,7 +28,10 @@ Item {
     readonly property real appIconSize: implicitSize * appIconScale
     readonly property real smallAppIconSize: implicitSize * smallAppIconScale
 
-    readonly property color tileBg: isUrgent ? Qt.rgba(Appearance.colors.red.r, Appearance.colors.red.g, Appearance.colors.red.b, 0.28) : Qt.rgba(Appearance.colors.accent.r, Appearance.colors.accent.g, Appearance.colors.accent.b, 0.22)
+    readonly property color tileBg: isUrgent
+        ? Qt.rgba(Appearance.colors.red.r, Appearance.colors.red.g, Appearance.colors.red.b, subtle ? 0.16 : 0.28)
+        : Qt.rgba(Appearance.colors.accent.r, Appearance.colors.accent.g, Appearance.colors.accent.b,
+                  subtle ? 0.12 : 0.22)
     readonly property color tileFg: isUrgent ? Appearance.colors.red : Appearance.colors.accent
 
     implicitWidth: implicitSize

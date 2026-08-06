@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell.Services.Pipewire
 import qs.modules.sidebar.controls
 import qs.modules.common
+import qs.modules.common.widgets
 import qs.modules.common.functions
 import qs.modules.common.models
 import qs.services
@@ -10,8 +11,8 @@ Rectangle {
     id: root
 
     readonly property bool nlActive: NightLight.active
-    property real verticalPadding: 14
-    property real horizontalPadding: 12
+    property real verticalPadding: Appearance.layout.gapLg
+    property real horizontalPadding: Appearance.layout.gapLg
 
     implicitHeight: contentItem.implicitHeight + root.verticalPadding * 2
     radius: Appearance.layout.radiusLg
@@ -20,13 +21,32 @@ Rectangle {
 
     Column {
         id: contentItem
-        spacing: Appearance.layout.gapMd
+        spacing: Appearance.layout.gapLg
         anchors {
             fill: parent
             leftMargin: root.horizontalPadding
             rightMargin: root.horizontalPadding
             topMargin: root.verticalPadding
             bottomMargin: root.verticalPadding
+        }
+
+        Row {
+            spacing: Appearance.layout.gapMd
+
+            MaterialIcon {
+                anchors.verticalCenter: parent.verticalCenter
+                text: "tune"
+                pixelSize: Appearance.typography.large
+                color: Appearance.colors.m3onSurfaceVariant
+            }
+
+            StyledText {
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Controls"
+                font.pixelSize: Appearance.typography.small
+                font.weight: Font.DemiBold
+                color: Appearance.colors.m3onSurfaceVariant
+            }
         }
 
         // Brightness + Night Light combined slider.

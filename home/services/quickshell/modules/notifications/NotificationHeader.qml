@@ -12,6 +12,7 @@ Item {
     property string timeString: ""
     property bool expanded: false
     property int count: 1
+    property bool subtle: false
 
     signal toggleExpanded
 
@@ -55,7 +56,8 @@ Item {
         radius: height / 2
         color: pillMouse.pressed ? Appearance.colors.pressedStrong
              : hovered           ? Appearance.colors.hoverStrongest
-             :                     Appearance.colors.hover
+             : root.subtle       ? Appearance.colors.transparent
+                                 : Appearance.colors.hover
         antialiasing: true
 
         Behavior on color {

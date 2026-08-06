@@ -18,6 +18,7 @@ Item {
     property bool expanded: false
     property real actionsProgress: 0
     property bool onlyNotification: true
+    property bool grouped: false
     property real padding: 10
     property real collapsedMaxHeight: 80
 
@@ -77,8 +78,15 @@ Item {
 
         x: 0
         width: parent.width
-        color: root.isPopup ? Appearance.colors.popupBackground : Appearance.colors.colLayer2
-        radius: root.isPopup ? Appearance.layout.notificationRadius : Appearance.layout.radiusLg
+        color: {
+            if (root.isPopup)
+                return Appearance.colors.popupBackground;
+            if (!root.grouped)
+                return Appearance.colors.colLayer2;
+            return Appearance.colors.transparent;
+        }
+        radius: root.grouped ? 0 : (root.isPopup ? Appearance.layout.notificationRadius
+                                                 : Appearance.layout.radiusLg)
         antialiasing: true
         clip: true
         opacity: Math.max(0, 1 - Math.abs(x) / (width * 0.9))
@@ -132,7 +140,8 @@ Item {
 
             NotificationAppIcon {
                 Layout.alignment: Qt.AlignTop
-                implicitSize: 38
+                implicitSize: root.grouped ? 32 : 38
+                subtle: root.grouped
                 image: root.n?.image ?? ""
                 appIcon: root.n?.appIcon ?? ""
                 summary: root.n?.summary ?? ""
@@ -150,6 +159,7 @@ Item {
                     timeString: root.timeString
                     expanded: root.expanded
                     count: root.n?.count ?? 1
+                    subtle: root.grouped
                     onToggleExpanded: root.expanded = !root.expanded
                 }
 

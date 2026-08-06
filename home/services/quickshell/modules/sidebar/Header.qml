@@ -11,57 +11,42 @@ import qs.modules.sidebar.quickToggles.classicStyle
 Item {
     id: root
     Layout.fillWidth: true
-    implicitHeight: Math.max(uptimeContainer.implicitHeight, systemButtonsRow.implicitHeight)
+    implicitHeight: Math.max(titleColumn.implicitHeight, systemButtonsRow.implicitHeight)
 
     Component.onCompleted: SystemInfo.subscribe()
     Component.onDestruction: SystemInfo.unsubscribe()
 
-    Rectangle {
-        id: uptimeContainer
+    Column {
+        id: titleColumn
         anchors {
-            top: parent.top
-            bottom: parent.bottom
             left: parent.left
+            verticalCenter: parent.verticalCenter
         }
-        color: Appearance.colors.colLayer1
-        radius: height / 2
-        implicitWidth: uptimeRow.implicitWidth + 24
-        implicitHeight: uptimeRow.implicitHeight + 8
+        spacing: Appearance.layout.gapXs
 
-        Row {
-            id: uptimeRow
-            anchors.centerIn: parent
-            spacing: 8
+        StyledText {
+            text: Qt.formatDateTime(Utils.clock.date, "dddd, MMMM d")
+            font.family: Appearance.typography.titleFamily
+            font.pixelSize: Appearance.typography.larger
+            font.weight: Font.Medium
+            color: Appearance.colors.foreground
+        }
 
-            CustomIcon {
-                id: distroIcon
-                anchors.verticalCenter: parent.verticalCenter
-                width: 25
-                height: 25
-                source: SystemInfo.distroIcon
-                colorize: true
-                color: Appearance.colors.colOnLayer0
-            }
-
-            StyledText {
-                anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: Appearance.typography.normal
-                color: Appearance.colors.colOnLayer0
-                text: "Up " + SystemInfo.uptimeShort
-                textFormat: Text.MarkdownText
-            }
+        StyledText {
+            text: "Up " + SystemInfo.uptimeShort
+            font.pixelSize: Appearance.typography.smaller
+            color: Appearance.colors.m3onSurfaceInactive
         }
     }
 
     ButtonGroup {
         id: systemButtonsRow
         anchors {
-            top: parent.top
-            bottom: parent.bottom
             right: parent.right
+            verticalCenter: parent.verticalCenter
         }
         color: Appearance.colors.colLayer1
-        padding: 4
+        padding: Appearance.layout.gapSm
 
         SystemQuickToggleButton {
             toggled: UiState.quickTogglesEditMode

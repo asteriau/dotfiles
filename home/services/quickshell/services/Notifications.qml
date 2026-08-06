@@ -14,6 +14,27 @@ Singleton {
     property var popupNotifs: []
     property var allNotifs: []
     property bool notifOverlayOpen: false
+    property bool silent: false
+
+    readonly property var groupsByAppName: {
+        const groups = {};
+        for (const notif of allNotifs) {
+            const key = notif.appName || notif.summary || "Notification";
+            if (!groups[key]) {
+                groups[key] = {
+                    appName: notif.appName || "Notification",
+                    appIcon: notif.appIcon,
+                    notifications: [],
+                    time: 0
+                };
+            }
+            groups[key].notifications.push(notif);
+            groups[key].time = Math.max(groups[key].time, notif.time);
+        }
+        return groups;
+    }
+    readonly property var appNameList: Object.keys(groupsByAppName).sort((a, b) =>
+        groupsByAppName[b].time - groupsByAppName[a].time)
 
     component NotifEntry: QtObject {
         id: wrapper
@@ -70,16 +91,18 @@ Singleton {
             summary: notif.summary ?? ""
         };
         const dup = (!notif.lastGeneration && incoming.appName.length > 0)
-            ? allNotifs.find(e => !e.lastGeneration && e.appName === incoming.appName && e.summary === incoming.summary)
+            ? allNotifs.find(e => !e.lastGeneration
+                && e.appName === incoming.appName
+                && e.summary === incoming.summary)
             : null;
 
         if (dup) {
             dup.count++;
             dup.time = Date.now();
             allNotifs = [dup, ...allNotifs.filter(e => e !== dup)];
-            if (!popupNotifs.includes(dup))
+            if (!silent && !popupNotifs.includes(dup))
                 popupNotifs = [dup, ...popupNotifs];
-            if (!UiState.showSidebar)
+            if (!silent && !UiState.showSidebar)
                 notifOverlayOpen = true;
             try { notif.dismiss(); } catch (e) {}
             return;
@@ -94,7 +117,7 @@ Singleton {
 
         allNotifs = [entry, ...allNotifs];
 
-        if (entry.lastGeneration)
+        if (entry.lastGeneration || silent)
             return;
 
         popupNotifs = [entry, ...popupNotifs];
