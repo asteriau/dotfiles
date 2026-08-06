@@ -27,5 +27,7 @@ in
   };
 
   # add to PATH
-  home.sessionPath = [ "$HOME/.cargo/bin" ];
-}
+  home.sessionPath = [
+    "$HOME/.cargo/bin"
+    "$HOME/.opencode/bin"
+];

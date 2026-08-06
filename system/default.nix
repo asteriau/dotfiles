@@ -4,6 +4,7 @@ let
 
     ./hardware/fwupd.nix
     ./hardware/tablet.nix
+    ./hardware/wooting.nix
     ./hardware/graphics.nix
 
     ./network
