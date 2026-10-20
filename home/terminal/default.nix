@@ -5,6 +5,7 @@ let
 in
 {
   imports = [
+    ./emulators/foot.nix
     ./programs
     ./shell
   ];
