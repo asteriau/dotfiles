@@ -5,6 +5,7 @@
 }:
 {
   home.packages = with pkgs; [
+    helix
     # archives
     zip
     unzip

@@ -29,6 +29,9 @@ in
 {
   # Also exported to the session so `qs -p settings.qml` from a terminal sees them.
   home.sessionVariables = env;
+  # uwsm merges the user manager's environment into the compositor's, which is
+  # how Hyprland-bound fallbacks (settings app via Super+I, record.sh, ...) see these.
+  systemd.user.sessionVariables = env;
 
   systemd.user.services.quickshell = {
     Unit = {

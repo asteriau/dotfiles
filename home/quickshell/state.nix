@@ -8,7 +8,7 @@
   home.activation.illogicalImpulseState =
     lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ]
       ''
-        # settings app edits this in place; the static Lua in /etc/xdg/hypr dofile()s it
+        # settings app edits this in place; the static Lua in /etc/xdg/hypr require()s it
         overrides="$HOME/.config/hypr/hyprland/shellOverrides/main.lua"
         [ -e "$overrides" ] || run install -Dm644 ${../../system/programs/hyprland/hyprland/shellOverrides/main.lua} "$overrides"
         # matugen writes this on the first wallpaper change; fuzzel.ini includes it

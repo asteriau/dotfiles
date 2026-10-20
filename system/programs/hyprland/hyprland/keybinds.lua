@@ -1,7 +1,7 @@
 require("hyprland.lib")
 require("hyprland.variables")
 if is_file_exists(HOME .. "/.config/hypr/custom/variables.lua") then
-    dofile(HOME .. "/.config/hypr/custom/variables.lua")
+    require(HOME .. "/.config/hypr/custom/variables.lua")
 end
 
 local qsScripts = "$HOME/.config/quickshell/$qsConfig/scripts"

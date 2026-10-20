@@ -21,6 +21,7 @@ let
       qtmultimedia
       qtsvg
       qtimageformats
+      qtpositioning
       qtquicktimeline
       qtvirtualkeyboard
       qtwayland
@@ -36,6 +37,7 @@ let
       qtsvg
       qtwayland
       qtimageformats
+      qtpositioning
     ]
   );
 

@@ -14,6 +14,14 @@ let
   });
 in
 {
+  # QT_PLUGIN_PATH / QML2_IMPORT_PATH to the per-user profile, so kcmshell6
+  # finds the bluedevil/plasma-nm KCMs and Qt apps find the Darkly style.
+  # QT_QPA_PLATFORMTHEME=kde is set by the upstream Hyprland env.lua.
+  qt = {
+    enable = true;
+    platformTheme.name = "kde";
+  };
+
   home.packages = with pkgs; [
     adw-gtk3
     darkly
@@ -56,7 +64,6 @@ in
           run cp -r ${./Kvantum/MaterialAdw} "$HOME/.config/Kvantum/MaterialAdw"
           run chmod -R u+w "$HOME/.config/Kvantum/MaterialAdw"
         fi
-        run ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
         run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle Darkly || true
       '';
 }

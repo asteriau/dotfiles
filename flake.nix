@@ -65,7 +65,7 @@
               pkgs.deadnix
               pkgs.nil
               pkgs.treefmt
-              pkgs.qt6.qtdeclarative # qmlls for editing dots/.config/quickshell
+              pkgs.qt6.qtdeclarative # qmlls for editing home/quickshell/ii
             ];
             env.DIRENV_LOG_FORMAT = "";
             shellHook = config.pre-commit.installationScript;

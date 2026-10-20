@@ -8,7 +8,7 @@ require("hyprland.services")
 -- Environment variables --
 require("hyprland.env")
 if is_file_exists(HOME .. "/.config/hypr/custom/env.lua") then
-    dofile(HOME .. "/.config/hypr/custom/env.lua")
+    require(HOME .. "/.config/hypr/custom/env.lua")
 end
 
 -- Default configurations --
@@ -18,36 +18,36 @@ require("hyprland.rules")
 require("hyprland.colors")
 -- matugen writes the live palette here; the shipped colors.lua is the default
 if is_file_exists(HOME .. "/.config/hypr/hyprland/colors.lua") then
-    pcall(dofile, HOME .. "/.config/hypr/hyprland/colors.lua")
+    require(HOME .. "/.config/hypr/hyprland/colors.lua")
 end
 require("hyprland.keybinds")
 
 -- Custom configurations --
 if is_file_exists(HOME .. "/.config/hypr/custom/execs.lua") then
-    dofile(HOME .. "/.config/hypr/custom/execs.lua")
+    require(HOME .. "/.config/hypr/custom/execs.lua")
 end
 if is_file_exists(HOME .. "/.config/hypr/custom/general.lua") then
-    dofile(HOME .. "/.config/hypr/custom/general.lua")
+    require(HOME .. "/.config/hypr/custom/general.lua")
 end
 if is_file_exists(HOME .. "/.config/hypr/custom/rules.lua") then
-    dofile(HOME .. "/.config/hypr/custom/rules.lua")
+    require(HOME .. "/.config/hypr/custom/rules.lua")
 end
 if is_file_exists(HOME .. "/.config/hypr/custom/keybinds.lua") then
-    dofile(HOME .. "/.config/hypr/custom/keybinds.lua")
+    require(HOME .. "/.config/hypr/custom/keybinds.lua")
 end
 
 -- nwg-displays support --
 if is_file_exists(HOME .. "/.config/hypr/workspaces.lua") then
-    dofile(HOME .. "/.config/hypr/workspaces.lua")
+    require(HOME .. "/.config/hypr/workspaces.lua")
 end
 if is_file_exists(HOME .. "/.config/hypr/monitors.lua") then
-    dofile(HOME .. "/.config/hypr/monitors.lua")
+    require(HOME .. "/.config/hypr/monitors.lua")
 end
 
 -- Shell overrides --
 -- the settings app writes this file; home/quickshell/state.nix seeds it from the shipped default
 if is_file_exists(HOME .. "/.config/hypr/hyprland/shellOverrides/main.lua") then
-    pcall(dofile, HOME .. "/.config/hypr/hyprland/shellOverrides/main.lua")
+    require(HOME .. "/.config/hypr/hyprland/shellOverrides/main.lua")
 else
     require("hyprland.shellOverrides.main")
 end
