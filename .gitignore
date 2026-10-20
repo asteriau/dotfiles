@@ -4,11 +4,7 @@
 CLAUDE.md
 result*
 
-# written at runtime by matugen / nwg-displays into the out-of-store hypr link
-dots/.config/hypr/monitors.lua
-dots/.config/hypr/workspaces.lua
-
 # quickshell dev artefacts
-dots/.config/quickshell/ii/.qmlls.ini
+home/quickshell/ii/.qmlls.ini
 __pycache__/
 *.py[cod]

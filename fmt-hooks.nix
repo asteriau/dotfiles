@@ -11,7 +11,21 @@
       hooks.treefmt.enable = true;
     };
 
-    treefmt.settings.global.excludes = [ "dots/**" ];
+    # vendored upstream trees and conf files, must stay byte-identical
+    treefmt.settings.global.excludes = [
+      "home/quickshell/ii/**"
+      "home/quickshell/matugen/**"
+      "system/programs/hyprland/hyprland.lua"
+      "system/programs/hyprland/hyprland/**"
+      "home/programs/wlogout/**"
+      "home/programs/Kvantum/**"
+      "home/programs/hyprlock/**"
+      "home/programs/seed/**"
+      "home/programs/hypridle.conf"
+      "home/programs/hyprlock.conf"
+      "home/programs/kde-material-you-colors.conf"
+      "home/programs/fonts.conf"
+    ];
 
     treefmt.programs = {
       nixfmt.enable = true;

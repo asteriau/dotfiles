@@ -1,11 +1,11 @@
 require("hyprland.lib")
 require("hyprland.variables")
 if is_file_exists(HOME .. "/.config/hypr/custom/variables.lua") then
-    require("custom.variables")
+    dofile(HOME .. "/.config/hypr/custom/variables.lua")
 end
 
 local qsScripts = "$HOME/.config/quickshell/$qsConfig/scripts"
-local hyprScripts = "$HOME/.config/hypr/hyprland/scripts"
+local hyprScripts = "/etc/xdg/hypr/hyprland/scripts"
 local qsIpcCall = "qs -c $qsConfig ipc call"
 local qsIsAlive = qsIpcCall .. " TEST_ALIVE"
 

@@ -14,7 +14,7 @@ let
   ];
 
   wayland = [
-    ./programs/hyprland.nix
+    ./programs/hyprland
     ./services/gnome-services.nix
     ./illogical-impulse.nix
   ];

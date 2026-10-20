@@ -2,7 +2,8 @@
 {
   imports = [
     ./terminal
-    ./illogical-impulse
+    ./quickshell
+    ./programs
   ];
 
   home = {
