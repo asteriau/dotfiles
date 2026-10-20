@@ -4,3 +4,4 @@ dots/.config/hypr/hyprland -> system/programs/hyprland/hyprland
 dots/.config/matugen/templates -> home/quickshell/matugen/templates
 dots/.config/Kvantum/Colloid -> home/programs/Kvantum/Colloid
 dots/.config/Kvantum/MaterialAdw -> home/programs/Kvantum/MaterialAdw
+dots/.local/share/icons/illogical-impulse.svg -> home/programs/icons/illogical-impulse.svg

@@ -6,7 +6,7 @@
 {
   users.users.${profile.user} = {
     isNormalUser = true;
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     extraGroups = [
       "input"
       "networkmanager"

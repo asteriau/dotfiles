@@ -16,6 +16,7 @@
     ddcutil
 
     # basic
+    fish
     bash
     bc
     coreutils

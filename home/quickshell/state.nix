@@ -21,9 +21,13 @@
             builtins.toJSON {
               apps = {
                 terminal = "foot";
-                changePassword = "foot --hold sh -c passwd";
-                update = "foot --hold nh os switch ${profile.flakePath}";
+                changePassword = "foot --hold fish -i -c passwd";
+                update = "foot --hold fish -i -c 'nh os switch ${profile.flakePath}'";
               };
+              launcher.pinnedApps = [
+                "org.kde.dolphin"
+                "foot"
+              ];
             }
           )
         } "$cfg"

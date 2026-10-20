@@ -18,6 +18,7 @@
       "system/programs/hyprland/hyprland.lua"
       "system/programs/hyprland/hyprland/**"
       "home/programs/Kvantum/**"
+      "home/programs/icons/**"
     ];
 
     treefmt.programs = {
