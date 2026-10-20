@@ -21,7 +21,7 @@ Singleton {
     property list<string> processedHashes: []
     property var processedExpressions: ({})
     property var renderedImagePaths: ({})
-    property string microtexBinaryDir: "/opt/MicroTeX"
+    property string microtexBinaryDir: Quickshell.env("MICROTEX_DIR") || "/opt/MicroTeX"
     property string microtexBinaryName: "LaTeX"
     property string latexOutputPath: Directories.latexOutput
 

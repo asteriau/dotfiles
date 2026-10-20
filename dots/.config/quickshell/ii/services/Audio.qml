@@ -115,8 +115,9 @@ Singleton {
     }
 
     function playSystemSound(soundName) {
-        const ogaPath = `/usr/share/sounds/${root.audioTheme}/stereo/${soundName}.oga`;
-        const oggPath = `/usr/share/sounds/${root.audioTheme}/stereo/${soundName}.ogg`;
+        const soundsDir = Quickshell.env("ILLOGICAL_IMPULSE_SOUNDS_DIR") || "/usr/share/sounds";
+        const ogaPath = `${soundsDir}/${root.audioTheme}/stereo/${soundName}.oga`;
+        const oggPath = `${soundsDir}/${root.audioTheme}/stereo/${soundName}.ogg`;
 
         // Try playing .oga first
         let command = [
