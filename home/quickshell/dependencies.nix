@@ -19,9 +19,9 @@
     fish
     bash
     bc
-    eza # fish alias ls
     coreutils
     cliphist
+    eza # fish alias ls
     curl
     wget
     jq
