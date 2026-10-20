@@ -8,7 +8,7 @@
   gtkmm3,
   gtksourceview3,
   gtksourceviewmm,
-  sysprof,
+  libsysprof-capture,
   cairomm_1_0,
   fontconfig,
 }:
@@ -33,7 +33,7 @@ stdenv.mkDerivation {
     gtkmm3
     gtksourceview3
     gtksourceviewmm
-    sysprof
+    libsysprof-capture # glib-2.0.pc Requires.private sysprof-capture-4
     cairomm_1_0
     fontconfig
   ];
