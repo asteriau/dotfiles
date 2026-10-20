@@ -1,0 +1,7 @@
+{
+  perSystem =
+    { pkgs, ... }:
+    {
+      packages = { };
+    };
+}

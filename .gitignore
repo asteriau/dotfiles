@@ -1,0 +1,16 @@
+.claude/
+.direnv
+.pre-commit-config.yaml
+CLAUDE.md
+result*
+
+# written at runtime by matugen / nwg-displays into the out-of-store hypr link
+dots/.config/hypr/hyprland/colors.lua
+dots/.config/hypr/hyprlock/colors.conf
+dots/.config/hypr/monitors.lua
+dots/.config/hypr/workspaces.lua
+
+# quickshell dev artefacts
+dots/.config/quickshell/ii/.qmlls.ini
+__pycache__/
+*.py[cod]
