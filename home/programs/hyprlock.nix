@@ -160,7 +160,7 @@ in
 
   # hyprlock.conf is edited in place by the settings app and colors.conf by
   # matugen, so both are seeded writable instead of linked.
-  home.activation.hyprlockSeed = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.hyprlockSeed = lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ] ''
     [ -e "$HOME/.config/hypr/hyprlock.conf" ] || run install -Dm644 ${hyprlockConf} "$HOME/.config/hypr/hyprlock.conf"
     [ -e "$HOME/.config/hypr/hyprlock/colors.conf" ] || run install -Dm644 ${colorsConf} "$HOME/.config/hypr/hyprlock/colors.conf"
   '';

@@ -46,15 +46,17 @@ in
 
   # Written at runtime by kwriteconfig6 / kde-material-you-colors, so seeded
   # writable once instead of linked. Mirrors the installer's one-time setup.
-  home.activation.illogicalImpulseTheming = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    [ -e "$HOME/.config/kdeglobals" ] || run install -Dm644 ${kdeglobals} "$HOME/.config/kdeglobals"
-    [ -e "$HOME/.config/darklyrc" ] || run install -Dm644 ${darklyrc} "$HOME/.config/darklyrc"
-    if [ ! -e "$HOME/.config/Kvantum/MaterialAdw" ]; then
-      run mkdir -p "$HOME/.config/Kvantum"
-      run cp -r ${./Kvantum/MaterialAdw} "$HOME/.config/Kvantum/MaterialAdw"
-      run chmod -R u+w "$HOME/.config/Kvantum/MaterialAdw"
-    fi
-    run ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
-    run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle Darkly || true
-  '';
+  home.activation.illogicalImpulseTheming =
+    lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ]
+      ''
+        [ -e "$HOME/.config/kdeglobals" ] || run install -Dm644 ${kdeglobals} "$HOME/.config/kdeglobals"
+        [ -e "$HOME/.config/darklyrc" ] || run install -Dm644 ${darklyrc} "$HOME/.config/darklyrc"
+        if [ ! -e "$HOME/.config/Kvantum/MaterialAdw" ]; then
+          run mkdir -p "$HOME/.config/Kvantum"
+          run cp -r ${./Kvantum/MaterialAdw} "$HOME/.config/Kvantum/MaterialAdw"
+          run chmod -R u+w "$HOME/.config/Kvantum/MaterialAdw"
+        fi
+        run ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
+        run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle Darkly || true
+      '';
 }
