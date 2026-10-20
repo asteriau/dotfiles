@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   env = pkgs.python3.withPackages (
     ps: with ps; [
@@ -43,6 +43,25 @@ let
     cat > $out/bin/activate <<EOF
     export VIRTUAL_ENV="$out"
     export PATH="${env}/bin:$out/bin:\$PATH"
+    export GI_TYPELIB_PATH="${
+      lib.makeSearchPath "lib/girepository-1.0" (
+        with pkgs;
+        [
+          gnome-desktop
+          gtk4
+          libadwaita
+          libsoup_3
+          libportal-gtk4
+          glib.out
+          graphene
+          gobject-introspection-unwrapped.out # cairo-1.0 typelib
+          gsettings-desktop-schemas # GDesktopEnums for GnomeDesktop
+          gdk-pixbuf
+          pango.out
+          harfbuzz
+        ]
+      )
+    }:\$GI_TYPELIB_PATH"
     deactivate() { :; }
     EOF
     printf '#!/bin/sh\nexit 0\n' > $out/bin/plasma-apply-colorscheme

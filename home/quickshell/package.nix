@@ -36,6 +36,7 @@ let
       qtsvg
       qtwayland
       qtimageformats
+      kimageformats
       qtpositioning
     ]
   );

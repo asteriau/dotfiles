@@ -10,6 +10,7 @@
     easyeffects
     ffmpeg # ffplay for Audio.qml system sounds
     wireplumber # wpctl
+    libdbusmenu-gtk3 # tray menus of GTK3 apps
 
     # backlight
     brightnessctl
@@ -19,6 +20,7 @@
     fish
     bash
     bc
+    ripgrep
     coreutils
     cliphist
     eza # fish alias ls
@@ -50,6 +52,7 @@
     kdePackages.kdialog
     kdePackages.kconfig # kwriteconfig6
     kdePackages.kcmutils # kcmshell6
+    kdePackages.kimageformats # Qt image plugins incl. AVIF (upstream qt6-avif-image-plugin)
 
     # screencapture
     pulseaudio # pactl, record.sh audio source

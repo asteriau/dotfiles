@@ -30,6 +30,7 @@ in
   home.packages = with pkgs; [
     adw-gtk3
     darkly
+    kdePackages.breeze # Breeze Qt style + cursors
     kdePackages.breeze-icons
     ii.breeze-plus
     ii.bibata-hyprcursor

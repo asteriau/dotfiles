@@ -17,15 +17,6 @@ in
       ii.space-grotesk
     ];
 
-    enableDefaultPackages = false;
-
     fontconfig.subpixel.rgba = "none";
-
-    fontconfig.defaultFonts = {
-      serif = [ "Noto Serif" ];
-      sansSerif = [ "Rubik" ];
-      monospace = [ "JetBrainsMono Nerd Font" ];
-      emoji = [ "Noto Color Emoji" ];
-    };
   };
 }
