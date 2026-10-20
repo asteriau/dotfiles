@@ -47,8 +47,10 @@
     kdePackages.plasma-nm
     kdePackages.kdialog
     kdePackages.kconfig # kwriteconfig6
+    kdePackages.kcmutils # kcmshell6
 
     # screencapture
+    pulseaudio # pactl, record.sh audio source
     hyprshot
     slurp
     swappy
@@ -62,6 +64,7 @@
     ydotool
 
     # widgets
+    mpvpaper # video wallpapers
     fuzzel
     glib # gsettings
     imagemagick
@@ -70,6 +73,9 @@
     wlogout
     libqalculate # qalc
     matugen
+
+    # keyring (scripts/keyring/*.sh, KeyringStorage.qml)
+    libsecret # secret-tool
 
     # network
     networkmanager # nmcli
