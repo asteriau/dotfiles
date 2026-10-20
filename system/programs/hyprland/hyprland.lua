@@ -1,7 +1,0 @@
-require("variables")
-require("settings")
-require("decoration")
-require("animations")
-require("binds")
-require("rules")
-require("colors")

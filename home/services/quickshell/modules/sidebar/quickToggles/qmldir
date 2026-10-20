@@ -1,7 +1,0 @@
-module qs.modules.sidebar.quickToggles
-GroupButton 1.0 GroupButton.qml
-ButtonGroup 1.0 ButtonGroup.qml
-QuickTogglePanelBase 1.0 QuickTogglePanelBase.qml
-QuickTogglePanel 1.0 QuickTogglePanel.qml
-QuickToggleDelegateChooser 1.0 QuickToggleDelegateChooser.qml
-QuickToggleButton 1.0 QuickToggleButton.qml
