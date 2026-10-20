@@ -11,6 +11,8 @@
       hooks.treefmt.enable = true;
     };
 
+    treefmt.settings.global.excludes = [ "dots/**" ];
+
     treefmt.programs = {
       nixfmt.enable = true;
 
