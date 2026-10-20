@@ -1,13 +1,6 @@
 dots/.config/quickshell/ii -> home/quickshell/ii
 dots/.config/hypr/hyprland.lua -> system/programs/hyprland/hyprland.lua
 dots/.config/hypr/hyprland -> system/programs/hyprland/hyprland
-dots/.config/hypr/hypridle.conf -> home/programs/hypridle.conf
-dots/.config/hypr/hyprlock.conf -> home/programs/hyprlock.conf
-dots/.config/hypr/hyprlock -> home/programs/hyprlock
-dots/.config/matugen -> home/quickshell/matugen
-dots/.config/wlogout -> home/programs/wlogout
-dots/.config/Kvantum -> home/programs/Kvantum
-dots/.config/kde-material-you-colors/config.conf -> home/programs/kde-material-you-colors.conf
-dots/.config/fontconfig/fonts.conf -> home/programs/fonts.conf
-dots/.config/kdeglobals -> home/programs/seed/kdeglobals
-dots/.config/darklyrc -> home/programs/seed/darklyrc
+dots/.config/matugen/templates -> home/quickshell/matugen/templates
+dots/.config/Kvantum/Colloid -> home/programs/Kvantum/Colloid
+dots/.config/Kvantum/MaterialAdw -> home/programs/Kvantum/MaterialAdw

@@ -19,6 +19,8 @@ in
 
     enableDefaultPackages = false;
 
+    fontconfig.subpixel.rgba = "none";
+
     fontconfig.defaultFonts = {
       serif = [ "Noto Serif" ];
       sansSerif = [ "Rubik" ];
