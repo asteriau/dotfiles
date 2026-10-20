@@ -5,7 +5,7 @@
     ./security.nix
     ./users.nix
     ../nix
-    ../programs/zsh.nix
+    ../programs/fish.nix
   ];
 
   documentation.dev.enable = true;

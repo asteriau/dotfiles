@@ -2,6 +2,7 @@
 hl.on("hyprland.start", function ()
 
     -- Bar, wallpaper
+    hl.exec_cmd("$HOME/.config/hypr/custom/scripts/__restore_video_wallpaper.sh")
 
     -- Core components (authentication, lock screen, notification daemon)
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")

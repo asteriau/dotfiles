@@ -40,7 +40,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    yazi.url = "github:sxyazi/yazi";
   };
 
   outputs =

@@ -1,7 +1,6 @@
 { profile, ... }:
 {
   imports = [
-    ./terminal
     ./quickshell
     ./programs
   ];

@@ -22,6 +22,11 @@ in
     platformTheme.name = "kde";
   };
 
+  dconf.settings."org/gnome/desktop/interface" = {
+    font-name = "Google Sans Flex Medium 11 @opsz=11,wght=500";
+    color-scheme = "prefer-dark";
+  };
+
   home.packages = with pkgs; [
     adw-gtk3
     darkly

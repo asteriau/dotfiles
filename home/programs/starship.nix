@@ -1,7 +1,4 @@
-{ config, ... }:
 {
-  home.sessionVariables.STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
-
   # end-4's dots/.config/starship.toml
   programs.starship = {
     enable = true;

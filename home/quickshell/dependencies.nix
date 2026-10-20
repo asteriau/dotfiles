@@ -19,6 +19,7 @@
     fish
     bash
     bc
+    eza # fish alias ls
     coreutils
     cliphist
     curl
