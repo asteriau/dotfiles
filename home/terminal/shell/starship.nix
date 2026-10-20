@@ -5,7 +5,7 @@
   # end-4's dots/.config/starship.toml
   programs.starship = {
     enable = true;
-    enableTransience = true; # upstream config.fish enabled transience by hand
+    enableFishIntegration = false; # fish.nix carries upstream's init verbatim
     settings = {
       add_newline = false;
       format = "$cmd_duration $directory$git_branch\n  $character";
