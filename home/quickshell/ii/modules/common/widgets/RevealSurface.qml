@@ -6,7 +6,9 @@ import qs.modules.common
  * scales from `enterScale` and slides from `enterOffset`. Starts hidden and
  * animates in on its first frame, so a surface created already shown plays
  * its entrance. Flipping `shown` mid-exit reverses the motion, which is why
- * nothing here is alwaysRunToEnd. Set `transformOrigin` for the scale pivot.
+ * nothing here is alwaysRunToEnd. Direction is read from each Behavior's
+ * `targetValue`, so it does not depend on binding order. Set `transformOrigin`
+ * for the scale pivot.
  */
 Item {
     id: root
@@ -24,10 +26,12 @@ Item {
         x: root._shown ? 0 : root.enterOffset.x
         y: root._shown ? 0 : root.enterOffset.y
         Behavior on x {
-            animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => root._shown) })
+            id: xBehavior
+            animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => xBehavior.targetValue === 0) })
         }
         Behavior on y {
-            animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => root._shown) })
+            id: yBehavior
+            animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => yBehavior.targetValue === 0) })
         }
     }
 
@@ -39,6 +43,7 @@ Item {
         }
     }
     Behavior on scale {
-        animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => root._shown) })
+        id: scaleBehavior
+        animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => scaleBehavior.targetValue === 1) })
     }
 }
