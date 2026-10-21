@@ -92,9 +92,14 @@ Scope {
         }
     }
 
+    RevealGate {
+        id: gate
+        shown: GlobalStates.osdVolumeOpen
+    }
+
     Loader {
         id: osdLoader
-        active: GlobalStates.osdVolumeOpen
+        active: gate.active
 
         sourceComponent: PanelWindow {
             id: osdRoot
@@ -128,71 +133,80 @@ Scope {
             implicitHeight: columnLayout.implicitHeight
             visible: osdLoader.active
 
-            ColumnLayout {
-                id: columnLayout
-                anchors.horizontalCenter: parent.horizontalCenter
+            RevealSurface {
+                anchors.fill: parent
+                shown: GlobalStates.osdVolumeOpen
+                transformOrigin: Config.options.bar.bottom ? Item.Bottom : Item.Top
+                enterOffset: Qt.point(0, Config.options.bar.bottom ? 16 : -16)
 
-                Item {
-                    id: osdValuesWrapper
-                    // Extra space for shadow
-                    implicitHeight: contentColumnLayout.implicitHeight
-                    implicitWidth: contentColumnLayout.implicitWidth
-                    clip: true
+                ColumnLayout {
+                    id: columnLayout
+                    anchors.horizontalCenter: parent.horizontalCenter
 
-                    MouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onEntered: GlobalStates.osdVolumeOpen = false
-                    }
+                    Item {
+                        id: osdValuesWrapper
+                        // Extra space for shadow
+                        implicitHeight: contentColumnLayout.implicitHeight
+                        implicitWidth: contentColumnLayout.implicitWidth
+                        clip: true
 
-                    Column {
-                        id: contentColumnLayout
-                        anchors {
-                            top: parent.top
-                            left: parent.left
-                            right: parent.right
-                        }
-                        spacing: 0
-
-                        Loader {
-                            id: osdIndicatorLoader
-                            source: root.indicators.find(i => i.id === root.currentIndicator)?.sourceUrl
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: GlobalStates.osdVolumeOpen = false
                         }
 
-                        Item {
-                            id: protectionMessageWrapper
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            implicitHeight: protectionMessageBackground.implicitHeight
-                            implicitWidth: protectionMessageBackground.implicitWidth
-                            opacity: root.protectionMessage !== "" ? 1 : 0
-
-                            StyledRectangularShadow {
-                                target: protectionMessageBackground
+                        Column {
+                            id: contentColumnLayout
+                            anchors {
+                                top: parent.top
+                                left: parent.left
+                                right: parent.right
                             }
-                            Rectangle {
-                                id: protectionMessageBackground
-                                anchors.centerIn: parent
-                                color: Appearance.m3colors.m3error
-                                property real padding: 10
-                                implicitHeight: protectionMessageRowLayout.implicitHeight + padding * 2
-                                implicitWidth: protectionMessageRowLayout.implicitWidth + padding * 2
-                                radius: Appearance.rounding.normal
+                            spacing: 0
 
-                                RowLayout {
-                                    id: protectionMessageRowLayout
+                            Loader {
+                                id: osdIndicatorLoader
+                                source: root.indicators.find(i => i.id === root.currentIndicator)?.sourceUrl
+                            }
+
+                            Item {
+                                id: protectionMessageWrapper
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                implicitHeight: protectionMessageBackground.implicitHeight
+                                implicitWidth: protectionMessageBackground.implicitWidth
+                                opacity: root.protectionMessage !== "" ? 1 : 0
+                                Behavior on opacity {
+                                    animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
+                                }
+                                StyledRectangularShadow {
+                                    target: protectionMessageBackground
+                                }
+                                Rectangle {
+                                    id: protectionMessageBackground
                                     anchors.centerIn: parent
-                                    MaterialSymbol {
-                                        id: protectionMessageIcon
-                                        text: "dangerous"
-                                        iconSize: Appearance.font.pixelSize.hugeass
-                                        color: Appearance.m3colors.m3onError
-                                    }
-                                    StyledText {
-                                        id: protectionMessageTextWidget
-                                        horizontalAlignment: Text.AlignHCenter
-                                        color: Appearance.m3colors.m3onError
-                                        wrapMode: Text.Wrap
-                                        text: root.protectionMessage
+                                    color: Appearance.m3colors.m3error
+                                    property real padding: 10
+                                    implicitHeight: protectionMessageRowLayout.implicitHeight + padding * 2
+                                    implicitWidth: protectionMessageRowLayout.implicitWidth + padding * 2
+                                    radius: Appearance.rounding.normal
+
+                                    RowLayout {
+                                        id: protectionMessageRowLayout
+                                        anchors.centerIn: parent
+                                        MaterialSymbol {
+                                            id: protectionMessageIcon
+                                            text: "dangerous"
+                                            iconSize: Appearance.font.pixelSize.hugeass
+                                            color: Appearance.m3colors.m3onError
+                                        }
+                                        StyledText {
+                                            id: protectionMessageTextWidget
+                                            horizontalAlignment: Text.AlignHCenter
+                                            color: Appearance.m3colors.m3onError
+                                            wrapMode: Text.Wrap
+                                            text: root.protectionMessage
+                                        }
                                     }
                                 }
                             }
