@@ -4,7 +4,7 @@ QUICKSHELL_CONFIG_NAME="ii"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
-CONFIG_DIR="$XDG_CONFIG_HOME/quickshell/$QUICKSHELL_CONFIG_NAME"
+CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)" # the shell dir this script ships in, deployed or run from a checkout
 CACHE_DIR="$XDG_CACHE_HOME/quickshell"
 STATE_DIR="$XDG_STATE_HOME/quickshell"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -272,6 +272,7 @@ switch() {
     # enforce dark mode for terminal
     if [[ -n "$mode_flag" ]]; then
         matugen_args+=(--mode "$mode_flag")
+        matugen_args+=(--prefer saturation) # matugen 4.x otherwise asks which source colour to use, which hangs without a terminal
         if [[ $(jq -r '.appearance.wallpaperTheming.terminalGenerationProps.forceDarkMode' "$SHELL_CONFIG_FILE") == "true" ]]; then
             generate_colors_material_args+=(--mode "dark")
         else
