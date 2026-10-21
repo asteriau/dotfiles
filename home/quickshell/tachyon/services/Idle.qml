@@ -13,13 +13,17 @@ Singleton {
     property alias inhibit: idleInhibitor.enabled
     inhibit: false
 
+    // deliberately survives new Hyprland instances (desktop, no battery to drain)
+    function restore() {
+        if (Persistent.ready) root.inhibit = Persistent.states.idle.inhibit;
+    }
+
     Connections {
         target: Persistent
-        function onReadyChanged() {
-            // deliberately survives new Hyprland instances (desktop, no battery to drain)
-            root.inhibit = Persistent.states.idle.inhibit;
-        }
+        function onReadyChanged() { root.restore() }
     }
+    // Persistent may already be ready by the time this singleton is first referenced
+    Component.onCompleted: restore()
 
     function toggleInhibit(active = null) {
         if (active !== null) {
