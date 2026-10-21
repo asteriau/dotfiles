@@ -114,7 +114,7 @@ hl.config({
         -- precise_mouse_move = true,
     },
 })
--- Curves
+-- Curves (Material 3 Expressive; the shell uses the same values in Appearance.qml)
 hl.curve("expressiveFastSpatial", {
     type = "bezier",
     points = {{0.42, 1.67}, {0.21, 0.90}}
@@ -126,6 +126,14 @@ hl.curve("expressiveSlowSpatial", {
 hl.curve("expressiveDefaultSpatial", {
     type = "bezier",
     points = {{0.38, 1.21}, {0.22, 1.00}}
+})
+hl.curve("effectsFast", {
+    type = "bezier",
+    points = {{0.31, 0.94}, {0.34, 1.00}}
+})
+hl.curve("effectsDefault", {
+    type = "bezier",
+    points = {{0.34, 0.80}, {0.34, 1.00}}
 })
 hl.curve("emphasizedDecel", {
     type = "bezier",
@@ -139,102 +147,90 @@ hl.curve("standardDecel", {
     type = "bezier",
     points = {{0, 0}, {0, 1}}
 })
-hl.curve("menu_decel", {
-    type = "bezier",
-    points = {{0.1, 1}, {0, 1}}
-})
-hl.curve("menu_accel", {
-    type = "bezier",
-    points = {{0.52, 0.03}, {0.72, 0.08}}
-})
-hl.curve("stall", {
-    type = "bezier",
-    points = {{1, -0.1}, {0.7, 0.85}}
-})
--- Configs
+-- Configs (speed is in tenths of a second)
 -- windows
 hl.animation({
     leaf = "windowsIn",
     enabled = true,
-    speed = 3,
-    bezier = "emphasizedDecel",
-    style = "popin 80%"
+    speed = 5,
+    bezier = "expressiveDefaultSpatial",
+    style = "popin 85%"
 })
 hl.animation({
     leaf = "fadeIn",
     enabled = true,
-    speed = 3,
-    bezier = "emphasizedDecel"
+    speed = 2,
+    bezier = "effectsDefault"
 })
 hl.animation({
     leaf = "windowsOut",
     enabled = true,
     speed = 2,
-    bezier = "emphasizedDecel",
-    style = "popin 90%"
+    bezier = "emphasizedAccel",
+    style = "popin 92%"
 })
 hl.animation({
     leaf = "fadeOut",
     enabled = true,
-    speed = 2,
-    bezier = "emphasizedDecel"
+    speed = 1.5,
+    bezier = "emphasizedAccel"
 })
 hl.animation({
     leaf = "windowsMove",
     enabled = true,
-    speed = 3,
-    bezier = "emphasizedDecel",
+    speed = 5,
+    bezier = "expressiveDefaultSpatial",
     style = "slide"
 })
 hl.animation({
     leaf = "border",
     enabled = true,
-    speed = 10,
-    bezier = "emphasizedDecel"
+    speed = 1.5,
+    bezier = "effectsFast"
 })
 
 -- layers
 hl.animation({
     leaf = "layersIn",
     enabled = true,
-    speed = 2.7,
-    bezier = "emphasizedDecel",
-    style = "popin 93%"
+    speed = 4,
+    bezier = "expressiveDefaultSpatial",
+    style = "popin 90%"
 })
 hl.animation({
     leaf = "layersOut",
     enabled = true,
-    speed = 2.4,
-    bezier = "menu_accel",
+    speed = 2,
+    bezier = "emphasizedAccel",
     style = "popin 94%"
 })
 -- fade
 hl.animation({
     leaf = "fadeLayersIn",
     enabled = true,
-    speed = 0.5,
-    bezier = "menu_decel"
+    speed = 2,
+    bezier = "effectsDefault"
 })
 hl.animation({
     leaf = "fadeLayersOut",
     enabled = true,
-    speed = 2.7,
-    bezier = "stall"
+    speed = 1.5,
+    bezier = "emphasizedAccel"
 })
 -- workspaces
 hl.animation({
     leaf = "workspaces",
     enabled = true,
-    speed = 7,
-    bezier = "menu_decel",
+    speed = 5,
+    bezier = "expressiveDefaultSpatial",
     style = "slide"
 })
 -- specialWorkspace
 hl.animation({
     leaf = "specialWorkspaceIn",
     enabled = true,
-    speed = 2.8,
-    bezier = "emphasizedDecel",
+    speed = 4,
+    bezier = "expressiveDefaultSpatial",
     style = "slidevert"
 })
 hl.animation({
