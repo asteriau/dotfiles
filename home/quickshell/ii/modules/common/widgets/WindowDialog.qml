@@ -29,7 +29,6 @@ Rectangle {
     visible: dialogBackground.implicitHeight > 0
 
     onShowChanged: {
-        dialogBackgroundHeightAnimation.easing.bezierCurve = (show ? Appearance.animationCurves.emphasizedDecel : Appearance.animationCurves.emphasizedAccel)
         dialogBackground.implicitHeight = show ? backgroundHeight : 0
     }
 
@@ -52,20 +51,15 @@ Rectangle {
         y: root.show ? targetY : (targetY - root.backgroundAnimationMovementDistance)
         implicitWidth: root.backgroundWidth
         implicitHeight: contentColumn.implicitHeight + dialogBackground.radius * 2
+        // Direction is read from each Behavior's targetValue (set and notified before
+        // the animation starts), not from `show`, so it cannot depend on binding order
         Behavior on implicitHeight {
-            NumberAnimation {
-                id: dialogBackgroundHeightAnimation
-                duration: Appearance.animation.elementMoveFast.duration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.animationCurves.emphasizedDecel
-            }
+            id: heightBehavior
+            animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => heightBehavior.targetValue > 0) })
         }
         Behavior on y {
-            NumberAnimation {
-                duration: dialogBackgroundHeightAnimation.duration
-                easing.type: dialogBackgroundHeightAnimation.easing.type
-                easing.bezierCurve: dialogBackgroundHeightAnimation.easing.bezierCurve
-            }
+            id: yBehavior
+            animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => yBehavior.targetValue === dialogBackground.targetY) })
         }
 
         MouseArea { // So clicking inside the dialog won't dismiss

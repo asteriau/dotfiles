@@ -12,8 +12,13 @@ Scope {
     id: root
     required property Component contentComponent
     
+    RevealGate {
+        id: gate
+        shown: PolkitService.active
+    }
+
     Loader {
-        active: PolkitService.active
+        active: gate.active
         sourceComponent: Variants {
             model: Quickshell.screens
             delegate: PanelWindow {

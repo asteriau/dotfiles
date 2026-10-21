@@ -33,9 +33,7 @@ Item {
         anchors.fill: parent
         color: Appearance.colors.colScrim
         opacity: 0
-        Component.onCompleted: {
-            opacity = 1
-        }
+        Component.onCompleted: opacity = Qt.binding(() => PolkitService.active ? 1 : 0)
         Behavior on opacity {
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
         }
@@ -45,9 +43,7 @@ Item {
         anchors.centerIn: parent
         backgroundWidth: 450
         show: false
-        Component.onCompleted: {
-            show = true
-        }
+        Component.onCompleted: show = Qt.binding(() => PolkitService.active)
 
         MaterialSymbol {
             Layout.alignment: Qt.AlignHCenter
