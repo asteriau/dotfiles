@@ -7,6 +7,7 @@ StyledPopup {
 
     // CalendarWidget sizes itself with width/implicitHeight; the popup reads implicit sizes
     Item {
+        anchors.centerIn: parent
         implicitWidth: calendar.width
         implicitHeight: calendar.implicitHeight
 

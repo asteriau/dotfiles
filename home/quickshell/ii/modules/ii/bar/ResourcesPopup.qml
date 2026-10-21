@@ -10,6 +10,7 @@ StyledPopup {
     // StyledPopup sizes itself from implicit sizes, which a ColumnLayout with
     // fillWidth rows underreports, so the width is pinned here
     Item {
+        anchors.centerIn: parent
         implicitWidth: 280
         implicitHeight: column.implicitHeight
 
