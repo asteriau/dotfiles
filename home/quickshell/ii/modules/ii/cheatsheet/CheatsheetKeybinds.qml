@@ -25,14 +25,54 @@ Item {
 
     // Every card is the width of the widest card, so the columns are even.
     property real maxCardWidth: 0
+    onMaxCardWidthChanged: root.scheduleLayout()
 
-    // The dialog hugs the *unfiltered* keybind set, measured off-screen by
-    // `measureFlow`, so its width never shifts, shrinks or collapses as the
-    // query changes. Height is a fixed screen fraction so the TopToBottom
-    // Flow wraps everything into view without scrolling.
+    // Cards are packed into balanced columns (see relayout) and the dialog
+    // hugs the packed size, capped to a screen fraction; past the height cap
+    // the body scrolls.
+    readonly property int spacing: 16
+    property real packedWidth: 0
+    property real packedHeight: 0
+    readonly property int maxColumns: Math.max(1, Math.floor((root.screenW * 0.95 - 24 * 2 - 12 * 2 + root.spacing) / (root.maxCardWidth + root.spacing)))
     readonly property real minWidth: searchField.implicitWidth + 24 * 2
-    implicitWidth: Math.min(Math.max(measureFlow.implicitWidth + 12 * 2, root.minWidth), root.screenW * 0.95)
-    implicitHeight: root.screenH * 0.82
+    readonly property real maxBodyHeight: root.screenH * 0.82 - searchRow.implicitHeight - root.spacing
+    readonly property real bodyHeight: root.isEmpty ? emptyState.implicitHeight + 24 * 2 : Math.min(root.maxBodyHeight, root.packedHeight)
+    implicitWidth: Math.min(Math.max(root.packedWidth + 12 * 2, root.minWidth), root.screenW * 0.95)
+    implicitHeight: searchRow.implicitHeight + root.spacing + root.bodyHeight
+
+    function scheduleLayout() {
+        layoutTimer.restart();
+    }
+    Timer {
+        id: layoutTimer
+        interval: 0
+        onTriggered: root.relayout()
+    }
+    // Tallest card first, each into the shortest column: no column is left
+    // half empty the way a fixed-height Flow leaves them.
+    function relayout() {
+        const shown = [];
+        for (let i = 0; i < cards.count; i++) {
+            const card = cards.itemAt(i);
+            if (card && card.shouldShow)
+                shown.push(card);
+        }
+        shown.sort((a, b) => b.implicitHeight - a.implicitHeight);
+        const n = Math.max(1, Math.min(root.maxColumns, shown.length));
+        const heights = new Array(n).fill(0);
+        for (const card of shown) {
+            let col = 0;
+            for (let i = 1; i < n; i++)
+                if (heights[i] < heights[col])
+                    col = i;
+            card.x = col * (root.maxCardWidth + root.spacing);
+            card.y = heights[col];
+            heights[col] += card.implicitHeight + root.spacing;
+        }
+        const used = heights.filter(h => h > 0).length;
+        root.packedWidth = used > 0 ? used * (root.maxCardWidth + root.spacing) - root.spacing : 0;
+        root.packedHeight = Math.max(0, Math.max(...heights) - root.spacing);
+    }
 
     // Owned here, not in the cards, so the empty-state count and the cards
     // filter through one predicate.
@@ -119,9 +159,10 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 16
+        spacing: root.spacing
 
         Item {
+            id: searchRow
             Layout.fillWidth: true
             implicitHeight: searchField.implicitHeight
 
@@ -144,58 +185,24 @@ Item {
             Layout.fillHeight: true
             clip: true
 
-            // Off-screen, never filtered: lays out the full keybind set so
-            // root.implicitWidth hugs it. Same height/spacing/card width as
-            // the visible Flow, so it packs into the identical column shape.
-            Flow {
-                id: measureFlow
-                visible: false
-                height: viewport.height
-                flow: Flow.TopToBottom
-                spacing: 16
-
-                Repeater {
-                    model: [...HyprlandKeybinds.keybindCategories, ""]
-                    delegate: CheatsheetKeybindsCategory {
-                        required property var modelData
-                        categoryName: modelData
-                        cheatsheet: root
-                        bypassFilter: true
-                        width: root.maxCardWidth
-                        onNaturalWidthChanged: root.maxCardWidth = Math.max(root.maxCardWidth, naturalWidth)
-                        Component.onCompleted: root.maxCardWidth = Math.max(root.maxCardWidth, naturalWidth)
-                    }
-                }
-            }
-
-            // Wider sets than the 95%-screen cap scroll sideways instead of clipping
             StyledFlickable {
                 id: flick
                 anchors.fill: parent
                 clip: true
-                contentWidth: flow.implicitWidth
-                contentHeight: height
+                contentWidth: width
+                contentHeight: root.packedHeight
 
-                Flow {
-                    id: flow
-                    height: flick.height
-                    flow: Flow.TopToBottom
-                    spacing: 16
-                    // Survivors glide to their repacked slots on the spatial curve,
-                    // so the whole filter moves as one.
-                    move: Transition {
-                        animations: [
-                            Appearance.animation.spatialDefault.numberAnimation.createObject(this, {
-                                properties: "x,y",
-                            }),
-                        ]
-                    }
+                Item {
+                    id: pack
+                    width: flick.width
+                    height: root.packedHeight
                     opacity: root.isEmpty ? 0 : 1
                     Behavior on opacity {
                         animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
                     }
 
                     Repeater {
+                        id: cards
                         model: [...HyprlandKeybinds.keybindCategories, ""]
                         delegate: CheatsheetKeybindsCategory {
                             required property var modelData
@@ -204,17 +211,26 @@ Item {
                             width: root.maxCardWidth
                             onNaturalWidthChanged: root.maxCardWidth = Math.max(root.maxCardWidth, naturalWidth)
                             Component.onCompleted: root.maxCardWidth = Math.max(root.maxCardWidth, naturalWidth)
+                            // Survivors glide to their repacked slots on the spatial curve
+                            onImplicitHeightChanged: root.scheduleLayout()
+                            onShouldShowChanged: root.scheduleLayout()
+                            Behavior on x {
+                                animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
+                            }
+                            Behavior on y {
+                                animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
+                            }
                         }
                     }
                 }
             }
             ScrollEdgeFade {
                 target: flick
-                vertical: false
                 color: Appearance.colors.colLayer0
             }
 
             ColumnLayout { // Empty state
+                id: emptyState
                 anchors.centerIn: parent
                 spacing: 8
                 opacity: root.isEmpty ? 1 : 0

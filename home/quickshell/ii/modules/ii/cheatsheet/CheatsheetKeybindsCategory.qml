@@ -19,10 +19,7 @@ Rectangle {
     readonly property var _baseBinds: root.isCategorized
         ? HyprlandKeybinds.keybinds.filter(b => b.description?.length > 0 && b.description.substring(0, b.description.indexOf(":")) === root.categoryName)
         : HyprlandKeybinds.keybinds.filter(b => b.description?.length > 0 && b.description.indexOf(":") === -1)
-    // The off-screen measuring copy sets this so the dialog hugs the full
-    // keybind set: its width must not move when the query filters cards.
-    property bool bypassFilter: false
-    readonly property var _binds: root.bypassFilter ? root._baseBinds : root._baseBinds.filter(b => root.cheatsheet.bindMatches(b, root.categoryName))
+    readonly property var _binds: root._baseBinds.filter(b => root.cheatsheet.bindMatches(b, root.categoryName))
 
     // Widest pill in the card; the combo column uses it so action labels
     // align. Grow-only: filtering must not collapse the column.
@@ -180,7 +177,7 @@ Rectangle {
     component BindLine: Item {
         id: bindLine
         required property var keyData
-        readonly property bool matches: root.bypassFilter || root.cheatsheet.bindMatches(bindLine.keyData, root.categoryName)
+        readonly property bool matches: root.cheatsheet.bindMatches(bindLine.keyData, root.categoryName)
 
         // `||` not `??`: keySubstitutions["Super"] defaults to "" (a real
         // empty string, not nullish) and must fall back to "Super" so the

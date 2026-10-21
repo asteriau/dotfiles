@@ -92,6 +92,14 @@ Scope {
                     implicitWidth: cheatsheetContent.implicitWidth + padding * 2
                     implicitHeight: cheatsheetContent.implicitHeight + padding * 2
 
+                    // Hug the filtered set smoothly as the query changes
+                    Behavior on implicitWidth {
+                        animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
+                    }
+                    Behavior on implicitHeight {
+                        animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
+                    }
+
                     CheatsheetKeybinds {
                         id: cheatsheetContent
                         anchors.centerIn: parent
