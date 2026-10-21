@@ -31,7 +31,37 @@ Singleton {
     property bool wallpaperSelectorOpen: false
     property bool workspaceShowNumbers: false
 
+    // Super release toggles search unless something else happened while it was
+    // held. Hyprland's catchall bind cannot report that (it only fires for keys
+    // no other bind matched), so the shell watches its own toggles and the
+    // compositor's events instead.
+    function cancelSuperRelease() {
+        if (root.superDown)
+            root.superReleaseMightTrigger = false;
+    }
+    onBarOpenChanged: cancelSuperRelease()
+    onCrosshairOpenChanged: cancelSuperRelease()
+    onSidebarLeftOpenChanged: cancelSuperRelease()
+    onMediaControlsOpenChanged: cancelSuperRelease()
+    onOskOpenChanged: cancelSuperRelease()
+    onOverlayOpenChanged: cancelSuperRelease()
+    onOverviewOpenChanged: cancelSuperRelease()
+    onRegionSelectorOpenChanged: cancelSuperRelease()
+    onSearchOpenChanged: cancelSuperRelease()
+    onScreenTranslatorOpenChanged: cancelSuperRelease()
+    onSessionOpenChanged: cancelSuperRelease()
+    onWallpaperSelectorOpenChanged: cancelSuperRelease()
+    Connections {
+        target: Hyprland
+        function onRawEvent(event) {
+            // layer events also come from hover popups, which are not key presses
+            if (!event.name.endsWith("layer"))
+                root.cancelSuperRelease();
+        }
+    }
+
     onSidebarRightOpenChanged: {
+        cancelSuperRelease();
         if (GlobalStates.sidebarRightOpen) {
             Notifications.timeoutAll();
             Notifications.markAllRead();

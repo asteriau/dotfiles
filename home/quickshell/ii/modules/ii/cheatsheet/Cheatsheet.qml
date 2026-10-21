@@ -1,3 +1,4 @@
+import qs
 import qs.services
 import qs.modules.common
 import qs.modules.common.widgets
@@ -12,6 +13,7 @@ Scope {
     // The IPC handler and shortcuts drive this; never write
     // cheatsheetLoader.active directly, that would break the gate binding.
     property bool open: false
+    onOpenChanged: GlobalStates.cancelSuperRelease()
 
     RevealGate {
         id: gate
