@@ -71,9 +71,14 @@ Scope {
         }
     }
 
+    RevealGate {
+        id: gate
+        shown: GlobalStates.mediaControlsOpen
+    }
+
     Loader {
         id: mediaControlsLoader
-        active: GlobalStates.mediaControlsOpen
+        active: gate.active
         onActiveChanged: {
             if (!mediaControlsLoader.active && root.realPlayers.length === 0) {
                 GlobalStates.mediaControlsOpen = false;
@@ -121,65 +126,76 @@ Scope {
                 }
             }
 
-            ColumnLayout {
-                id: playerColumnLayout
+            RevealSurface {
                 anchors.fill: parent
-                spacing: -Appearance.sizes.elevationMargin // Shadow overlap okay
+                shown: GlobalStates.mediaControlsOpen
+                transformOrigin: Config.options.bar.vertical
+                    ? (Config.options.bar.bottom ? Item.Right : Item.Left)
+                    : (Config.options.bar.bottom ? Item.Bottom : Item.Top)
+                enterOffset: Config.options.bar.vertical
+                    ? Qt.point(Config.options.bar.bottom ? 16 : -16, 0)
+                    : Qt.point(0, Config.options.bar.bottom ? 16 : -16)
 
-                Repeater {
-                    model: ScriptModel {
-                        values: root.meaningfulPlayers
-                    }
-                    delegate: PlayerControl {
-                        required property MprisPlayer modelData
-                        player: modelData
-                        visualizerPoints: root.visualizerPoints
-                        implicitWidth: root.widgetWidth
-                        implicitHeight: root.widgetHeight
-                        radius: root.popupRounding
-                    }
-                }
+                ColumnLayout {
+                    id: playerColumnLayout
+                    anchors.fill: parent
+                    spacing: -Appearance.sizes.elevationMargin // Shadow overlap okay
 
-                Item {
-                    // No player placeholder
-                    Layout.alignment: {
-                        if (panelWindow.anchors.left)
-                            return Qt.AlignLeft;
-                        if (panelWindow.anchors.right)
-                            return Qt.AlignRight;
-                        return Qt.AlignHCenter;
-                    }
-                    Layout.leftMargin: Appearance.sizes.hyprlandGapsOut
-                    Layout.rightMargin: Appearance.sizes.hyprlandGapsOut
-                    visible: root.meaningfulPlayers.length === 0
-                    implicitWidth: placeholderBackground.implicitWidth + Appearance.sizes.elevationMargin
-                    implicitHeight: placeholderBackground.implicitHeight + Appearance.sizes.elevationMargin
-
-                    StyledRectangularShadow {
-                        target: placeholderBackground
+                    Repeater {
+                        model: ScriptModel {
+                            values: root.meaningfulPlayers
+                        }
+                        delegate: PlayerControl {
+                            required property MprisPlayer modelData
+                            player: modelData
+                            visualizerPoints: root.visualizerPoints
+                            implicitWidth: root.widgetWidth
+                            implicitHeight: root.widgetHeight
+                            radius: root.popupRounding
+                        }
                     }
 
-                    Rectangle {
-                        id: placeholderBackground
-                        anchors.centerIn: parent
-                        color: Appearance.colors.colLayer0
-                        radius: root.popupRounding
-                        property real padding: 20
-                        implicitWidth: placeholderLayout.implicitWidth + padding * 2
-                        implicitHeight: placeholderLayout.implicitHeight + padding * 2
+                    Item {
+                        // No player placeholder
+                        Layout.alignment: {
+                            if (panelWindow.anchors.left)
+                                return Qt.AlignLeft;
+                            if (panelWindow.anchors.right)
+                                return Qt.AlignRight;
+                            return Qt.AlignHCenter;
+                        }
+                        Layout.leftMargin: Appearance.sizes.hyprlandGapsOut
+                        Layout.rightMargin: Appearance.sizes.hyprlandGapsOut
+                        visible: root.meaningfulPlayers.length === 0
+                        implicitWidth: placeholderBackground.implicitWidth + Appearance.sizes.elevationMargin
+                        implicitHeight: placeholderBackground.implicitHeight + Appearance.sizes.elevationMargin
 
-                        ColumnLayout {
-                            id: placeholderLayout
+                        StyledRectangularShadow {
+                            target: placeholderBackground
+                        }
+
+                        Rectangle {
+                            id: placeholderBackground
                             anchors.centerIn: parent
+                            color: Appearance.colors.colLayer0
+                            radius: root.popupRounding
+                            property real padding: 20
+                            implicitWidth: placeholderLayout.implicitWidth + padding * 2
+                            implicitHeight: placeholderLayout.implicitHeight + padding * 2
 
-                            StyledText {
-                                text: Translation.tr("No active player")
-                                font.pixelSize: Appearance.font.pixelSize.large
-                            }
-                            StyledText {
-                                color: Appearance.colors.colSubtext
-                                text: Translation.tr("Make sure your player has MPRIS support\nor try turning off duplicate player filtering")
-                                font.pixelSize: Appearance.font.pixelSize.small
+                            ColumnLayout {
+                                id: placeholderLayout
+                                anchors.centerIn: parent
+
+                                StyledText {
+                                    text: Translation.tr("No active player")
+                                    font.pixelSize: Appearance.font.pixelSize.large
+                                }
+                                StyledText {
+                                    color: Appearance.colors.colSubtext
+                                    text: Translation.tr("Make sure your player has MPRIS support\nor try turning off duplicate player filtering")
+                                    font.pixelSize: Appearance.font.pixelSize.small
+                                }
                             }
                         }
                     }
