@@ -1,6 +1,7 @@
 import qs
 import qs.services
 import qs.modules.common
+import qs.modules.common.widgets
 import QtQuick
 import Quickshell.Io
 import Quickshell
@@ -11,9 +12,14 @@ Scope {
     id: root
     property int sidebarWidth: Appearance.sizes.sidebarWidth
 
+    RevealGate {
+        id: gate
+        shown: GlobalStates.sidebarRightOpen
+    }
+
     PanelWindow {
         id: panelWindow
-        visible: GlobalStates.sidebarRightOpen
+        visible: gate.active
 
         function hide() {
             GlobalStates.sidebarRightOpen = false;
@@ -21,6 +27,14 @@ Scope {
 
         exclusiveZone: 0
         implicitWidth: sidebarWidth
+        // Parked off-screen when closed and slid in by its own margin (like the
+        // user's main shell), so the motion never depends on compositor rules.
+        // Direction from the Behavior's targetValue: 0 is the open position.
+        margins.right: GlobalStates.sidebarRightOpen ? 0 : -panelWindow.implicitWidth
+        Behavior on margins.right {
+            id: slideBehavior
+            animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => slideBehavior.targetValue === 0) })
+        }
         WlrLayershell.namespace: "quickshell:sidebarRight"
         WlrLayershell.keyboardFocus: GlobalStates.sidebarRightOpen ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
         color: "transparent"

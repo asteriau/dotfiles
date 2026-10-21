@@ -15,6 +15,11 @@ Scope { // Scope
     property Component contentComponent: SidebarLeftContent {}
     property Item sidebarContent
 
+    RevealGate {
+        id: gate
+        shown: GlobalStates.sidebarLeftOpen
+    }
+
     function toggleDetach() {
         root.detach = !root.detach;
     }
@@ -86,7 +91,7 @@ Scope { // Scope
         
         sourceComponent: PanelWindow { // Window
             id: panelWindow
-            visible: GlobalStates.sidebarLeftOpen
+            visible: gate.active
             
             property bool extend: false
             property real sidebarWidth: panelWindow.extend ? Appearance.sizes.sidebarWidthExtended : Appearance.sizes.sidebarWidth
@@ -99,6 +104,14 @@ Scope { // Scope
             exclusionMode: ExclusionMode.Normal
             exclusiveZone: root.pin ? sidebarWidth : 0
             implicitWidth: Appearance.sizes.sidebarWidthExtended + Appearance.sizes.elevationMargin
+            // Parked off-screen when closed and slid in by its own margin (like the
+            // user's main shell), so the motion never depends on compositor rules.
+            // Direction from the Behavior's targetValue: 0 is the open position.
+            margins.left: GlobalStates.sidebarLeftOpen ? 0 : -panelWindow.implicitWidth
+            Behavior on margins.left {
+                id: slideBehavior
+                animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => slideBehavior.targetValue === 0) })
+            }
             WlrLayershell.namespace: "quickshell:sidebarLeft"
             // Hyprland 0.49: OnDemand is Exclusive, Exclusive just breaks click-outside-to-close
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
