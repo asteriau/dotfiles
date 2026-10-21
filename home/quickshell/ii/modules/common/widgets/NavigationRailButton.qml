@@ -14,6 +14,10 @@ TabButton {
     property string buttonText
     property bool expanded: false
     property bool showToggledHighlight: true
+    // Qt runs a state's Transition when a `when: true` state is first applied at
+    // completion, which animated the labels open on every launch of the settings app
+    property bool ready: false
+    Component.onCompleted: ready = true
     readonly property real visualWidth: root.expanded ? root.baseSize + 20 + itemText.implicitWidth : root.baseSize
 
     property real baseSize: 56
@@ -71,10 +75,11 @@ TabButton {
                 }
             }
             transitions: Transition {
+                enabled: root.ready
                 AnchorAnimation {
-                    duration: Appearance.animation.elementMoveFast.duration
-                    easing.type: Appearance.animation.elementMoveFast.type
-                    easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
+                    duration: Appearance.animation.spatialFast.duration
+                    easing.type: Appearance.animation.spatialFast.type
+                    easing.bezierCurve: Appearance.animation.spatialFast.bezierCurve
                 }
                 PropertyAnimation {
                     target: itemBackground
@@ -135,10 +140,11 @@ TabButton {
                 }
             }
             transitions: Transition {
+                enabled: root.ready
                 AnchorAnimation {
-                    duration: Appearance.animation.elementMoveFast.duration
-                    easing.type: Appearance.animation.elementMoveFast.type
-                    easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
+                    duration: Appearance.animation.spatialFast.duration
+                    easing.type: Appearance.animation.spatialFast.type
+                    easing.bezierCurve: Appearance.animation.spatialFast.bezierCurve
                 }
             }
             text: buttonText

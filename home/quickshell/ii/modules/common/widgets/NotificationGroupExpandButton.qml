@@ -39,7 +39,7 @@ RippleButton { // Expand button
                 color: Appearance.colors.colOnLayer2
                 rotation: expanded ? 180 : 0
                 Behavior on rotation {
-                    animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                 }
             }
         }

@@ -30,7 +30,7 @@ Item {
     }
 
     Behavior on sides {
-        animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
     }
 
     Shape {

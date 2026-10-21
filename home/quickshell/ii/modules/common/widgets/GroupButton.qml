@@ -73,10 +73,10 @@ Button {
     }
 
     Behavior on leftRadius {
-        animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
     }
     Behavior on rightRadius {
-        animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
     }
 
     property alias mouseArea: buttonMouseArea

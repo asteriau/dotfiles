@@ -16,7 +16,7 @@ RippleButton {
 
     rotation: root.parent.expanded ? 0 : -180
     Behavior on rotation {
-        animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
     }
 
     contentItem: MaterialSymbol {

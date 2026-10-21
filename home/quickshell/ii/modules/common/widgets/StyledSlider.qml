@@ -71,7 +71,7 @@ Slider {
     }
 
     Behavior on handleMargins {
-        animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
     }
 
     component TrackDot: Rectangle {
@@ -208,7 +208,7 @@ Slider {
         color: root.handleColor
 
         Behavior on implicitWidth {
-            animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
+            animation: Appearance?.animation.spatialFast.numberAnimation.createObject(this)
         }
 
         StyledToolTip {

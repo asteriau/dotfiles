@@ -22,7 +22,7 @@ Item {
     }
 
     Behavior on opacity {
-        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+        animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
     }
 
     ColumnLayout {

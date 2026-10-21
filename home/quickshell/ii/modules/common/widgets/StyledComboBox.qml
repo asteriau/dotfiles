@@ -43,7 +43,7 @@ ComboBox {
 
         rotation: root.popup.visible ? 180 : 0
         Behavior on rotation {
-            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
         }
     }
 
