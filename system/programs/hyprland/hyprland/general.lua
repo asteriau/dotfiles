@@ -143,6 +143,10 @@ hl.curve("emphasizedAccel", {
     type = "bezier",
     points = {{0.3, 0}, {0.8, 0.15}}
 })
+hl.curve("menu_decel", {
+    type = "bezier",
+    points = {{0.1, 1}, {0, 1}}
+})
 hl.curve("standardDecel", {
     type = "bezier",
     points = {{0, 0}, {0, 1}}
@@ -221,16 +225,16 @@ hl.animation({
 hl.animation({
     leaf = "workspaces",
     enabled = true,
-    speed = 5,
-    bezier = "expressiveDefaultSpatial",
+    speed = 7,
+    bezier = "menu_decel",
     style = "slide"
 })
 -- specialWorkspace
 hl.animation({
     leaf = "specialWorkspaceIn",
     enabled = true,
-    speed = 4,
-    bezier = "expressiveDefaultSpatial",
+    speed = 2.8,
+    bezier = "emphasizedDecel",
     style = "slidevert"
 })
 hl.animation({
