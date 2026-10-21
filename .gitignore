@@ -5,6 +5,6 @@ CLAUDE.md
 result*
 
 # quickshell dev artefacts
-home/quickshell/ii/.qmlls.ini
+home/quickshell/tachyon/.qmlls.ini
 __pycache__/
 *.py[cod]

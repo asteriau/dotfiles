@@ -15,7 +15,7 @@ let
   wayland = [
     ./programs/hyprland
     ./services/gnome-services.nix
-    ./illogical-impulse.nix
+    ./tachyon.nix
   ];
 
   gaming = [ ./programs/games.nix ];

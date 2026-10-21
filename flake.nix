@@ -1,5 +1,5 @@
 {
-  description = "illogical-impulse (end-4's dots-hyprland) as a NixOS flake";
+  description = "asteria's NixOS and Home-Manager flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -74,14 +74,14 @@
         { config, pkgs, ... }:
         {
           devShells.default = pkgs.mkShell {
-            name = "ii";
+            name = "tachyon";
             packages = [
               pkgs.git
               pkgs.statix
               pkgs.deadnix
               pkgs.nil
               pkgs.treefmt
-              pkgs.qt6.qtdeclarative # qmlls for editing home/quickshell/ii
+              pkgs.qt6.qtdeclarative # qmlls for editing home/quickshell/tachyon
             ];
             env.DIRENV_LOG_FORMAT = "";
             shellHook = config.pre-commit.installationScript;

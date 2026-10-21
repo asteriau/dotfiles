@@ -36,9 +36,9 @@ let
     ]
   );
 
-  # Upstream scripts `source "$ILLOGICAL_IMPULSE_VIRTUAL_ENV/bin/activate"`,
+  # Upstream scripts `source "$TACHYON_VIRTUAL_ENV/bin/activate"`,
   # then call python3 / kde-material-you-colors / their .py by name.
-  fakeVenv = pkgs.runCommand "illogical-impulse-venv" { } ''
+  fakeVenv = pkgs.runCommand "tachyon-venv" { } ''
     mkdir -p $out/bin
     cat > $out/bin/activate <<EOF
     export VIRTUAL_ENV="$out"
@@ -69,7 +69,7 @@ let
   '';
 in
 {
-  _module.args.iiPython = {
+  _module.args.tachyonPython = {
     inherit env fakeVenv;
   };
 

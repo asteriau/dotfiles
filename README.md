@@ -83,7 +83,7 @@ Things I want to get done eventually
 - [ ] Cross distro installation (probably doable via nix profile)
 - [ ] Logout menu (currently my old wlogout)
 - [ ] Login menu (currently just launches with greetd)
-- [ ] Alt tab menu (kind of like ii's window picker)
+- [ ] Alt tab menu (kind of like end-4's window picker)
 - [ ] Quick toggle editor for the sidebar 
 - [ ] A more user friendly & modular way to make custom theme presets
 - [ ] Refactor and document everything properly so ppl can add new modules easily

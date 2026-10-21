@@ -48,7 +48,7 @@ stdenv.mkDerivation {
   '';
 
   meta = {
-    description = "MicroTeX LaTeX renderer (end-4 fork used by illogical-impulse)";
+    description = "MicroTeX LaTeX renderer (end-4 fork used by tachyon)";
     homepage = "https://github.com/end-4/MicroTeX";
     license = lib.licenses.mit;
     platforms = lib.platforms.linux;

@@ -13,7 +13,7 @@
 
     # vendored upstream trees and theme assets, must stay byte-identical
     treefmt.settings.global.excludes = [
-      "home/quickshell/ii/**"
+      "home/quickshell/tachyon/**"
       "home/quickshell/matugen/templates/**"
       "system/programs/hyprland/hyprland.lua"
       "system/programs/hyprland/hyprland/**"

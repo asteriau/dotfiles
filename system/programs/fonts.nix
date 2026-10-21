@@ -1,6 +1,6 @@
 { pkgs, self, ... }:
 let
-  ii = self.packages.${pkgs.stdenv.hostPlatform.system};
+  flakePkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   fonts = {
@@ -12,9 +12,9 @@ in
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
-      ii.google-sans-flex
-      ii.readex-pro
-      ii.space-grotesk
+      flakePkgs.google-sans-flex
+      flakePkgs.readex-pro
+      flakePkgs.space-grotesk
     ];
 
     fontconfig.subpixel.rgba = "none";

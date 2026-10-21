@@ -1,6 +1,6 @@
 {
   # app flag files and the shell's icon
-  xdg.dataFile."icons/illogical-impulse.svg".source = ./icons/illogical-impulse.svg;
+  xdg.dataFile."icons/tachyon.svg".source = ./icons/tachyon.svg;
 
   xdg.configFile = {
     "chrome-flags.conf".text = ''

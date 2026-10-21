@@ -9,7 +9,7 @@ let
   inherit (pkgs.stdenv.hostPlatform) system;
   upstream = inputs.quickshell.packages.${system}.default;
 
-  # QML modules the ii config imports that quickshell's own wrapper does not add.
+  # QML modules the tachyon config imports that quickshell's own wrapper does not add.
   qmlPath = lib.makeSearchPath "lib/qt-6/qml" (
     [ upstream ]
     ++ (with pkgs.kdePackages; [
@@ -42,7 +42,7 @@ let
   );
 
   quickshell = pkgs.symlinkJoin {
-    name = "quickshell-ii";
+    name = "quickshell-tachyon";
     paths = [ upstream ];
     nativeBuildInputs = [ pkgs.makeWrapper ];
     postBuild = ''

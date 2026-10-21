@@ -5,14 +5,14 @@
   ...
 }:
 let
-  ii = self.packages.${pkgs.stdenv.hostPlatform.system};
+  flakePkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
   toINI = lib.generators.toINI { mkSectionName = s: s; };
 
   kdeglobals = pkgs.writeText "kdeglobals" (toINI (import ./kdeglobals.nix));
   darklyrc = pkgs.writeText "darklyrc" (toINI {
     Style.WidgetDrawShadow = false;
   });
-  dconfSeed = pkgs.writeText "ii-dconf" ''
+  dconfSeed = pkgs.writeText "tachyon-dconf" ''
     [org/gnome/desktop/interface]
     color-scheme='prefer-dark'
     gtk-theme='adw-gtk3-dark'
@@ -33,8 +33,8 @@ in
     darkly
     kdePackages.breeze # Breeze Qt style + cursors
     kdePackages.breeze-icons
-    ii.breeze-plus
-    ii.bibata-hyprcursor
+    flakePkgs.breeze-plus
+    flakePkgs.bibata-hyprcursor
     bibata-cursors
   ];
 
@@ -61,26 +61,24 @@ in
 
   # Written at runtime by kwriteconfig6 / kde-material-you-colors, so seeded
   # writable once instead of linked. Mirrors the installer's one-time setup.
-  home.activation.illogicalImpulseTheming =
-    lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ]
-      ''
-        [ -e "$HOME/.config/kdeglobals" ] || run install -Dm644 ${kdeglobals} "$HOME/.config/kdeglobals"
-        [ -e "$HOME/.config/darklyrc" ] || run install -Dm644 ${darklyrc} "$HOME/.config/darklyrc"
-        if [ ! -e "$HOME/.config/Kvantum/MaterialAdw" ]; then
-          run mkdir -p "$HOME/.config/Kvantum"
-          run cp -r ${./Kvantum/MaterialAdw} "$HOME/.config/Kvantum/MaterialAdw"
-          run chmod -R u+w "$HOME/.config/Kvantum/MaterialAdw"
-        fi
-        run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle Darkly || true
-        # switchwall.sh flips color-scheme and gtk-theme at runtime, so they are seeded, not enforced
-        if [ ! -e "$HOME/.local/state/quickshell/.dconf-seeded" ]; then
-          if [ -n "''${DBUS_SESSION_BUS_ADDRESS:-}" ]; then
-            run ${pkgs.dconf}/bin/dconf load / < ${dconfSeed}
-          else
-            run ${pkgs.dbus}/bin/dbus-run-session -- ${pkgs.dconf}/bin/dconf load / < ${dconfSeed}
-          fi
-          run mkdir -p "$HOME/.local/state/quickshell"
-          run touch "$HOME/.local/state/quickshell/.dconf-seeded"
-        fi
-      '';
+  home.activation.tachyonTheming = lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ] ''
+    [ -e "$HOME/.config/kdeglobals" ] || run install -Dm644 ${kdeglobals} "$HOME/.config/kdeglobals"
+    [ -e "$HOME/.config/darklyrc" ] || run install -Dm644 ${darklyrc} "$HOME/.config/darklyrc"
+    if [ ! -e "$HOME/.config/Kvantum/MaterialAdw" ]; then
+      run mkdir -p "$HOME/.config/Kvantum"
+      run cp -r ${./Kvantum/MaterialAdw} "$HOME/.config/Kvantum/MaterialAdw"
+      run chmod -R u+w "$HOME/.config/Kvantum/MaterialAdw"
+    fi
+    run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle Darkly || true
+    # switchwall.sh flips color-scheme and gtk-theme at runtime, so they are seeded, not enforced
+    if [ ! -e "$HOME/.local/state/quickshell/.dconf-seeded" ]; then
+      if [ -n "''${DBUS_SESSION_BUS_ADDRESS:-}" ]; then
+        run ${pkgs.dconf}/bin/dconf load / < ${dconfSeed}
+      else
+        run ${pkgs.dbus}/bin/dbus-run-session -- ${pkgs.dconf}/bin/dconf load / < ${dconfSeed}
+      fi
+      run mkdir -p "$HOME/.local/state/quickshell"
+      run touch "$HOME/.local/state/quickshell/.dconf-seeded"
+    fi
+  '';
 }
