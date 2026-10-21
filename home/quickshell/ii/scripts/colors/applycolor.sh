@@ -73,9 +73,20 @@ apply_anyterm() {
   done
 }
 
+apply_foot() {
+  # foot includes this at startup so the first frame already has the palette;
+  # running instances are recoloured by apply_anyterm
+  mkdir -p "$STATE_DIR"/user/generated/terminal
+  cp "$SCRIPT_DIR/terminal/foot.ini" "$STATE_DIR"/user/generated/terminal/foot.ini
+  for i in "${!colorlist[@]}"; do
+    sed -i "s/${colorlist[$i]} #/${colorvalues[$i]#\#}/g" "$STATE_DIR"/user/generated/terminal/foot.ini
+  done
+}
+
 apply_term() {
   apply_anyterm &
   apply_kitty &
+  apply_foot &
 }
 
 # Check if terminal theming is enabled in config
