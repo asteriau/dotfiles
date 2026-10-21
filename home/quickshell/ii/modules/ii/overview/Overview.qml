@@ -15,12 +15,17 @@ Scope {
     id: overviewScope
     property bool dontAutoCancelSearch: false
 
+    RevealGate {
+        id: gate
+        shown: GlobalStates.overviewOpen
+    }
+
     PanelWindow {
         id: panelWindow
         property string searchingText: ""
         readonly property HyprlandMonitor monitor: Hyprland.monitorFor(panelWindow.screen)
         property bool monitorIsFocused: (Hyprland.focusedMonitor?.id == monitor?.id)
-        visible: GlobalStates.overviewOpen
+        visible: gate.active
 
         WlrLayershell.namespace: "quickshell:overview"
         WlrLayershell.layer: WlrLayer.Top
@@ -68,36 +73,43 @@ Scope {
             searchWidget.focusFirstItem();
         }
 
-        Column {
-            id: columnLayout
-            visible: GlobalStates.overviewOpen
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: parent.top
-            }
-            spacing: -8
+        RevealSurface {
+            anchors.fill: parent
+            shown: GlobalStates.overviewOpen
+            transformOrigin: Item.Top
+            enterOffset: Qt.point(0, -12)
 
-            Keys.onPressed: event => {
-                if (event.key === Qt.Key_Escape) {
-                    GlobalStates.overviewOpen = false;
+            Column {
+                id: columnLayout
+                visible: gate.active
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top
                 }
-            }
+                spacing: -8
 
-            SearchWidget {
-                id: searchWidget
-                anchors.horizontalCenter: parent.horizontalCenter
-                Synchronizer on searchingText {
-                    property alias source: panelWindow.searchingText
+                Keys.onPressed: event => {
+                    if (event.key === Qt.Key_Escape) {
+                        GlobalStates.overviewOpen = false;
+                    }
                 }
-            }
 
-            Loader {
-                id: overviewLoader
-                anchors.horizontalCenter: parent.horizontalCenter
-                active: GlobalStates.overviewOpen && (Config?.options.overview.enable ?? true)
-                sourceComponent: OverviewWidget {
-                    screen: panelWindow.screen
-                    visible: (panelWindow.searchingText == "")
+                SearchWidget {
+                    id: searchWidget
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Synchronizer on searchingText {
+                        property alias source: panelWindow.searchingText
+                    }
+                }
+
+                Loader {
+                    id: overviewLoader
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    active: gate.active && (Config?.options.overview.enable ?? true)
+                    sourceComponent: OverviewWidget {
+                        screen: panelWindow.screen
+                        visible: (panelWindow.searchingText == "")
+                    }
                 }
             }
         }
