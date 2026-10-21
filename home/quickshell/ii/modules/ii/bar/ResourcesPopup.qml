@@ -7,106 +7,117 @@ import QtQuick.Layouts
 StyledPopup {
     id: root
 
-    ColumnLayout {
-        anchors.centerIn: parent
-        width: 280
-        spacing: 16
-
-        StyledText {
-            Layout.fillWidth: true
-            text: Translation.tr("Resources")
-            font.pixelSize: Appearance.font.pixelSize.large
-            font.weight: Font.Medium
-            color: Appearance.colors.colPrimary
-        }
+    // StyledPopup sizes itself from implicit sizes, which a ColumnLayout with
+    // fillWidth rows underreports, so the width is pinned here
+    Item {
+        implicitWidth: 280
+        implicitHeight: column.implicitHeight
 
         ColumnLayout {
-            Layout.fillWidth: true
-            spacing: 6
+            id: column
+            width: parent.width
+            spacing: 16
 
-            RowLayout {
+            StyledText {
                 Layout.fillWidth: true
-                spacing: 8
+                text: Translation.tr("Resources")
+                font.pixelSize: Appearance.font.pixelSize.large
+                font.weight: Font.Medium
+                color: Appearance.colors.colPrimary
+            }
 
-                MaterialSymbol {
-                    Layout.alignment: Qt.AlignVCenter
-                    text: "memory"
-                    iconSize: 22
-                    color: Appearance.colors.colOnLayer1
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: 6
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
+
+                    MaterialSymbol {
+                        Layout.alignment: Qt.AlignVCenter
+                        text: "memory"
+                        iconSize: 22
+                        color: Appearance.colors.colOnLayer1
+                    }
+                    StyledText {
+                        Layout.alignment: Qt.AlignBaseline
+                        text: ResourceUsage.kbToGbString(ResourceUsage.memoryUsed).split(" ")[0]
+                        font.pixelSize: Appearance.font.pixelSize.larger
+                        font.weight: Font.Medium
+                        color: Appearance.colors.colOnLayer1
+                    }
+                    StyledText {
+                        Layout.alignment: Qt.AlignBaseline
+                        text: "/ " + ResourceUsage.maxAvailableMemoryString
+                        font.pixelSize: Appearance.font.pixelSize.smallie
+                        color: Appearance.colors.colSubtext
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    StyledText {
+                        Layout.alignment: Qt.AlignBaseline
+                        text: Translation.tr("Memory")
+                        font.pixelSize: Appearance.font.pixelSize.smallie
+                        color: Appearance.colors.colSubtext
+                    }
                 }
-                StyledText {
-                    Layout.alignment: Qt.AlignBaseline
-                    text: ResourceUsage.kbToGbString(ResourceUsage.memoryUsed).split(" ")[0]
-                    font.pixelSize: Appearance.font.pixelSize.larger
-                    font.weight: Font.Medium
-                    color: Appearance.colors.colOnLayer1
-                }
-                StyledText {
-                    Layout.alignment: Qt.AlignBaseline
-                    text: "/ " + ResourceUsage.maxAvailableMemoryString
-                    font.pixelSize: Appearance.font.pixelSize.smallie
-                    color: Appearance.colors.colSubtext
-                }
-                Item { Layout.fillWidth: true }
-                StyledText {
-                    Layout.alignment: Qt.AlignBaseline
-                    text: Translation.tr("Memory")
-                    font.pixelSize: Appearance.font.pixelSize.smallie
-                    color: Appearance.colors.colSubtext
+
+                StyledCombinedProgressBar {
+                    Layout.fillWidth: true
+                    valueWeights: [ResourceUsage.memoryTotal, ResourceUsage.swapTotal]
+                    values: [ResourceUsage.memoryUsedPercentage, ResourceUsage.swapUsedPercentage]
                 }
             }
 
-            StyledCombinedProgressBar {
+            ColumnLayout {
                 Layout.fillWidth: true
-                valueWeights: [ResourceUsage.memoryTotal, ResourceUsage.swapTotal]
-                values: [ResourceUsage.memoryUsedPercentage, ResourceUsage.swapUsedPercentage]
-            }
-        }
+                spacing: 6
 
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: 6
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
 
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: 8
+                    MaterialSymbol {
+                        Layout.alignment: Qt.AlignVCenter
+                        text: "developer_board"
+                        iconSize: 22
+                        color: Appearance.colors.colOnLayer1
+                    }
+                    StyledText {
+                        Layout.alignment: Qt.AlignBaseline
+                        text: Math.round(ResourceUsage.cpuUsage * 100)
+                        font.pixelSize: Appearance.font.pixelSize.larger
+                        font.weight: Font.Medium
+                        color: Appearance.colors.colOnLayer1
+                    }
+                    StyledText {
+                        Layout.alignment: Qt.AlignBaseline
+                        text: "%"
+                        font.pixelSize: Appearance.font.pixelSize.smallie
+                        color: Appearance.colors.colSubtext
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    StyledText {
+                        Layout.alignment: Qt.AlignBaseline
+                        text: "CPU"
+                        font.pixelSize: Appearance.font.pixelSize.smallie
+                        color: Appearance.colors.colSubtext
+                    }
+                }
 
-                MaterialSymbol {
-                    Layout.alignment: Qt.AlignVCenter
-                    text: "developer_board"
-                    iconSize: 22
-                    color: Appearance.colors.colOnLayer1
+                StyledCombinedProgressBar {
+                    Layout.fillWidth: true
+                    // one segment per core up to 8, else a single aggregate bar
+                    readonly property bool perCore: ResourceUsage.cpuCoreUsages.length > 0 && ResourceUsage.cpuCoreUsages.length <= 8
+                    valueWeights: perCore ? ResourceUsage.cpuCoreUsages.map(() => 1) : [1]
+                    values: perCore ? ResourceUsage.cpuCoreUsages : [ResourceUsage.cpuUsage]
+                    valueHighlights: [Appearance.colors.colPrimary]
+                    valueTroughs: [Appearance.colors.colSecondaryContainer]
                 }
-                StyledText {
-                    Layout.alignment: Qt.AlignBaseline
-                    text: Math.round(ResourceUsage.cpuUsage * 100)
-                    font.pixelSize: Appearance.font.pixelSize.larger
-                    font.weight: Font.Medium
-                    color: Appearance.colors.colOnLayer1
-                }
-                StyledText {
-                    Layout.alignment: Qt.AlignBaseline
-                    text: "%"
-                    font.pixelSize: Appearance.font.pixelSize.smallie
-                    color: Appearance.colors.colSubtext
-                }
-                Item { Layout.fillWidth: true }
-                StyledText {
-                    Layout.alignment: Qt.AlignBaseline
-                    text: "CPU"
-                    font.pixelSize: Appearance.font.pixelSize.smallie
-                    color: Appearance.colors.colSubtext
-                }
-            }
-
-            StyledCombinedProgressBar {
-                Layout.fillWidth: true
-                // one segment per core up to 8, else a single aggregate bar
-                readonly property bool perCore: ResourceUsage.cpuCoreUsages.length > 0 && ResourceUsage.cpuCoreUsages.length <= 8
-                valueWeights: perCore ? ResourceUsage.cpuCoreUsages.map(() => 1) : [1]
-                values: perCore ? ResourceUsage.cpuCoreUsages : [ResourceUsage.cpuUsage]
-                valueHighlights: [Appearance.colors.colPrimary]
-                valueTroughs: [Appearance.colors.colSecondaryContainer]
             }
         }
     }
