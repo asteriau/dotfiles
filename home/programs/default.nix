@@ -1,14 +1,20 @@
 {
   imports = [
+    ./browsers.nix
+    ./chat.nix
     ./dolphin.nix
     ./fish.nix
     ./foot.nix
     ./fuzzel.nix
+    ./games.nix
     ./hyprlock.nix
     ./misc.nix
     ./mpv.nix
+    ./spotify.nix
     ./starship.nix
+    ./tailray.nix
     ./theming.nix
+    ./vscode.nix
     ./wlogout.nix
     ./xdg.nix
   ];
