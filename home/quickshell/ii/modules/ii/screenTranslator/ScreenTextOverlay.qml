@@ -65,7 +65,7 @@ Item {
         anchors.fill: parent
         opacity: root.loading ? 1 : 0
         Behavior on opacity {
-            animation: Appearance.animation.elementMoveSmall.numberAnimation.createObject(this)
+            animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
         }
         color: root.overlayColor
 

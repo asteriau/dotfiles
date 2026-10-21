@@ -43,7 +43,6 @@ Scope {
         running: false
         onTriggered: {
             GlobalStates.osdVolumeOpen = false;
-            root.protectionMessage = "";
         }
     }
 
@@ -100,6 +99,8 @@ Scope {
     Loader {
         id: osdLoader
         active: gate.active
+        // Clear after the exit has played, not on its first frame
+        onActiveChanged: if (!active) root.protectionMessage = ""
 
         sourceComponent: PanelWindow {
             id: osdRoot

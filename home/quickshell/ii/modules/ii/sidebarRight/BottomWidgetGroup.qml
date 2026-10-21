@@ -231,9 +231,9 @@ Rectangle {
                 target: tabStack.anchors
                 properties: "topMargin"
                 to: 10 * (switchAnim.down ? -1 : 1)
-                duration: Appearance.animation.elementMoveFast.duration
+                duration: Appearance.animation.spatialFast.duration
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
+                easing.bezierCurve: Appearance.animation.exit.bezierCurve
             }
         }
         PropertyAction {
@@ -247,9 +247,9 @@ Rectangle {
                 properties: "topMargin"
                 from: 10 * -(switchAnim.down ? -1 : 1)
                 to: 0
-                duration: Appearance.animation.elementMoveFast.duration
+                duration: Appearance.animation.spatialFast.duration
                 easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.animation.elementMoveEnter.bezierCurve
+                easing.bezierCurve: Appearance.animation.enter.bezierCurve
             }
             PropertyAnimation {
                 target: tabStack

@@ -243,7 +243,7 @@ Item { // Bar content region
                         reveal: Audio.source?.audio?.muted ?? false
                         Layout.fillWidth: true
                         Layout.bottomMargin: reveal ? indicatorsColumnLayout.realSpacing : 0
-                        Behavior on Layout.topMargin {
+                        Behavior on Layout.bottomMargin {
                             animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                         }
                         MaterialSymbol {

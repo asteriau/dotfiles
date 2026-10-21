@@ -15,7 +15,7 @@ Item {
 
     property real fillColorAlpha: root.style === "hollow" ? 0 : 1
     Behavior on fillColorAlpha {
-        animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
+        animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
     }
 
     rotation: -90 + (360 / 12) * (root.clockHour + root.clockMinute / 60)

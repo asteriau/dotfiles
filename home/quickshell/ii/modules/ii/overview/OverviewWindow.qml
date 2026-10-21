@@ -93,8 +93,10 @@ Item { // Window
     ScreencopyView {
         id: windowPreview
         anchors.fill: parent
-        captureSource: GlobalStates.overviewOpen ? root.toplevel : null
-        live: true
+        // The gated Loader owns the lifetime now; keep the source and freeze the
+        // last frame during the exit instead of blanking the preview
+        captureSource: root.toplevel
+        live: GlobalStates.overviewOpen
 
         // Color overlay for interactions
         Rectangle {

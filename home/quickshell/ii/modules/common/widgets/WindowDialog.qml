@@ -29,7 +29,11 @@ Rectangle {
     visible: dialogBackground.implicitHeight > 0
 
     onShowChanged: {
-        dialogBackground.implicitHeight = show ? backgroundHeight : 0
+        // Re-show restores the live binding rather than copying a value that may
+        // be mid-collapse when a reopen lands during the exit
+        dialogBackground.implicitHeight = show
+            ? Qt.binding(() => contentColumn.implicitHeight + dialogBackground.radius * 2)
+            : 0
     }
 
     radius: Appearance.rounding.screenRounding - Appearance.sizes.hyprlandGapsOut + 1

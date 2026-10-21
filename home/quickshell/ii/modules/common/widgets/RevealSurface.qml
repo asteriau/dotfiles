@@ -5,8 +5,7 @@ import qs.modules.common
  * Enter/exit motion for a transient surface (overview, OSD, ...): fades,
  * scales from `enterScale` and slides from `enterOffset`. Starts hidden and
  * animates in on its first frame, so a surface created already shown plays
- * its entrance. Flipping `shown` mid-exit reverses the motion, which is why
- * nothing here is alwaysRunToEnd. Direction is read from each Behavior's
+ * its entrance. Flipping `shown` mid-exit reverses the motion (Behaviors restart on every write). Direction is read from each Behavior's
  * `targetValue`, so it does not depend on binding order. Set `transformOrigin`
  * for the scale pivot.
  */
@@ -36,11 +35,7 @@ Item {
     }
 
     Behavior on opacity {
-        NumberAnimation {
-            duration: Appearance.animation.effectsDefault.duration
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.animation.effectsDefault.bezierCurve
-        }
+        animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
     }
     Behavior on scale {
         id: scaleBehavior

@@ -75,11 +75,11 @@ ListView {
                 from: 0,
                 to: 1,
             }),
-            Appearance?.animation.enter.numberAnimation.createObject(this, {
+            ...(popin ? [Appearance?.animation.enter.numberAnimation.createObject(this, {
                 property: "scale",
-                from: popin ? 0 : 1,
+                from: 0,
                 to: 1,
-            }),
+            })] : []),
         ] : []
     }
 

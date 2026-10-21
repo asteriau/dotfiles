@@ -37,11 +37,7 @@ Item {
 
             Behavior on implicitHeight {
                 enabled: enableHeightAnimation
-                NumberAnimation {
-                    duration: Appearance.animation.elementMoveFast.duration
-                    easing.type: Appearance.animation.elementMoveFast.type
-                    easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
-                }
+                animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
             }
 
             Rectangle {

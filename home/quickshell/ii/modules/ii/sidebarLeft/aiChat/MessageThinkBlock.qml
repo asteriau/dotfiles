@@ -24,7 +24,7 @@ Item {
     property real thinkBlockHeaderPaddingHorizontal: 10
     property real thinkBlockComponentSpacing: 2
 
-    property var collapseAnimation: messageTextBlock.implicitHeight > 40 ? Appearance.animation.elementMoveEnter : Appearance.animation.elementMoveFast
+    property var collapseAnimation: messageTextBlock.implicitHeight > 40 ? Appearance.animation.spatialDefault : Appearance.animation.spatialFast
     property bool collapsed: true /* should be root.completed but its kinda buggy rn so nope */
 
     Layout.fillWidth: true
