@@ -21,6 +21,8 @@ Singleton {
     property real swapUsedPercentage: swapTotal > 0 ? (swapUsed / swapTotal) : 0
     property real cpuUsage: 0
     property var previousCpuStats
+    property list<real> cpuCoreUsages: []
+    property var previousCoreStats: []
 
     property string maxAvailableMemoryString: kbToGbString(ResourceUsage.memoryTotal)
     property string maxAvailableSwapString: kbToGbString(ResourceUsage.swapTotal)
@@ -91,6 +93,23 @@ Singleton {
 
                 previousCpuStats = { total, idle }
             }
+
+            // Per-core usage for the resources popup
+            let coreUsages = [];
+            let coreStats = [];
+            for (const line of textStat.split("\n")) {
+                const m = line.match(/^cpu(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/)
+                if (!m) continue
+                const core = parseInt(m[1])
+                const stats = m.slice(2).map(Number)
+                const total = stats.reduce((a, b) => a + b, 0)
+                const idle = stats[3]
+                const prev = previousCoreStats[core]
+                coreUsages.push(prev && total > prev.total ? 1 - (idle - prev.idle) / (total - prev.total) : 0)
+                coreStats[core] = { total, idle }
+            }
+            cpuCoreUsages = coreUsages
+            previousCoreStats = coreStats
 
             root.updateHistories()
             interval = Config.options?.resources?.updateInterval ?? 3000

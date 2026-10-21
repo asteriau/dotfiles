@@ -12,8 +12,10 @@ LazyLoader {
     property Item hoverTarget
     default property Item contentItem
     property real popupBackgroundMargin: 0
+    // Set by a click on the target so popups with controls (calendar) stay open
+    property bool pinned: false
 
-    active: hoverTarget && hoverTarget.containsMouse
+    active: pinned || (hoverTarget && hoverTarget.containsMouse)
 
     component: PanelWindow {
         id: popupWindow

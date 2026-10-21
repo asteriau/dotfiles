@@ -7,87 +7,106 @@ import QtQuick.Layouts
 StyledPopup {
     id: root
 
-    // Helper function to format KB to GB
-    function formatKB(kb) {
-        return (kb / (1024 * 1024)).toFixed(1) + " GB";
-    }
-
-    Row {
+    ColumnLayout {
         anchors.centerIn: parent
-        spacing: 12
+        width: 280
+        spacing: 16
 
-        Column {
-            anchors.top: parent.top
-            spacing: 8
+        StyledText {
+            Layout.fillWidth: true
+            text: Translation.tr("Resources")
+            font.pixelSize: Appearance.font.pixelSize.large
+            font.weight: Font.Medium
+            color: Appearance.colors.colPrimary
+        }
 
-            StyledPopupHeaderRow {
-                icon: "memory"
-                label: "RAM"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: 6
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
+
+                MaterialSymbol {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: "memory"
+                    iconSize: 22
+                    color: Appearance.colors.colOnLayer1
+                }
+                StyledText {
+                    Layout.alignment: Qt.AlignBaseline
+                    text: ResourceUsage.kbToGbString(ResourceUsage.memoryUsed).split(" ")[0]
+                    font.pixelSize: Appearance.font.pixelSize.larger
+                    font.weight: Font.Medium
+                    color: Appearance.colors.colOnLayer1
+                }
+                StyledText {
+                    Layout.alignment: Qt.AlignBaseline
+                    text: "/ " + ResourceUsage.maxAvailableMemoryString
+                    font.pixelSize: Appearance.font.pixelSize.smallie
+                    color: Appearance.colors.colSubtext
+                }
+                Item { Layout.fillWidth: true }
+                StyledText {
+                    Layout.alignment: Qt.AlignBaseline
+                    text: Translation.tr("Memory")
+                    font.pixelSize: Appearance.font.pixelSize.smallie
+                    color: Appearance.colors.colSubtext
+                }
             }
-            Column {
-                spacing: 4
-                StyledPopupValueRow {
-                    icon: "clock_loader_60"
-                    label: Translation.tr("Used:")
-                    value: root.formatKB(ResourceUsage.memoryUsed)
-                }
-                StyledPopupValueRow {
-                    icon: "check_circle"
-                    label: Translation.tr("Free:")
-                    value: root.formatKB(ResourceUsage.memoryFree)
-                }
-                StyledPopupValueRow {
-                    icon: "empty_dashboard"
-                    label: Translation.tr("Total:")
-                    value: root.formatKB(ResourceUsage.memoryTotal)
-                }
+
+            StyledCombinedProgressBar {
+                Layout.fillWidth: true
+                valueWeights: [ResourceUsage.memoryTotal, ResourceUsage.swapTotal]
+                values: [ResourceUsage.memoryUsedPercentage, ResourceUsage.swapUsedPercentage]
             }
         }
 
-        Column {
-            visible: ResourceUsage.swapTotal > 0
-            anchors.top: parent.top
-            spacing: 8
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: 6
 
-            StyledPopupHeaderRow {
-                icon: "swap_horiz"
-                label: "Swap"
-            }
-            Column {
-                spacing: 4
-                StyledPopupValueRow {
-                    icon: "clock_loader_60"
-                    label: Translation.tr("Used:")
-                    value: root.formatKB(ResourceUsage.swapUsed)
-                }
-                StyledPopupValueRow {
-                    icon: "check_circle"
-                    label: Translation.tr("Free:")
-                    value: root.formatKB(ResourceUsage.swapFree)
-                }
-                StyledPopupValueRow {
-                    icon: "empty_dashboard"
-                    label: Translation.tr("Total:")
-                    value: root.formatKB(ResourceUsage.swapTotal)
-                }
-            }
-        }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
 
-        Column {
-            anchors.top: parent.top
-            spacing: 8
-
-            StyledPopupHeaderRow {
-                icon: "planner_review"
-                label: "CPU"
-            }
-            Column {
-                spacing: 4
-                StyledPopupValueRow {
-                    icon: "bolt"
-                    label: Translation.tr("Load:")
-                    value: `${Math.round(ResourceUsage.cpuUsage * 100)}%`
+                MaterialSymbol {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: "developer_board"
+                    iconSize: 22
+                    color: Appearance.colors.colOnLayer1
                 }
+                StyledText {
+                    Layout.alignment: Qt.AlignBaseline
+                    text: Math.round(ResourceUsage.cpuUsage * 100)
+                    font.pixelSize: Appearance.font.pixelSize.larger
+                    font.weight: Font.Medium
+                    color: Appearance.colors.colOnLayer1
+                }
+                StyledText {
+                    Layout.alignment: Qt.AlignBaseline
+                    text: "%"
+                    font.pixelSize: Appearance.font.pixelSize.smallie
+                    color: Appearance.colors.colSubtext
+                }
+                Item { Layout.fillWidth: true }
+                StyledText {
+                    Layout.alignment: Qt.AlignBaseline
+                    text: "CPU"
+                    font.pixelSize: Appearance.font.pixelSize.smallie
+                    color: Appearance.colors.colSubtext
+                }
+            }
+
+            StyledCombinedProgressBar {
+                Layout.fillWidth: true
+                // one segment per core up to 8, else a single aggregate bar
+                readonly property bool perCore: ResourceUsage.cpuCoreUsages.length > 0 && ResourceUsage.cpuCoreUsages.length <= 8
+                valueWeights: perCore ? ResourceUsage.cpuCoreUsages.map(() => 1) : [1]
+                values: perCore ? ResourceUsage.cpuCoreUsages : [ResourceUsage.cpuUsage]
+                valueHighlights: [Appearance.colors.colPrimary]
+                valueTroughs: [Appearance.colors.colSecondaryContainer]
             }
         }
     }

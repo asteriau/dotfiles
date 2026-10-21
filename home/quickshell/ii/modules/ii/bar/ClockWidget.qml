@@ -41,8 +41,10 @@ Item {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: !Config.options.bar.tooltips.clickToShow
+        onClicked: popup.pinned = !popup.pinned
 
         ClockWidgetPopup {
+            id: popup
             hoverTarget: mouseArea
         }
     }
