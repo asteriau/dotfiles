@@ -1,6 +1,6 @@
 # Local patches to vendored files
 
-Upstream: end-4/dots-hyprland at the commit in `UPSTREAM`; `VENDORED` maps each upstream path to its location here. `home/quickshell/ii` and `system/programs/hyprland` are a fork of that commit: the motion pass below touches dozens of files, so upstream fixes in those trees are cherry-picked by hand (`git diff old new -- <upstream path> | git apply -3 --directory=<local path>` per file) rather than applied wholesale. Everything else vendored is byte-identical to upstream, and the table lists the Nix-driven patches that still keep upstream defaults.
+Upstream: end-4/dots-hyprland at the commit in `UPSTREAM`; `VENDORED` maps each upstream path to its location here. `home/quickshell/ii` and `system/programs/hyprland` are a fork of that commit: the motion pass below touches dozens of files, so upstream fixes in those trees are cherry-picked by hand (`git diff --relative=<upstream dir> old new -- <upstream dir>/<file> | git apply -3 --directory=<local dir>` per file, e.g. `git diff --relative=dots/.config/quickshell/ii $old $new -- dots/.config/quickshell/ii/modules/ii/bar/Bar.qml | git apply -3 --directory=home/quickshell/ii`) rather than applied wholesale. The fork point is end-4 commit `2f2a376fdb2ad738bf55f693dd0b474b64bb0ab8` (the `UPSTREAM` value when the motion pass landed); `UPSTREAM` keeps moving with the other vendored paths. Everything else vendored is byte-identical to upstream, and the table lists the patches to the other vendored files (most keep upstream defaults).
 
 | file | change |
 |---|---|
@@ -27,3 +27,4 @@ Spec: `docs/superpowers/specs/2026-10-21-material-motion-design.md`. In summary:
 - New `modules/common/widgets/RevealSurface.qml` and `RevealGate.qml`; used by overview, session screen, OSD, media controls, polkit, tooltips.
 - `StyledListView` add/remove on effects, enter and exit tokens.
 - Token re-points across bars, dock, notifications, overview, sidebars and common widgets: spatial curves for position/size/shape/rotation, effects for colour/opacity. `Revealer` and `WindowDialog` use the `reveal` helper; `Stopwatch` has the same first-apply guard as `NavigationRailButton`.
+- Shared widgets also reach the waffle family: `WToolTip` inherits the 200ms exit pause and `WPopupToolTip`/`WafflePolkit` inherit the exit gate, so waffle tooltips and its polkit window linger 200ms without their own exit motion. Waffle is out of scope for the pass; add `exit: null` in `WToolTip` or give waffle its own exit motion if that family is used.
