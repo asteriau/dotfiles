@@ -199,7 +199,7 @@ hl.bind("SUPER + P", hl.dsp.window.pin(), { description = "Window: Pin" })
 for i = 1, 10 do
     hl.bind("SUPER + ALT + " .. (i % 10), function()
         hl.dispatch(hl.dsp.window.move({ workspace = workspace_in_group(i), follow = false }))
-    end, { description = "Window: Send to workspace " .. i })
+    end, { description = i == 1 and "Window: Send to workspace [1-10]" or nil })
 end
 --# We also use raw keycodes because some keyboard layouts register number keys as different chars. The codes can be verified with `wev`
 -- for i = 1, 10 do
@@ -248,7 +248,7 @@ hl.bind("CTRL + SUPER + S", hl.dsp.workspace.toggle_special("special"))
 for i = 1, 10 do
     hl.bind("SUPER + " .. (i % 10), function()
         hl.dispatch(hl.dsp.focus({ workspace = workspace_in_group(i) }))
-    end, { description = "Workspace: Focus " .. i })
+    end, { description = i == 1 and "Workspace: Focus [1-10]" or nil })
 end
 --# We also use raw keycodes because some keyboard layouts register number keys as different chars. The codes can be verified with `wev`
 for i = 1, 10 do

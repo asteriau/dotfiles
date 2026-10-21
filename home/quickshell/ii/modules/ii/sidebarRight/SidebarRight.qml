@@ -45,11 +45,16 @@ Scope {
             bottom: true
         }
 
-        onVisibleChanged: {
-            if (visible) {
-                GlobalFocusGrab.addDismissable(panelWindow);
-            } else {
-                GlobalFocusGrab.removeDismissable(panelWindow);
+        // Membership follows the open state, not `visible`: the gate keeps the window
+        // visible through the exit, and a reopen inside it must re-add the window
+        // after GlobalFocusGrab.dismiss() emptied the list
+        Connections {
+            target: GlobalStates
+            function onSidebarRightOpenChanged() {
+                if (GlobalStates.sidebarRightOpen)
+                    GlobalFocusGrab.addDismissable(panelWindow);
+                else
+                    GlobalFocusGrab.removeDismissable(panelWindow);
             }
         }
         Connections {
@@ -61,7 +66,7 @@ Scope {
 
         Loader {
             id: sidebarContentLoader
-            active: GlobalStates.sidebarRightOpen || Config?.options.sidebar.keepRightSidebarLoaded
+            active: gate.active || Config?.options.sidebar.keepRightSidebarLoaded
             anchors {
                 fill: parent
                 margins: Appearance.sizes.hyprlandGapsOut

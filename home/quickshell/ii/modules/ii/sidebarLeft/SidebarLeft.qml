@@ -114,7 +114,7 @@ Scope { // Scope
             }
             WlrLayershell.namespace: "quickshell:sidebarLeft"
             // Hyprland 0.49: OnDemand is Exclusive, Exclusive just breaks click-outside-to-close
-            WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
+            WlrLayershell.keyboardFocus: GlobalStates.sidebarLeftOpen ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
             color: "transparent"
 
             anchors {
@@ -127,11 +127,16 @@ Scope { // Scope
                 item: sidebarLeftBackground
             }
 
-            onVisibleChanged: {
-                if (visible) {
-                    GlobalFocusGrab.addDismissable(panelWindow);
-                } else {
-                    GlobalFocusGrab.removeDismissable(panelWindow);
+            // Membership follows the open state, not `visible`: the gate keeps the window
+            // visible through the exit, and a reopen inside it must re-add the window
+            // after GlobalFocusGrab.dismiss() emptied the list
+            Connections {
+                target: GlobalStates
+                function onSidebarLeftOpenChanged() {
+                    if (GlobalStates.sidebarLeftOpen)
+                        GlobalFocusGrab.addDismissable(panelWindow);
+                    else
+                        GlobalFocusGrab.removeDismissable(panelWindow);
                 }
             }
             Connections {

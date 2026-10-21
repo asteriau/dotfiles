@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import qs.services
 import qs.modules.common
-import qs.modules.common.functions
 import qs.modules.common.widgets
 import QtQuick
 import QtQuick.Layouts
@@ -169,36 +168,50 @@ Item {
                 }
             }
 
-            Flow {
-                id: flow
-                height: viewport.height
-                flow: Flow.TopToBottom
-                spacing: 16
-                // Survivors glide to their repacked slots on the spatial curve,
-                // so the whole filter moves as one.
-                move: Transition {
-                    animations: [
-                        Appearance.animation.spatialDefault.numberAnimation.createObject(this, {
-                            properties: "x,y",
-                        }),
-                    ]
-                }
-                opacity: root.isEmpty ? 0 : 1
-                Behavior on opacity {
-                    animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
-                }
+            // Wider sets than the 95%-screen cap scroll sideways instead of clipping
+            StyledFlickable {
+                id: flick
+                anchors.fill: parent
+                clip: true
+                contentWidth: flow.implicitWidth
+                contentHeight: height
 
-                Repeater {
-                    model: [...HyprlandKeybinds.keybindCategories, ""]
-                    delegate: CheatsheetKeybindsCategory {
-                        required property var modelData
-                        categoryName: modelData
-                        cheatsheet: root
-                        width: root.maxCardWidth
-                        onNaturalWidthChanged: root.maxCardWidth = Math.max(root.maxCardWidth, naturalWidth)
-                        Component.onCompleted: root.maxCardWidth = Math.max(root.maxCardWidth, naturalWidth)
+                Flow {
+                    id: flow
+                    height: flick.height
+                    flow: Flow.TopToBottom
+                    spacing: 16
+                    // Survivors glide to their repacked slots on the spatial curve,
+                    // so the whole filter moves as one.
+                    move: Transition {
+                        animations: [
+                            Appearance.animation.spatialDefault.numberAnimation.createObject(this, {
+                                properties: "x,y",
+                            }),
+                        ]
+                    }
+                    opacity: root.isEmpty ? 0 : 1
+                    Behavior on opacity {
+                        animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
+                    }
+
+                    Repeater {
+                        model: [...HyprlandKeybinds.keybindCategories, ""]
+                        delegate: CheatsheetKeybindsCategory {
+                            required property var modelData
+                            categoryName: modelData
+                            cheatsheet: root
+                            width: root.maxCardWidth
+                            onNaturalWidthChanged: root.maxCardWidth = Math.max(root.maxCardWidth, naturalWidth)
+                            Component.onCompleted: root.maxCardWidth = Math.max(root.maxCardWidth, naturalWidth)
+                        }
                     }
                 }
+            }
+            ScrollEdgeFade {
+                target: flick
+                vertical: false
+                color: Appearance.colors.colLayer0
             }
 
             ColumnLayout { // Empty state

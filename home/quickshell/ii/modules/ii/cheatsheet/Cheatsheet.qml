@@ -1,4 +1,3 @@
-import qs
 import qs.services
 import qs.modules.common
 import qs.modules.common.widgets
@@ -54,6 +53,17 @@ Scope {
             }
             Component.onDestruction: {
                 GlobalFocusGrab.removeDismissable(cheatsheetRoot);
+            }
+            // Re-add on reopen during the exit: dismiss() empties the list and the
+            // window is not recreated while the gate holds it
+            Connections {
+                target: root
+                function onOpenChanged() {
+                    if (root.open)
+                        GlobalFocusGrab.addDismissable(cheatsheetRoot);
+                    else
+                        GlobalFocusGrab.removeDismissable(cheatsheetRoot);
+                }
             }
             Connections {
                 target: GlobalFocusGrab

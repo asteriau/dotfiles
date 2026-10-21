@@ -65,19 +65,6 @@ ContentPage {
               text: Translation.tr("Replace 󱕐   for \"Scroll ↓\", 󱕑   \"Scroll ↑\", L󰍽   \"LMB\", R󰍽   \"RMB\", 󱕒   \"Scroll ↑/↓\" and ⇞/⇟ for \"Page_↑/↓\"")
             }
         }
-        ConfigSwitch {
-            buttonIcon: "highlight_keyboard_focus"
-            text: Translation.tr("Split buttons")
-            checked: Config.options.cheatsheet.splitButtons
-            onCheckedChanged: {
-                Config.options.cheatsheet.splitButtons = checked;
-            }
-            StyledToolTip {
-                text: Translation.tr("Display modifiers and keys in multiple keycap (e.g., \"Ctrl + A\" instead of \"Ctrl A\" or \"󰘴 + A\" instead of \"󰘴 A\")")
-            }
-
-        }
-
         ConfigSpinBox {
             text: Translation.tr("Keybind font size")
             value: Config.options.cheatsheet.fontSize.key

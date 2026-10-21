@@ -86,9 +86,9 @@ Rectangle {
 
     property var keyBlacklist: ["SUPER_L", "SUPER_R"]
     property var keySubstitutions: Object.assign({
-        "Super": "",
-        "Mouse_up": "Scroll ↓",
-        "Mouse_down": "Scroll ↑",
+        "Super": "",
+        "mouse_up": "Scroll ↓",
+        "mouse_down": "Scroll ↑",
         "Mouse:272": "LMB",
         "Mouse:273": "RMB",
         "Mouse:275": "MouseBack",
