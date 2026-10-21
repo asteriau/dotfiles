@@ -12,6 +12,12 @@ let
   darklyrc = pkgs.writeText "darklyrc" (toINI {
     Style.WidgetDrawShadow = false;
   });
+  dconfSeed = pkgs.writeText "ii-dconf" ''
+    [org/gnome/desktop/interface]
+    color-scheme='prefer-dark'
+    gtk-theme='adw-gtk3-dark'
+    font-name='Google Sans Flex Medium 11 @opsz=11,wght=500'
+  '';
 in
 {
   # QT_PLUGIN_PATH / QML2_IMPORT_PATH to the per-user profile, so kcmshell6
@@ -20,11 +26,6 @@ in
   qt = {
     enable = true;
     platformTheme.name = "kde";
-  };
-
-  dconf.settings."org/gnome/desktop/interface" = {
-    font-name = "Google Sans Flex Medium 11 @opsz=11,wght=500";
-    color-scheme = "prefer-dark";
   };
 
   home.packages = with pkgs; [
@@ -71,5 +72,15 @@ in
           run chmod -R u+w "$HOME/.config/Kvantum/MaterialAdw"
         fi
         run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle Darkly || true
+        # switchwall.sh flips color-scheme and gtk-theme at runtime, so they are seeded, not enforced
+        if [ ! -e "$HOME/.local/state/quickshell/.dconf-seeded" ]; then
+          if [ -n "''${DBUS_SESSION_BUS_ADDRESS:-}" ]; then
+            run ${pkgs.dconf}/bin/dconf load / < ${dconfSeed}
+          else
+            run ${pkgs.dbus}/bin/dbus-run-session -- ${pkgs.dconf}/bin/dconf load / < ${dconfSeed}
+          fi
+          run mkdir -p "$HOME/.local/state/quickshell"
+          run touch "$HOME/.local/state/quickshell/.dconf-seeded"
+        fi
       '';
 }

@@ -16,6 +16,7 @@
   security.pam.services.hyprlock = { };
 
   environment.systemPackages = with pkgs; [
+    gsettings-desktop-schemas # org.gnome.desktop.interface for switchwall.sh
     sound-theme-freedesktop # Audio.qml system sounds
     xkeyboard_config # also referenced directly by ILLOGICAL_IMPULSE_XKB_RULES
   ];
