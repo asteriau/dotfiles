@@ -49,11 +49,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Not following nixpkgs on purpose: keeps hyprland.cachix.org hits.
     hyprland.url = "github:hyprwm/hyprland";
 

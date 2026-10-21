@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  browser = [ "zen.desktop" ];
+  browser = [ "firefox.desktop" ];
 in
 {
   xdg = {
