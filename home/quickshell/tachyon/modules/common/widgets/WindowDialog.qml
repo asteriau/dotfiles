@@ -22,9 +22,10 @@ Rectangle {
         }
     }
 
-    color: root.show ? Appearance.colors.colScrim : ColorUtils.transparentize(Appearance.colors.colScrim)
+    // Scrim in the panel's own surface tone, so content recedes into the card instead of going black
+    color: ColorUtils.transparentize(Appearance.m3colors.m3surface, root.show ? 0.3 : 1)
     Behavior on color {
-        animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
+        animation: Appearance.animation.effectsDefault.colorAnimation.createObject(this)
     }
     visible: dialogBackground.implicitHeight > 0
 
