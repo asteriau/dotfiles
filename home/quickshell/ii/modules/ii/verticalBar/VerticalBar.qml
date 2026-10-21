@@ -109,10 +109,10 @@ Scope {
                             rightMargin: 0
                         }
                         Behavior on anchors.leftMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                         }
                         Behavior on anchors.rightMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                         }
 
                         states: State {

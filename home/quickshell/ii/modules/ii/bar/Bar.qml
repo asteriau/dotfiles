@@ -115,10 +115,10 @@ Scope {
                             rightMargin: (Config.options.interactions.deadPixelWorkaround.enable && barRoot.anchors.right) * -1
                         }
                         Behavior on anchors.topMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                         }
                         Behavior on anchors.bottomMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                         }
 
                         states: State {

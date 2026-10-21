@@ -43,7 +43,7 @@ Item {
         implicitWidth: contentWidth
 
         Behavior on implicitWidth {
-            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
         }
 
         model: ScriptModel {
@@ -140,10 +140,10 @@ Item {
                 implicitHeight: previewRowLayout.implicitHeight + padding * 2
                 implicitWidth: previewRowLayout.implicitWidth + padding * 2
                 Behavior on implicitWidth {
-                    animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                 }
                 Behavior on implicitHeight {
-                    animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                 }
 
                 RowLayout {

@@ -338,7 +338,9 @@ Singleton {
             runToEnd: true
         }
         // One property that expands and collapses: enter curve opening, exit curve closing.
-        // Use: animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => root.open) })
+        // Use with the Behavior's own targetValue, which is set before the animation starts
+        // (binding `opening` to the state property races the Behavior and swaps the curves):
+        //   Behavior on x { id: b; animation: Appearance.animation.reveal.createObject(this, { opening: Qt.binding(() => b.targetValue === 0) }) }
         property Component reveal: Component {
             NumberAnimation {
                 property bool opening: true

@@ -22,6 +22,9 @@ Item {
 
         RowLayout { // Elapsed
             id: elapsedIndicator
+            // Qt runs a state's Transition when a `when: true` state is first applied
+            property bool ready: false
+            Component.onCompleted: ready = true
             
             anchors {
                 top: undefined
@@ -42,10 +45,11 @@ Item {
             }
 
             transitions: Transition {
+                enabled: elapsedIndicator.ready
                 AnchorAnimation {
-                    duration: Appearance.animation.elementMoveFast.duration
-                    easing.type: Appearance.animation.elementMoveFast.type
-                    easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
+                    duration: Appearance.animation.spatialFast.duration
+                    easing.type: Appearance.animation.spatialFast.type
+                    easing.bezierCurve: Appearance.animation.spatialFast.bezierCurve
                 }
             }
 

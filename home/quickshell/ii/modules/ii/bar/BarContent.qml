@@ -263,7 +263,7 @@ Item { // Bar content region
                         Layout.fillHeight: true
                         Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
                         Behavior on Layout.rightMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                         }
                         MaterialSymbol {
                             text: "volume_off"
@@ -276,7 +276,7 @@ Item { // Bar content region
                         Layout.fillHeight: true
                         Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
                         Behavior on Layout.rightMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                         }
                         MaterialSymbol {
                             text: "mic_off"
@@ -296,7 +296,7 @@ Item { // Bar content region
                         implicitHeight: reveal ? notificationUnreadCount.implicitHeight : 0
                         implicitWidth: reveal ? notificationUnreadCount.implicitWidth : 0
                         Behavior on Layout.rightMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                         }
                         NotificationUnreadCount {
                             id: notificationUnreadCount

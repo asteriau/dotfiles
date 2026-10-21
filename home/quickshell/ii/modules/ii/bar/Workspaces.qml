@@ -314,7 +314,7 @@ ButtonMouseArea {
             }
 
             Behavior on undirectionalLength {
-                animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
             }
         }
     }

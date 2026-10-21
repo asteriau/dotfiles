@@ -59,7 +59,7 @@ Scope { // Scope
                 hoverEnabled: true
 
                 Behavior on anchors.topMargin {
-                    animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                 }
 
                 Item {
