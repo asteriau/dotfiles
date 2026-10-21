@@ -11,6 +11,8 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
+    # saves VRAM across suspend; without it Hyprland aborts (Xid 13) on resume
+    powerManagement.enable = true;
     open = false; # open one is still unstable
     nvidiaSettings = false; # useless on wayland still
   };
