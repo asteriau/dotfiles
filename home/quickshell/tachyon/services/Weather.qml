@@ -55,6 +55,7 @@ Singleton {
         temp.windDir = data?.current?.winddir16Point || "N";
         temp.wCode = data?.current?.weatherCode || "113";
         temp.city = data?.location?.areaName[0]?.value || "City";
+        temp.desc = data?.current?.weatherDesc?.[0]?.value || "";
         temp.temp = "";
         temp.tempFeelsLike = "";
         if (root.useUSCS) {

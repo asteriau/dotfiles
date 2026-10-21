@@ -1,115 +1,118 @@
 import qs.services
 import qs.modules.common
 import qs.modules.common.widgets
-
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.tachyon.bar
 
+// Same layout as main's weather popup, on this shell's wttr.in data
 StyledPopup {
     id: root
 
-    ColumnLayout {
-        id: columnLayout
+    // StyledPopup sizes itself from implicit sizes, which a ColumnLayout with
+    // fillWidth rows underreports, so the width is pinned here (like Resources)
+    Item {
         anchors.centerIn: parent
-        implicitWidth: Math.max(header.implicitWidth, gridLayout.implicitWidth)
-        implicitHeight: gridLayout.implicitHeight
-        spacing: 5
+        implicitWidth: 280
+        implicitHeight: column.implicitHeight
 
-        // Header
         ColumnLayout {
-            id: header
-            Layout.alignment: Qt.AlignHCenter
-            spacing: 2
+            id: column
+            width: parent.width
+            spacing: 16
+
+            StyledText {
+                Layout.fillWidth: true
+                text: Translation.tr("Weather")
+                font.pixelSize: Appearance.font.pixelSize.large
+                font.weight: Font.Medium
+                color: Appearance.colors.colPrimary
+            }
 
             RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                spacing: 6
+                Layout.fillWidth: true
+                spacing: 8
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: 2
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 6
+
+                        StyledText {
+                            text: Weather.data.temp
+                            font.pixelSize: Appearance.font.pixelSize.huge
+                            font.weight: Font.Medium
+                            color: Appearance.colors.colOnLayer1
+                        }
+                        StyledText {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignBaseline
+                            text: Weather.data.desc ?? ""
+                            font.pixelSize: Appearance.font.pixelSize.normal
+                            color: Appearance.colors.colOnLayer1
+                            elide: Text.ElideRight
+                        }
+                    }
+                    StyledText {
+                        Layout.fillWidth: true
+                        text: Weather.data.city + " · " + Translation.tr("Feels like %1").arg(Weather.data.tempFeelsLike)
+                        font.pixelSize: Appearance.font.pixelSize.smaller
+                        color: Appearance.colors.colSubtext
+                        elide: Text.ElideRight
+                    }
+                }
 
                 MaterialSymbol {
+                    Layout.alignment: Qt.AlignVCenter
                     fill: 0
-                    font.weight: Font.Medium
-                    text: "location_on"
-                    iconSize: Appearance.font.pixelSize.large
-                    color: Appearance.colors.colOnSurfaceVariant
+                    text: Icons.getWeatherIcon(Weather.data.wCode) ?? "cloud"
+                    iconSize: Appearance.font.pixelSize.hugeass + 8
+                    color: Appearance.colors.colOnLayer1
                 }
+            }
 
-                StyledText {
-                    text: Weather.data.city
-                    font {
-                        weight: Font.Medium
-                        pixelSize: Appearance.font.pixelSize.normal
+            GridLayout {
+                Layout.fillWidth: true
+                columns: 2
+                rowSpacing: 8
+                columnSpacing: 8
+                uniformCellWidths: true
+
+                Repeater {
+                    model: [
+                        { icon: "humidity_low", value: Weather.data.humidity },
+                        { icon: "air", value: Weather.data.wind },
+                        { icon: "wb_twilight", value: Weather.data.sunrise },
+                        { icon: "bedtime", value: Weather.data.sunset },
+                        { icon: "wb_sunny", value: Translation.tr("UV %1").arg(Weather.data.uv) },
+                        { icon: "rainy_light", value: Weather.data.precip },
+                        { icon: "visibility", value: Weather.data.visib },
+                        { icon: "readiness_score", value: Weather.data.press },
+                    ]
+                    RowLayout {
+                        required property var modelData
+                        Layout.fillWidth: true
+                        spacing: 4
+
+                        MaterialSymbol {
+                            fill: 0
+                            text: modelData.icon
+                            iconSize: Appearance.font.pixelSize.normal
+                            color: Appearance.colors.colOnSurfaceVariant
+                        }
+                        StyledText {
+                            Layout.fillWidth: true
+                            text: modelData.value
+                            font.pixelSize: Appearance.font.pixelSize.small
+                            color: Appearance.colors.colOnLayer1
+                            elide: Text.ElideRight
+                        }
                     }
-                    color: Appearance.colors.colOnSurfaceVariant
                 }
             }
-            StyledText {
-                id: temp
-                font.pixelSize: Appearance.font.pixelSize.smaller
-                color: Appearance.colors.colOnSurfaceVariant
-                text: Weather.data.temp + " • " + Translation.tr("Feels like %1").arg(Weather.data.tempFeelsLike)
-            }
-        }
-
-        // Metrics grid
-        GridLayout {
-            id: gridLayout
-            columns: 2
-            rowSpacing: 5
-            columnSpacing: 5
-            uniformCellWidths: true
-
-            WeatherCard {
-                title: Translation.tr("UV Index")
-                symbol: "wb_sunny"
-                value: Weather.data.uv
-            }
-            WeatherCard {
-                title: Translation.tr("Wind")
-                symbol: "air"
-                value: `(${Weather.data.windDir}) ${Weather.data.wind}`
-            }
-            WeatherCard {
-                title: Translation.tr("Precipitation")
-                symbol: "rainy_light"
-                value: Weather.data.precip
-            }
-            WeatherCard {
-                title: Translation.tr("Humidity")
-                symbol: "humidity_low"
-                value: Weather.data.humidity
-            }
-            WeatherCard {
-                title: Translation.tr("Visibility")
-                symbol: "visibility"
-                value: Weather.data.visib
-            }
-            WeatherCard {
-                title: Translation.tr("Pressure")
-                symbol: "readiness_score"
-                value: Weather.data.press
-            }
-            WeatherCard {
-                title: Translation.tr("Sunrise")
-                symbol: "wb_twilight"
-                value: Weather.data.sunrise
-            }
-            WeatherCard {
-                title: Translation.tr("Sunset")
-                symbol: "bedtime"
-                value: Weather.data.sunset
-            }
-        }
-
-        // Footer: last refresh
-        StyledText {
-            Layout.alignment: Qt.AlignHCenter
-            text: Translation.tr("Last refresh: %1").arg(Weather.data.lastRefresh)
-            font {
-                weight: Font.Medium
-                pixelSize: Appearance.font.pixelSize.smaller
-            }
-            color: Appearance.colors.colOnSurfaceVariant
         }
     }
 }
