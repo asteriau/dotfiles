@@ -21,6 +21,10 @@ Item {
     }
 
     readonly property bool internalVisibleCondition: (extraVisibleCondition && (parent.hovered === undefined || parent?.hovered)) || alternativeVisibleCondition
+    RevealGate {
+        id: gate
+        shown: root.internalVisibleCondition
+    }
     property var anchorEdges: Edges.Top
     property var anchorGravity: anchorEdges
 
@@ -29,7 +33,8 @@ Item {
         anchors.centerIn: parent
         text: root.text
         shown: false
-        Component.onCompleted: shown = true
+        Component.onCompleted: shown = Qt.binding(() => gate.shown)
+        enterOffsetY: (root.anchorEdges & Edges.Bottom) ? -4 : 4
         horizontalPadding: root.horizontalPadding
         verticalPadding: root.verticalPadding
     }
@@ -37,7 +42,7 @@ Item {
     Loader {
         id: tooltipLoader
         anchors.fill: parent
-        active: root.internalVisibleCondition
+        active: gate.active
         sourceComponent: PopupWindow {
             visible: true
             anchor {

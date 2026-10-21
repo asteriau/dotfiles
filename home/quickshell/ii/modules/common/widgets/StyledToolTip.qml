@@ -22,6 +22,9 @@ ToolTip {
 
     delay: 0
     visible: internalVisibleCondition
+    exit: Transition {
+        PauseAnimation { duration: Appearance.animation.exit.duration }
+    }
     
     contentItem: StyledToolTipContent {
         id: contentItem
