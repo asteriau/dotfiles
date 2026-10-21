@@ -1,6 +1,10 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
+  # VS Code rewrites settings.json in place, which turns the link into a file
+  # and breaks the next activation; the declared settings win.
+  home.file."${config.xdg.configHome}/Code/User/settings.json".force = true;
+
   programs.vscode = {
     enable = true;
 
