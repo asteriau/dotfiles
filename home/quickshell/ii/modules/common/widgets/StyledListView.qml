@@ -70,9 +70,14 @@ ListView {
 
     add: Transition {
         animations: animateAppearance ? [
-            Appearance?.animation.elementMove.numberAnimation.createObject(this, {
-                properties: popin ? "opacity,scale" : "opacity",
+            Appearance?.animation.effectsDefault.numberAnimation.createObject(this, {
+                property: "opacity",
                 from: 0,
+                to: 1,
+            }),
+            Appearance?.animation.enter.numberAnimation.createObject(this, {
+                property: "scale",
+                from: popin ? 0 : 1,
                 to: 1,
             }),
         ] : []
@@ -127,11 +132,11 @@ ListView {
 
     remove: Transition {
         animations: animateAppearance ? [
-            Appearance?.animation.elementMove.numberAnimation.createObject(this, {
+            Appearance?.animation.exit.numberAnimation.createObject(this, {
                 property: "x",
                 to: root.width + root.removeOvershoot,
             }),
-            Appearance?.animation.elementMove.numberAnimation.createObject(this, {
+            Appearance?.animation.exit.numberAnimation.createObject(this, {
                 property: "opacity",
                 to: 0,
             })

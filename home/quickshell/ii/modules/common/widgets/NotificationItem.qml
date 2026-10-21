@@ -143,7 +143,7 @@ Item { // Notification item area
             spacing: 3
 
             Behavior on anchors.margins {
-                animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
             }
 
             RowLayout { // Summary row
@@ -238,10 +238,10 @@ Item { // Notification item area
                             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
                         }
                         Behavior on height {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
                         }
                         Behavior on implicitHeight {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                            animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
                         }
 
                         RowLayout {
