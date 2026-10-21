@@ -150,10 +150,6 @@ in
           on-timeout = "hyprctl dispatch 'hl.dsp.dpms({ action = \"disable\" })'";
           on-resume = "hyprctl dispatch 'hl.dsp.dpms({ action = \"enable\" })'";
         }
-        {
-          timeout = 900;
-          on-timeout = "systemctl suspend || loginctl suspend";
-        }
       ];
     };
   };
