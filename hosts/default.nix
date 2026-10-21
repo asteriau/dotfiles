@@ -28,6 +28,6 @@
         };
     in
     {
-      meow = mkHost "meow" (system.laptop ++ system.wayland);
+      meow = mkHost "meow" (system.desktop ++ system.wayland ++ system.gaming);
     };
 }

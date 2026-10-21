@@ -5,10 +5,7 @@
   ...
 }:
 {
-  imports = [
-    ./hardware-configuration.nix
-    ./powersave.nix
-  ];
+  imports = [ ./hardware-configuration.nix ];
 
   boot = {
     kernelModules = [ "i2c-dev" ];
@@ -22,20 +19,22 @@
 
     kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 
-    kernelParams = [
-      "nvidia_drm.modeset=1"
-      "amd_pstate=active"
-      "ideapad_laptop.allow_v4_dytc=Y"
-      ''acpi_osi="Windows 2020"''
-      "amdgpu.dcfeaturemask=0x8"
-    ];
+    kernelParams = [ "nvidia_drm.modeset=1" ];
   };
 
   environment.variables.NH_FLAKE = profile.flakePath;
 
-  hardware.sensor.iio.enable = true;
+  # The panel's preferred mode is 60Hz; hyprland.lua require()s this file.
+  home-manager.users.${profile.user}.xdg.configFile."hypr/monitors.lua".text = ''
+    hl.monitor({ output = "DP-1", mode = "1920x1080@165", position = "0x0", scale = 1 })
+  '';
 
   networking.hostName = profile.hostName;
 
-  services.fstrim.enable = true;
+  security.tpm2.enable = true;
+
+  services = {
+    flatpak.enable = true;
+    fstrim.enable = true;
+  };
 }

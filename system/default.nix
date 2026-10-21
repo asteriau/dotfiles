@@ -1,15 +1,14 @@
 let
   desktop = [
     ./core
+    ./hardware/bluetooth.nix
+    ./hardware/fwupd.nix
     ./hardware/graphics.nix
+    ./hardware/tablet.nix
+    ./hardware/wooting.nix
     ./network
     ./programs
     ./services
-  ];
-
-  laptop = desktop ++ [
-    ./hardware/bluetooth.nix
-    ./services/backlight.nix
     ./services/power.nix
   ];
 
@@ -18,7 +17,9 @@ let
     ./services/gnome-services.nix
     ./illogical-impulse.nix
   ];
+
+  gaming = [ ./programs/games.nix ];
 in
 {
-  inherit desktop laptop wayland;
+  inherit desktop wayland gaming;
 }
