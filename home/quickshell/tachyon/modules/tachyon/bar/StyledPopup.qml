@@ -15,7 +15,27 @@ LazyLoader {
     // Set by a click on the target so popups with controls (calendar) stay open
     property bool pinned: false
 
-    active: pinned || (hoverTarget && hoverTarget.containsMouse)
+    readonly property bool wantShown: pinned || (hoverTarget && hoverTarget.containsMouse)
+    // Same as main's BarPopup: `_show` keeps the surface alive through the exit
+    // animation, `_shown` drives the opacity/scale reveal
+    property bool _show: false
+    property bool _shown: false
+    // A property, not a child: the loader's default property is `component`
+    property Timer hideTimer: Timer {
+        interval: Appearance.animation.effectsDefault.duration
+        onTriggered: root._show = false
+    }
+    onWantShownChanged: {
+        if (wantShown) {
+            hideTimer.stop();
+            root._show = true;
+            Qt.callLater(() => root._shown = true);
+        } else {
+            root._shown = false;
+            hideTimer.restart();
+        }
+    }
+    active: _show
 
     component: PanelWindow {
         id: popupWindow
@@ -56,6 +76,21 @@ LazyLoader {
         WlrLayershell.namespace: "quickshell:popup"
         WlrLayershell.layer: WlrLayer.Overlay
 
+        Item {
+            id: animWrap
+            anchors.fill: parent
+            opacity: root._shown ? 1 : 0
+            scale: root._shown ? 1 : 0.92
+            transformOrigin: Config.options.bar.vertical
+                ? (Config.options.bar.bottom ? Item.Right : Item.Left)
+                : (Config.options.bar.bottom ? Item.Bottom : Item.Top)
+            Behavior on opacity {
+                animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
+            }
+            Behavior on scale {
+                animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
+            }
+
         StyledRectangularShadow {
             target: popupBackground
         }
@@ -78,6 +113,7 @@ LazyLoader {
 
             border.width: 1
             border.color: Appearance.colors.colLayer0Border
+        }
         }
     }
 }
