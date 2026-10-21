@@ -255,13 +255,13 @@ Singleton {
     // - api_format: The API format of the model. Can be "openai" or "gemini". Default is "openai".
     // - extraParams: Extra parameters to be passed to the model. This is a JSON object.
     property var models: Config.options.policies.ai === 2 ? {} : {
-        "gemini-2.5-flash": aiModelComponent.createObject(this, {
-            "name": "Gemini 2.5 Flash",
+        "gemini-3.8-flash": aiModelComponent.createObject(this, {
+            "name": "Gemini 3.8 Flash",
             "icon": "google-gemini-symbolic",
             "description": Translation.tr("Online | Google's model\nNewer model that's slower than its predecessor but should deliver higher quality answers"),
             "homepage": "https://aistudio.google.com",
-            "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent",
-            "model": "gemini-2.5-flash",
+            "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent",
+            "model": "gemini-3.8-flash",
             "requires_key": true,
             "key_id": "gemini",
             "key_get_link": "https://aistudio.google.com/app/apikey",
@@ -296,7 +296,7 @@ Singleton {
         }),
     }
     property var modelList: Object.keys(root.models)
-    property var currentModelId: Persistent.states?.ai?.model || modelList[0]
+    property var currentModelId: models[Persistent.states?.ai?.model] ? Persistent.states.ai.model : modelList[0] // stale persisted id (e.g. retired model) falls back
 
     property var apiStrategies: {
         "openai": openaiApiStrategy.createObject(this),
