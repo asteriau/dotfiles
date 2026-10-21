@@ -63,10 +63,10 @@ Item {
                     rotation: 180 * (root.rotateIcon ? value : 0)
 
                     Behavior on iconSize {
-                        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                     }
                     Behavior on rotation {
-                        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                     }
                 
                 }

@@ -78,16 +78,16 @@ Item { // Window
     }
 
     Behavior on x {
-        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialSlow.numberAnimation.createObject(this)
     }
     Behavior on y {
-        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialSlow.numberAnimation.createObject(this)
     }
     Behavior on width {
-        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialSlow.numberAnimation.createObject(this)
     }
     Behavior on height {
-        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialSlow.numberAnimation.createObject(this)
     }
 
     ScreencopyView {
@@ -134,10 +134,10 @@ Item { // Window
             height: iconSize
 
             Behavior on width {
-                animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                animation: Appearance.animation.spatialSlow.numberAnimation.createObject(this)
             }
             Behavior on height {
-                animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                animation: Appearance.animation.spatialSlow.numberAnimation.createObject(this)
             }
         }
     }

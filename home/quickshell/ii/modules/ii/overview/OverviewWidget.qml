@@ -322,22 +322,22 @@ Item {
                 border.width: 2
                 border.color: root.activeBorderColor
                 Behavior on x {
-                    animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
                 }
                 Behavior on y {
-                    animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
                 }
                 Behavior on topLeftRadius {
-                    animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                 }
                 Behavior on topRightRadius {
-                    animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                 }
                 Behavior on bottomLeftRadius {
-                    animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                 }
                 Behavior on bottomRightRadius {
-                    animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
                 }
             }
         }

@@ -116,7 +116,7 @@ Item {
         anchors.fill: parent
 
         Behavior on opacity {
-            animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
+            animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
         }
 
         ColumnLayout {

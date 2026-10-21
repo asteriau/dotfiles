@@ -25,7 +25,7 @@ RippleButton {
     background.implicitWidth: size
 
     Behavior on buttonRadius {
-        animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
     }
 
     Keys.onPressed: (event) => {

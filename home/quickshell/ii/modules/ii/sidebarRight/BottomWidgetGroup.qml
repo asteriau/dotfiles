@@ -85,12 +85,7 @@ Rectangle {
         opacity: collapsed ? 1 : 0
         visible: opacity > 0
         Behavior on opacity {
-            NumberAnimation {
-                id: collapsedBottomWidgetGroupRowFade
-                duration: Appearance.animation.elementMove.duration / 2
-                easing.type: Appearance.animation.elementMove.type
-                easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
-            }
+            animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
         }
 
         spacing: 15
@@ -128,12 +123,7 @@ Rectangle {
         opacity: collapsed ? 0 : 1
         visible: opacity > 0
         Behavior on opacity {
-            NumberAnimation {
-                id: bottomWidgetGroupRowFade
-                duration: Appearance.animation.elementMove.duration / 2
-                easing.type: Appearance.animation.elementMove.type
-                easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
-            }
+            animation: Appearance.animation.effectsDefault.numberAnimation.createObject(this)
         }
 
         anchors.fill: parent

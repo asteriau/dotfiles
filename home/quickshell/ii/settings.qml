@@ -159,7 +159,7 @@ ApplicationWindow {
                 Layout.margins: 5
                 implicitWidth: navRail.expanded ? 150 : fab.baseSize
                 Behavior on implicitWidth {
-                    animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                    animation: Appearance.animation.spatialDefault.numberAnimation.createObject(this)
                 }
                 NavigationRail { // Window content with navigation rail and content pane
                     id: navRail

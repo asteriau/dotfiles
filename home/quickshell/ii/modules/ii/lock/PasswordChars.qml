@@ -24,7 +24,7 @@ StyledFlickable {
     contentWidth: dotsRow.implicitWidth
     contentX: (Math.max(contentWidth - width, 0))
     Behavior on contentX {
-        animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)
+        animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
     }
 
     Rectangle {
@@ -38,7 +38,7 @@ StyledFlickable {
         implicitWidth: 2
         implicitHeight: root.charSize
         Behavior on anchors.leftMargin {
-            animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(cursor)
+            animation: Appearance.animation.spatialFast.numberAnimation.createObject(cursor)
         }
     }
 

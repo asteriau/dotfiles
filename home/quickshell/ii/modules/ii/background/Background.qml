@@ -183,16 +183,10 @@ Variants {
                 source: bgRoot.wallpaperSafetyTriggered ? "" : bgRoot.wallpaperPath
                 fillMode: Image.PreserveAspectCrop
                 Behavior on x {
-                    NumberAnimation {
-                        duration: 600
-                        easing.type: Easing.OutCubic
-                    }
+                    animation: Appearance.animation.spatialSlow.numberAnimation.createObject(this)
                 }
                 Behavior on y {
-                    NumberAnimation {
-                        duration: 600
-                        easing.type: Easing.OutCubic
-                    }
+                    animation: Appearance.animation.spatialSlow.numberAnimation.createObject(this)
                 }
                 width: bgRoot.scaledWallpaperWidth
                 height: bgRoot.scaledWallpaperHeight
@@ -206,7 +200,7 @@ Variants {
                 Behavior on scale {
                     NumberAnimation {
                         id: scaleAnim
-                        duration: 400
+                        duration: Appearance.animation.spatialDefault.duration
                         easing.type: Easing.BezierSpline
                         easing.bezierCurve: Appearance.animationCurves.expressiveDefaultSpatial
                     }

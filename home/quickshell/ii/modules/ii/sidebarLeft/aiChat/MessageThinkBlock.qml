@@ -116,9 +116,9 @@ Item {
                         rotation: root.collapsed ? 0 : 180
                         Behavior on rotation {
                             NumberAnimation {
-                                duration: Appearance.animation.elementMoveFast.duration
-                                easing.type: Appearance.animation.elementMoveFast.type
-                                easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
+                                duration: Appearance.animation.spatialFast.duration
+                                easing.type: Appearance.animation.spatialFast.type
+                                easing.bezierCurve: Appearance.animation.spatialFast.bezierCurve
                             }
                         }
                     }

@@ -120,7 +120,7 @@ Rectangle {
                 animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
             }
             Behavior on anchors.rightMargin {
-                animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                animation: Appearance.animation.spatialFast.numberAnimation.createObject(this)
             }
         }
 
