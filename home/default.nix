@@ -1,8 +1,11 @@
-{ profile, ... }:
+{ inputs, profile, ... }:
 {
   imports = [
     ./quickshell
     ./programs
+    ./terminal
+    inputs.nix-index-db.homeModules.nix-index
+    inputs.tailray.homeManagerModules.default
   ];
 
   home = {
