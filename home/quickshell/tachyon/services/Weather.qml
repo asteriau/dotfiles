@@ -49,6 +49,9 @@ Singleton {
         lo: "--°",
         windDeg: 0,
         dayProgress: 0,
+        rangeProgress: 0,
+        night: false,
+        daylightLeft: "--",
         updated: "--:--",
         hourly: [],
     })
@@ -99,8 +102,17 @@ Singleton {
         const rise = parse12h(temp.sunrise), set = parse12h(temp.sunset);
         temp.sunrise = rise != null ? hhmm(rise) : "--:--";
         temp.sunset = set != null ? hhmm(set) : "--:--";
-        temp.dayProgress = rise != null && set != null ? Math.min(1, Math.max(0, (nowM - rise) / (set - rise))) : 0;
         const night = m => rise != null && set != null && (m < rise || m > set);
+        // by day: sunrise→sunset; by night: sunset→sunrise (wrapping midnight)
+        temp.dayProgress = rise == null || set == null ? 0
+            : night(nowM) ? ((nowM - set + 1440) % 1440) / ((rise - set + 1440) % 1440)
+            : (nowM - rise) / (set - rise);
+        const cur = +(us ? data?.current?.temp_F : data?.current?.temp_C) || 0;
+        const lo = +(us ? today.mintempF : today.mintempC), hi = +(us ? today.maxtempF : today.maxtempC);
+        temp.rangeProgress = hi > lo ? Math.min(1, Math.max(0, (cur - lo) / (hi - lo))) : 0;
+        temp.night = night(nowM);
+        const dur = m => (m >= 60 ? Math.floor(m / 60) + "h " : "") + (m % 60) + "m";
+        temp.daylightLeft = rise == null || set == null ? "--" : dur(temp.night ? (rise + 1440 - nowM) % 1440 : set - nowM);
         const icon = (code, m) => {
             const i = Icons.getWeatherIcon(code) ?? "cloud";
             if (!night(m)) return i;
