@@ -9,33 +9,49 @@ ContentPage {
     Component.onCompleted: SystemInfo.subscribe()
     Component.onDestruction: SystemInfo.unsubscribe()
 
-    ColumnLayout {
-        Layout.fillWidth: true
-        Layout.leftMargin: 10
-        Layout.bottomMargin: 10
-        spacing: 4
+    ColumnLayout { // Lockup
+        Layout.alignment: Qt.AlignHCenter
+        Layout.topMargin: 36
+        spacing: 14
 
-        StyledText {
-            text: "Tachyon"
-            color: Appearance.colors.colPrimary
-            font.pixelSize: Appearance.font.pixelSize.hugeass + 4
-            font.weight: Font.Medium
+        MaterialShapeWrappedMaterialSymbol {
+            Layout.alignment: Qt.AlignHCenter
+            shape: MaterialShape.Shape.Cookie7Sided
+            text: "motion_blur"
+            iconSize: 64
+            padding: 28
+            fill: 1
+            color: Appearance.colors.colPrimaryContainer
+            colSymbol: Appearance.colors.colOnPrimaryContainer
         }
-        StyledText {
-            text: Translation.tr("A shell that's slightly fast")
-            color: Appearance.colors.colSubtext
-            font.pixelSize: Appearance.font.pixelSize.small
+        ColumnLayout {
+            Layout.alignment: Qt.AlignHCenter
+            spacing: 4
+            StyledText {
+                Layout.alignment: Qt.AlignHCenter
+                text: "Tachyon"
+                color: Appearance.colors.colPrimary
+                font.pixelSize: 34
+                font.family: Appearance.font.family.title
+                font.variableAxes: Appearance.font.variableAxes.title
+            }
+            StyledText {
+                Layout.alignment: Qt.AlignHCenter
+                text: Translation.tr("A shell that's slightly fast")
+                color: Appearance.colors.colSubtext
+                font.pixelSize: Appearance.font.pixelSize.small
+            }
         }
     }
 
-    ContentSection {
-        icon: "info"
-        title: Translation.tr("System")
+    ColumnLayout { // Info list
+        Layout.fillWidth: true
+        spacing: 2
 
-        InfoRow { label: Translation.tr("Distro");   value: SystemInfo.distroName }
-        InfoRow { label: Translation.tr("Kernel");   value: SystemInfo.kernel }
-        InfoRow { label: Translation.tr("Hostname"); value: SystemInfo.hostname }
-        InfoRow { label: Translation.tr("WM");       value: SystemInfo.desktopEnvironment }
-        InfoRow { label: Translation.tr("Uptime");   value: SystemInfo.uptime }
+        InfoRow { first: true; iconSource: SystemInfo.distroIcon; label: Translation.tr("Distro"); value: SystemInfo.distroName }
+        InfoRow { icon: "memory"; label: Translation.tr("Kernel"); value: SystemInfo.kernel }
+        InfoRow { icon: "computer"; label: Translation.tr("Hostname"); value: SystemInfo.hostname }
+        InfoRow { icon: "desktop_windows"; label: Translation.tr("WM"); value: `${SystemInfo.desktopEnvironment}   •   ${SystemInfo.windowingSystem}` }
+        InfoRow { last: true; icon: "schedule"; label: Translation.tr("Uptime"); value: SystemInfo.uptime }
     }
 }
