@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import qs.services
 import qs.modules.common
 import qs.modules.common.widgets
@@ -5,9 +7,24 @@ import QtQuick
 import QtQuick.Layouts
 import qs.modules.tachyon.bar
 
-// Same layout as main's weather popup, on this shell's wttr.in data
+// Design "2a": glance card with hourly pills (claude.ai/design Weather Card)
 StyledPopup {
     id: root
+
+    readonly property var shapes: ({
+        clear_day: MaterialShape.Shape.Sunny,
+        clear_night: MaterialShape.Shape.Cookie12Sided,
+        partly_cloudy_day: MaterialShape.Shape.Cookie9Sided,
+        partly_cloudy_night: MaterialShape.Shape.Cookie9Sided,
+        cloud: MaterialShape.Shape.Puffy,
+        foggy: MaterialShape.Shape.Ghostish,
+        rainy: MaterialShape.Shape.Clover4Leaf,
+        thunderstorm: MaterialShape.Shape.Burst,
+        weather_hail: MaterialShape.Shape.Gem,
+        cloudy_snowing: MaterialShape.Shape.Flower,
+        snowing: MaterialShape.Shape.Flower,
+        snowing_heavy: MaterialShape.Shape.Flower,
+    })
 
     // StyledPopup sizes itself from implicit sizes, which a ColumnLayout with
     // fillWidth rows underreports, so the width is pinned here (like Resources)
@@ -19,96 +36,104 @@ StyledPopup {
         ColumnLayout {
             id: column
             width: parent.width
-            spacing: 16
-
-            StyledText {
-                Layout.fillWidth: true
-                text: Translation.tr("Weather")
-                font.pixelSize: Appearance.font.pixelSize.large
-                font.weight: Font.Medium
-                color: Appearance.colors.colPrimary
-            }
+            spacing: 12
 
             RowLayout {
                 Layout.fillWidth: true
-                spacing: 8
+                spacing: 12
 
+                MaterialShapeWrappedMaterialSymbol {
+                    shape: root.shapes[Weather.data.icon] ?? MaterialShape.Shape.Cookie7Sided
+                    text: Weather.data.icon ?? "cloud"
+                    iconSize: 30
+                    padding: 9
+                    fill: 1
+                    color: Appearance.colors.colPrimaryContainer
+                    colSymbol: Appearance.colors.colOnPrimaryContainer
+                }
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 2
 
                     RowLayout {
                         Layout.fillWidth: true
-                        spacing: 6
+                        spacing: 8
 
                         StyledText {
                             text: Weather.data.temp
-                            font.pixelSize: Appearance.font.pixelSize.huge
-                            font.weight: Font.Medium
+                            font.pixelSize: 34
+                            font.family: Appearance.font.family.numbers
                             color: Appearance.colors.colOnLayer1
                         }
                         StyledText {
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignBaseline
                             text: Weather.data.desc ?? ""
-                            font.pixelSize: Appearance.font.pixelSize.normal
+                            font.pixelSize: Appearance.font.pixelSize.small
                             color: Appearance.colors.colOnLayer1
                             elide: Text.ElideRight
                         }
                     }
                     StyledText {
                         Layout.fillWidth: true
-                        text: Weather.data.city + " · " + Translation.tr("Feels like %1").arg(Weather.data.tempFeelsLike)
+                        text: Translation.tr("Feels like %1").arg(Weather.data.tempFeelsLike) + "  •  H " + Weather.data.hi + "  L " + Weather.data.lo
                         font.pixelSize: Appearance.font.pixelSize.smaller
                         color: Appearance.colors.colSubtext
                         elide: Text.ElideRight
                     }
                 }
-
-                MaterialSymbol {
-                    Layout.alignment: Qt.AlignVCenter
-                    fill: 0
-                    text: Icons.getWeatherIcon(Weather.data.wCode) ?? "cloud"
-                    iconSize: Appearance.font.pixelSize.hugeass + 8
-                    color: Appearance.colors.colOnLayer1
-                }
             }
 
-            GridLayout {
+            Rectangle {
                 Layout.fillWidth: true
-                columns: 2
-                rowSpacing: 8
-                columnSpacing: 8
-                uniformCellWidths: true
+                implicitHeight: pills.implicitHeight + 8
+                radius: Appearance.rounding.verysmall
+                color: Appearance.colors.colLayer3
 
-                Repeater {
-                    model: [
-                        { icon: "humidity_low", value: Weather.data.humidity },
-                        { icon: "air", value: Weather.data.wind },
-                        { icon: "wb_twilight", value: Weather.data.sunrise },
-                        { icon: "bedtime", value: Weather.data.sunset },
-                        { icon: "wb_sunny", value: Translation.tr("UV %1").arg(Weather.data.uv) },
-                        { icon: "rainy_light", value: Weather.data.precip },
-                        { icon: "visibility", value: Weather.data.visib },
-                        { icon: "readiness_score", value: Weather.data.press },
-                    ]
-                    RowLayout {
-                        required property var modelData
-                        Layout.fillWidth: true
-                        spacing: 4
+                GridLayout {
+                    id: pills
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    columns: 6
+                    columnSpacing: 2
+                    uniformCellWidths: true
 
-                        MaterialSymbol {
-                            fill: 0
-                            text: modelData.icon
-                            iconSize: Appearance.font.pixelSize.normal
-                            color: Appearance.colors.colOnSurfaceVariant
-                        }
-                        StyledText {
+                    Repeater {
+                        model: Weather.data.hourly ?? []
+                        Rectangle {
+                            id: pill
+                            required property var modelData
+                            readonly property color fg: modelData.now ? Appearance.colors.colOnPrimary : Appearance.colors.colOnLayer1
                             Layout.fillWidth: true
-                            text: modelData.value
-                            font.pixelSize: Appearance.font.pixelSize.small
-                            color: Appearance.colors.colOnLayer1
-                            elide: Text.ElideRight
+                            implicitHeight: pillColumn.implicitHeight + 18
+                            radius: height / 2
+                            color: modelData.now ? Appearance.colors.colPrimary : "transparent"
+
+                            ColumnLayout {
+                                id: pillColumn
+                                anchors.centerIn: parent
+                                spacing: 4
+
+                                StyledText {
+                                    Layout.alignment: Qt.AlignHCenter
+                                    text: pill.modelData.label
+                                    font.pixelSize: Appearance.font.pixelSize.smaller
+                                    color: pill.fg
+                                }
+                                MaterialSymbol {
+                                    Layout.alignment: Qt.AlignHCenter
+                                    fill: pill.modelData.now ? 1 : 0
+                                    text: pill.modelData.icon
+                                    iconSize: Appearance.font.pixelSize.larger
+                                    color: pill.fg
+                                }
+                                StyledText {
+                                    Layout.alignment: Qt.AlignHCenter
+                                    text: pill.modelData.temp
+                                    font.pixelSize: Appearance.font.pixelSize.small
+                                    color: pill.fg
+                                }
+                            }
                         }
                     }
                 }

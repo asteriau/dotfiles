@@ -44,6 +44,13 @@ Singleton {
         temp: 0,
         tempFeelsLike: 0,
         lastRefresh: 0,
+        icon: "cloud",
+        hi: "--°",
+        lo: "--°",
+        windDeg: 0,
+        dayProgress: 0,
+        updated: "--:--",
+        hourly: [],
     })
 
     function refineData(data) {
@@ -78,7 +85,48 @@ Singleton {
             temp.tempFeelsLike += "°C";
         }
         temp.lastRefresh = DateTime.time + " • " + DateTime.date;
+        temp.updated = DateTime.time;
+
+        // Popup extras: today's range, wind heading, daylight progress, 3-hourly outlook
+        const us = root.useUSCS;
+        const deg = v => Math.round(+v || 0) + "°";
+        const today = data?.days?.[0] || {};
+        temp.hi = deg(us ? today.maxtempF : today.maxtempC);
+        temp.lo = deg(us ? today.mintempF : today.mintempC);
+        temp.windDeg = +(data?.current?.winddirDegree || 0);
+        const now = new Date();
+        const nowM = now.getHours() * 60 + now.getMinutes();
+        const rise = parse12h(temp.sunrise), set = parse12h(temp.sunset);
+        temp.sunrise = rise != null ? hhmm(rise) : "--:--";
+        temp.sunset = set != null ? hhmm(set) : "--:--";
+        temp.dayProgress = rise != null && set != null ? Math.min(1, Math.max(0, (nowM - rise) / (set - rise))) : 0;
+        const night = m => rise != null && set != null && (m < rise || m > set);
+        const icon = (code, m) => {
+            const i = Icons.getWeatherIcon(code) ?? "cloud";
+            if (!night(m)) return i;
+            return i === "clear_day" ? "clear_night" : i === "partly_cloudy_day" ? "partly_cloudy_night" : i;
+        };
+        temp.icon = icon(temp.wCode, nowM);
+        const slots = [];
+        (data?.days || []).forEach(d => (d.hourly || []).forEach(h => {
+            const hr = Math.round(+h.time / 100);
+            const t = new Date(d.date + "T00:00:00");
+            t.setHours(hr);
+            if (t > now) slots.push({ hr, h });
+        }));
+        temp.hourly = [{ label: Translation.tr("Now"), icon: temp.icon, temp: deg(us ? data?.current?.temp_F : data?.current?.temp_C), now: true }]
+            .concat(slots.slice(0, 5).map(s => ({ label: hhmm(s.hr * 60), icon: icon(s.h.weatherCode, s.hr * 60), temp: deg(us ? s.h.tempF : s.h.tempC), now: false })));
         root.data = temp;
+    }
+
+    function parse12h(s) {
+        const m = /(\d+):(\d+)\s*(AM|PM)/i.exec(s || "");
+        if (!m) return null;
+        return (+m[1] % 12 + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + +m[2];
+    }
+
+    function hhmm(mins) {
+        return String(Math.floor(mins / 60)).padStart(2, "0") + ":" + String(mins % 60).padStart(2, "0");
     }
 
     function getData() {
@@ -94,7 +142,7 @@ Singleton {
         command += "?format=j1";
         command += " | ";
         // only take the current weather, location, asytronmy data
-        command += "jq '{current: .current_condition[0], location: .nearest_area[0], astronomy: .weather[0].astronomy[0]}'";
+        command += "jq '{current: .current_condition[0], location: .nearest_area[0], astronomy: .weather[0].astronomy[0], days: .weather[0:2]}'";
         fetcher.command[2] = command;
         fetcher.running = true;
     }
@@ -158,11 +206,11 @@ Singleton {
         }
     }
 
-    Timer {
-        running: !root.gpsActive
+    Timer { // Always poll: GPS only refines the location and may never deliver a fix
+        running: true
         repeat: true
         interval: root.fetchInterval
-        triggeredOnStart: !root.gpsActive
+        triggeredOnStart: true
         onTriggered: root.getData()
     }
 }
