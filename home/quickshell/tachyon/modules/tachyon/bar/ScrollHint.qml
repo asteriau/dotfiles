@@ -42,7 +42,7 @@ Revealer { // Scroll hint
             spacing: -5
             MaterialSymbol {
                 text: "keyboard_arrow_up"
-                iconSize: 14
+                iconSize: 12 // 3 glyphs at 14 overflow the 40px bar
                 color: Appearance.colors.colSubtext
             }
             MaterialSymbol {
@@ -52,7 +52,7 @@ Revealer { // Scroll hint
             }
             MaterialSymbol {
                 text: "keyboard_arrow_down"
-                iconSize: 14
+                iconSize: 12
                 color: Appearance.colors.colSubtext
             }
         }

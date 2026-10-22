@@ -12,10 +12,14 @@ LazyLoader {
     property Item hoverTarget
     default property Item contentItem
     property real popupBackgroundMargin: 0
-    // Set by a click on the target so popups with controls (calendar) stay open
+    // Set by a click on the target so popups with controls (calendar) stay open;
+    // dropped once the pointer has left both the target and the popup
     property bool pinned: false
+    property bool popupHovered: false
 
-    readonly property bool wantShown: pinned || (hoverTarget && hoverTarget.containsMouse)
+    readonly property bool hovered: popupHovered || (hoverTarget && hoverTarget.containsMouse)
+    readonly property bool wantShown: pinned || hovered
+    onHoveredChanged: if (!hovered) pinned = false
     // Same as main's BarPopup: `_show` keeps the surface alive through the exit
     // animation, `_shown` drives the opacity/scale reveal
     property bool _show: false
@@ -113,6 +117,10 @@ LazyLoader {
 
             border.width: 1
             border.color: Appearance.colors.colLayer0Border
+
+            HoverHandler {
+                onHoveredChanged: root.popupHovered = hovered
+            }
         }
         }
     }

@@ -10,7 +10,7 @@ Rectangle {
 
     property bool show: false
     default property alias contentData: contentColumn.data
-    property real backgroundHeight: dialogBackground.implicitHeight
+    property real backgroundHeight: contentColumn.implicitHeight + dialogBackground.radius * 2 // dialogs with fill-height lists override this
     property real backgroundWidth: 350
     property real backgroundAnimationMovementDistance: 60
     
@@ -33,7 +33,7 @@ Rectangle {
         // Re-show restores the live binding rather than copying a value that may
         // be mid-collapse when a reopen lands during the exit
         dialogBackground.implicitHeight = show
-            ? Qt.binding(() => contentColumn.implicitHeight + dialogBackground.radius * 2)
+            ? Qt.binding(() => root.backgroundHeight)
             : 0
     }
 
@@ -55,7 +55,7 @@ Rectangle {
         property real targetY: root.height / 2 - root.backgroundHeight / 2
         y: root.show ? targetY : (targetY - root.backgroundAnimationMovementDistance)
         implicitWidth: root.backgroundWidth
-        implicitHeight: contentColumn.implicitHeight + dialogBackground.radius * 2
+        implicitHeight: root.backgroundHeight
         // Direction is read from each Behavior's targetValue (set and notified before
         // the animation starts), not from `show`, so it cannot depend on binding order
         Behavior on implicitHeight {

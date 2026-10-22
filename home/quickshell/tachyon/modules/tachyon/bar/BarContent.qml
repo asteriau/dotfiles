@@ -15,6 +15,8 @@ Item { // Bar content region
     property var screen: root.QsWindow.window?.screen
     property var brightnessMonitor: Brightness.getMonitorForScreen(screen)
     property real useShortenedForm: (Appearance.sizes.barHellaShortenScreenWidthThreshold >= screen?.width) ? 2 : (Appearance.sizes.barShortenScreenWidthThreshold >= screen?.width) ? 1 : 0
+    // Float style insets the background by the gap; keep the edge hints and buttons inside it
+    readonly property real floatGap: Config.options.bar.cornerStyle === 1 ? Appearance.sizes.hyprlandGapsOut : 0
     readonly property int centerSideModuleWidth: (useShortenedForm == 2) ? Appearance.sizes.barCenterSideModuleWidthHellaShortened : (useShortenedForm == 1) ? Appearance.sizes.barCenterSideModuleWidthShortened : Appearance.sizes.barCenterSideModuleWidth
 
     component VerticalBarSeparator: Rectangle {
@@ -74,6 +76,7 @@ Item { // Bar content region
             tooltipText: Translation.tr("Scroll to change brightness")
             side: "left"
             anchors.left: parent.left
+            anchors.leftMargin: root.floatGap
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -85,7 +88,7 @@ Item { // Bar content region
             LeftSidebarButton { // Left sidebar button
                 id: leftSidebarButton
                 Layout.alignment: Qt.AlignVCenter
-                Layout.leftMargin: Appearance.rounding.screenRounding
+                Layout.leftMargin: Appearance.rounding.screenRounding + root.floatGap
                 colBackground: barLeftSideMouseArea.hovered ? Appearance.colors.colLayer1Hover : ColorUtils.transparentize(Appearance.colors.colLayer1Hover, 1)
             }
 
@@ -215,6 +218,7 @@ Item { // Bar content region
             tooltipText: Translation.tr("Scroll to change volume")
             side: "right"
             anchors.right: parent.right
+            anchors.rightMargin: root.floatGap
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -228,7 +232,7 @@ Item { // Bar content region
                 id: rightSidebarButton
 
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                Layout.rightMargin: Appearance.rounding.screenRounding
+                Layout.rightMargin: Appearance.rounding.screenRounding + root.floatGap
                 Layout.fillWidth: false
 
                 implicitWidth: indicatorsRowLayout.implicitWidth + 10 * 2
